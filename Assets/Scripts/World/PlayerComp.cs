@@ -7,4 +7,6 @@ public struct PlayerComp
     public Quaternion Rotation;
     public CharacterController CharacterController;
     public Transform PlayerCameraRoot;
+    public bool Grounded;
+    public float VerticalVelocity;
 }

@@ -1,7 +1,5 @@
-using System;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using Leopotam.EcsLite.UnityEditor;
 using UnityEngine;
 
 public sealed class Game : MonoBehaviour
@@ -26,10 +24,12 @@ public sealed class Game : MonoBehaviour
             .Add(new PlayerInitSystem())
             .Add(new TimeSystem())
             .Add(new PlayerInputSystem())
+            .Add(new PlayerJumpAndGravitySystem())
+            .Add(new PlayerGroundedSystem())
             .Add(new PlayerMoveSystem())
             .Add(new PlayerCameraControllerSystem())
 #if UNITY_EDITOR
-            .Add(new EcsWorldDebugSystem())
+            .Add (new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
 #endif
             
             .Inject(ts, configuration, sceneData, mainInput)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public sealed class PlayerMoveSystem : IEcsRunSystem
 {
-    private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp>> _unitsMove = default;
+    private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp>> _playerMove = default;
 
     private readonly EcsCustomInject<Configuration> _cf = default;
     private readonly EcsCustomInject<SceneData> _sd = default;
@@ -13,14 +13,13 @@ public sealed class PlayerMoveSystem : IEcsRunSystem
     private float _speed;
     private float _targetRotation;
     private float _rotationVelocity;
-    private float _verticalVelocity;
     
     public void Run(IEcsSystems systems)
     {
-        foreach (var entity in _unitsMove.Value)
+        foreach (var entity in _playerMove.Value)
         {
-            ref var player = ref _unitsMove.Pools.Inc1.Get(entity);
-            ref var input = ref _unitsMove.Pools.Inc2.Get(entity);
+            ref var player = ref _playerMove.Pools.Inc1.Get(entity);
+            ref var input = ref _playerMove.Pools.Inc2.Get(entity);
             
             var targetSpeed = input.Sprint ? _cf.Value.sprintSpeed : _cf.Value.moveSpeed;
 
@@ -60,7 +59,9 @@ public sealed class PlayerMoveSystem : IEcsRunSystem
             var targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
             
             player.CharacterController.Move(targetDirection.normalized * (_speed * _ts.Value.DeltaTime) +
-                                            new Vector3(0.0f, _verticalVelocity, 0.0f) * _ts.Value.DeltaTime);
+                                            new Vector3(0.0f, player.VerticalVelocity, 0.0f) * _ts.Value.DeltaTime);
+
+            player.Position = player.Transform.position;
         }
     }
 }

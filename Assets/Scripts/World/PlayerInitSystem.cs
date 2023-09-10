@@ -29,6 +29,7 @@ public sealed class PlayerInitSystem : IEcsInitSystem
         player.Rotation = Quaternion.identity;
         player.CharacterController = playerView.GetComponent<CharacterController>();
         player.PlayerCameraRoot = playerView.GetComponentInChildren<PlayerCameraRootView>().transform;
+        player.Grounded = true;
 
         playerFollowCameraView.Follow = player.PlayerCameraRoot;
     }

@@ -23,7 +23,7 @@ public sealed class PlayerInputSystem : IEcsRunSystem
             inputComp.Move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
             inputComp.Look = new Vector2(Input.GetAxis("Mouse X"), -Input.GetAxis("Mouse Y"));
 
-            inputComp.Jump = Input.GetKeyDown(KeyCode.Space);
+            inputComp.Jump = Input.GetKeyUp(KeyCode.Space);
             inputComp.Sprint = Input.GetKey(KeyCode.LeftShift);
         }
     }

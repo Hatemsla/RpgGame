@@ -28,7 +28,7 @@ public sealed class Game : MonoBehaviour
             .Add(new PlayerJumpAndGravitySystem())
             .Add(new PlayerGroundedSystem())
             .Add(new PlayerMoveSystem())
-            .Add(new PlayerCameraControllerSystem())
+            .Add(new PlayerCameraRotateSystem())
             .Add(new CameraZoomSystem())
 #if UNITY_EDITOR
             .Add (new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())

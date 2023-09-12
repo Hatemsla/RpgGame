@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f21e6cda6814488d8b87af7803451a11, type: 3}
   m_Name: Configuration
   m_EditorClassIdentifier: 
-  moveSpeed: 2
-  sprintSpeed: 5.3
+  moveSpeed: 6
+  sprintSpeed: 9
   speedChangeRate: 10
   rotationSmoothTime: 0.12
   topClamp: 70
@@ -21,6 +21,9 @@ MonoBehaviour:
   cameraAngleOverride: 0
   fallTimeout: 0.15
   jumpTimeout: 0.5
+  zoomSpeed: 5
+  minZoomDistance: 0
+  maxZoomDistance: 15
   jumpHeight: 1.2
   gravity: -15
   groundedOffset: 1

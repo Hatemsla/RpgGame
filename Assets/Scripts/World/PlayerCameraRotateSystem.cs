@@ -2,13 +2,11 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 
-public sealed class PlayerCameraControllerSystem : IEcsRunSystem
+public sealed class PlayerCameraRotateSystem : IEcsRunSystem
 {
     private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp>> _unitsMove = default;
 
     private readonly EcsCustomInject<Configuration> _cf = default;
-    private readonly EcsCustomInject<SceneData> _sd = default;
-    private readonly EcsCustomInject<TimeService> _ts = default;
     
     private float _cinemachineTargetYaw;
     private float _cinemachineTargetPitch;

@@ -30,7 +30,9 @@ public sealed class PlayerInitSystem : IEcsInitSystem
         player.CharacterController = playerView.GetComponent<CharacterController>();
         player.PlayerCameraRoot = playerView.GetComponentInChildren<PlayerCameraRootView>().transform;
         player.Grounded = true;
-
+        player.PlayerCamera = playerFollowCameraView;
+        
         playerFollowCameraView.Follow = player.PlayerCameraRoot;
+        
     }
 }

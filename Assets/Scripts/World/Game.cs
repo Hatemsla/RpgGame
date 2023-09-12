@@ -1,6 +1,7 @@
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
+using World;
 
 public sealed class Game : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public sealed class Game : MonoBehaviour
             .Add(new PlayerGroundedSystem())
             .Add(new PlayerMoveSystem())
             .Add(new PlayerCameraControllerSystem())
+            .Add(new CameraZoomSystem())
 #if UNITY_EDITOR
             .Add (new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
 #endif

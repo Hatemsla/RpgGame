@@ -14,6 +14,9 @@ public class Configuration : ScriptableObject
     public float cameraAngleOverride = 0.0f;
     public float fallTimeout = 0.15f;
     public float jumpTimeout = 0.50f;
+    public float zoomSpeed = 1;
+    public float minZoomDistance = 0;
+    public float maxZoomDistance = 15;
     [Tooltip("The height the player can jump")]
     public float jumpHeight = 1.2f;
     [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]

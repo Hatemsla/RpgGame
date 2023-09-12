@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using UnityEngine;
 
 public struct PlayerComp
 {
@@ -7,6 +8,7 @@ public struct PlayerComp
     public Quaternion Rotation;
     public CharacterController CharacterController;
     public Transform PlayerCameraRoot;
+    public CinemachineVirtualCamera PlayerCamera;
     public bool Grounded;
     public float VerticalVelocity;
 }

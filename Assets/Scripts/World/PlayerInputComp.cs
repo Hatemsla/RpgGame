@@ -6,4 +6,5 @@ public struct PlayerInputComp
     public Vector2 Look;
     public bool Jump;
     public bool Sprint;
+    public float Zoom;
 }

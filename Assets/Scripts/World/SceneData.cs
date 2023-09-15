@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-public class SceneData : MonoBehaviour
+namespace World
 {
-    public Transform playerSpawnPosition;
-    public GameObject mainCamera;
+    public class SceneData : MonoBehaviour
+    {
+        public Transform playerSpawnPosition;
+        public GameObject mainCamera;
+    }
 }

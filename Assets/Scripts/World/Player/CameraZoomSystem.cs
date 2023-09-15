@@ -3,7 +3,7 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 
-namespace World
+namespace World.Player
 {
     public class CameraZoomSystem : IEcsRunSystem
     {
@@ -20,9 +20,9 @@ namespace World
 
                 if (input.Zoom != 0)
                 {
-                    cameraDistance.CameraDistance -= input.Zoom * _config.Value.zoomSpeed;
+                    cameraDistance.CameraDistance -= input.Zoom * _config.Value.playerConfiguration.zoomSpeed;
                     cameraDistance.CameraDistance = Mathf.Clamp(cameraDistance.CameraDistance,
-                        _config.Value.minZoomDistance, _config.Value.maxZoomDistance);
+                        _config.Value.playerConfiguration.minZoomDistance, _config.Value.playerConfiguration.maxZoomDistance);
                 }
             }
         }

@@ -12,26 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f21e6cda6814488d8b87af7803451a11, type: 3}
   m_Name: Configuration
   m_EditorClassIdentifier: 
-  moveSpeed: 6
-  sprintSpeed: 9
-  speedChangeRate: 10
-  rotationSmoothTime: 0.12
-  topClamp: 70
-  bottomClamp: -30
-  cameraAngleOverride: 0
-  fallTimeout: 0.15
-  jumpTimeout: 0.5
-  zoomSpeed: 5
-  minZoomDistance: 0
-  maxZoomDistance: 15
-  jumpHeight: 1.2
-  gravity: -15
-  groundedOffset: 1
-  groundedRadius: 0.28
-  groundLayers:
-    serializedVersion: 2
-    m_Bits: 1
-  playerPrefab: {fileID: 8406900658321012347, guid: 61f0f1c853bcfb44994a049f2fb9bfd3,
-    type: 3}
-  playerFollowCameraPrefab: {fileID: 4023971248361414438, guid: 0a57f7e45dd20654492220e1e448d0eb,
-    type: 3}
+  playerConfiguration: {fileID: 11400000, guid: eb99d488f722cd44ba0e7cc2aedc7aa1,
+    type: 2}

@@ -10,6 +10,7 @@ namespace World.Player
         public float moveSpeed;
         public float sprintSpeed;
         public float walkSpeed;
+        public float dashSpeed = 20f;
         public float speedChangeRate;
         public float rotationSmoothTime;
         public float topClamp = 70.0f;

@@ -27,6 +27,7 @@ namespace World.Player
                 inputComp.Sprint = input.Sprint.IsPressed();
                 inputComp.Zoom = input.Zoom.ReadValue<Vector2>().y; // вращение колесика по y
                 inputComp.Walk = input.Walk.WasPerformedThisFrame();
+                inputComp.Dash = input.Dash.WasPerformedThisFrame();
             }
         }
     }

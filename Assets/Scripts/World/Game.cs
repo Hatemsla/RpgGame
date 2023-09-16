@@ -32,6 +32,7 @@ namespace World
                 .Add(new PlayerGroundedSystem())
                 .Add(new PlayerMoveSystem())
                 .Add(new PlayerCameraRotateSystem())
+                .Add(new PlayerDashSystem())
                 .Add(new CameraZoomSystem())
 #if UNITY_EDITOR
                 .Add(new EcsWorldDebugSystem())

@@ -15,8 +15,6 @@ namespace World.Player
         private float _speed;
         private float _targetRotation;
         private float _rotationVelocity;
-        private bool _isWalking;
-
 
         public void Run(IEcsSystems systems)
         {
@@ -25,23 +23,18 @@ namespace World.Player
                 ref var player = ref _playerMove.Pools.Inc1.Get(entity);
                 ref var input = ref _playerMove.Pools.Inc2.Get(entity);
                 
-                var targetSpeed = _cf.Value.playerConfiguration.walkSpeed;
+                var targetSpeed = _cf.Value.playerConfiguration.moveSpeed;
 
-                if (!_isWalking)
-                {
-                    targetSpeed = _cf.Value.playerConfiguration.moveSpeed;
-                }
+                if (player.IsWalking) targetSpeed = _cf.Value.playerConfiguration.walkSpeed;
+                
                 if (input.Sprint)
                 {
                     targetSpeed = _cf.Value.playerConfiguration.sprintSpeed;
                 }
                 else if (input.Walk)
                 {
-                    if (_isWalking)
-                        targetSpeed = _cf.Value.playerConfiguration.moveSpeed;
-                    else
-                        targetSpeed = _cf.Value.playerConfiguration.walkSpeed;
-                    _isWalking = !_isWalking;
+                    targetSpeed = player.IsWalking ? _cf.Value.playerConfiguration.moveSpeed : _cf.Value.playerConfiguration.walkSpeed;
+                    player.IsWalking = !player.IsWalking;
                 }
 
                 if (input.Move == Vector2.zero) targetSpeed = 0f;

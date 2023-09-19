@@ -62,7 +62,16 @@
                 {
                     "name": "Dash",
                     "type": "Button",
-                    "id": "c74723e9-eef5-4f0c-a4be-3cf1d192ab1c",
+                    "id": "7de345e8-8392-4171-89de-4281d053e2b3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "FreeLook",
+                    "type": "Button",
+                    "id": "5b73df27-b665-46d7-8e09-b4e601222a78",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -182,12 +191,23 @@
                 },
                 {
                     "name": "",
-                    "id": "6d4f470e-43ca-406e-b0ee-8020004864d2",
+                    "id": "0208d4f0-a16b-4aa0-8508-db8bca98bfa6",
                     "path": "<Keyboard>/alt",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eb46acc2-5bc4-4f24-a47c-2e37a51abdb5",
+                    "path": "<Keyboard>/v",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FreeLook",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

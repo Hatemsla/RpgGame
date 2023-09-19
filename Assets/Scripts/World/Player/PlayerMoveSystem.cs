@@ -69,6 +69,7 @@ namespace World.Player
                         _cf.Value.playerConfiguration.rotationSmoothTime);
 
                     player.Rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                    player.Transform.rotation = player.Rotation;
                 }
 
                 var targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;

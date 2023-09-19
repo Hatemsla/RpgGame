@@ -34,6 +34,7 @@ namespace World
                 .Add(new PlayerCameraRotateSystem())
                 .Add(new PlayerDashSystem())
                 .Add(new CameraZoomSystem())
+                .Add(new CameraTargetSystem())
 #if UNITY_EDITOR
                 .Add(new EcsWorldDebugSystem())
 #endif

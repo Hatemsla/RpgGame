@@ -11,5 +11,6 @@ namespace World.Player
         public bool Sprint;
         public bool Walk;
         public bool Dash;
+        public bool FreeLook;
     }
 }

@@ -63,6 +63,13 @@ namespace World.Player
         public float jumpEndurance;
         [Tooltip("Stamina recovery rate")]
         public float staminaRecovery;
+
+        [Tooltip("The degree of loss of health from falling from a great height")]
+        public float fallDamage;
+        [Tooltip("Min height of taking damage")]
+        public float minDamageHeight = -10;
+        [Tooltip("Health recovery rate")] 
+        public float healthRecovery;
         
         [Header("Other settings", order = 3)]
         [Tooltip("What layers the character uses as ground")]

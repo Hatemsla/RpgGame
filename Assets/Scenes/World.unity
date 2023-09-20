@@ -1126,6 +1126,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1112367862}
   - component: {fileID: 1112367863}
+  - component: {fileID: 1112367864}
   m_Layer: 5
   m_Name: HpBar
   m_TagString: Untagged
@@ -1206,6 +1207,22 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1112367864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112367861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a2bb647df7944f4b8f1a565fb2bc704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _widgetName: HealthBar
+  _emitter: {fileID: 1180649491}
+  _nameRegistrationType: 2
+  _selectable: {fileID: 1112367863}
 --- !u!1 &1180649486
 GameObject:
   m_ObjectHideFlags: 0
@@ -1600,6 +1617,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2022272029}
   - component: {fileID: 2022272030}
+  - component: {fileID: 2022272031}
   m_Layer: 5
   m_Name: ManaBar
   m_TagString: Untagged
@@ -1680,6 +1698,22 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2022272031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022272028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a2bb647df7944f4b8f1a565fb2bc704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _widgetName: ManaBar
+  _emitter: {fileID: 1180649491}
+  _nameRegistrationType: 2
+  _selectable: {fileID: 2022272030}
 --- !u!1 &2121161230
 GameObject:
   m_ObjectHideFlags: 0

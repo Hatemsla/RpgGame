@@ -60,8 +60,6 @@ namespace World.Player
                     {
                         // TODO: set animation
                     }
-
-                    // input.Jump = false;
                 }
 
                 if (player.VerticalVelocity < _terminalVelocity)

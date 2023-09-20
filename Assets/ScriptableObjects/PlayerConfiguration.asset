@@ -38,6 +38,9 @@ MonoBehaviour:
   dashEndurance: 20
   jumpEndurance: 10
   staminaRecovery: 3
+  fallDamage: 3
+  minDamageHeight: -10
+  healthRecovery: 2
   groundLayers:
     serializedVersion: 2
     m_Bits: 1

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e33073b3cc4418822d4af2394dda8e, type: 3}
   m_Name: UIConfiguration
   m_EditorClassIdentifier: 
-  hsmBarsChangeRate: 1
+  hsmBarsChangeRate: 2

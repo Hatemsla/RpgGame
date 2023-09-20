@@ -38,6 +38,8 @@ namespace World
                 .Add(new PlayerDashSystem())
                 .Add(new CameraZoomSystem())
                 .Add(new PlayerStaminaSystem())
+                .Add(new PlayerFallSystem())
+                .Add(new PlayerHealthSystem())
                 
                 .AddWorld(new EcsWorld(), Idents.Worlds.Events)
 #if UNITY_EDITOR

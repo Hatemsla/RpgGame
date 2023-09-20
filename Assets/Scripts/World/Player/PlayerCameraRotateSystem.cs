@@ -9,6 +9,7 @@ namespace World.Player
         private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp>> _unitsMove = default;
 
         private readonly EcsCustomInject<Configuration> _cf = default;
+        private readonly EcsCustomInject<TimeService> _ts = default;
 
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -36,7 +37,15 @@ namespace World.Player
 
                 player.PlayerCameraRoot.transform.rotation = Quaternion.Euler(
                     _cinemachineTargetPitch + _cf.Value.playerConfiguration.cameraAngleOverride,
-                    _cinemachineTargetYaw, 0.0f);
+                    _cinemachineTargetYaw, 0f);
+
+                if (!input.FreeLook)
+                {
+                    var desiredYRotation = player.PlayerCameraRoot.eulerAngles.y;
+                    var currentYRotation = player.Transform.rotation.eulerAngles.y;
+                    var newYRotation = Mathf.LerpAngle(currentYRotation, desiredYRotation,  _ts.Value.DeltaTime * _cf.Value.playerConfiguration.rotationSpeed);
+                    player.Transform.rotation = Quaternion.Euler(0f, newYRotation, 0f);
+                }
             }
         }
 

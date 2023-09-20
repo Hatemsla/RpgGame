@@ -96,7 +96,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""id"": ""5b73df27-b665-46d7-8e09-b4e601222a78"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 }
             ],

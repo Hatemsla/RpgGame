@@ -7,19 +7,35 @@ namespace World.Player
     public class PlayerConfiguration : ScriptableObject
     {
         [Header("Player Settings")] 
+        [Tooltip("Move speed of the character in m/s")]
         public float moveSpeed;
+        [Tooltip("Sprint speed of the character in m/s")]
         public float sprintSpeed;
+        [Tooltip("Walk speed of the character in m/s")]
         public float walkSpeed;
+        [Tooltip("Dash speed of the character in m/s")]
         public float dashSpeed = 20f;
+        [Tooltip("Acceleration and deceleration")]
         public float speedChangeRate;
+        [Tooltip("How fast the character turns to face movement direction")]
         public float rotationSmoothTime;
+        [Tooltip("How fast the character turns to face camera direction")]
+        public float rotationSpeed = 2f;
+        [Tooltip("How far in degrees can you move the camera up")]
         public float topClamp = 70.0f;
+        [Tooltip("How far in degrees can you move the camera down")]
         public float bottomClamp = -30.0f;
+        [Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
         public float cameraAngleOverride = 0.0f;
+        [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
         public float fallTimeout = 0.15f;
+        [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
         public float jumpTimeout = 0.50f;
+        [Tooltip("Zoom speed of the character camera")]
         public float zoomSpeed = 1;
-        public float minZoomDistance = 0;
+        [Tooltip("Min value of camera zoom")]
+        public float minZoomDistance;
+        [Tooltip("Max value of camera zoom")]
         public float maxZoomDistance = 15;
         [Tooltip("The height the player can jump")]
         public float jumpHeight = 1.2f;
@@ -31,7 +47,9 @@ namespace World.Player
         public float groundedRadius = 0.28f;
         [Tooltip("What layers the character uses as ground")]
         public LayerMask groundLayers;
+        [Tooltip("Character prefab to instantiate")]
         public GameObject playerPrefab;
+        [Tooltip("Character follow camera prefab to instantiate")]
         public CinemachineVirtualCamera playerFollowCameraPrefab;
     }
 }

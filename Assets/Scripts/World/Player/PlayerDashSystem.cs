@@ -20,8 +20,10 @@ namespace World.Player
 
                 if (input.Dash && player.Grounded)
                 {
+                    Debug.Log(player.Transform.eulerAngles);
                     var dashDirection = input.Move * (_cf.Value.playerConfiguration.dashSpeed * _ts.Value.DeltaTime);
                     player.CharacterController.Move(new Vector3(dashDirection.x, 0f, dashDirection.y));
+                    Debug.Log(player.Transform.eulerAngles);
                 }
             }
         }

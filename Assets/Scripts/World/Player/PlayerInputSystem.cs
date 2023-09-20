@@ -28,6 +28,7 @@ namespace World.Player
                 inputComp.Zoom = input.Zoom.ReadValue<Vector2>().y; // вращение колесика по y
                 inputComp.Walk = input.Walk.WasPerformedThisFrame();
                 inputComp.Dash = input.Dash.WasPerformedThisFrame();
+                inputComp.FreeLook = input.FreeLook.IsPressed();
             }
         }
     }

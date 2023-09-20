@@ -8,6 +8,7 @@ namespace World.Player
     {
         private readonly EcsPoolInject<PlayerComp> _playerPool = default;
         private readonly EcsPoolInject<PlayerInputComp> _playerInput = default;
+        private readonly EcsPoolInject<RpgComp> _rpg = default;
 
         private readonly EcsCustomInject<SceneData> _sc = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
@@ -18,6 +19,7 @@ namespace World.Player
             var playerEntity = world.NewEntity();
 
             ref var player = ref _playerPool.Value.Add(playerEntity);
+            ref var rpg = ref _rpg.Value.Add(playerEntity);
             _playerInput.Value.Add(playerEntity);
 
             var playerPrefab = _cf.Value.playerConfiguration.playerPrefab;
@@ -37,6 +39,12 @@ namespace World.Player
 
             playerFollowCameraView.Follow = player.PlayerCameraRoot;
 
+            rpg.Health = _cf.Value.playerConfiguration.health;
+            rpg.Stamina = _cf.Value.playerConfiguration.stamina;
+            rpg.Mana = _cf.Value.playerConfiguration.mana;
+            rpg.CanRun = true;
+            rpg.CanDash = true;
+            rpg.CanJump = true;
         }
     }
 }

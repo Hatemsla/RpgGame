@@ -6,7 +6,7 @@ namespace World.Player
 {
     public sealed class PlayerMoveSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp>> _playerMove = default;
+        private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp, RpgComp>> _playerMove = default;
 
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<SceneData> _sd = default;
@@ -22,12 +22,13 @@ namespace World.Player
             {
                 ref var player = ref _playerMove.Pools.Inc1.Get(entity);
                 ref var input = ref _playerMove.Pools.Inc2.Get(entity);
+                ref var rpg = ref _playerMove.Pools.Inc3.Get(entity);
                 
                 var targetSpeed = _cf.Value.playerConfiguration.moveSpeed;
 
                 if (player.IsWalking) targetSpeed = _cf.Value.playerConfiguration.walkSpeed;
                 
-                if (input.Sprint)
+                if (input.Sprint && rpg.CanRun)
                 {
                     targetSpeed = _cf.Value.playerConfiguration.sprintSpeed;
                 }

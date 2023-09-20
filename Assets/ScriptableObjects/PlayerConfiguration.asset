@@ -18,11 +18,12 @@ MonoBehaviour:
   dashSpeed: 30
   speedChangeRate: 10
   rotationSmoothTime: 0.12
+  rotationSpeed: 2
   topClamp: 70
   bottomClamp: -30
   cameraAngleOverride: 0
   fallTimeout: 0.15
-  jumpTimeout: 0.5
+  jumpTimeout: 0
   zoomSpeed: 5
   minZoomDistance: 0
   maxZoomDistance: 15
@@ -30,6 +31,13 @@ MonoBehaviour:
   gravity: -15
   groundedOffset: 1
   groundedRadius: 0.28
+  health: 100
+  stamina: 100
+  mana: 100
+  sprintEndurance: 5
+  dashEndurance: 20
+  jumpEndurance: 10
+  staminaRecovery: 3
   groundLayers:
     serializedVersion: 2
     m_Bits: 1

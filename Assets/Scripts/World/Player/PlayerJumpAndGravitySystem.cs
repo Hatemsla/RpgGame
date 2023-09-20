@@ -6,7 +6,7 @@ namespace World.Player
 {
     public sealed class PlayerJumpAndGravitySystem : IEcsRunSystem, IEcsInitSystem
     {
-        private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp>> _playerMove = default;
+        private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp, RpgComp>> _playerMove = default;
 
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<TimeService> _ts = default;
@@ -26,8 +26,9 @@ namespace World.Player
             {
                 ref var player = ref _playerMove.Pools.Inc1.Get(entity);
                 ref var input = ref _playerMove.Pools.Inc2.Get(entity);
+                ref var rpg = ref _playerMove.Pools.Inc3.Get(entity);
 
-                if (player.Grounded)
+                if (player.Grounded && rpg.CanJump)
                 {
                     _fallTimeoutDelta = _cf.Value.playerConfiguration.fallTimeout;
 
@@ -60,7 +61,7 @@ namespace World.Player
                         // TODO: set animation
                     }
 
-                    input.Jump = false;
+                    // input.Jump = false;
                 }
 
                 if (player.VerticalVelocity < _terminalVelocity)

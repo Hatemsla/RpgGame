@@ -1,7 +1,9 @@
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Leopotam.EcsLite.Unity.Ugui;
 using Leopotam.EcsLite.UnityEditor;
 using UnityEngine;
+using Utils;
 using World.Player;
 
 namespace World
@@ -10,6 +12,7 @@ namespace World
     {
         [SerializeField] private SceneData sceneData;
         [SerializeField] private Configuration configuration;
+        [SerializeField] private EcsUguiEmitter _uguiEmitter;
         private EcsSystems _systemsUpdate;
         private EcsSystems _systemsFixedUpdate;
         private EcsSystems _systemsLateUpdate;
@@ -34,11 +37,16 @@ namespace World
                 .Add(new PlayerCameraRotateSystem())
                 .Add(new PlayerDashSystem())
                 .Add(new CameraZoomSystem())
+                .Add(new PlayerStaminaSystem())
+                
+                .AddWorld(new EcsWorld(), Idents.Worlds.Events)
 #if UNITY_EDITOR
                 .Add(new EcsWorldDebugSystem())
+                .Add(new EcsWorldDebugSystem(Idents.Worlds.Events))
 #endif
 
                 .Inject(ts, configuration, sceneData, mainInput)
+                .InjectUgui(_uguiEmitter, Idents.Worlds.Events)
                 .Init();
 
             _systemsFixedUpdate

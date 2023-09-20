@@ -3,10 +3,11 @@ using UnityEngine;
 
 namespace World.Player
 {
-    [CreateAssetMenu(fileName = "PlayerConfiguration", menuName = "World Configurations/Player Configuration")]
+    [CreateAssetMenu(fileName = "PlayerConfiguration", menuName = "World Configurations/Player Configuration", order = 0)]
     public class PlayerConfiguration : ScriptableObject
     {
-        [Header("Player Settings")] 
+        [Header("Player Settings", order = 0)] 
+        [Header("Move settings", order = 1)]
         [Tooltip("Move speed of the character in m/s")]
         public float moveSpeed;
         [Tooltip("Sprint speed of the character in m/s")]
@@ -45,6 +46,25 @@ namespace World.Player
         public float groundedOffset = -0.14f;
         [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
         public float groundedRadius = 0.28f;
+
+        [Header("Rpg settings", order = 2)] 
+        [Tooltip("Start player health points")]
+        public float health = 100;
+        [Tooltip("Start player stamina points")]
+        public float stamina = 100;
+        [Tooltip("Start player mana points")]
+        public float mana = 100;
+        
+        [Tooltip("Endurance consumption for Sprint")]
+        public float sprintEndurance;
+        [Tooltip("Endurance consumption for Dash")]
+        public float dashEndurance;
+        [Tooltip("Endurance consumption for Jump")]
+        public float jumpEndurance;
+        [Tooltip("Stamina recovery rate")]
+        public float staminaRecovery;
+        
+        [Header("Other settings", order = 3)]
         [Tooltip("What layers the character uses as ground")]
         public LayerMask groundLayers;
         [Tooltip("Character prefab to instantiate")]

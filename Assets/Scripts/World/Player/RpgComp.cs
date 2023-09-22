@@ -9,5 +9,7 @@
         public bool CanRun;
         public bool CanDash;
         public bool CanJump;
+        
+        public bool IsDead;
     }
 }

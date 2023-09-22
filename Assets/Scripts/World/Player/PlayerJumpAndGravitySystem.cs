@@ -27,8 +27,13 @@ namespace World.Player
                 ref var player = ref _playerMove.Pools.Inc1.Get(entity);
                 ref var input = ref _playerMove.Pools.Inc2.Get(entity);
                 ref var rpg = ref _playerMove.Pools.Inc3.Get(entity);
-
-                if (player.Grounded && rpg.CanJump)
+                
+                if(rpg.IsDead) return;
+                
+                var jumpEndurance = rpg.Stamina - _cf.Value.playerConfiguration.jumpEndurance;
+                rpg.CanJump = jumpEndurance > 0;
+                
+                if (player.Grounded)
                 {
                     _fallTimeoutDelta = _cf.Value.playerConfiguration.fallTimeout;
 
@@ -36,11 +41,15 @@ namespace World.Player
                     {
                         player.VerticalVelocity = -2f;
                     }
-
+                    
                     if (input.Jump && _jumpTimeoutDelta <= 0f)
                     {
-                        player.VerticalVelocity = Mathf.Sqrt(_cf.Value.playerConfiguration.jumpHeight * -2f *
-                                                             _cf.Value.playerConfiguration.gravity);
+                        if (rpg.CanJump)
+                        {
+                            rpg.Stamina = jumpEndurance;
+                            player.VerticalVelocity = Mathf.Sqrt(_cf.Value.playerConfiguration.jumpHeight * -2f *
+                                                                 _cf.Value.playerConfiguration.gravity);
+                        }
                     }
 
                     if (_jumpTimeoutDelta >= 0.0f)

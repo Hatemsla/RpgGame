@@ -27,12 +27,18 @@ namespace World.Player
                 ref var player = ref _player.Pools.Inc1.Get(entity);
                 ref var rpg = ref _player.Pools.Inc2.Get(entity);
 
-                rpg.Health =
-                    Mathf.Clamp(rpg.Health + _cf.Value.playerConfiguration.healthRecovery * _ts.Value.DeltaTime, 0,
-                        _cf.Value.playerConfiguration.health);
-                
+                if (!rpg.IsDead)
+                {
+                    if (rpg.Health < _cf.Value.playerConfiguration.health)
+                        rpg.Health += _cf.Value.playerConfiguration.healthRecovery * _ts.Value.DeltaTime;
+
+                    if (rpg.Health > _cf.Value.playerConfiguration.health)
+                        rpg.Health = _cf.Value.playerConfiguration.health;
+                }
+
                 var targetHealthValue = Utils.Utils.Map(rpg.Health, 0, _cf.Value.playerConfiguration.health, 0, 1);
-                _healthBar.value = Mathf.Lerp(_healthBar.value, targetHealthValue, _cf.Value.uiConfiguration.hsmBarsChangeRate * _ts.Value.DeltaTime);
+                    _healthBar.value = Mathf.Lerp(_healthBar.value, targetHealthValue,
+                        _cf.Value.uiConfiguration.hsmBarsChangeRate * _ts.Value.DeltaTime);
             }
         }
     }

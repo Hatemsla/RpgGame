@@ -12,7 +12,7 @@ namespace World
     {
         [SerializeField] private SceneData sceneData;
         [SerializeField] private Configuration configuration;
-        [SerializeField] private EcsUguiEmitter _uguiEmitter;
+        [SerializeField] private EcsUguiEmitter uguiEmitter;
         private EcsSystems _systemsUpdate;
         private EcsSystems _systemsFixedUpdate;
         private EcsSystems _systemsLateUpdate;
@@ -31,6 +31,7 @@ namespace World
                 .Add(new PlayerInitSystem())
                 .Add(new TimeSystem())
                 .Add(new PlayerInputSystem())
+                .Add(new PlayerDeathSystem())
                 .Add(new PlayerJumpAndGravitySystem())
                 .Add(new PlayerGroundedSystem())
                 .Add(new PlayerMoveSystem())
@@ -48,9 +49,8 @@ namespace World
 #endif
 
                 .Inject(ts, configuration, sceneData, mainInput)
-                .InjectUgui(_uguiEmitter, Idents.Worlds.Events)
+                .InjectUgui(uguiEmitter, Idents.Worlds.Events)
                 .Init();
-
             _systemsFixedUpdate
                 .Init();
 

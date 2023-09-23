@@ -1,6 +1,8 @@
 ﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
+using Utils;
+using World.Ability;
 
 namespace World.Player
 {
@@ -9,6 +11,8 @@ namespace World.Player
         private readonly EcsPoolInject<PlayerComp> _playerPool = default;
         private readonly EcsPoolInject<PlayerInputComp> _playerInput = default;
         private readonly EcsPoolInject<RpgComp> _rpg = default;
+        private readonly EcsPoolInject<AbilityComp> _ability = default;
+        private readonly EcsPoolInject<HasAbilities> _hasAbilitiesPool = default;
 
         private readonly EcsCustomInject<SceneData> _sc = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
@@ -45,6 +49,26 @@ namespace World.Player
             rpg.CanRun = true;
             rpg.CanDash = true;
             rpg.CanJump = true;
+            
+            CreateAbilities(playerEntity ,world);
+        }
+
+        private void CreateAbilities(int playerEntity ,EcsWorld world)
+        {
+            ref var hasAbilities = ref _hasAbilitiesPool.Value.Add(playerEntity);
+            foreach (var ability in _cf.Value.abilityConfiguration.AbilityDatas)
+            {
+                if (ability.name == Idents.Abilities.FireBall)
+                {
+                    var abilityEntity = world.NewEntity();
+                    ref var abil = ref _ability.Value.Add(abilityEntity);
+                    abil.Name = ability.name;
+                    abil.Damage = ability.damage;
+                    abil.Distance = ability.damage;
+                    abil.CostPoint = ability.costPoint;
+                    hasAbilities.Entities.Add(abilityEntity);
+                }
+            }
         }
     }
 }

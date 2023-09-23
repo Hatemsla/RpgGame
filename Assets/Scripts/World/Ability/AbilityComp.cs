@@ -2,8 +2,7 @@
 
 namespace World.Player
 {
-    [CreateAssetMenu]
-    public class AbilityComp : ScriptableObject
+    public struct AbilityComp
     {
         public string Name;
         public float CostPoint;

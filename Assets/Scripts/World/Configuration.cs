@@ -8,5 +8,6 @@ namespace World
     {
         public PlayerConfiguration playerConfiguration; 
         public UiConfiguration uiConfiguration;
+        public AbilityConfiguration abilityConfiguration;
     }
 }

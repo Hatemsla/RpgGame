@@ -7,6 +7,9 @@ namespace World.Player
         public string Name;
         public float CostPoint;
         public float Damage;
-        public float Distance;
+        public float Radius;
+        public float Speed;
+        public float LifeTime;
+        public float OwnerEntity;
     }
 }

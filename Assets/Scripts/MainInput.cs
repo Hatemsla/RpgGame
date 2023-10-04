@@ -98,6 +98,15 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseAbility"",
+                    ""type"": ""Button"",
+                    ""id"": ""af71d4fd-7572-4902-b5e5-9d923726f293"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,6 +241,17 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""action"": ""FreeLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3e3ee774-2592-4fbd-ab8c-6e9f74b9ba1b"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -248,6 +268,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         m_Player_Walk = m_Player.FindAction("Walk", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_FreeLook = m_Player.FindAction("FreeLook", throwIfNotFound: true);
+        m_Player_UseAbility = m_Player.FindAction("UseAbility", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -317,6 +338,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Walk;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_FreeLook;
+    private readonly InputAction m_Player_UseAbility;
     public struct PlayerActions
     {
         private @MainInput m_Wrapper;
@@ -329,6 +351,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         public InputAction @Walk => m_Wrapper.m_Player_Walk;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @FreeLook => m_Wrapper.m_Player_FreeLook;
+        public InputAction @UseAbility => m_Wrapper.m_Player_UseAbility;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -362,6 +385,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @FreeLook.started += instance.OnFreeLook;
             @FreeLook.performed += instance.OnFreeLook;
             @FreeLook.canceled += instance.OnFreeLook;
+            @UseAbility.started += instance.OnUseAbility;
+            @UseAbility.performed += instance.OnUseAbility;
+            @UseAbility.canceled += instance.OnUseAbility;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -390,6 +416,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @FreeLook.started -= instance.OnFreeLook;
             @FreeLook.performed -= instance.OnFreeLook;
             @FreeLook.canceled -= instance.OnFreeLook;
+            @UseAbility.started -= instance.OnUseAbility;
+            @UseAbility.performed -= instance.OnUseAbility;
+            @UseAbility.canceled -= instance.OnUseAbility;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -417,5 +446,6 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         void OnWalk(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnFreeLook(InputAction.CallbackContext context);
+        void OnUseAbility(InputAction.CallbackContext context);
     }
 }

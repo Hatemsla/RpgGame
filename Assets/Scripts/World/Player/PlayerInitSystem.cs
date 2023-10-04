@@ -1,5 +1,6 @@
 ﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
 using Utils;
 using World.Ability;
@@ -56,7 +57,7 @@ namespace World.Player
         private void CreateAbilities(int playerEntity ,EcsWorld world)
         {
             ref var hasAbilities = ref _hasAbilitiesPool.Value.Add(playerEntity);
-            foreach (var ability in _cf.Value.abilityConfiguration.AbilityDatas)
+            foreach (var ability in _cf.Value.abilityConfiguration.abilityDatas)
             {
                 if (ability.name == Idents.Abilities.FireBall)
                 {
@@ -64,7 +65,9 @@ namespace World.Player
                     ref var abil = ref _ability.Value.Add(abilityEntity);
                     abil.Name = ability.name;
                     abil.Damage = ability.damage;
-                    abil.Distance = ability.damage;
+                    abil.LifeTime = ability.lifeTime;
+                    abil.Radius = ability.radius;
+                    abil.Speed = ability.speed;
                     abil.CostPoint = ability.costPoint;
                     hasAbilities.Entities.Add(abilityEntity);
                 }

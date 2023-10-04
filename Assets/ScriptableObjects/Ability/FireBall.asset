@@ -16,3 +16,4 @@ MonoBehaviour:
   costPoint: 20
   damage: 30
   distance: 0
+  spell: {fileID: 8285538237981431916, guid: 5e9f8e8cb2ca82445bba42bccaaa6b45, type: 3}

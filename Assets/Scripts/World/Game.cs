@@ -40,6 +40,7 @@ namespace World
                 .Add(new PlayerStaminaSystem())
                 .Add(new PlayerFallSystem())
                 .Add(new PlayerHealthSystem())
+                .Add(new PlayerSpellCastSystem())
                 
                 .AddWorld(new EcsWorld(), Idents.Worlds.Events)
 #if UNITY_EDITOR

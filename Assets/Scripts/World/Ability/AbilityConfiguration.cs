@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace World
+namespace World.Ability
 {
     [CreateAssetMenu(fileName = "AbilityConfiguration", menuName = "Data/Ability Configuration", order = 3)]
     public class AbilityConfiguration : ScriptableObject
     {
-        public List<AbilityData> AbilityDatas;
+        public List<AbilityData> abilityDatas;
     }
 }

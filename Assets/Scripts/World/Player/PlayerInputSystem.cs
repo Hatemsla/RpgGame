@@ -29,6 +29,7 @@ namespace World.Player
                 inputComp.Walk = input.Walk.WasPerformedThisFrame();
                 inputComp.Dash = input.Dash.WasPerformedThisFrame();
                 inputComp.FreeLook = input.FreeLook.IsPressed();
+                inputComp.UseAbility = input.UseAbility.WasPerformedThisFrame();
             }
         }
     }

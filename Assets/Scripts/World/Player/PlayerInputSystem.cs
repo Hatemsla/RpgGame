@@ -29,6 +29,9 @@ namespace World.Player
                 inputComp.Walk = input.Walk.WasPerformedThisFrame();
                 inputComp.Dash = input.Dash.WasPerformedThisFrame();
                 inputComp.FreeLook = input.FreeLook.IsPressed();
+                inputComp.GetFirstItem = input.Alpha1.WasPerformedThisFrame();
+                inputComp.GetSecondItem = input.Alpha2.WasPerformedThisFrame();
+                inputComp.GetThirdItem = input.Alpha3.WasPerformedThisFrame();
             }
         }
     }

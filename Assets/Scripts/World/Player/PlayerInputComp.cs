@@ -12,5 +12,8 @@ namespace World.Player
         public bool Walk;
         public bool Dash;
         public bool FreeLook;
+        public bool GetFirstItem;
+        public bool GetSecondItem;
+        public bool GetThirdItem;
     }
 }

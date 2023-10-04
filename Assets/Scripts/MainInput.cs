@@ -98,6 +98,60 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Alpha1"",
+                    ""type"": ""Button"",
+                    ""id"": ""8ce5fd18-6da7-49d6-8d92-4b077e42707d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Alpha2"",
+                    ""type"": ""Button"",
+                    ""id"": ""501be992-d9a5-4f05-a569-2f80dc0ab1c7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Alpha3"",
+                    ""type"": ""Button"",
+                    ""id"": ""7a5d21b1-ff1c-467a-81bd-5079780d8fe0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Alpha4"",
+                    ""type"": ""Button"",
+                    ""id"": ""bb5cd7a2-c5a6-407d-b4e7-678bf2c08257"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Alpha5"",
+                    ""type"": ""Button"",
+                    ""id"": ""4cf5e5d0-295b-4f83-a731-1baff25f10d6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Alpha6"",
+                    ""type"": ""Button"",
+                    ""id"": ""35a8485f-fbf0-4be3-ba19-b591ea26ec14"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,6 +286,72 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""action"": ""FreeLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ad64d0a-a405-4133-9df5-f0680c917716"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Alpha1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d61878d5-0472-435b-b0e0-88f50cab2538"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Alpha2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0462a9e5-bedb-4010-8f05-8a467d4babd6"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Alpha3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2b8b86f5-2214-4b43-825c-83cb966e0169"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Alpha4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ae5293c-aae1-4785-9a01-1a25631c425b"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Alpha5"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5dfefe1d-39fe-41f8-ab8d-05a3754121d5"",
+                    ""path"": ""<Keyboard>/6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Alpha6"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -248,6 +368,12 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         m_Player_Walk = m_Player.FindAction("Walk", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_FreeLook = m_Player.FindAction("FreeLook", throwIfNotFound: true);
+        m_Player_Alpha1 = m_Player.FindAction("Alpha1", throwIfNotFound: true);
+        m_Player_Alpha2 = m_Player.FindAction("Alpha2", throwIfNotFound: true);
+        m_Player_Alpha3 = m_Player.FindAction("Alpha3", throwIfNotFound: true);
+        m_Player_Alpha4 = m_Player.FindAction("Alpha4", throwIfNotFound: true);
+        m_Player_Alpha5 = m_Player.FindAction("Alpha5", throwIfNotFound: true);
+        m_Player_Alpha6 = m_Player.FindAction("Alpha6", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -317,6 +443,12 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Walk;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_FreeLook;
+    private readonly InputAction m_Player_Alpha1;
+    private readonly InputAction m_Player_Alpha2;
+    private readonly InputAction m_Player_Alpha3;
+    private readonly InputAction m_Player_Alpha4;
+    private readonly InputAction m_Player_Alpha5;
+    private readonly InputAction m_Player_Alpha6;
     public struct PlayerActions
     {
         private @MainInput m_Wrapper;
@@ -329,6 +461,12 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         public InputAction @Walk => m_Wrapper.m_Player_Walk;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @FreeLook => m_Wrapper.m_Player_FreeLook;
+        public InputAction @Alpha1 => m_Wrapper.m_Player_Alpha1;
+        public InputAction @Alpha2 => m_Wrapper.m_Player_Alpha2;
+        public InputAction @Alpha3 => m_Wrapper.m_Player_Alpha3;
+        public InputAction @Alpha4 => m_Wrapper.m_Player_Alpha4;
+        public InputAction @Alpha5 => m_Wrapper.m_Player_Alpha5;
+        public InputAction @Alpha6 => m_Wrapper.m_Player_Alpha6;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -362,6 +500,24 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @FreeLook.started += instance.OnFreeLook;
             @FreeLook.performed += instance.OnFreeLook;
             @FreeLook.canceled += instance.OnFreeLook;
+            @Alpha1.started += instance.OnAlpha1;
+            @Alpha1.performed += instance.OnAlpha1;
+            @Alpha1.canceled += instance.OnAlpha1;
+            @Alpha2.started += instance.OnAlpha2;
+            @Alpha2.performed += instance.OnAlpha2;
+            @Alpha2.canceled += instance.OnAlpha2;
+            @Alpha3.started += instance.OnAlpha3;
+            @Alpha3.performed += instance.OnAlpha3;
+            @Alpha3.canceled += instance.OnAlpha3;
+            @Alpha4.started += instance.OnAlpha4;
+            @Alpha4.performed += instance.OnAlpha4;
+            @Alpha4.canceled += instance.OnAlpha4;
+            @Alpha5.started += instance.OnAlpha5;
+            @Alpha5.performed += instance.OnAlpha5;
+            @Alpha5.canceled += instance.OnAlpha5;
+            @Alpha6.started += instance.OnAlpha6;
+            @Alpha6.performed += instance.OnAlpha6;
+            @Alpha6.canceled += instance.OnAlpha6;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -390,6 +546,24 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @FreeLook.started -= instance.OnFreeLook;
             @FreeLook.performed -= instance.OnFreeLook;
             @FreeLook.canceled -= instance.OnFreeLook;
+            @Alpha1.started -= instance.OnAlpha1;
+            @Alpha1.performed -= instance.OnAlpha1;
+            @Alpha1.canceled -= instance.OnAlpha1;
+            @Alpha2.started -= instance.OnAlpha2;
+            @Alpha2.performed -= instance.OnAlpha2;
+            @Alpha2.canceled -= instance.OnAlpha2;
+            @Alpha3.started -= instance.OnAlpha3;
+            @Alpha3.performed -= instance.OnAlpha3;
+            @Alpha3.canceled -= instance.OnAlpha3;
+            @Alpha4.started -= instance.OnAlpha4;
+            @Alpha4.performed -= instance.OnAlpha4;
+            @Alpha4.canceled -= instance.OnAlpha4;
+            @Alpha5.started -= instance.OnAlpha5;
+            @Alpha5.performed -= instance.OnAlpha5;
+            @Alpha5.canceled -= instance.OnAlpha5;
+            @Alpha6.started -= instance.OnAlpha6;
+            @Alpha6.performed -= instance.OnAlpha6;
+            @Alpha6.canceled -= instance.OnAlpha6;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -417,5 +591,11 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         void OnWalk(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnFreeLook(InputAction.CallbackContext context);
+        void OnAlpha1(InputAction.CallbackContext context);
+        void OnAlpha2(InputAction.CallbackContext context);
+        void OnAlpha3(InputAction.CallbackContext context);
+        void OnAlpha4(InputAction.CallbackContext context);
+        void OnAlpha5(InputAction.CallbackContext context);
+        void OnAlpha6(InputAction.CallbackContext context);
     }
 }

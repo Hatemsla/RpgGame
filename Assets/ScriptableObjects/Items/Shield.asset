@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7020320206a544588272ffbc31d8d7d4, type: 3}
+  m_Name: Shield
+  m_EditorClassIdentifier: 
+  itemName: Shield
+  itemDescription: "\u0429\u0438\u0442 - \u0437\u0430\u0449\u0438\u0449\u0430\u0435\u0442
+    \u043E\u0442 \u0433\u043E\u0432\u043D\u0430 \u0441\u0432\u0438\u043D\u0435\u0439"
+  itemType: 0
+  itemSprite: {fileID: 0}
+  itemViewPrefab: {fileID: 6639841081328373988, guid: 913b2823d8469fd468018274a364ccb8,
+    type: 3}
+  cost: 3

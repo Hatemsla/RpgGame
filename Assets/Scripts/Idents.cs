@@ -16,5 +16,12 @@
             public const string StaminaBar = "StaminaBar";
             public const string ManaBar = "ManaBar";
         }
+        
+        public static class Items
+        {
+            public const string Bow = "Bow";
+            public const string Shield = "Shield";
+            public const string Sword = "Sword";
+        }
     }
 }

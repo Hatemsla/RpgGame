@@ -1596,8 +1596,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368c8549ae404f5aa46615a0601d0ec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTransform: {fileID: 0}
   playerSpawnPosition: {fileID: 1894895138}
-  mainCamera: {fileID: 330585543}
+  mainCamera: {fileID: 330585548}
 --- !u!114 &1968066359
 MonoBehaviour:
   m_ObjectHideFlags: 0

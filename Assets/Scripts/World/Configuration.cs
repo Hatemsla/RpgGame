@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using World.Inventory;
 using World.Player;
 
 namespace World
@@ -8,5 +9,6 @@ namespace World
     {
         public PlayerConfiguration playerConfiguration; 
         public UiConfiguration uiConfiguration;
+        public InventoryConfiguration inventoryConfiguration;
     }
 }

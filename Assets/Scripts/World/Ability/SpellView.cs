@@ -7,13 +7,14 @@ namespace World.Ability
     {
         public float spellTime;
         public float spellSpeed;
+        public Vector3 spellDirection;
 
         private void Update()
         {
             spellTime -= Time.deltaTime;
             if (spellTime > 0)
             {
-                transform.Translate(transform.forward * spellSpeed);
+                transform.Translate(spellDirection  * spellSpeed * Time.deltaTime);
             }
         }
     }

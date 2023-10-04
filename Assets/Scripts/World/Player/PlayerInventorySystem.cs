@@ -8,7 +8,7 @@ namespace World.Player
     {
         private readonly EcsFilterInject<Inc<PlayerInputComp, PlayerComp>> _player = default;
         
-        private readonly EcsPoolInject<Item> _itemsPool = default;
+        private readonly EcsPoolInject<ItemComp> _itemsPool = default;
         private readonly EcsPoolInject<HasItems> _hasItems = default;
 
         private readonly EcsCustomInject<Configuration> _cf = default;

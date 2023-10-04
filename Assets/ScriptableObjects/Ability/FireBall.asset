@@ -15,5 +15,7 @@ MonoBehaviour:
   name: Fire Ball
   costPoint: 20
   damage: 30
-  distance: 0
-  spell: {fileID: 8285538237981431916, guid: 5e9f8e8cb2ca82445bba42bccaaa6b45, type: 3}
+  radius: 20
+  lifeTime: 1
+  speed: 20
+  spell: {fileID: -5577556761305309043, guid: 5e9f8e8cb2ca82445bba42bccaaa6b45, type: 3}

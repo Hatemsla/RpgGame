@@ -126,9 +126,15 @@
                     "name": "Alpha6",
                     "type": "Button",
                     "id": "35a8485f-fbf0-4be3-ba19-b591ea26ec14",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "UseAbility",
                     "type": "Button",
-                    "id": "af71d4fd-7572-4902-b5e5-9d923726f293",
+                    "id": "d889f654-00a5-4f53-9d79-461e79712112",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -331,7 +337,12 @@
                     "processors": "",
                     "groups": "",
                     "action": "Alpha6",
-                    "id": "3e3ee774-2592-4fbd-ab8c-6e9f74b9ba1b",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fd70fbbf-4075-42b4-8fb1-45d3d5c122c0",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",

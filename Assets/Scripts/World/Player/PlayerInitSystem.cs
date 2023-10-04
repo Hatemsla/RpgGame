@@ -14,7 +14,7 @@ namespace World.Player
         private readonly EcsPoolInject<PlayerInputComp> _playerInputPool = default;
         private readonly EcsPoolInject<RpgComp> _rpgPool = default;
         private readonly EcsPoolInject<HasItems> _hasItemsPool = default;
-        private readonly EcsPoolInject<Item> _itemsPool = default;
+        private readonly EcsPoolInject<ItemComp> _itemsPool = default;
         private readonly EcsPoolInject<AbilityComp> _ability = default;
         private readonly EcsPoolInject<HasAbilities> _hasAbilitiesPool = default;
 

@@ -42,12 +42,11 @@ namespace World.Player
 
                 if (!input.FreeLook && !rpg.IsDead)
                 {
-                    // var desiredYRotation = player.PlayerCameraRoot.eulerAngles.y;
-                    // var currentYRotation = player.Transform.rotation.eulerAngles.y;
-                    // var newYRotation = Mathf.LerpAngle(
-                    //     currentYRotation, desiredYRotation,  _ts.Value.DeltaTime * _cf.Value.playerConfiguration.rotationSpeed);
-                    // player.Transform.rotation = Quaternion.Euler(0f, newYRotation, 0f);
-                    // Debug.Log($"currentYRotation {currentYRotation}, newYRotation {newYRotation}");
+                    var desiredYRotation = player.PlayerCameraRoot.eulerAngles.y;
+                    var currentYRotation = player.Transform.rotation.eulerAngles.y;
+                    var newYRotation = Mathf.LerpAngle(
+                        currentYRotation, desiredYRotation,  _ts.Value.DeltaTime * _cf.Value.playerConfiguration.rotationSpeed);
+                    player.Transform.rotation = Quaternion.Euler(0f, newYRotation, 0f);
                 }
             }
         }

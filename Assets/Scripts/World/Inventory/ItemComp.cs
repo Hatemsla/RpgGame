@@ -1,6 +1,6 @@
 ﻿namespace World.Inventory
 {
-    public struct Item
+    public struct ItemComp
     {
         public string ItemName;
         public string ItemDescription;

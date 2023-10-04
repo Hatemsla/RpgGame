@@ -148,6 +148,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""name"": ""Alpha6"",
                     ""type"": ""Button"",
                     ""id"": ""35a8485f-fbf0-4be3-ba19-b591ea26ec14"",
+                    ""name"": ""UseAbility"",
+                    ""type"": ""Button"",
+                    ""id"": ""af71d4fd-7572-4902-b5e5-9d923726f293"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -350,6 +353,12 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Alpha6"",
+                    ""id"": ""3e3ee774-2592-4fbd-ab8c-6e9f74b9ba1b"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseAbility"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -374,6 +383,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         m_Player_Alpha4 = m_Player.FindAction("Alpha4", throwIfNotFound: true);
         m_Player_Alpha5 = m_Player.FindAction("Alpha5", throwIfNotFound: true);
         m_Player_Alpha6 = m_Player.FindAction("Alpha6", throwIfNotFound: true);
+        m_Player_UseAbility = m_Player.FindAction("UseAbility", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -449,6 +459,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Alpha4;
     private readonly InputAction m_Player_Alpha5;
     private readonly InputAction m_Player_Alpha6;
+    private readonly InputAction m_Player_UseAbility;
     public struct PlayerActions
     {
         private @MainInput m_Wrapper;
@@ -467,6 +478,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         public InputAction @Alpha4 => m_Wrapper.m_Player_Alpha4;
         public InputAction @Alpha5 => m_Wrapper.m_Player_Alpha5;
         public InputAction @Alpha6 => m_Wrapper.m_Player_Alpha6;
+        public InputAction @UseAbility => m_Wrapper.m_Player_UseAbility;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -518,6 +530,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @Alpha6.started += instance.OnAlpha6;
             @Alpha6.performed += instance.OnAlpha6;
             @Alpha6.canceled += instance.OnAlpha6;
+            @UseAbility.started += instance.OnUseAbility;
+            @UseAbility.performed += instance.OnUseAbility;
+            @UseAbility.canceled += instance.OnUseAbility;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -564,6 +579,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @Alpha6.started -= instance.OnAlpha6;
             @Alpha6.performed -= instance.OnAlpha6;
             @Alpha6.canceled -= instance.OnAlpha6;
+            @UseAbility.started -= instance.OnUseAbility;
+            @UseAbility.performed -= instance.OnUseAbility;
+            @UseAbility.canceled -= instance.OnUseAbility;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -597,5 +615,6 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         void OnAlpha4(InputAction.CallbackContext context);
         void OnAlpha5(InputAction.CallbackContext context);
         void OnAlpha6(InputAction.CallbackContext context);
+        void OnUseAbility(InputAction.CallbackContext context);
     }
 }

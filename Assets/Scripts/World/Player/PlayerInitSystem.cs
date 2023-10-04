@@ -1,8 +1,10 @@
 ﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
 using Utils;
 using World.Inventory;
+using World.Ability;
 
 namespace World.Player
 {
@@ -13,6 +15,8 @@ namespace World.Player
         private readonly EcsPoolInject<RpgComp> _rpgPool = default;
         private readonly EcsPoolInject<HasItems> _hasItemsPool = default;
         private readonly EcsPoolInject<Item> _itemsPool = default;
+        private readonly EcsPoolInject<AbilityComp> _ability = default;
+        private readonly EcsPoolInject<HasAbilities> _hasAbilitiesPool = default;
 
         private readonly EcsCustomInject<SceneData> _sc = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
@@ -53,6 +57,7 @@ namespace World.Player
             rpg.CanDash = true;
             rpg.CanJump = true;
 
+			CreateAbilities(playerEntity ,world);
             CreateItems(playerEntity, world);
         }
 
@@ -80,6 +85,26 @@ namespace World.Player
                 it.ItemView.itemIdx = i++;
                 
                 hasItems.Entities.Add(itemEntity);
+           }
+        }
+
+        private void CreateAbilities(int playerEntity ,EcsWorld world)
+        {
+            ref var hasAbilities = ref _hasAbilitiesPool.Value.Add(playerEntity);
+            foreach (var ability in _cf.Value.abilityConfiguration.abilityDatas)
+            {
+                if (ability.name == Idents.Abilities.FireBall)
+                {
+                    var abilityEntity = world.NewEntity();
+                    ref var abil = ref _ability.Value.Add(abilityEntity);
+                    abil.Name = ability.name;
+                    abil.Damage = ability.damage;
+                    abil.LifeTime = ability.lifeTime;
+                    abil.Radius = ability.radius;
+                    abil.Speed = ability.speed;
+                    abil.CostPoint = ability.costPoint;
+                    hasAbilities.Entities.Add(abilityEntity);
+                }
             }
         }
     }

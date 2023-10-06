@@ -304,7 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _widgetName: StaminaBar
   _emitter: {fileID: 1180649491}
-  _nameRegistrationType: 2
+  _nameRegistrationType: 1
   _selectable: {fileID: 99737445}
 --- !u!1 &104507185
 GameObject:
@@ -5155,7 +5155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _widgetName: HealthBar
   _emitter: {fileID: 1180649491}
-  _nameRegistrationType: 2
+  _nameRegistrationType: 1
   _selectable: {fileID: 1112367863}
 --- !u!1 &1116622953
 GameObject:
@@ -8662,7 +8662,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _widgetName: ManaBar
   _emitter: {fileID: 1180649491}
-  _nameRegistrationType: 2
+  _nameRegistrationType: 1
   _selectable: {fileID: 2022272030}
 --- !u!1 &2066244944
 GameObject:

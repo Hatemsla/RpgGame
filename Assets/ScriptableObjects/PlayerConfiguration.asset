@@ -41,6 +41,7 @@ MonoBehaviour:
   fallDamage: 3
   minDamageHeight: -10
   healthRecovery: 2
+  manaRecovery: 5
   groundLayers:
     serializedVersion: 2
     m_Bits: 1

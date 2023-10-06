@@ -42,6 +42,7 @@ namespace World
                 .Add(new PlayerFallSystem())
                 .Add(new PlayerHealthSystem())
                 .Add(new PlayerSpellCastSystem())
+                .Add(new PlayerManaSystem())
                 .Add(new PlayerGetItemSystem())
                 
                 .AddWorld(new EcsWorld(), Idents.Worlds.Events)

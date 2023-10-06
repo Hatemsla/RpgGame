@@ -37,7 +37,7 @@ namespace World.Player
                 }
 
                 var targetHealthValue = Utils.Utils.Map(rpg.Health, 0, _cf.Value.playerConfiguration.health, 0, 1);
-                    _healthBar.value = Mathf.Lerp(_healthBar.value, targetHealthValue,
+                _healthBar.value = Mathf.Lerp(_healthBar.value, targetHealthValue,
                         _cf.Value.uiConfiguration.hsmBarsChangeRate * _ts.Value.DeltaTime);
             }
         }

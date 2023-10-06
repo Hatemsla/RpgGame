@@ -70,6 +70,9 @@ namespace World.Player
         public float minDamageHeight = -10;
         [Tooltip("Health recovery rate")] 
         public float healthRecovery;
+
+        [Tooltip("Mana recovery rate")]
+        public float manaRecovery;
         
         [Header("Other settings", order = 3)]
         [Tooltip("What layers the character uses as ground")]

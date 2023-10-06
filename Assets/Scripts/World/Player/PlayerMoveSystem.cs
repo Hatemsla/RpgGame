@@ -25,13 +25,22 @@ namespace World.Player
                 ref var input = ref _playerMove.Pools.Inc2.Get(entity);
                 ref var rpg = ref _playerMove.Pools.Inc3.Get(entity);
                 
+                if (rpg.IsDead) return;
+                
                 var targetSpeed = _cf.Value.playerConfiguration.moveSpeed;
 
                 if (player.IsWalking) targetSpeed = _cf.Value.playerConfiguration.walkSpeed;
                 
-                if (input.Sprint && rpg.CanRun)
+                var sprintEndurance = rpg.Stamina - _cf.Value.playerConfiguration.sprintEndurance * _ts.Value.DeltaTime;
+                rpg.CanRun = sprintEndurance > 0;
+
+                if (input.Sprint)
                 {
-                    targetSpeed = _cf.Value.playerConfiguration.sprintSpeed;
+                    if (rpg.CanRun)
+                    {
+                        rpg.Stamina = sprintEndurance;
+                        targetSpeed = _cf.Value.playerConfiguration.sprintSpeed;
+                    }
                 }
                 else if (input.Walk)
                 {

@@ -13,7 +13,6 @@ namespace World.Player
         private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp, RpgComp>> _playerMove = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<SceneData> _sd = default;
-        
 
         public void Run(IEcsSystems systems)
         {
@@ -21,7 +20,10 @@ namespace World.Player
             {
                 ref var player = ref _playerMove.Pools.Inc1.Get(entity);
                 ref var input = ref _playerMove.Pools.Inc2.Get(entity);
+                ref var rpg = ref _playerMove.Pools.Inc3.Get(entity);
 
+                if(rpg.IsDead) return;
+                
                 if (input.UseAbility)
                 {
                     var spellObjectPrefab = _cf.Value.abilityConfiguration.abilityDatas[0];

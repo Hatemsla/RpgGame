@@ -1,5 +1,8 @@
 ﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Leopotam.EcsLite.Unity.Ugui;
+using UnityEngine;
+using Utils;
 using World.Inventory;
 
 namespace World.Player
@@ -12,6 +15,9 @@ namespace World.Player
         private readonly EcsPoolInject<HasItems> _hasItems = default;
 
         private readonly EcsCustomInject<Configuration> _cf = default;
+
+        [EcsUguiNamed(Idents.UI.InventoryView)]
+        private readonly GameObject _inventoryView = default; 
         
         public void Run(IEcsSystems systems)
         {
@@ -19,6 +25,11 @@ namespace World.Player
             {
                 ref var input = ref _player.Pools.Inc1.Get(entity);
                 ref var player = ref _player.Pools.Inc2.Get(entity);
+
+                if (input.Inventory)
+                {
+                    _inventoryView.SetActive(!_inventoryView.activeSelf);
+                }
                 
                 if (input.GetFirstItem)
                 {

@@ -33,6 +33,7 @@ namespace World.Player
                 inputComp.GetSecondItem = input.Alpha2.WasPerformedThisFrame();
                 inputComp.GetThirdItem = input.Alpha3.WasPerformedThisFrame();
                 inputComp.UseAbility = input.UseAbility.WasPerformedThisFrame();
+                inputComp.Inventory = input.Inventory.WasPerformedThisFrame();
             }
         }
     }

@@ -15,6 +15,8 @@
             public const string HealthBar = "HealthBar";
             public const string StaminaBar = "StaminaBar";
             public const string ManaBar = "ManaBar";
+
+            public const string InventoryView = "InventoryView";
         }
 
         public static class Abilities

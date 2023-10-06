@@ -16,5 +16,6 @@ namespace World.Player
         public bool GetSecondItem;
         public bool GetThirdItem;
         public bool UseAbility;
+        public bool Inventory;
     }
 }

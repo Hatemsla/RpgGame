@@ -20,6 +20,9 @@ namespace World.Player
 
         private readonly EcsCustomInject<SceneData> _sc = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
+        
+        [EcsUguiNamed(Idents.UI.InventoryView)]
+        private readonly GameObject _inventoryView = default; 
 
         public void Init(IEcsSystems systems)
         {
@@ -56,6 +59,8 @@ namespace World.Player
             rpg.CanRun = true;
             rpg.CanDash = true;
             rpg.CanJump = true;
+            
+            _inventoryView.SetActive(false);
 
 			CreateAbilities(playerEntity ,world);
             CreateItems(playerEntity, world);

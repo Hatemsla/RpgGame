@@ -34,6 +34,7 @@ namespace World.Player
                 inputComp.GetThirdItem = input.Alpha3.WasPerformedThisFrame();
                 inputComp.UseAbility = input.UseAbility.WasPerformedThisFrame();
                 inputComp.Inventory = input.Inventory.WasPerformedThisFrame();
+                inputComp.AutoRun = input.AutoRun.WasPerformedThisFrame();
             }
         }
     }

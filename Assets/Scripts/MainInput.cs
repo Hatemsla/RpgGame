@@ -170,6 +170,15 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AutoRun"",
+                    ""type"": ""Button"",
+                    ""id"": ""19a9803c-a1b5-416d-93e2-58d34e011400"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -392,6 +401,17 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a97490ec-847f-4f37-a89d-fa4177a94f4b"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AutoRun"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -416,6 +436,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         m_Player_Alpha6 = m_Player.FindAction("Alpha6", throwIfNotFound: true);
         m_Player_UseAbility = m_Player.FindAction("UseAbility", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
+        m_Player_AutoRun = m_Player.FindAction("AutoRun", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -493,6 +514,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Alpha6;
     private readonly InputAction m_Player_UseAbility;
     private readonly InputAction m_Player_Inventory;
+    private readonly InputAction m_Player_AutoRun;
     public struct PlayerActions
     {
         private @MainInput m_Wrapper;
@@ -513,6 +535,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         public InputAction @Alpha6 => m_Wrapper.m_Player_Alpha6;
         public InputAction @UseAbility => m_Wrapper.m_Player_UseAbility;
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
+        public InputAction @AutoRun => m_Wrapper.m_Player_AutoRun;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -570,6 +593,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
+            @AutoRun.started += instance.OnAutoRun;
+            @AutoRun.performed += instance.OnAutoRun;
+            @AutoRun.canceled += instance.OnAutoRun;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -622,6 +648,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
+            @AutoRun.started -= instance.OnAutoRun;
+            @AutoRun.performed -= instance.OnAutoRun;
+            @AutoRun.canceled -= instance.OnAutoRun;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -657,5 +686,6 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         void OnAlpha6(InputAction.CallbackContext context);
         void OnUseAbility(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
+        void OnAutoRun(InputAction.CallbackContext context);
     }
 }

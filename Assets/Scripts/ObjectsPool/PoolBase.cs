@@ -24,7 +24,7 @@ namespace Utils.ObjectsPool
             _preloadFunc = preloadFunc;
             _getAction = getAction;
             _returnAction = returnAction;
-
+     
             if (preloadFunc == null)
             {
                 Debug.LogError("Preload func is null");

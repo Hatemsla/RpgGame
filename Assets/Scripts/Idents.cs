@@ -17,6 +17,7 @@
             public const string ManaBar = "ManaBar";
 
             public const string InventoryView = "InventoryView";
+            public const string InventoryViewContent = "InventoryViewContent";
         }
 
         public static class Abilities

@@ -3,6 +3,7 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Object = UnityEngine.Object;
 using Quaternion = UnityEngine.Quaternion;
 
@@ -23,6 +24,8 @@ namespace World.Player
                 ref var rpg = ref _player.Pools.Inc3.Get(entity);
 
                 if(rpg.IsDead) return;
+                
+                if(EventSystem.current.IsPointerOverGameObject()) return;
                 
                 if (input.UseAbility)
                 {

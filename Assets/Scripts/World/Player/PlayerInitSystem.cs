@@ -22,7 +22,10 @@ namespace World.Player
         private readonly EcsCustomInject<Configuration> _cf = default;
         
         [EcsUguiNamed(Idents.UI.InventoryView)]
-        private readonly GameObject _inventoryView = default; 
+        private readonly GameObject _inventoryView = default;
+        
+        [EcsUguiNamed(Idents.UI.InventoryViewContent)]
+        private readonly GameObject _inventoryViewContent = default;
 
         public void Init(IEcsSystems systems)
         {
@@ -72,25 +75,35 @@ namespace World.Player
             var items = _cf.Value.inventoryConfiguration.items;
 
             var i = 0;
-            foreach (var item in items)
+            foreach (var itemData in items)
             {
                 var itemEntity = world.NewEntity();
                 ref var it = ref _itemsPool.Value.Add(itemEntity);
-                it.ItemName = item.itemName;
-                it.ItemDescription = item.itemDescription;
-                it.Cost = item.cost;
+                it.ItemName = itemData.itemName;
+                it.ItemDescription = itemData.itemDescription;
+                it.Cost = itemData.cost;
                 
-                var itemView = Object.Instantiate(item.itemViewPrefab,
+                var itemObject = Object.Instantiate(itemData.itemObjectPrefab,
                     _playerPool.Value.Get(entity).Transform.position + _playerPool.Value.Get(entity).Transform.forward,
-                    item.itemViewPrefab.transform.rotation);
-                itemView.transform.SetParent(_sc.Value.playerTransform);
-                itemView.gameObject.SetActive(false);
+                    itemData.itemViewPrefab.transform.rotation);
+                itemObject.transform.SetParent(_sc.Value.playerTransform);
+                itemObject.gameObject.SetActive(false);
+
+                it.ItemObject = itemObject;
+                it.ItemObject.itemIdx = i;
+
+                var itemView = Object.Instantiate(itemData.itemViewPrefab, Vector3.zero, Quaternion.identity);
+                itemView.transform.SetParent(_inventoryViewContent.transform);
+
+                itemView.itemImage.sprite = itemData.itemSprite;
 
                 it.ItemView = itemView;
-                it.ItemView.itemIdx = i++;
+                it.ItemView.itemIdx = i;
+
+                i++;
                 
                 hasItems.Entities.Add(itemEntity);
-           }
+            }
         }
 
         private void CreateAbilities(int playerEntity ,EcsWorld world)

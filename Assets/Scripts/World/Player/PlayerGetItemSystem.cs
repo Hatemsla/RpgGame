@@ -13,11 +13,9 @@ namespace World.Player
         
         private readonly EcsPoolInject<ItemComp> _itemsPool = default;
         private readonly EcsPoolInject<HasItems> _hasItems = default;
-
-        private readonly EcsCustomInject<Configuration> _cf = default;
-
+        
         [EcsUguiNamed(Idents.UI.InventoryView)]
-        private readonly GameObject _inventoryView = default; 
+        private readonly GameObject _inventoryView = default;
         
         public void Run(IEcsSystems systems)
         {

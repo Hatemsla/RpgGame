@@ -17,6 +17,8 @@ MonoBehaviour:
     \u043E\u0442 \u0433\u043E\u0432\u043D\u0430 \u0441\u0432\u0438\u043D\u0435\u0439"
   itemType: 0
   itemSprite: {fileID: 21300000, guid: d46e0db28f323f6499629854eda9c0dc, type: 3}
-  itemViewPrefab: {fileID: 6639841081328373988, guid: 913b2823d8469fd468018274a364ccb8,
+  itemViewPrefab: {fileID: 5094765688295937399, guid: 3a4b49cd2c162634e903351b9fbe686a,
+    type: 3}
+  itemObjectPrefab: {fileID: 1420541304501039748, guid: 913b2823d8469fd468018274a364ccb8,
     type: 3}
   cost: 3

@@ -6,5 +6,7 @@
         public string ItemDescription;
         public float Cost;
         public ItemView ItemView;
+        public ItemObject ItemObject;
+        public bool Used;
     }
 }

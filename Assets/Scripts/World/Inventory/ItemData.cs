@@ -11,6 +11,7 @@ namespace World
         public ItemType itemType;
         public Sprite itemSprite;
         public ItemView itemViewPrefab;
+        public ItemObject itemObjectPrefab;
         public float cost;
     }
 }

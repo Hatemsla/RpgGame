@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1612368745708615727}
   - component: {fileID: 7359276171201644044}
   - component: {fileID: 6882116697400000561}
-  - component: {fileID: -4381336449583068225}
+  - component: {fileID: -3537757359992812564}
   m_Layer: 3
   m_Name: Sword
   m_TagString: Untagged
@@ -106,7 +106,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-4381336449583068225
+--- !u!114 &-3537757359992812564
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,9 +115,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5448799432010735418}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ad87f2a1a4a491fb170fcb299fddb9b, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b2a685f88384e7f97da9a56a7c13805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemIdx: 0
-  itemName: {fileID: 0}
-  desc: {fileID: 0}

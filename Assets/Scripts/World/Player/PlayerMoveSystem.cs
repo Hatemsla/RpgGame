@@ -76,9 +76,16 @@ namespace World.Player
 
                 if (input.Move != Vector2.zero)
                 {
+                    float moveRotation;
                     _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                       _sd.Value.mainCamera.transform.eulerAngles.y;
-                    var rotation = Mathf.SmoothDampAngle(player.Transform.eulerAngles.y, _targetRotation,
+
+                    if (input.Move.y < 0)
+                        moveRotation = _sd.Value.mainCamera.transform.eulerAngles.y;
+                    else
+                        moveRotation = _targetRotation;
+
+                        var rotation = Mathf.SmoothDampAngle(player.Transform.eulerAngles.y, moveRotation,
                         ref _rotationVelocity,
                         _cf.Value.playerConfiguration.rotationSmoothTime);
 

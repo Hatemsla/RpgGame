@@ -1,19 +1,9 @@
-﻿using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 
 namespace World.Inventory
 {
-    public class ItemObject : MonoBehaviour, IPointerClickHandler
+    public class ItemObject : MonoBehaviour
     {
         public int itemIdx;
-
-        public EcsPoolInject<HasItems> HasItems = default;
-        
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            
-        }
     }
 }

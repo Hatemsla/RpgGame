@@ -44,7 +44,6 @@ namespace World.Player
                         spellObject.spellDirection = spellDirection.direction;
                     }
                 }
-                
             }
         }
     }

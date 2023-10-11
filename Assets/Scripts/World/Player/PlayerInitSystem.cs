@@ -85,7 +85,7 @@ namespace World.Player
                 
                 var itemObject = Object.Instantiate(itemData.itemObjectPrefab,
                     _playerPool.Value.Get(entity).Transform.position + _playerPool.Value.Get(entity).Transform.forward,
-                    itemData.itemViewPrefab.transform.rotation);
+                    itemData.itemObjectPrefab.transform.rotation);
                 itemObject.transform.SetParent(_sc.Value.playerTransform);
                 itemObject.gameObject.SetActive(false);
 
@@ -94,11 +94,15 @@ namespace World.Player
 
                 var itemView = Object.Instantiate(itemData.itemViewPrefab, Vector3.zero, Quaternion.identity);
                 itemView.transform.SetParent(_inventoryViewContent.transform);
-
+                
                 itemView.itemImage.sprite = itemData.itemSprite;
-
+                
                 it.ItemView = itemView;
                 it.ItemView.itemIdx = i;
+                it.ItemView.ItemName = itemData.itemName;
+                it.ItemView.ItemDescription = itemData.itemDescription;
+                it.ItemView.ItemCount = itemData.itemCount.ToString();
+                it.ItemView.SetWorld(world, entity);
 
                 i++;
                 

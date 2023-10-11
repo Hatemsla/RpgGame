@@ -15,6 +15,7 @@ MonoBehaviour:
   itemName: Shield
   itemDescription: "\u0429\u0438\u0442 - \u0437\u0430\u0449\u0438\u0449\u0430\u0435\u0442
     \u043E\u0442 \u0433\u043E\u0432\u043D\u0430 \u0441\u0432\u0438\u043D\u0435\u0439"
+  itemCount: 1
   itemType: 0
   itemSprite: {fileID: 21300000, guid: d46e0db28f323f6499629854eda9c0dc, type: 3}
   itemViewPrefab: {fileID: 5094765688295937399, guid: 3a4b49cd2c162634e903351b9fbe686a,

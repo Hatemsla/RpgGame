@@ -55,7 +55,14 @@ namespace World.Player
                 var itemEntity = hasItems.Entities[i];
                 ref var item = ref _itemsPool.Value.Get(itemEntity);
 
-                item.ItemView.gameObject.SetActive(i == abilityIdx);
+                if (i == abilityIdx)
+                {
+                    item.ItemObject.gameObject.SetActive(!item.ItemObject.gameObject.activeSelf);
+                }
+                else
+                {
+                    item.ItemObject.gameObject.SetActive(false);
+                }
             }
         }
     }

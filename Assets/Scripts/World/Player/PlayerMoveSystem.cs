@@ -48,12 +48,11 @@ namespace World.Player
                     player.IsWalking = !player.IsWalking;
                 }
 
-                if (input.Move == Vector2.zero && !player.IsAutoRun) 
+                if (input.Move == Vector2.zero) 
                     targetSpeed = 0f;
                 
-                if (input.AutoRun && input.Move != Vector2.zero)
-                    player.IsAutoRun = !player.IsAutoRun;
-
+                Debug.Log(targetSpeed);
+                
                 var playerVelocity = player.CharacterController.velocity;
                 var currentHorizontalSpeed = new Vector3(playerVelocity.x, 0.0f, playerVelocity.z).magnitude;
 

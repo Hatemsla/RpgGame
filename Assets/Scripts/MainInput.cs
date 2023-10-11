@@ -179,6 +179,15 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FastWeaponTake"",
+                    ""type"": ""Button"",
+                    ""id"": ""959ffb3f-d83a-4c55-8546-6554e946c67b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -412,6 +421,17 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""action"": ""AutoRun"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c7ebc1fe-cc58-47d1-a2cd-a770e59abf16"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FastWeaponTake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -437,6 +457,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         m_Player_UseAbility = m_Player.FindAction("UseAbility", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
         m_Player_AutoRun = m_Player.FindAction("AutoRun", throwIfNotFound: true);
+        m_Player_FastWeaponTake = m_Player.FindAction("FastWeaponTake", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -515,6 +536,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_UseAbility;
     private readonly InputAction m_Player_Inventory;
     private readonly InputAction m_Player_AutoRun;
+    private readonly InputAction m_Player_FastWeaponTake;
     public struct PlayerActions
     {
         private @MainInput m_Wrapper;
@@ -536,6 +558,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         public InputAction @UseAbility => m_Wrapper.m_Player_UseAbility;
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
         public InputAction @AutoRun => m_Wrapper.m_Player_AutoRun;
+        public InputAction @FastWeaponTake => m_Wrapper.m_Player_FastWeaponTake;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -596,6 +619,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @AutoRun.started += instance.OnAutoRun;
             @AutoRun.performed += instance.OnAutoRun;
             @AutoRun.canceled += instance.OnAutoRun;
+            @FastWeaponTake.started += instance.OnFastWeaponTake;
+            @FastWeaponTake.performed += instance.OnFastWeaponTake;
+            @FastWeaponTake.canceled += instance.OnFastWeaponTake;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -651,6 +677,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @AutoRun.started -= instance.OnAutoRun;
             @AutoRun.performed -= instance.OnAutoRun;
             @AutoRun.canceled -= instance.OnAutoRun;
+            @FastWeaponTake.started -= instance.OnFastWeaponTake;
+            @FastWeaponTake.performed -= instance.OnFastWeaponTake;
+            @FastWeaponTake.canceled -= instance.OnFastWeaponTake;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -687,5 +716,6 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         void OnUseAbility(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
         void OnAutoRun(InputAction.CallbackContext context);
+        void OnFastWeaponTake(InputAction.CallbackContext context);
     }
 }

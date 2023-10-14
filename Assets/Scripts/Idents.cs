@@ -18,6 +18,7 @@
 
             public const string InventoryView = "InventoryView";
             public const string InventoryViewContent = "InventoryViewContent";
+            public const string InventoryWeight = "InventoryWeight";
         }
 
         public static class Abilities

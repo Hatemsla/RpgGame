@@ -1,6 +1,7 @@
 ﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
+using TMPro;
 using UnityEngine;
 using Utils;
 using World.Inventory;
@@ -15,6 +16,7 @@ namespace World.Player
         private readonly EcsPoolInject<RpgComp> _rpgPool = default;
         private readonly EcsPoolInject<HasItems> _hasItemsPool = default;
         private readonly EcsPoolInject<ItemComp> _itemsPool = default;
+        private readonly EcsPoolInject<InventoryComp> _inventoryPool = default;
         private readonly EcsPoolInject<AbilityComp> _ability = default;
         private readonly EcsPoolInject<HasAbilities> _hasAbilitiesPool = default;
 
@@ -27,6 +29,9 @@ namespace World.Player
         [EcsUguiNamed(Idents.UI.InventoryViewContent)]
         private readonly GameObject _inventoryViewContent = default;
 
+        [EcsUguiNamed(Idents.UI.InventoryWeight)]
+        private readonly TMP_Text _inventoryWeightText = default;
+
         public void Init(IEcsSystems systems)
         {
             var world = systems.GetWorld();
@@ -34,6 +39,7 @@ namespace World.Player
 
             ref var player = ref _playerPool.Value.Add(playerEntity);
             ref var rpg = ref _rpgPool.Value.Add(playerEntity);
+            ref var inventory = ref _inventoryPool.Value.Add(playerEntity);
             _playerInputPool.Value.Add(playerEntity);
 
             var playerPrefab = _cf.Value.playerConfiguration.playerPrefab;
@@ -62,26 +68,37 @@ namespace World.Player
             rpg.CanRun = true;
             rpg.CanDash = true;
             rpg.CanJump = true;
+
+            inventory.MaxWeight = _cf.Value.inventoryConfiguration.inventoryWeight;
+            inventory.CurrentWeight = 0f;
             
             _inventoryView.SetActive(false);
 
 			CreateAbilities(playerEntity ,world);
-            CreateItems(playerEntity, world);
+            inventory.CurrentWeight = CreateItems(playerEntity, world);
+
+            _inventoryWeightText.text = $"Вес: {inventory.CurrentWeight}/{inventory.MaxWeight}";
         }
 
-        private void CreateItems(int entity, EcsWorld world)
+        private float CreateItems(int entity, EcsWorld world)
         {
             ref var hasItems = ref _hasItemsPool.Value.Add(entity);
             var items = _cf.Value.inventoryConfiguration.items;
 
             var i = 0;
+            var weight = 0f;
             foreach (var itemData in items)
             {
                 var itemEntity = world.NewEntity();
+                var itemPackedEntity = world.PackEntity(itemEntity);
                 ref var it = ref _itemsPool.Value.Add(itemEntity);
+                
                 it.ItemName = itemData.itemName;
                 it.ItemDescription = itemData.itemDescription;
                 it.Cost = itemData.cost;
+                it.Weight = itemData.itemWeight;
+                
+                weight += itemData.itemWeight;
                 
                 var itemObject = Object.Instantiate(itemData.itemObjectPrefab,
                     _playerPool.Value.Get(entity).Transform.position + _playerPool.Value.Get(entity).Transform.forward,
@@ -90,7 +107,7 @@ namespace World.Player
                 itemObject.gameObject.SetActive(false);
 
                 it.ItemObject = itemObject;
-                it.ItemObject.itemIdx = i;
+                it.ItemObject.itemIdx = itemPackedEntity;
 
                 var itemView = Object.Instantiate(itemData.itemViewPrefab, Vector3.zero, Quaternion.identity);
                 itemView.transform.SetParent(_inventoryViewContent.transform);
@@ -98,16 +115,19 @@ namespace World.Player
                 itemView.itemImage.sprite = itemData.itemSprite;
                 
                 it.ItemView = itemView;
-                it.ItemView.itemIdx = i;
+                it.ItemView.ItemIdx = itemPackedEntity;
                 it.ItemView.ItemName = itemData.itemName;
                 it.ItemView.ItemDescription = itemData.itemDescription;
                 it.ItemView.ItemCount = itemData.itemCount.ToString();
                 it.ItemView.SetWorld(world, entity);
+                it.ItemView.inventoryView = _inventoryView.GetComponent<RectTransform>();
 
                 i++;
                 
-                hasItems.Entities.Add(itemEntity);
+                hasItems.Entities.Add(itemPackedEntity);
             }
+
+            return weight;
         }
 
         private void CreateAbilities(int playerEntity ,EcsWorld world)

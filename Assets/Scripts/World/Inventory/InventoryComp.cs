@@ -2,7 +2,7 @@
 {
     public struct InventoryComp
     {
-        public string Name;
-        public ItemView ItemView;
+        public float MaxWeight;
+        public float CurrentWeight;
     }
 }

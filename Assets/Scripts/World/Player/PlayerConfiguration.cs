@@ -6,8 +6,8 @@ namespace World.Player
     [CreateAssetMenu(fileName = "PlayerConfiguration", menuName = "World Configurations/Player Configuration", order = 0)]
     public class PlayerConfiguration : ScriptableObject
     {
-        [Header("Player Settings", order = 0)] 
-        [Header("Move settings", order = 1)]
+        [Header("Player Settings")] 
+        [Header("Move settings")]
         [Tooltip("Move speed of the character in m/s")]
         public float moveSpeed;
         [Tooltip("Sprint speed of the character in m/s")]
@@ -47,7 +47,7 @@ namespace World.Player
         [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
         public float groundedRadius = 0.28f;
 
-        [Header("Rpg settings", order = 2)] 
+        [Header("Rpg settings")] 
         [Tooltip("Start player health points")]
         public float health = 100;
         [Tooltip("Start player stamina points")]
@@ -74,7 +74,7 @@ namespace World.Player
         [Tooltip("Mana recovery rate")]
         public float manaRecovery;
         
-        [Header("Other settings", order = 3)]
+        [Header("Other settings")]
         [Tooltip("What layers the character uses as ground")]
         public LayerMask groundLayers;
         [Tooltip("Character prefab to instantiate")]

@@ -12,7 +12,7 @@ namespace World.Player
         private readonly EcsFilterInject<Inc<PlayerInputComp, PlayerComp>> _player = default;
         
         private readonly EcsPoolInject<ItemComp> _itemsPool = default;
-        private readonly EcsPoolInject<HasItems> _hasItems = default;
+        private readonly EcsPoolInject<HasItems> _hasItemsPool = default;
         
         [EcsUguiNamed(Idents.UI.InventoryView)]
         private readonly GameObject _inventoryView = default;
@@ -46,22 +46,27 @@ namespace World.Player
             }
         }
 
-        private void TryGetItem(int abilityIdx, int entity)
+        private void TryGetItem(int itemIdx, int entity)
         {
-            ref var hasItems = ref _hasItems.Value.Get(entity);
+            var world = _hasItemsPool.Value.GetWorld();
+            ref var hasItems = ref _hasItemsPool.Value.Get(entity);
 
             for (var i = 0; i < hasItems.Entities.Count; i++)
             {
-                var itemEntity = hasItems.Entities[i];
-                ref var item = ref _itemsPool.Value.Get(itemEntity);
+                var itemPacked = hasItems.Entities[i];
 
-                if (i == abilityIdx)
+                if (itemPacked.Unpack(world, out var unpackedEntity))
                 {
-                    item.ItemObject.gameObject.SetActive(!item.ItemObject.gameObject.activeSelf);
-                }
-                else
-                {
-                    item.ItemObject.gameObject.SetActive(false);
+                    ref var item = ref _itemsPool.Value.Get(unpackedEntity);
+
+                    if (i == itemIdx)
+                    {
+                        item.ItemObject.gameObject.SetActive(!item.ItemObject.gameObject.activeSelf);
+                    }
+                    else
+                    {
+                        item.ItemObject.gameObject.SetActive(false);
+                    }
                 }
             }
         }

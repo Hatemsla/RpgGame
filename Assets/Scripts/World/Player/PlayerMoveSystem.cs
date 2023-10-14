@@ -51,8 +51,6 @@ namespace World.Player
                 if (input.Move == Vector2.zero) 
                     targetSpeed = 0f;
                 
-                Debug.Log(targetSpeed);
-                
                 var playerVelocity = player.CharacterController.velocity;
                 var currentHorizontalSpeed = new Vector3(playerVelocity.x, 0.0f, playerVelocity.z).magnitude;
 
@@ -76,16 +74,12 @@ namespace World.Player
 
                 if (input.Move != Vector2.zero)
                 {
-                    float moveRotation;
                     _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                       _sd.Value.mainCamera.transform.eulerAngles.y;
 
-                    if (input.Move.y < 0)
-                        moveRotation = _sd.Value.mainCamera.transform.eulerAngles.y;
-                    else
-                        moveRotation = _targetRotation;
+                    var moveRotation = input.Move.y < 0 ? _sd.Value.mainCamera.transform.eulerAngles.y : _targetRotation;
 
-                        var rotation = Mathf.SmoothDampAngle(player.Transform.eulerAngles.y, moveRotation,
+                    var rotation = Mathf.SmoothDampAngle(player.Transform.eulerAngles.y, moveRotation,
                         ref _rotationVelocity,
                         _cf.Value.playerConfiguration.rotationSmoothTime);
 

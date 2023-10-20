@@ -15,7 +15,14 @@ namespace World.Ability
             if (spellTime > 0)
             {
                 transform.Translate(spellDirection  * spellSpeed * Time.deltaTime);
+                /*RaycastHit[] hits = Physics.RaycastAll(new Ray(spellDirection, (transform.position - spellDirection).normalized), 
+                    (transform.position - spellDirection).magnitude);*/
             }
+        }
+
+        private void CreateSpell()
+        {
+            
         }
     }
 }

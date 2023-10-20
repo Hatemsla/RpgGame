@@ -1880,6 +1880,7 @@ GameObject:
   - component: {fileID: 1758782206}
   - component: {fileID: 1758782208}
   - component: {fileID: 1758782207}
+  - component: {fileID: 1758782209}
   m_Layer: 5
   m_Name: Crosshair
   m_TagString: Untagged
@@ -1927,7 +1928,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6609509f470e8d4448445e6cf0f4131e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 885f898ca6c694a4da68595d4e363d7a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1945,6 +1946,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1758782205}
   m_CullTransparentMesh: 1
+--- !u!114 &1758782209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758782205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a2bb647df7944f4b8f1a565fb2bc704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _widgetName: CrosshairView
+  _emitter: {fileID: 1180649491}
+  _nameRegistrationType: 1
+  _selectable: {fileID: 0}
 --- !u!1 &1851688465
 GameObject:
   m_ObjectHideFlags: 0

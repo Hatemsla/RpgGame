@@ -44,7 +44,7 @@ namespace World
                 .Add(new PlayerSpellCastSystem())
                 .Add(new PlayerManaSystem())
                 .Add(new PlayerGetItemSystem())
-                
+
                 .AddWorld(new EcsWorld(), Idents.Worlds.Events)
 #if UNITY_EDITOR
                 .Add(new EcsWorldDebugSystem())

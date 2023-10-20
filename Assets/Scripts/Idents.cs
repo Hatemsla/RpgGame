@@ -18,6 +18,9 @@
 
             public const string InventoryView = "InventoryView";
             public const string InventoryViewContent = "InventoryViewContent";
+
+
+            public const string CrosshairView = "CrosshairView";
         }
 
         public static class Abilities

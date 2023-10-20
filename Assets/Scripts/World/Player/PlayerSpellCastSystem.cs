@@ -47,9 +47,7 @@ namespace World.Player
                         var spellObject = 
                             Object.Instantiate(spellObjectPrefab.spell, player.Transform.position + player.Transform.forward, 
                                 Quaternion.identity);
-                        
-                        //CreateSpell();
-                        
+
                         spellObject.spellTime = spellObjectPrefab.lifeTime;
                         spellObject.spellSpeed = spellObjectPrefab.speed;
                         spellObject.spellDirection = spellDirection.direction;
@@ -62,6 +60,7 @@ namespace World.Player
         {
             var spellEntity = world.NewEntity();
             ref var spell = ref _spell.Value.Add(spellEntity);
+            
             spell.spellView = sv;
             spell.spellOwner = playerEntity;
         }

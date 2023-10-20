@@ -138,14 +138,18 @@ namespace World.Player
                 if (ability.name == Idents.Abilities.FireBall)
                 {
                     var abilityEntity = world.NewEntity();
+                    var abilityPackedEntity = world.PackEntity(abilityEntity);
                     ref var abil = ref _ability.Value.Add(abilityEntity);
+                    
+                    
                     abil.Name = ability.name;
                     abil.Damage = ability.damage;
                     abil.LifeTime = ability.lifeTime;
                     abil.Radius = ability.radius;
                     abil.Speed = ability.speed;
                     abil.CostPoint = ability.costPoint;
-                    hasAbilities.Entities.Add(abilityEntity);
+                    
+                    hasAbilities.Entities.Add(abilityPackedEntity);
                 }
             }
         }

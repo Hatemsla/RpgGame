@@ -10,6 +10,7 @@ namespace World.Player
 
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<TimeService> _ts = default;
+        private readonly EcsCustomInject<CursorService> _cs = default;
 
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -23,6 +24,8 @@ namespace World.Player
                 ref var player = ref _unitsMove.Pools.Inc1.Get(entity);
                 ref var input = ref _unitsMove.Pools.Inc2.Get(entity);
                 ref var rpg = ref _unitsMove.Pools.Inc3.Get(entity);
+                
+                if(_cs.Value.CursorVisible) return;
                 
                 if (input.Look.sqrMagnitude >= Threshold)
                 {

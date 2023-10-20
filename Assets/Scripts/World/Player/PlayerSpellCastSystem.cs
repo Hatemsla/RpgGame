@@ -30,7 +30,7 @@ namespace World.Player
                 ref var input = ref _player.Pools.Inc2.Get(entity);
                 ref var rpg = ref _player.Pools.Inc3.Get(entity);
 
-                if(rpg.IsDead) return;
+                if(rpg.IsDead || input.FreeCursor) return;
                 
                 if(EventSystem.current.IsPointerOverGameObject()) return;
                 

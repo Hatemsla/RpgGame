@@ -1,9 +1,11 @@
 ﻿using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using World.Player;
 
 namespace World.Inventory
 {
@@ -40,6 +42,7 @@ namespace World.Inventory
         private int _playerEntity;
         private EcsPool<HasItems> _hasItems;
         private EcsPool<ItemComp> _itemsPool;
+        private EcsPool<InventoryComp> _inventoryPool; 
 
         public void SetWorld(EcsWorld world, int entity)
         {
@@ -47,6 +50,7 @@ namespace World.Inventory
             _playerEntity = entity;
             _hasItems = _world.GetPool<HasItems>();
             _itemsPool = _world.GetPool<ItemComp>();
+            _inventoryPool = _world.GetPool<InventoryComp>();
         }
 
         public void OnPointerClick(PointerEventData eventData)
@@ -56,22 +60,16 @@ namespace World.Inventory
                 ref var hasItems = ref _hasItems.Get(_playerEntity);
 
                 ItemIdx.Unpack(_world, out var currentEntity);
-                
+
                 foreach (var itemPacked in hasItems.Entities)
-                {
                     if (itemPacked.Unpack(_world, out var unpackedEntity))
                     {
                         ref var item = ref _itemsPool.Get(unpackedEntity);
                         if (currentEntity == unpackedEntity)
-                        {
                             item.ItemObject.gameObject.SetActive(!item.ItemObject.gameObject.activeSelf);
-                        }
                         else
-                        {
                             item.ItemObject.gameObject.SetActive(false);
-                        }
                     }
-                }
             }
         }
 
@@ -90,9 +88,7 @@ namespace World.Inventory
         public void OnEndDrag(PointerEventData eventData)
         {
             if (IsItemOutInventory(transform.position))
-            {
                 DestroyItem();
-            }
             else
                 transform.SetParent(_parentAfterDrag);
         }
@@ -102,18 +98,17 @@ namespace World.Inventory
             ref var hasItems = ref _hasItems.Get(_playerEntity);
 
             for (var i = 0; i < hasItems.Entities.Count; i++)
-            {
                 if (ItemIdx.Unpack(_world, out var unpackedEntity))
                 {
                     ref var item = ref _itemsPool.Get(unpackedEntity);
-                    
+
                     Destroy(item.ItemObject.gameObject);
                     _itemsPool.Del(unpackedEntity);
                 }
-            }
+
             Destroy(transform.gameObject);
         }
-        
+
         private bool IsItemOutInventory(Vector3 position)
         {
             var minPosition = inventoryView.TransformPoint(inventoryView.rect.min);

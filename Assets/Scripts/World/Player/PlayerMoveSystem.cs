@@ -51,8 +51,6 @@ namespace World.Player
                 if (input.Move == Vector2.zero) 
                     targetSpeed = 0f;
                 
-                Debug.Log(targetSpeed);
-                
                 var playerVelocity = player.CharacterController.velocity;
                 var currentHorizontalSpeed = new Vector3(playerVelocity.x, 0.0f, playerVelocity.z).magnitude;
 

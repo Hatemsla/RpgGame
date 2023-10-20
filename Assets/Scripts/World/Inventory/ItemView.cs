@@ -2,17 +2,21 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace World.Inventory
 {
-    public sealed class ItemView : MonoBehaviour, IPointerClickHandler
+    public sealed class ItemView : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        public int itemIdx;
+        public EcsPackedEntity ItemIdx;
         public Image itemImage;
+        public RectTransform inventoryView;
         [SerializeField] private TMP_Text itemName;
         [SerializeField] private TMP_Text itemDescription;
         [SerializeField] private TMP_Text itemCount;
+
+        private Transform _parentAfterDrag;
 
         public string ItemName
         {
@@ -34,8 +38,8 @@ namespace World.Inventory
 
         private EcsWorld _world;
         private int _playerEntity;
-        public EcsPool<HasItems> _hasItems;
-        public EcsPool<ItemComp> _itemsPool;
+        private EcsPool<HasItems> _hasItems;
+        private EcsPool<ItemComp> _itemsPool;
 
         public void SetWorld(EcsWorld world, int entity)
         {
@@ -47,22 +51,76 @@ namespace World.Inventory
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                ref var hasItems = ref _hasItems.Get(_playerEntity);
+
+                ItemIdx.Unpack(_world, out var currentEntity);
+                
+                foreach (var itemPacked in hasItems.Entities)
+                {
+                    if (itemPacked.Unpack(_world, out var unpackedEntity))
+                    {
+                        ref var item = ref _itemsPool.Get(unpackedEntity);
+                        if (currentEntity == unpackedEntity)
+                        {
+                            item.ItemObject.gameObject.SetActive(!item.ItemObject.gameObject.activeSelf);
+                        }
+                        else
+                        {
+                            item.ItemObject.gameObject.SetActive(false);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            _parentAfterDrag = transform.parent;
+            transform.SetParent(transform.root);
+            transform.SetAsLastSibling();
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            transform.position = Mouse.current.position.value;
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            if (IsItemOutInventory(transform.position))
+            {
+                DestroyItem();
+            }
+            else
+                transform.SetParent(_parentAfterDrag);
+        }
+
+        private void DestroyItem()
+        {
             ref var hasItems = ref _hasItems.Get(_playerEntity);
 
             for (var i = 0; i < hasItems.Entities.Count; i++)
             {
-                var itemEntity = hasItems.Entities[i];
-                ref var item = ref _itemsPool.Get(itemEntity);
-
-                if (i == itemIdx)
+                if (ItemIdx.Unpack(_world, out var unpackedEntity))
                 {
-                    item.ItemObject.gameObject.SetActive(!item.ItemObject.gameObject.activeSelf);
-                }
-                else
-                {
-                    item.ItemObject.gameObject.SetActive(false);
+                    ref var item = ref _itemsPool.Get(unpackedEntity);
+                    
+                    Destroy(item.ItemObject.gameObject);
+                    _itemsPool.Del(unpackedEntity);
                 }
             }
+            Destroy(transform.gameObject);
+        }
+        
+        private bool IsItemOutInventory(Vector3 position)
+        {
+            var minPosition = inventoryView.TransformPoint(inventoryView.rect.min);
+            var maxPosition = inventoryView.TransformPoint(inventoryView.rect.max);
+
+            return position.x < minPosition.x || position.x > maxPosition.x || position.y < minPosition.y ||
+                   position.y > maxPosition.y;
         }
     }
 }

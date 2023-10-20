@@ -9,6 +9,7 @@ namespace World
         public string itemName;
         public string itemDescription;
         public int itemCount;
+        public float itemWeight;
         public ItemType itemType;
         public Sprite itemSprite;
         public ItemView itemViewPrefab;

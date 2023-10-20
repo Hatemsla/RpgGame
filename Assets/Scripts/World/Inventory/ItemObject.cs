@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using Leopotam.EcsLite;
+using UnityEngine;
 
 namespace World.Inventory
 {
     public class ItemObject : MonoBehaviour
     {
-        public int itemIdx;
+        public EcsPackedEntity itemIdx;
     }
 }

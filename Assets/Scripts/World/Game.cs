@@ -1,7 +1,6 @@
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
-using Leopotam.EcsLite.UnityEditor;
 using UnityEngine;
 using Utils;
 using World.Player;
@@ -24,6 +23,7 @@ namespace World
             _systemsFixedUpdate = new EcsSystems(world);
             _systemsLateUpdate = new EcsSystems(world);
             var ts = new TimeService();
+            var cs = new CursorService();
             var mainInput = new MainInput();
 
 
@@ -31,6 +31,7 @@ namespace World
                 .Add(new PlayerInitSystem())
                 .Add(new TimeSystem())
                 .Add(new PlayerInputSystem())
+                .Add(new CursorControllingSystem())
                 .Add(new PlayerDeathSystem())
                 .Add(new PlayerJumpAndGravitySystem())
                 .Add(new PlayerGroundedSystem())
@@ -43,15 +44,15 @@ namespace World
                 .Add(new PlayerHealthSystem())
                 .Add(new PlayerSpellCastSystem())
                 .Add(new PlayerManaSystem())
-                .Add(new PlayerGetItemSystem())
+                .Add(new PlayerInventorySystem())
                 
                 .AddWorld(new EcsWorld(), Idents.Worlds.Events)
 #if UNITY_EDITOR
-                .Add(new EcsWorldDebugSystem())
-                .Add(new EcsWorldDebugSystem(Idents.Worlds.Events))
+                .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
+                .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem(Idents.Worlds.Events))
 #endif
 
-                .Inject(ts, configuration, sceneData, mainInput)
+                .Inject(ts, cs, configuration, sceneData, mainInput)
                 .InjectUgui(uguiEmitter, Idents.Worlds.Events)
                 .Init();
             _systemsFixedUpdate

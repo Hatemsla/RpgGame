@@ -5,24 +5,37 @@ using UnityEngine;
 
 namespace World.Player
 {
-    public class CameraZoomSystem : IEcsRunSystem
+    public class CameraZoomSystem : IEcsRunSystem, IEcsInitSystem
     {
         private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp>> _unitsMove = default;
-        private readonly EcsCustomInject<Configuration> _config=default;
-        public void Run(IEcsSystems systems)
+        private readonly EcsCustomInject<Configuration> _cf = default;
+        private readonly EcsCustomInject<CursorService> _cs = default;
+
+        private Cinemachine3rdPersonFollow _camera3rdPerson;
+        
+        public void Init(IEcsSystems systems)
         {
             foreach (var entity in _unitsMove.Value)
             {
                 ref var player = ref _unitsMove.Pools.Inc1.Get(entity);
+
+                _camera3rdPerson = player.PlayerCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+            }
+        }
+            
+        public void Run(IEcsSystems systems)
+        {
+            foreach (var entity in _unitsMove.Value)
+            {
                 ref var input = ref _unitsMove.Pools.Inc2.Get(entity);
 
-                var cameraDistance = player.PlayerCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+                if (_cs.Value.CursorVisible) return;
 
                 if (input.Zoom != 0)
                 {
-                    cameraDistance.CameraDistance -= input.Zoom * _config.Value.playerConfiguration.zoomSpeed;
-                    cameraDistance.CameraDistance = Mathf.Clamp(cameraDistance.CameraDistance,
-                        _config.Value.playerConfiguration.minZoomDistance, _config.Value.playerConfiguration.maxZoomDistance);
+                    _camera3rdPerson.CameraDistance -= input.Zoom * _cf.Value.playerConfiguration.zoomSpeed;
+                    _camera3rdPerson.CameraDistance = Mathf.Clamp(_camera3rdPerson.CameraDistance,
+                        _cf.Value.playerConfiguration.minZoomDistance, _cf.Value.playerConfiguration.maxZoomDistance);
                 }
             }
         }

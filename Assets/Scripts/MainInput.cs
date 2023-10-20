@@ -188,6 +188,15 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FreeCursor"",
+                    ""type"": ""Button"",
+                    ""id"": ""2267da3a-eae0-4006-a56e-c3ac6b9cca99"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -432,6 +441,17 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""action"": ""FastWeaponTake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""55105597-4ce6-4de3-9a2c-cedddc3fbac8"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FreeCursor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -458,6 +478,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
         m_Player_AutoRun = m_Player.FindAction("AutoRun", throwIfNotFound: true);
         m_Player_FastWeaponTake = m_Player.FindAction("FastWeaponTake", throwIfNotFound: true);
+        m_Player_FreeCursor = m_Player.FindAction("FreeCursor", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -537,6 +558,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Inventory;
     private readonly InputAction m_Player_AutoRun;
     private readonly InputAction m_Player_FastWeaponTake;
+    private readonly InputAction m_Player_FreeCursor;
     public struct PlayerActions
     {
         private @MainInput m_Wrapper;
@@ -559,6 +581,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
         public InputAction @AutoRun => m_Wrapper.m_Player_AutoRun;
         public InputAction @FastWeaponTake => m_Wrapper.m_Player_FastWeaponTake;
+        public InputAction @FreeCursor => m_Wrapper.m_Player_FreeCursor;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -622,6 +645,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @FastWeaponTake.started += instance.OnFastWeaponTake;
             @FastWeaponTake.performed += instance.OnFastWeaponTake;
             @FastWeaponTake.canceled += instance.OnFastWeaponTake;
+            @FreeCursor.started += instance.OnFreeCursor;
+            @FreeCursor.performed += instance.OnFreeCursor;
+            @FreeCursor.canceled += instance.OnFreeCursor;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -680,6 +706,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @FastWeaponTake.started -= instance.OnFastWeaponTake;
             @FastWeaponTake.performed -= instance.OnFastWeaponTake;
             @FastWeaponTake.canceled -= instance.OnFastWeaponTake;
+            @FreeCursor.started -= instance.OnFreeCursor;
+            @FreeCursor.performed -= instance.OnFreeCursor;
+            @FreeCursor.canceled -= instance.OnFreeCursor;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -717,5 +746,6 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         void OnInventory(InputAction.CallbackContext context);
         void OnAutoRun(InputAction.CallbackContext context);
         void OnFastWeaponTake(InputAction.CallbackContext context);
+        void OnFreeCursor(InputAction.CallbackContext context);
     }
 }

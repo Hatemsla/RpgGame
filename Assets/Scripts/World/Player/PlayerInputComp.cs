@@ -18,5 +18,6 @@ namespace World.Player
         public bool UseAbility;
         public bool Inventory;
         public bool AutoRun;
+        public bool FreeCursor;
     }
 }

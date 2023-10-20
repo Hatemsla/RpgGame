@@ -35,6 +35,7 @@ namespace World.Player
                 inputComp.UseAbility = input.UseAbility.WasPerformedThisFrame();
                 inputComp.Inventory = input.Inventory.WasPerformedThisFrame();
                 inputComp.AutoRun = input.AutoRun.WasPerformedThisFrame();
+                inputComp.FreeCursor = input.FreeCursor.IsPressed();
             }
         }
     }

@@ -1,8 +1,10 @@
-﻿namespace World.Ability
+﻿using Leopotam.EcsLite;
+
+namespace World.Ability
 {
     public struct SpellComp
     {
         public float spellOwner;
-        public SpellView spellView;
+        public SpellObject spellObject;
     }
 }

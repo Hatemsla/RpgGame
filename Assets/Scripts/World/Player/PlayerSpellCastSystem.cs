@@ -19,16 +19,16 @@ namespace World.Player
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<SceneData> _sd = default;
         
-        private readonly EcsPoolInject<SpellComp> _spell = default; 
+        private readonly EcsPoolInject<SpellComp> _spell = default;
 
         public void Run(IEcsSystems systems)
         {
-            foreach (var entity in _player.Value)
+            foreach (var playerEntity in _player.Value)
             {
                 var world = systems.GetWorld();
-                ref var player = ref _player.Pools.Inc1.Get(entity);
-                ref var input = ref _player.Pools.Inc2.Get(entity);
-                ref var rpg = ref _player.Pools.Inc3.Get(entity);
+                ref var player = ref _player.Pools.Inc1.Get(playerEntity);
+                ref var input = ref _player.Pools.Inc2.Get(playerEntity);
+                ref var rpg = ref _player.Pools.Inc3.Get(playerEntity);
 
                 if(rpg.IsDead || input.FreeCursor) return;
                 
@@ -47,22 +47,22 @@ namespace World.Player
                         var spellObject = 
                             Object.Instantiate(spellObjectPrefab.spell, player.Transform.position + player.Transform.forward, 
                                 Quaternion.identity);
-
+                        
+                        var spellEntity = world.NewEntity();
+                        var spellPackedEntity = world.PackEntity(spellEntity);
+                        ref var spell = ref _spell.Value.Add(spellEntity);
+            
+                        spell.spellObject = spellObject;
+                        spell.spellOwner = playerEntity;
+                        
                         spellObject.spellTime = spellObjectPrefab.lifeTime;
                         spellObject.spellSpeed = spellObjectPrefab.speed;
                         spellObject.spellDirection = spellDirection.direction;
+                        spellObject.spellIdx = spellPackedEntity;
+                        spellObject.SetWorld(world, playerEntity);
                     }
                 }
             }
-        }
-
-        private void CreateSpell(int playerEntity, EcsWorld world, SpellView sv)
-        {
-            var spellEntity = world.NewEntity();
-            ref var spell = ref _spell.Value.Add(spellEntity);
-            
-            spell.spellView = sv;
-            spell.spellOwner = playerEntity;
         }
     }
 }

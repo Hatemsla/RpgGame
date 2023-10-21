@@ -20,6 +20,6 @@ namespace World
         [Tooltip("Ability's speed")]
         public float speed;
         [Tooltip("Ability's object")]
-        public SpellView spell;
+        public SpellObject spell;
     }
 }

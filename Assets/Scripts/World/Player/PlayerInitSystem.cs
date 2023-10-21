@@ -130,7 +130,7 @@ namespace World.Player
             return weight;
         }
 
-        private void CreateAbilities(int playerEntity ,EcsWorld world)
+        private void CreateAbilities(int playerEntity, EcsWorld world)
         {
             ref var hasAbilities = ref _hasAbilitiesPool.Value.Add(playerEntity);
             foreach (var ability in _cf.Value.abilityConfiguration.abilityDatas)

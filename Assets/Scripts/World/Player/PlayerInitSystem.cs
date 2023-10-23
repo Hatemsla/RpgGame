@@ -121,6 +121,7 @@ namespace World.Player
                 it.ItemView.ItemCount = itemData.itemCount.ToString();
                 it.ItemView.SetWorld(world, entity);
                 it.ItemView.inventoryView = _inventoryView.GetComponent<RectTransform>();
+                it.ItemView.inventoryWeightText = _inventoryWeightText;
 
                 i++;
                 

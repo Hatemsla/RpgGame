@@ -7,7 +7,7 @@ using World.Inventory;
 
 namespace World.Player
 {
-    public class PlayerInventorySystem : IEcsRunSystem
+    public class PlayerGetItemSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<Inc<PlayerInputComp, PlayerComp>> _player = default;
         

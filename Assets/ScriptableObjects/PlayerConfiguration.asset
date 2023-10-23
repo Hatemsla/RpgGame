@@ -25,7 +25,7 @@ MonoBehaviour:
   fallTimeout: 0.15
   jumpTimeout: 0
   zoomSpeed: 5
-  minZoomDistance: 0
+  minZoomDistance: 5
   maxZoomDistance: 15
   jumpHeight: 1.2
   gravity: -15

@@ -131,7 +131,7 @@ namespace World.Player
             return weight;
         }
 
-        private void CreateAbilities(int playerEntity ,EcsWorld world)
+        private void CreateAbilities(int playerEntity, EcsWorld world)
         {
             ref var hasAbilities = ref _hasAbilitiesPool.Value.Add(playerEntity);
             foreach (var ability in _cf.Value.abilityConfiguration.abilityDatas)
@@ -139,14 +139,18 @@ namespace World.Player
                 if (ability.name == Idents.Abilities.FireBall)
                 {
                     var abilityEntity = world.NewEntity();
+                    var abilityPackedEntity = world.PackEntity(abilityEntity);
                     ref var abil = ref _ability.Value.Add(abilityEntity);
+                    
+                    
                     abil.Name = ability.name;
                     abil.Damage = ability.damage;
                     abil.LifeTime = ability.lifeTime;
                     abil.Radius = ability.radius;
                     abil.Speed = ability.speed;
                     abil.CostPoint = ability.costPoint;
-                    hasAbilities.Entities.Add(abilityEntity);
+                    
+                    hasAbilities.Entities.Add(abilityPackedEntity);
                 }
             }
         }

@@ -23,13 +23,14 @@ namespace World.Ability
         {
             spellTime -= Time.deltaTime;
             if (spellTime > 0)
-            {
-                transform.Translate(spellDirection  * spellSpeed * Time.deltaTime);
-            }
+                transform.Translate(spellDirection * (spellSpeed * Time.deltaTime));
             else
-            {
                 DestroySpell();
-            }
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            DestroySpell();
         }
 
         private void DestroySpell()

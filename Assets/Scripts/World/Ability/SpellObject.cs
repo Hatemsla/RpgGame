@@ -43,7 +43,7 @@ namespace World.Ability
                 _spellPool.Del(unpackedEntity);
             }
         }
-        
+
         public void SetWorld(EcsWorld world, int entity)
         {
             _world = world;

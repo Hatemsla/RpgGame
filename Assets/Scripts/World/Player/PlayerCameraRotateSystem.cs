@@ -25,8 +25,6 @@ namespace World.Player
                 ref var input = ref _unitsMove.Pools.Inc2.Get(entity);
                 ref var rpg = ref _unitsMove.Pools.Inc3.Get(entity);
                 
-                if(_cs.Value.CursorVisible) return;
-                
                 if (input.Look.sqrMagnitude >= Threshold)
                 {
                     var deltaTimeMultiplier = 1f;
@@ -43,7 +41,7 @@ namespace World.Player
                     _cinemachineTargetPitch + _cf.Value.playerConfiguration.cameraAngleOverride,
                     _cinemachineTargetYaw, 0f);
 
-                if (!input.FreeLook && !rpg.IsDead)
+                if (!input.FreeLook && !_cs.Value.CursorVisible && !rpg.IsDead)
                 {
                     var desiredYRotation = player.PlayerCameraRoot.eulerAngles.y;
                     var currentYRotation = player.Transform.rotation.eulerAngles.y;

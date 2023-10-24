@@ -26,7 +26,6 @@ namespace World
             var cs = new CursorService();
             var mainInput = new MainInput();
 
-
             _systemsUpdate
                 .Add(new PlayerInitSystem())
                 .Add(new TimeSystem())
@@ -44,7 +43,7 @@ namespace World
                 .Add(new PlayerHealthSystem())
                 .Add(new PlayerSpellCastSystem())
                 .Add(new PlayerManaSystem())
-                .Add(new PlayerInventorySystem())
+                .Add(new PlayerGetItemSystem())
                 
                 .AddWorld(new EcsWorld(), Idents.Worlds.Events)
 #if UNITY_EDITOR

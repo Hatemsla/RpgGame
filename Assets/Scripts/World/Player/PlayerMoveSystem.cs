@@ -11,6 +11,7 @@ namespace World.Player
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<SceneData> _sd = default;
         private readonly EcsCustomInject<TimeService> _ts = default;
+        private readonly EcsCustomInject<CursorService> _cs = default;
 
         private float _speed;
         private float _targetRotation;
@@ -75,9 +76,11 @@ namespace World.Player
                 if (input.Move != Vector2.zero)
                 {
                     _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                                      _sd.Value.mainCamera.transform.eulerAngles.y;
-
-                    var moveRotation = input.Move.y < 0 ? _sd.Value.mainCamera.transform.eulerAngles.y : _targetRotation;
+                                        _sd.Value.mainCamera.transform.eulerAngles.y;
+                    
+                    var moveRotation = input.Move.y < 0
+                        ? _sd.Value.mainCamera.transform.eulerAngles.y
+                        : _targetRotation;
 
                     var rotation = Mathf.SmoothDampAngle(player.Transform.eulerAngles.y, moveRotation,
                         ref _rotationVelocity,

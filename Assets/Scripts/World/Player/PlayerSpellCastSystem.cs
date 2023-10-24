@@ -18,6 +18,7 @@ namespace World.Player
         private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp, RpgComp>> _player = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<SceneData> _sd = default;
+        private readonly EcsCustomInject<CursorService> _cs = default;
         
         private readonly EcsPoolInject<SpellComp> _spell = default;
 
@@ -30,7 +31,7 @@ namespace World.Player
                 ref var input = ref _player.Pools.Inc2.Get(playerEntity);
                 ref var rpg = ref _player.Pools.Inc3.Get(playerEntity);
 
-                if(rpg.IsDead || input.FreeCursor) return;
+                if(rpg.IsDead || input.FreeCursor || _cs.Value.CursorVisible) return;
                 
                 if(EventSystem.current.IsPointerOverGameObject()) return;
                 

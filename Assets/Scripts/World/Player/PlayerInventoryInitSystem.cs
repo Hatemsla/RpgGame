@@ -3,6 +3,7 @@ using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
 using Utils;
+using World.Configurations;
 
 namespace World.Player
 {
@@ -10,7 +11,7 @@ namespace World.Player
     {
         private EcsCustomInject<Configuration> _cf = default;
         
-        [EcsUguiNamed(Idents.UI.InventoryViewContent)]
+        [EcsUguiNamed(Idents.UI.PlayerInventoryViewContent)]
         private readonly GameObject _inventoryViewContent = default;
         
         public void Init(IEcsSystems systems)

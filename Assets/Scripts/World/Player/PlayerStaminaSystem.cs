@@ -4,6 +4,7 @@ using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
+using World.Configurations;
 
 namespace World.Player
 {

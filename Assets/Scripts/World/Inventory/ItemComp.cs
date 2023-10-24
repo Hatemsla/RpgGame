@@ -7,7 +7,6 @@
         public float Cost;
         public float Weight;
         public ItemView ItemView;
-        public ItemObject ItemObject;
         public bool Used;
     }
 }

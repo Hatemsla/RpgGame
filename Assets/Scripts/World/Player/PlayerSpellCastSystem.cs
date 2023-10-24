@@ -1,13 +1,9 @@
-﻿using System;
-using Leopotam.EcsLite;
+﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using Leopotam.EcsLite.Unity.Ugui;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
-using Utils;
 using World.Ability;
+using World.Configurations;
 using Object = UnityEngine.Object;
 using Quaternion = UnityEngine.Quaternion;
 

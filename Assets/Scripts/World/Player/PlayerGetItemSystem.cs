@@ -14,7 +14,7 @@ namespace World.Player
         private readonly EcsPoolInject<ItemComp> _itemsPool = default;
         private readonly EcsPoolInject<HasItems> _hasItemsPool = default;
         
-        [EcsUguiNamed(Idents.UI.InventoryView)]
+        [EcsUguiNamed(Idents.UI.PlayerInventoryView)]
         private readonly GameObject _inventoryView = default;
         
         public void Run(IEcsSystems systems)
@@ -61,11 +61,11 @@ namespace World.Player
 
                     if (i == itemIdx)
                     {
-                        item.ItemObject.gameObject.SetActive(!item.ItemObject.gameObject.activeSelf);
+                        item.ItemView.itemObject.gameObject.SetActive(!item.ItemView.itemObject.gameObject.activeSelf);
                     }
                     else
                     {
-                        item.ItemObject.gameObject.SetActive(false);
+                        item.ItemView.itemObject.gameObject.SetActive(false);
                     }
                 }
             }

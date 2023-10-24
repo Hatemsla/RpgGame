@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using World.Ability;
-using World.Configurations;
 using World.Inventory;
 using World.Player;
 

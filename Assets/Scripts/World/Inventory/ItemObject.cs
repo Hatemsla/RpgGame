@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace World.Inventory
 {
-    public class ItemObject : MonoBehaviour
+    public sealed class ItemObject : MonoBehaviour
     {
         public EcsPackedEntity itemIdx;
     }

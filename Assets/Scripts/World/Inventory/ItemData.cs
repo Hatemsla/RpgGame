@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using World.Inventory;
 
-namespace World
+namespace World.Inventory
 {
     [CreateAssetMenu(fileName = "ItemData", menuName = "Data/Inventory Data")]
     public class ItemData : ScriptableObject

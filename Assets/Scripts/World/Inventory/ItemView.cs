@@ -1,19 +1,20 @@
 ﻿using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using World.Player;
 
 namespace World.Inventory
 {
     public sealed class ItemView : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         public EcsPackedEntity ItemIdx;
+        public ItemObject itemObject;
         public Image itemImage;
-        public RectTransform inventoryView;
+        public RectTransform playerInventoryView;
+        public RectTransform chestInventoryView;
+        public TMP_Text inventoryWeightText;
         [SerializeField] private TMP_Text itemName;
         [SerializeField] private TMP_Text itemDescription;
         [SerializeField] private TMP_Text itemCount;
@@ -42,7 +43,7 @@ namespace World.Inventory
         private int _playerEntity;
         private EcsPool<HasItems> _hasItems;
         private EcsPool<ItemComp> _itemsPool;
-        private EcsPool<InventoryComp> _inventoryPool; 
+        private EcsPool<InventoryComp> _inventoryPool;
 
         public void SetWorld(EcsWorld world, int entity)
         {
@@ -66,9 +67,9 @@ namespace World.Inventory
                     {
                         ref var item = ref _itemsPool.Get(unpackedEntity);
                         if (currentEntity == unpackedEntity)
-                            item.ItemObject.gameObject.SetActive(!item.ItemObject.gameObject.activeSelf);
+                            itemObject.gameObject.SetActive(!itemObject.gameObject.activeSelf);
                         else
-                            item.ItemObject.gameObject.SetActive(false);
+                            itemObject.gameObject.SetActive(false);
                     }
             }
         }
@@ -88,34 +89,60 @@ namespace World.Inventory
         public void OnEndDrag(PointerEventData eventData)
         {
             if (IsItemOutInventory(transform.position))
-                DestroyItem();
+            {
+                if (IsItemInPlayerInventory(transform.position, chestInventoryView))
+                {
+                    transform.SetParent(chestInventoryView);
+                }
+                else if (IsItemInPlayerInventory(transform.position, playerInventoryView))
+                {
+                    transform.SetParent(playerInventoryView);
+                }
+                else
+                {
+                    DestroyItem();   
+                }
+            }
             else
+            {
                 transform.SetParent(_parentAfterDrag);
+            }
         }
 
         private void DestroyItem()
         {
-            ref var hasItems = ref _hasItems.Get(_playerEntity);
+            if (ItemIdx.Unpack(_world, out var unpackedEntity))
+            {
+                ref var item = ref _itemsPool.Get(unpackedEntity);
 
-            for (var i = 0; i < hasItems.Entities.Count; i++)
-                if (ItemIdx.Unpack(_world, out var unpackedEntity))
-                {
-                    ref var item = ref _itemsPool.Get(unpackedEntity);
-
-                    Destroy(item.ItemObject.gameObject);
-                    _itemsPool.Del(unpackedEntity);
-                }
+                ref var inventory = ref _inventoryPool.Get(_playerEntity);
+                inventory.CurrentWeight -= item.Weight;
+                inventoryWeightText.text = $"Вес: {inventory.CurrentWeight}/{inventory.MaxWeight}";
+                
+                Destroy(itemObject.gameObject);
+                
+                _itemsPool.Del(unpackedEntity);
+            }
 
             Destroy(transform.gameObject);
         }
 
         private bool IsItemOutInventory(Vector3 position)
         {
-            var minPosition = inventoryView.TransformPoint(inventoryView.rect.min);
-            var maxPosition = inventoryView.TransformPoint(inventoryView.rect.max);
+            var minPosition = playerInventoryView.TransformPoint(playerInventoryView.rect.min);
+            var maxPosition = playerInventoryView.TransformPoint(playerInventoryView.rect.max);
 
             return position.x < minPosition.x || position.x > maxPosition.x || position.y < minPosition.y ||
                    position.y > maxPosition.y;
+        }
+        
+        private bool IsItemInPlayerInventory(Vector3 position, RectTransform view)
+        {
+            var minPosition = view.TransformPoint(view.rect.min);
+            var maxPosition = view.TransformPoint(view.rect.max);
+
+            return position.x > minPosition.x || position.x < maxPosition.x || position.y > minPosition.y ||
+                   position.y < maxPosition.y;
         }
     }
 }

@@ -3,6 +3,8 @@ using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
 using Utils;
+using World.Configurations;
+using World.Inventory.Chest;
 using World.Player;
 
 namespace World
@@ -27,7 +29,11 @@ namespace World
             var mainInput = new MainInput();
 
             _systemsUpdate
+                //Init systems
                 .Add(new PlayerInitSystem())
+                .Add(new ChestInitSystem())
+                
+                //Run systems
                 .Add(new TimeSystem())
                 .Add(new PlayerInputSystem())
                 .Add(new CursorControllingSystem())

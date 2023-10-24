@@ -16,9 +16,13 @@
             public const string StaminaBar = "StaminaBar";
             public const string ManaBar = "ManaBar";
 
-            public const string InventoryView = "InventoryView";
-            public const string InventoryViewContent = "InventoryViewContent";
-            public const string InventoryWeight = "InventoryWeight";
+            public const string PlayerInventoryView = "PlayerInventoryView";
+            public const string PlayerInventoryViewContent = "PlayerInventoryViewContent";
+            public const string PlayerInventoryWeight = "PlayerInventoryWeight";
+            
+            public const string ChestInventoryView = "ChestInventoryView";
+            public const string ChestInventoryViewContent = "ChestInventoryViewContent";
+            public const string ChestInventoryWeight = "ChestInventoryWeight";
 
 
             public const string CrosshairView = "CrosshairView";

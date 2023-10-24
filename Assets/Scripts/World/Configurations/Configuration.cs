@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using World.Ability;
+using World.Configurations;
 using World.Inventory;
 using World.Player;
 
-namespace World
+namespace World.Configurations
 {
     [CreateAssetMenu(fileName = "MainConfiguration", menuName = "World Configurations/Main Configuration")]
     public class Configuration : ScriptableObject
@@ -12,5 +13,6 @@ namespace World
         public UiConfiguration uiConfiguration;
         public AbilityConfiguration abilityConfiguration;
         public InventoryConfiguration inventoryConfiguration;
+        public ChestConfiguration chestConfiguration;
     }
 }

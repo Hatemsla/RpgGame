@@ -11,7 +11,7 @@ namespace World.Player
         private readonly EcsFilterInject<Inc<PlayerInputComp>> _inputs = default;
         private readonly EcsCustomInject<CursorService> _cs = default;
         
-        [EcsUguiNamed(Idents.UI.InventoryView)]
+        [EcsUguiNamed(Idents.UI.PlayerInventoryView)]
         private readonly GameObject _inventoryView = default;
         
         public void Init(IEcsSystems systems)

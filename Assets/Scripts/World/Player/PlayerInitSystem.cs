@@ -6,6 +6,7 @@ using UnityEngine;
 using Utils;
 using World.Inventory;
 using World.Ability;
+using World.Configurations;
 
 namespace World.Player
 {
@@ -23,13 +24,16 @@ namespace World.Player
         private readonly EcsCustomInject<SceneData> _sc = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
         
-        [EcsUguiNamed(Idents.UI.InventoryView)]
-        private readonly GameObject _inventoryView = default;
+        [EcsUguiNamed(Idents.UI.PlayerInventoryView)]
+        private readonly RectTransform _inventoryView = default;
         
-        [EcsUguiNamed(Idents.UI.InventoryViewContent)]
+        [EcsUguiNamed(Idents.UI.ChestInventoryView)]
+        private readonly RectTransform _chestInventoryView = default;
+        
+        [EcsUguiNamed(Idents.UI.PlayerInventoryViewContent)]
         private readonly GameObject _inventoryViewContent = default;
 
-        [EcsUguiNamed(Idents.UI.InventoryWeight)]
+        [EcsUguiNamed(Idents.UI.PlayerInventoryWeight)]
         private readonly TMP_Text _inventoryWeightText = default;
 
         public void Init(IEcsSystems systems)
@@ -56,7 +60,7 @@ namespace World.Player
             player.Rotation = Quaternion.identity;
             player.CharacterController = playerView.GetComponent<CharacterController>();
             player.PlayerCameraRoot = playerView.GetComponentInChildren<PlayerCameraRootView>().transform;
-            player.PlayerWeaponRoot = playerView.GetComponentInChildren<ItemView>().transform;
+            player.PlayerWeaponRoot = playerView.GetComponentInChildren<PlayerView>().transform;
             player.Grounded = true;
             player.PlayerCamera = playerFollowCameraView;
 
@@ -72,9 +76,9 @@ namespace World.Player
             inventory.MaxWeight = _cf.Value.inventoryConfiguration.inventoryWeight;
             inventory.CurrentWeight = 0f;
             
-            _inventoryView.SetActive(false);
+            _inventoryView.gameObject.SetActive(false);
 
-			CreateAbilities(playerEntity ,world);
+			CreateAbilities(playerEntity, world);
             inventory.CurrentWeight = CreateItems(playerEntity, world);
 
             _inventoryWeightText.text = $"Вес: {inventory.CurrentWeight}/{inventory.MaxWeight}";
@@ -85,7 +89,6 @@ namespace World.Player
             ref var hasItems = ref _hasItemsPool.Value.Add(entity);
             var items = _cf.Value.inventoryConfiguration.items;
 
-            var i = 0;
             var weight = 0f;
             foreach (var itemData in items)
             {
@@ -106,25 +109,24 @@ namespace World.Player
                 itemObject.transform.SetParent(_sc.Value.playerTransform);
                 itemObject.gameObject.SetActive(false);
 
-                it.ItemObject = itemObject;
-                it.ItemObject.itemIdx = itemPackedEntity;
-
                 var itemView = Object.Instantiate(itemData.itemViewPrefab, Vector3.zero, Quaternion.identity);
                 itemView.transform.SetParent(_inventoryViewContent.transform);
                 
-                itemView.itemImage.sprite = itemData.itemSprite;
-                
                 it.ItemView = itemView;
+
+                it.ItemView.itemImage.sprite = itemData.itemSprite;
+                
+                it.ItemView.itemObject = itemObject;
+                it.ItemView.itemObject.itemIdx = itemPackedEntity;
                 it.ItemView.ItemIdx = itemPackedEntity;
                 it.ItemView.ItemName = itemData.itemName;
                 it.ItemView.ItemDescription = itemData.itemDescription;
                 it.ItemView.ItemCount = itemData.itemCount.ToString();
                 it.ItemView.SetWorld(world, entity);
-                it.ItemView.inventoryView = _inventoryView.GetComponent<RectTransform>();
+                it.ItemView.playerInventoryView = _inventoryView;
+                it.ItemView.chestInventoryView = _chestInventoryView;
                 it.ItemView.inventoryWeightText = _inventoryWeightText;
 
-                i++;
-                
                 hasItems.Entities.Add(itemPackedEntity);
             }
 
@@ -141,7 +143,6 @@ namespace World.Player
                     var abilityEntity = world.NewEntity();
                     var abilityPackedEntity = world.PackEntity(abilityEntity);
                     ref var abil = ref _ability.Value.Add(abilityEntity);
-                    
                     
                     abil.Name = ability.name;
                     abil.Damage = ability.damage;

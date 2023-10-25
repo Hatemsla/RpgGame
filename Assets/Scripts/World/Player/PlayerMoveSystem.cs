@@ -12,7 +12,6 @@ namespace World.Player
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<SceneData> _sd = default;
         private readonly EcsCustomInject<TimeService> _ts = default;
-        private readonly EcsCustomInject<CursorService> _cs = default;
 
         private float _speed;
         private float _targetRotation;

@@ -13,5 +13,6 @@ namespace World.Configurations
         public AbilityConfiguration abilityConfiguration;
         public InventoryConfiguration inventoryConfiguration;
         public ChestConfiguration chestConfiguration;
+        public EnemyConfiguration enemyConfiguration;
     }
 }

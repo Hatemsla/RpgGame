@@ -5,6 +5,7 @@
     "com.leopotam.ecslite.extendedsystems": "git@github.com:Leopotam/ecslite-extendedsystems.git",
     "com.leopotam.ecslite.unity.ugui": "git@github.com:Leopotam/ecslite-unity-ugui.git",
     "com.leopotam.ecslite.unityeditor": "git@github.com:Leopotam/ecslite-unityeditor.git",
+    "com.unity.ai.navigation": "1.1.5",
     "com.unity.cinemachine": "2.9.7",
     "com.unity.collab-proxy": "2.0.7",
     "com.unity.ide.rider": "3.0.26",

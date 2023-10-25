@@ -3,6 +3,8 @@ using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
 using Utils;
+using World.AI;
+using World.AI.Navigation;
 using World.Configurations;
 using World.Inventory.Chest;
 using World.Player;
@@ -32,6 +34,8 @@ namespace World
                 //Init systems
                 .Add(new PlayerInitSystem())
                 .Add(new ChestInitSystem())
+                .Add(new ZoneInitSystem())
+                .Add(new EnemyInitSystem())
                 
                 //Run systems
                 .Add(new TimeSystem())
@@ -51,6 +55,8 @@ namespace World
                 .Add(new PlayerManaSystem())
                 .Add(new PlayerGetItemSystem())
                 .Add(new ChestUpdateSystem())
+                
+                .Add(new EnemyMoveSystem())
                 
                 .AddWorld(new EcsWorld(), Idents.Worlds.Events)
 #if UNITY_EDITOR

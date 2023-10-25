@@ -93,9 +93,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3024944126310860512}
-  - component: {fileID: 1849458951646111981}
   m_Layer: 3
-  m_Name: ItemView
+  m_Name: ItemObjectPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,26 +115,6 @@ Transform:
   m_Father: {fileID: 4902911026012266485}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1849458951646111981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3184367844883436293}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ad87f2a1a4a491fb170fcb299fddb9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemObject: {fileID: 0}
-  itemImage: {fileID: 0}
-  playerInventoryView: {fileID: 0}
-  chestInventoryView: {fileID: 0}
-  inventoryWeightText: {fileID: 0}
-  itemName: {fileID: 0}
-  itemDescription: {fileID: 0}
-  itemCount: {fileID: 0}
 --- !u!1 &6742061213424182263
 GameObject:
   m_ObjectHideFlags: 0

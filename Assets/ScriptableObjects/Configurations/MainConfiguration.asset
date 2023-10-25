@@ -20,3 +20,4 @@ MonoBehaviour:
   inventoryConfiguration: {fileID: 11400000, guid: bd65c09f65f3b5d42902e64c2cdc900d,
     type: 2}
   chestConfiguration: {fileID: 11400000, guid: 1d02bd63be68f97409a7c198f1dff305, type: 2}
+  enemyConfiguration: {fileID: 11400000, guid: cee516edc20b9624a8949e2521e3afc8, type: 2}

@@ -21,6 +21,8 @@ namespace World.Player
         private readonly EcsPoolInject<AbilityComp> _ability = default;
         private readonly EcsPoolInject<HasAbilities> _hasAbilitiesPool = default;
 
+        private readonly EcsWorldInject _world = default;
+
         private readonly EcsCustomInject<SceneData> _sc = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
         
@@ -35,8 +37,7 @@ namespace World.Player
 
         public void Init(IEcsSystems systems)
         {
-            var world = systems.GetWorld();
-            var playerEntity = world.NewEntity();
+            var playerEntity = _world.Value.NewEntity();
 
             ref var player = ref _playerPool.Value.Add(playerEntity);
             ref var rpg = ref _rpgPool.Value.Add(playerEntity);
@@ -75,8 +76,8 @@ namespace World.Player
             
             _playerInventoryView.gameObject.SetActive(false);
 
-			CreateAbilities(playerEntity, world);
-            inventory.CurrentWeight = CreateItems(playerEntity, world);
+			CreateAbilities(playerEntity, _world.Value);
+            inventory.CurrentWeight = CreateItems(playerEntity, _world.Value);
 
             inventory.InventoryWeightView = _inventoryWeightText.GetComponent<InventoryWeightView>();
             inventory.InventoryWeightView.inventoryWeightText.text = $"Вес: {inventory.CurrentWeight}/{inventory.MaxWeight}";

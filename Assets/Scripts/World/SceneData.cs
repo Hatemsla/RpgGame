@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
+using World.AI.Navigation;
 using World.Inventory.Chest;
 
 namespace World
@@ -11,5 +12,6 @@ namespace World
         public Transform playerSpawnPosition;
         public CinemachineBrain mainCamera;
         public List<ChestObject> chests;
+        public List<ZoneView> zones;
     }
 }

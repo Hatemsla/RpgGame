@@ -25,16 +25,13 @@ namespace World.Player
         private readonly EcsCustomInject<Configuration> _cf = default;
         
         [EcsUguiNamed(Idents.UI.PlayerInventoryView)]
-        private readonly RectTransform _inventoryView = default;
+        private readonly RectTransform _playerInventoryView = default;
         
         [EcsUguiNamed(Idents.UI.ChestInventoryView)]
         private readonly RectTransform _chestInventoryView = default;
-        
-        [EcsUguiNamed(Idents.UI.PlayerInventoryViewContent)]
-        private readonly GameObject _inventoryViewContent = default;
 
         [EcsUguiNamed(Idents.UI.PlayerInventoryWeight)]
-        private readonly TMP_Text _inventoryWeightText = default;
+        private readonly Transform _inventoryWeightText = default;
 
         public void Init(IEcsSystems systems)
         {
@@ -76,18 +73,21 @@ namespace World.Player
             inventory.MaxWeight = _cf.Value.inventoryConfiguration.inventoryWeight;
             inventory.CurrentWeight = 0f;
             
-            _inventoryView.gameObject.SetActive(false);
+            _playerInventoryView.gameObject.SetActive(false);
 
 			CreateAbilities(playerEntity, world);
             inventory.CurrentWeight = CreateItems(playerEntity, world);
 
-            _inventoryWeightText.text = $"Вес: {inventory.CurrentWeight}/{inventory.MaxWeight}";
+            inventory.InventoryWeightView = _inventoryWeightText.GetComponent<InventoryWeightView>();
+            inventory.InventoryWeightView.inventoryWeightText.text = $"Вес: {inventory.CurrentWeight}/{inventory.MaxWeight}";
         }
 
         private float CreateItems(int entity, EcsWorld world)
         {
             ref var hasItems = ref _hasItemsPool.Value.Add(entity);
             var items = _cf.Value.inventoryConfiguration.items;
+            var playerInventoryViewContent = _playerInventoryView.GetComponentInChildren<ContentView>();
+            playerInventoryViewContent.currentEntity = entity;
 
             var weight = 0f;
             foreach (var itemData in items)
@@ -110,8 +110,7 @@ namespace World.Player
                 itemObject.gameObject.SetActive(false);
 
                 var itemView = Object.Instantiate(itemData.itemViewPrefab, Vector3.zero, Quaternion.identity);
-                itemView.transform.SetParent(_inventoryViewContent.transform);
-                
+                itemView.transform.SetParent(playerInventoryViewContent.transform);
                 it.ItemView = itemView;
 
                 it.ItemView.itemImage.sprite = itemData.itemSprite;
@@ -123,9 +122,7 @@ namespace World.Player
                 it.ItemView.ItemDescription = itemData.itemDescription;
                 it.ItemView.ItemCount = itemData.itemCount.ToString();
                 it.ItemView.SetWorld(world, entity);
-                it.ItemView.playerInventoryView = _inventoryView;
-                it.ItemView.chestInventoryView = _chestInventoryView;
-                it.ItemView.inventoryWeightText = _inventoryWeightText;
+                it.ItemView.SetViews(_playerInventoryView, _chestInventoryView);
 
                 hasItems.Entities.Add(itemPackedEntity);
             }

@@ -19,5 +19,6 @@ namespace World.Player
         public bool Inventory;
         public bool AutoRun;
         public bool FreeCursor;
+        public bool ActiveAction;
     }
 }

@@ -4,5 +4,6 @@
     {
         public float MaxWeight;
         public float CurrentWeight;
+        public InventoryWeightView InventoryWeightView;
     }
 }

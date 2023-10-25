@@ -27,7 +27,7 @@ namespace World.Inventory.Chest
         private readonly RectTransform _chestInventoryView = default;
         
         [EcsUguiNamed(Idents.UI.ChestInventoryWeight)]
-        private readonly TMP_Text _chestInventoryWeightText = default;
+        private readonly Transform _chestInventoryWeightText = default;
         
         public void Init(IEcsSystems systems)
         {
@@ -41,6 +41,9 @@ namespace World.Inventory.Chest
                 ref var hasItemsComp = ref _hasItemsPool.Value.Add(entity);
 
                 chestComp.ChestObject = chest;
+                chestComp.ChestObject.SetView(_chestInventoryView);
+                chestComp.ChestObject.chestInventoryWeightText = _chestInventoryWeightText.GetComponent<InventoryWeightView>().inventoryWeightText;
+                chestComp.ChestObject.SetWorld(world, entity);
 
                 foreach (var itemData in chest.items)
                 {
@@ -60,16 +63,16 @@ namespace World.Inventory.Chest
 
                     inventoryComp.MaxWeight = _cf.Value.chestConfiguration.chestInventoryMaxWeight;
                     inventoryComp.CurrentWeight += itemData.itemWeight;
+                    inventoryComp.InventoryWeightView = _chestInventoryWeightText.GetComponent<InventoryWeightView>();
                     
+                    chest.itemViews.Add(itemView);
                     it.ItemView = itemView;
                     it.ItemView.ItemIdx = itemPackedEntity;
                     it.ItemView.ItemName = itemData.itemName;
                     it.ItemView.ItemDescription = itemData.itemDescription;
                     it.ItemView.ItemCount = itemData.itemCount.ToString();
                     it.ItemView.SetWorld(world, entity);
-                    it.ItemView.playerInventoryView = _playerInventoryView;
-                    it.ItemView.chestInventoryView = _chestInventoryView;
-                    it.ItemView.inventoryWeightText = _chestInventoryWeightText;
+                    it.ItemView.SetViews(_playerInventoryView, _chestInventoryView);
 
                     hasItemsComp.Entities.Add(itemPackedEntity);
                 }

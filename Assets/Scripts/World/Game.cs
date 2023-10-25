@@ -50,6 +50,7 @@ namespace World
                 .Add(new PlayerSpellCastSystem())
                 .Add(new PlayerManaSystem())
                 .Add(new PlayerGetItemSystem())
+                .Add(new ChestUpdateSystem())
                 
                 .AddWorld(new EcsWorld(), Idents.Worlds.Events)
 #if UNITY_EDITOR

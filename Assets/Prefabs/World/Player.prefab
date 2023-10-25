@@ -128,10 +128,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad87f2a1a4a491fb170fcb299fddb9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemIdx: 0
+  itemObject: {fileID: 0}
   itemImage: {fileID: 0}
+  playerInventoryView: {fileID: 0}
+  chestInventoryView: {fileID: 0}
+  inventoryWeightText: {fileID: 0}
   itemName: {fileID: 0}
-  desc: {fileID: 0}
+  itemDescription: {fileID: 0}
+  itemCount: {fileID: 0}
 --- !u!1 &6742061213424182263
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,7 +315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83ab98412808440e9aff31f437b3635b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  config: {fileID: 11400000, guid: 1b9c79714f5973448bdb0bd71432f837, type: 2}
+  config: {fileID: 11400000, guid: 24d62d02478ba6e468ab3335461777de, type: 2}
 --- !u!1 &8420344619438359428
 GameObject:
   m_ObjectHideFlags: 0

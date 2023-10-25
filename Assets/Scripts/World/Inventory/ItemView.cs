@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using World.Inventory.Chest;
 
 namespace World.Inventory
 {
@@ -14,7 +15,6 @@ namespace World.Inventory
         public Image itemImage;
         public RectTransform playerInventoryView;
         public RectTransform chestInventoryView;
-        public TMP_Text inventoryWeightText;
         [SerializeField] private TMP_Text itemName;
         [SerializeField] private TMP_Text itemDescription;
         [SerializeField] private TMP_Text itemCount;
@@ -40,32 +40,48 @@ namespace World.Inventory
         }
 
         private EcsWorld _world;
-        private int _playerEntity;
+        private int _ownerEntity;
         private EcsPool<HasItems> _hasItems;
         private EcsPool<ItemComp> _itemsPool;
         private EcsPool<InventoryComp> _inventoryPool;
+        private EcsPool<ChestComp> _chestPool;
 
+        private ContentView _playerInventoryViewContent;
+        private ContentView _chestInventoryViewContent;
+        
         public void SetWorld(EcsWorld world, int entity)
         {
             _world = world;
-            _playerEntity = entity;
+            _ownerEntity = entity;
             _hasItems = _world.GetPool<HasItems>();
             _itemsPool = _world.GetPool<ItemComp>();
             _inventoryPool = _world.GetPool<InventoryComp>();
+            _chestPool = _world.GetPool<ChestComp>();
+        }
+
+        public void SetViews(RectTransform playerInventoryView, RectTransform chestInventoryView)
+        {
+            this.playerInventoryView = playerInventoryView;
+            this.chestInventoryView = chestInventoryView;
+
+            _playerInventoryViewContent = playerInventoryView.GetComponentInChildren<ContentView>();
+            _chestInventoryViewContent = chestInventoryView.GetComponentInChildren<ContentView>();
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
             if (eventData.button == PointerEventData.InputButton.Right)
             {
-                ref var hasItems = ref _hasItems.Get(_playerEntity);
+                if(!itemObject)
+                    return;
+                
+                ref var hasItems = ref _hasItems.Get(_ownerEntity);
 
                 ItemIdx.Unpack(_world, out var currentEntity);
 
                 foreach (var itemPacked in hasItems.Entities)
                     if (itemPacked.Unpack(_world, out var unpackedEntity))
                     {
-                        ref var item = ref _itemsPool.Get(unpackedEntity);
                         if (currentEntity == unpackedEntity)
                             itemObject.gameObject.SetActive(!itemObject.gameObject.activeSelf);
                         else
@@ -88,15 +104,17 @@ namespace World.Inventory
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            if (IsItemOutInventory(transform.position))
+            if (IsItemOutInventory(transform.position, playerInventoryView) || IsItemOutInventory(transform.position, chestInventoryView))
             {
-                if (IsItemInPlayerInventory(transform.position, chestInventoryView))
+                if (IsItemInsideInventory(transform.position, chestInventoryView))
                 {
-                    transform.SetParent(chestInventoryView);
+                    transform.SetParent(_chestInventoryViewContent.transform);
+                    MoveItem(_chestInventoryViewContent.currentEntity);
                 }
-                else if (IsItemInPlayerInventory(transform.position, playerInventoryView))
+                else if (IsItemInsideInventory(transform.position, playerInventoryView))
                 {
-                    transform.SetParent(playerInventoryView);
+                    transform.SetParent(_playerInventoryViewContent.transform);
+                    MoveItem(_playerInventoryViewContent.currentEntity);
                 }
                 else
                 {
@@ -109,17 +127,47 @@ namespace World.Inventory
             }
         }
 
+        private void MoveItem(int otherEntity)
+        {
+            ref var hasItemsOwner = ref _hasItems.Get(_ownerEntity);
+            ref var hasItemsOther = ref _hasItems.Get(otherEntity);
+
+            ref var ownerInventory = ref _inventoryPool.Get(_ownerEntity);
+            ref var otherInventory = ref _inventoryPool.Get(otherEntity);
+
+            ItemIdx.Unpack(_world, out var unpackedEntity);
+            ref var item = ref _itemsPool.Get(unpackedEntity);
+
+            if (otherEntity == _chestInventoryViewContent.currentEntity)
+            {
+                ref var chestComp = ref _chestPool.Get(otherEntity);
+                
+                chestComp.ChestObject.itemViews.Add(this);
+            }
+
+            ownerInventory.CurrentWeight -= item.Weight;
+            otherInventory.CurrentWeight += item.Weight;
+            
+            ownerInventory.InventoryWeightView.inventoryWeightText.text = $"Вес: {ownerInventory.CurrentWeight}/{ownerInventory.MaxWeight}";
+            otherInventory.InventoryWeightView.inventoryWeightText.text = $"Вес: {otherInventory.CurrentWeight}/{otherInventory.MaxWeight}";
+            
+            hasItemsOther.Entities.Add(ItemIdx);
+            hasItemsOwner.Entities.Remove(ItemIdx);
+
+            _ownerEntity = otherEntity;
+        }
+
         private void DestroyItem()
         {
             if (ItemIdx.Unpack(_world, out var unpackedEntity))
             {
                 ref var item = ref _itemsPool.Get(unpackedEntity);
 
-                ref var inventory = ref _inventoryPool.Get(_playerEntity);
+                ref var inventory = ref _inventoryPool.Get(_ownerEntity);
                 inventory.CurrentWeight -= item.Weight;
-                inventoryWeightText.text = $"Вес: {inventory.CurrentWeight}/{inventory.MaxWeight}";
+                inventory.InventoryWeightView.inventoryWeightText.text = $"Вес: {inventory.CurrentWeight}/{inventory.MaxWeight}";
                 
-                Destroy(itemObject.gameObject);
+                Destroy(itemObject != null ? itemObject.gameObject : null);
                 
                 _itemsPool.Del(unpackedEntity);
             }
@@ -127,22 +175,26 @@ namespace World.Inventory
             Destroy(transform.gameObject);
         }
 
-        private bool IsItemOutInventory(Vector3 position)
+        private bool IsItemOutInventory(Vector3 position, RectTransform view)
         {
-            var minPosition = playerInventoryView.TransformPoint(playerInventoryView.rect.min);
-            var maxPosition = playerInventoryView.TransformPoint(playerInventoryView.rect.max);
+            var minPosition = view.TransformPoint(view.rect.min);
+            var maxPosition = view.TransformPoint(view.rect.max);
 
             return position.x < minPosition.x || position.x > maxPosition.x || position.y < minPosition.y ||
                    position.y > maxPosition.y;
         }
         
-        private bool IsItemInPlayerInventory(Vector3 position, RectTransform view)
+        private bool IsItemInsideInventory(Vector3 position, RectTransform view)
         {
+            if (!view.gameObject.activeInHierarchy)
+                return false;
+            
             var minPosition = view.TransformPoint(view.rect.min);
             var maxPosition = view.TransformPoint(view.rect.max);
 
-            return position.x > minPosition.x || position.x < maxPosition.x || position.y > minPosition.y ||
-                   position.y < maxPosition.y;
+            return position.x >= minPosition.x && position.x <= maxPosition.x &&
+                   position.y >= minPosition.y && position.y <= maxPosition.y;
         }
+
     }
 }

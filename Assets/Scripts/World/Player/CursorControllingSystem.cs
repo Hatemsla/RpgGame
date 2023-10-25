@@ -12,7 +12,10 @@ namespace World.Player
         private readonly EcsCustomInject<CursorService> _cs = default;
         
         [EcsUguiNamed(Idents.UI.PlayerInventoryView)]
-        private readonly GameObject _inventoryView = default;
+        private readonly GameObject _playerInventoryView = default;
+        
+        [EcsUguiNamed(Idents.UI.ChestInventoryView)]
+        private readonly GameObject _chestInventoryView = default;
         
         public void Init(IEcsSystems systems)
         {
@@ -25,7 +28,7 @@ namespace World.Player
             {
                 ref var input = ref _inputs.Pools.Inc1.Get(entity);
 
-                _cs.Value.CursorVisible = _inventoryView.activeSelf || input.FreeCursor;
+                _cs.Value.CursorVisible = _chestInventoryView.activeSelf || _playerInventoryView.activeSelf || input.FreeCursor;
 
                 Cursor.visible = _cs.Value.CursorVisible;
             }

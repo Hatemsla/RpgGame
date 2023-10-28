@@ -1,6 +1,8 @@
 ﻿using System;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using UnityEngine;
+using Utils.ObjectsPool;
 using World.Inventory;
 using World.Player;
 
@@ -12,12 +14,13 @@ namespace World.Ability
         public float spellTime;
         public float spellSpeed;
         public Vector3 spellDirection;
-        
+        public PoolService _ps;
+
         private EcsWorld _world;
         private int _playerEntity;
         private EcsPool<HasAbilities> _hasAbilities;
         private EcsPool<SpellComp> _spellPool;
-        private EcsPool<AbilityComp> _abilityPool; 
+        private EcsPool<AbilityComp> _abilityPool;
         
         private void Update()
         {
@@ -38,8 +41,8 @@ namespace World.Ability
             if (spellIdx.Unpack(_world, out var unpackedEntity))
             {
                 ref var spell = ref _spellPool.Get(unpackedEntity);
-                    
-                Destroy(spell.spellObject.gameObject);
+                
+                _ps.spellPool.Return(spell.spellObject);
                 _spellPool.Del(unpackedEntity);
             }
         }

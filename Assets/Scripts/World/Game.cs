@@ -3,6 +3,8 @@ using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
 using Utils;
+using Utils.ObjectsPool;
+using World.Ability;
 using World.AI;
 using World.AI.Navigation;
 using World.Configurations;
@@ -27,12 +29,14 @@ namespace World
             _systemsFixedUpdate = new EcsSystems(world);
             _systemsLateUpdate = new EcsSystems(world);
             var ts = new TimeService();
+            var ps = new PoolService();
             var cs = new CursorService();
             var mainInput = new MainInput();
 
             _systemsUpdate
                 //Init systems
                 .Add(new PlayerInitSystem())
+                .Add(new SpellInitSystem())
                 .Add(new ChestInitSystem())
                 .Add(new ZoneInitSystem())
                 .Add(new EnemyInitSystem())
@@ -64,7 +68,7 @@ namespace World
                 .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem(Idents.Worlds.Events))
 #endif
 
-                .Inject(ts, cs, configuration, sceneData, mainInput)
+                .Inject(ts, ps, cs, configuration, sceneData, mainInput)
                 .InjectUgui(uguiEmitter, Idents.Worlds.Events)
                 .Init();
             _systemsFixedUpdate

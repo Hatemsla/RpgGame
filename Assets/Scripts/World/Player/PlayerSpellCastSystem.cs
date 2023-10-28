@@ -2,6 +2,7 @@
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Utils.ObjectsPool;
 using World.Ability;
 using World.Configurations;
 using Object = UnityEngine.Object;
@@ -15,6 +16,7 @@ namespace World.Player
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<SceneData> _sd = default;
         private readonly EcsCustomInject<CursorService> _cs = default;
+        private readonly EcsCustomInject<PoolService> _ps = default;
         
         private readonly EcsPoolInject<SpellComp> _spell = default;
 
@@ -41,17 +43,17 @@ namespace World.Player
 
                         var spellDirection = 
                             _sd.Value.mainCamera.OutputCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-                        var spellObject = 
-                            Object.Instantiate(spellObjectPrefab.spell, player.Transform.position + player.Transform.forward, 
-                                Quaternion.identity);
-                        
+                        var spellObject = _ps.Value.spellPool.Get();
+                        spellObject.transform.position = player.Transform.position + player.Transform.forward;
+
                         var spellEntity = world.NewEntity();
                         var spellPackedEntity = world.PackEntity(spellEntity);
                         ref var spell = ref _spell.Value.Add(spellEntity);
             
                         spell.spellObject = spellObject;
                         spell.spellOwner = playerEntity;
-                        
+
+                        spellObject._ps = _ps.Value;
                         spellObject.spellTime = spellObjectPrefab.lifeTime;
                         spellObject.spellSpeed = spellObjectPrefab.speed;
                         spellObject.spellDirection = spellDirection.direction;

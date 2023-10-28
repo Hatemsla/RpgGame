@@ -43,9 +43,7 @@ namespace World.AI
                     enemy.TargetIndex = Random.Range(0, zoneComp.ZoneView.targets.Count);
                     enemy.Transform.SetParent(zoneComp.ZoneView.transform);
                     enemy.Transform.localPosition = Vector3.zero;
-                    
-                    enemy.Position = enemy.Transform.localPosition;
-                    enemy.Rotation = enemy.Transform.rotation;
+                    enemy.EnemyState = EnemyState.Patrol;
                     enemy.Agent.enabled = true;
 
                     var randomEnemyType = zoneComp.ZoneView.enemiesType[Random.Range(0, zoneComp.ZoneView.enemiesType.Count - 1)];

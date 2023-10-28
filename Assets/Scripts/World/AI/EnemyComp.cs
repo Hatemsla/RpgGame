@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using World.AI.Navigation;
 
 namespace World.AI
 {
@@ -7,8 +8,8 @@ namespace World.AI
     {
         public Transform Transform;
         public int TargetIndex;
-        public Vector3 Position;
-        public Quaternion Rotation;
         public NavMeshAgent Agent;
+
+        public EnemyState EnemyState;
     }
 }

@@ -57,6 +57,8 @@ namespace World
                 .Add(new ChestUpdateSystem())
                 
                 .Add(new EnemyMoveSystem())
+                .Add(new EnemyChaseSystem())
+                .Add(new EnemyAttackSystem())
                 
                 .AddWorld(new EcsWorld(), Idents.Worlds.Events)
 #if UNITY_EDITOR

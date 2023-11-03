@@ -52,15 +52,15 @@ namespace World
                 .Add(new PlayerCameraRotateSystem())
                 .Add(new PlayerDashSystem())
                 .Add(new CameraZoomSystem())
-                .Add(new PlayerStaminaSystem())
                 .Add(new PlayerFallSystem())
                 .Add(new PlayerHealthSystem())
-                .Add(new PlayerSpellCastSystem())
+                .Add(new PlayerStaminaSystem())
                 .Add(new PlayerManaSystem())
+                .Add(new PlayerSpellCastSystem())
                 .Add(new PlayerGetItemSystem())
                 .Add(new ChestUpdateSystem())
                 
-                .Add(new EnemyMoveSystem())
+                .Add(new EnemyPatrolSystem())
                 .Add(new EnemyChaseSystem())
                 .Add(new EnemyAttackSystem())
                 

@@ -13,9 +13,14 @@ MonoBehaviour:
   m_Name: EnemySoldier
   m_EditorClassIdentifier: 
   enemyName: "\u0421\u043E\u043B\u0434\u0430\u0442"
+  enemyView: {fileID: 5894227718671533611, guid: bc1c33fd8c5d7e549a08f080896e1e37,
+    type: 3}
   health: 150
   stamina: 200
   mana: 70
   healthRecovery: 3
   staminaRecovery: 2
   manaRecovery: 1
+  minDamage: 5
+  maxDamage: 15
+  attackDelay: 2

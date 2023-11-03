@@ -7,9 +7,9 @@ namespace World.Configurations
     [CreateAssetMenu(fileName = "EnemyConfiguration", menuName = "World Configurations/Enemy Configuration")]
     public class EnemyConfiguration : ScriptableObject
     {
-        [Header("Enemy settings")] 
-        [Tooltip("Enemy prefab")]
-        public EnemyView enemyPrefab;
+        [Header("Enemy settings")]
+        [Tooltip("Enemy target error")] 
+        public float targetError;
 
         [Tooltip("Enemies data")] 
         public List<EnemyData> enemiesData;

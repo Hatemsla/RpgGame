@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using Leopotam.EcsLite;
+using UnityEngine;
 using World.Configurations;
 
 namespace World.Player
 {
     public sealed class PlayerView : MonoBehaviour
     {
+        public EcsPackedEntity PlayerPacked;
         public Configuration config;
 
         private void OnDrawGizmosSelected()

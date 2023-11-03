@@ -10,7 +10,6 @@ namespace World.Player
         public Quaternion Rotation;
         public CharacterController CharacterController;
         public Transform PlayerCameraRoot;
-        public Transform PlayerWeaponRoot;
         public CinemachineVirtualCamera PlayerCamera;
         public bool Grounded;
         public float VerticalVelocity;

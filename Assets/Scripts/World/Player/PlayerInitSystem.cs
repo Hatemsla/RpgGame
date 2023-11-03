@@ -1,7 +1,6 @@
 ﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
-using TMPro;
 using UnityEngine;
 using Utils;
 using World.Inventory;
@@ -38,7 +37,8 @@ namespace World.Player
         public void Init(IEcsSystems systems)
         {
             var playerEntity = _world.Value.NewEntity();
-
+            var playerPacked = _world.Value.PackEntity(playerEntity);
+                
             ref var player = ref _playerPool.Value.Add(playerEntity);
             ref var rpg = ref _rpgPool.Value.Add(playerEntity);
             ref var inventory = ref _inventoryPool.Value.Add(playerEntity);
@@ -47,20 +47,22 @@ namespace World.Player
             var playerPrefab = _cf.Value.playerConfiguration.playerPrefab;
             var playerFollowCameraPrefab = _cf.Value.playerConfiguration.playerFollowCameraPrefab;
             var playerStartPosition = _sc.Value.playerSpawnPosition.position;
-            var playerView = Object.Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
+            var playerObject = Object.Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
             var playerFollowCameraView =
                 Object.Instantiate(playerFollowCameraPrefab, Vector3.zero, Quaternion.identity);
 
-            _sc.Value.playerTransform = playerView.transform;
+            _sc.Value.playerTransform = playerObject.transform;
             
-            player.Transform = playerView.transform;
+            player.Transform = playerObject.transform;
             player.Position = playerStartPosition;
             player.Rotation = Quaternion.identity;
-            player.CharacterController = playerView.GetComponent<CharacterController>();
-            player.PlayerCameraRoot = playerView.GetComponentInChildren<PlayerCameraRootView>().transform;
-            player.PlayerWeaponRoot = playerView.GetComponentInChildren<PlayerView>().transform;
+            player.CharacterController = playerObject.GetComponent<CharacterController>();
+            player.PlayerCameraRoot = playerObject.GetComponentInChildren<PlayerCameraRootView>().transform;
             player.Grounded = true;
             player.PlayerCamera = playerFollowCameraView;
+            
+            var playerView = player.Transform.GetComponentInChildren<PlayerView>();
+            playerView.PlayerPacked = playerPacked;
 
             playerFollowCameraView.Follow = player.PlayerCameraRoot;
 

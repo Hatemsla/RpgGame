@@ -45,7 +45,7 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 1
-  playerPrefab: {fileID: 8406900658321012347, guid: 61f0f1c853bcfb44994a049f2fb9bfd3,
+  playerPrefab: {fileID: 623604660586739625, guid: 61f0f1c853bcfb44994a049f2fb9bfd3,
     type: 3}
   playerFollowCameraPrefab: {fileID: 4023971248361414438, guid: 0a57f7e45dd20654492220e1e448d0eb,
     type: 3}

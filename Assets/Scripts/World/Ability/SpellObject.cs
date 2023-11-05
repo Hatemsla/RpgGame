@@ -3,6 +3,7 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 using Utils.ObjectsPool;
+using World.AI;
 using World.Inventory;
 using World.Player;
 
@@ -10,10 +11,13 @@ namespace World.Ability
 {
     public class SpellObject : MonoBehaviour
     {
-        public EcsPackedEntity spellIdx;
-        public float spellTime;
         public float spellSpeed;
-        public Vector3 spellDirection;
+        public float spellDirection;
+        public float spellTime;
+        public Vector3 spellStart;
+        public Vector3 spellEnd;
+
+        public EcsPackedEntity spellIdx;
         public PoolService _ps;
 
         private EcsWorld _world;
@@ -21,19 +25,17 @@ namespace World.Ability
         private EcsPool<HasAbilities> _hasAbilities;
         private EcsPool<SpellComp> _spellPool;
         private EcsPool<AbilityComp> _abilityPool;
-        
+
         private void Update()
         {
-            spellTime -= Time.deltaTime;
-            if (spellTime > 0)
-                transform.Translate(spellDirection * (spellSpeed * Time.deltaTime));
-            else
-                DestroySpell();
-        }
+            float distanceCovered = (Time.time - spellTime) * spellSpeed;
+            float journeyFraction = distanceCovered / spellDirection;
+            transform.position = Vector3.Lerp(spellStart, spellEnd, journeyFraction);
 
-        private void OnCollisionEnter(Collision collision)
-        {
-            DestroySpell();
+            if (journeyFraction >= 1.0f)
+            {
+                DestroySpell();
+            }
         }
 
         private void DestroySpell()

@@ -39,24 +39,46 @@ namespace World.Player
 
                     if (rpg.Mana >= spellObjectPrefab.costPoint)
                     {
-                        rpg.Mana -= spellObjectPrefab.costPoint;
+                        //rpg.Mana -= spellObjectPrefab.costPoint;
+                        
+                        
+                        Vector3 centerOfScreen = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+                        Ray ray = _sd.Value.mainCamera.OutputCamera.ScreenPointToRay(centerOfScreen);
+                        Vector3 spellDirection;
+                        RaycastHit hitInfo;
 
-                        var spellDirection = 
-                            _sd.Value.mainCamera.OutputCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+                        if (Physics.Raycast(ray, out hitInfo, spellObjectPrefab.distance))
+                        {
+                            spellDirection = hitInfo.point;
+                            //Debug.Log("Попал в объект: " + hitInfo.collider.gameObject.name);
+                        }
+                        else
+                        {
+                            spellDirection = ray.GetPoint(spellObjectPrefab.distance);
+                        }
+
+                        float journeyLenght = Vector3.Distance(player.Transform.position + player.Transform.forward,
+                            spellDirection);
+                        float startTime = Time.time;
+
                         var spellObject = _ps.Value.spellPool.Get();
                         spellObject.transform.position = player.Transform.position + player.Transform.forward;
-
+                        
                         var spellEntity = world.NewEntity();
                         var spellPackedEntity = world.PackEntity(spellEntity);
                         ref var spell = ref _spell.Value.Add(spellEntity);
-            
+                        
                         spell.spellObject = spellObject;
                         spell.spellOwner = playerEntity;
-
+                        
                         spellObject._ps = _ps.Value;
-                        spellObject.spellTime = spellObjectPrefab.lifeTime;
+
+                        spellObject.spellTime = startTime;
+                        spellObject.spellDirection = journeyLenght;
+                        spellObject.spellStart = player.Transform.position + player.Transform.forward;
+                        spellObject.spellEnd = spellDirection;
                         spellObject.spellSpeed = spellObjectPrefab.speed;
-                        spellObject.spellDirection = spellDirection.direction;
+
                         spellObject.spellIdx = spellPackedEntity;
                         spellObject.SetWorld(world, playerEntity);
                     }

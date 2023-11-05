@@ -13,10 +13,8 @@ namespace World
         public float costPoint;
         [Tooltip("Ability's damage")]
         public float damage;
-        [Tooltip("Ability's radius")]
-        public float radius;
-        [Tooltip("Ability's life time")]
-        public float lifeTime;
+        [Tooltip("Ability's distance")]
+        public float distance;
         [Tooltip("Ability's speed")]
         public float speed;
         [Tooltip("Ability's object")]

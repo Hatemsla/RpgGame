@@ -144,8 +144,7 @@ namespace World.Player
                     
                     abil.Name = ability.name;
                     abil.Damage = ability.damage;
-                    abil.LifeTime = ability.lifeTime;
-                    abil.Radius = ability.radius;
+                    abil.Distance = ability.distance;
                     abil.Speed = ability.speed;
                     abil.CostPoint = ability.costPoint;
                     

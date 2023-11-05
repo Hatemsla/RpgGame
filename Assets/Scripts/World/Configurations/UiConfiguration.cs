@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace World
+namespace World.Configurations
 {
     [CreateAssetMenu(fileName = "UIConfiguration", menuName = "World Configurations/UI Configuration", order = 2)]
     public class UiConfiguration : ScriptableObject

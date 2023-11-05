@@ -9,7 +9,7 @@ namespace World.AI.Navigation
     public sealed class EnemyChaseSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<Inc<ZoneComp, HasEnemies>> _zoneFilter = default;
-        private readonly EcsFilterInject<Inc<PlayerComp>> _playerFilter = default;
+        private readonly EcsFilterInject<Inc<PlayerComp, RpgComp>> _playerFilter = default;
         private readonly EcsPoolInject<EnemyComp> _enemyPool = default;
 
         private readonly EcsWorldInject _world = default;
@@ -32,6 +32,13 @@ namespace World.AI.Navigation
                     foreach (var playerEntity in _playerFilter.Value)
                     {
                         ref var playerComp = ref _playerFilter.Pools.Inc1.Get(playerEntity);
+                        ref var rpgComp = ref _playerFilter.Pools.Inc2.Get(playerEntity);
+
+                        if (rpgComp.IsDead)
+                        {
+                            enemyComp.EnemyState = EnemyState.Patrol;
+                            continue;
+                        }
                         
                         var distanceToPlayer = Vector3.Distance(playerComp.Transform.position,
                             enemyComp.Agent.transform.position);

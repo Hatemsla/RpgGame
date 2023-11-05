@@ -2,14 +2,17 @@
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
+using World.Configurations;
 using Random = UnityEngine.Random;
 
 namespace World.AI.Navigation
 {
-    public sealed class EnemyMoveSystem : IEcsRunSystem
+    public sealed class EnemyPatrolSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<Inc<ZoneComp, HasEnemies>> _zoneFilter = default;
         private readonly EcsPoolInject<EnemyComp> _enemyPool = default;
+
+        private readonly EcsCustomInject<Configuration> _cf = default;
         
         private readonly EcsWorldInject _world = default;
         
@@ -31,7 +34,7 @@ namespace World.AI.Navigation
                     var distance = Vector3.Distance(enemyComp.Agent.transform.position,
                         enemyComp.Agent.pathEndPosition);
 
-                    if (Math.Abs(distance - 1f) < 0.01f)
+                    if (Math.Abs(distance - 1f) < _cf.Value.enemyConfiguration.targetError)
                     {
                         enemyComp.TargetIndex = Random.Range(0, zoneComp.ZoneView.targets.Count);
                     }

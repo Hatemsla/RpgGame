@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c0cf26d74e24c8ba79768633b4f43ab, type: 3}
   m_Name: EnemyConfiguration
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 5196786696560432587, guid: bc1c33fd8c5d7e549a08f080896e1e37,
+  enemyPrefab: {fileID: 5894227718671533611, guid: bc1c33fd8c5d7e549a08f080896e1e37,
     type: 3}
+  targetError: 0.5
   enemiesData:
   - {fileID: 11400000, guid: 61f0b2369089194489bd310653303dcf, type: 2}

@@ -8,6 +8,8 @@ namespace World.AI
         [Header("Enemy settings")] 
         [Tooltip("Enemy name")]
         public string enemyName;
+        [Tooltip("Enemy prefab")] 
+        public EnemyView enemyView;
         
         [Header("Enemy rpg settings")]
         [Tooltip("Start enemy health points")]
@@ -19,11 +21,17 @@ namespace World.AI
         
         [Tooltip("Health recovery rate")] 
         public float healthRecovery;
-        
         [Tooltip("Stamina recovery rate")]
         public float staminaRecovery;
-
         [Tooltip("Mana recovery rate")]
         public float manaRecovery;
+
+        [Tooltip("Min damage")] 
+        public float minDamage;
+        [Tooltip("Max damage")]
+        public float maxDamage;
+
+        [Tooltip("Attack delay")] 
+        public float attackDelay;
     }
 }

@@ -27,7 +27,6 @@ namespace World.AI.Navigation
                 {
                     if (packedEnemy.Unpack(_world.Value, out var unpackedEnemy))
                     {
-
                         ref var enemyComp = ref _enemyPool.Value.Get(unpackedEnemy);
 
                         if (enemyComp.EnemyState != EnemyState.Patrol) continue;
@@ -40,8 +39,9 @@ namespace World.AI.Navigation
                             enemyComp.TargetIndex = Random.Range(0, zoneComp.ZoneView.targets.Count);
                         }
 
-                        enemyComp.Agent.SetDestination(zoneComp.ZoneView.targets[enemyComp.TargetIndex].transform
-                            .position);
+                        if(enemyComp.EnemyView.gameObject.activeInHierarchy)
+                            enemyComp.Agent.SetDestination(zoneComp.ZoneView.targets[enemyComp.TargetIndex].transform
+                                .position);
                     }
                 }
             }

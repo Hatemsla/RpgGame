@@ -33,5 +33,8 @@ namespace World.AI
 
         [Tooltip("Attack delay")] 
         public float attackDelay;
+
+        [Tooltip("Respawn delay")] 
+        public float respawnDelay;
     }
 }

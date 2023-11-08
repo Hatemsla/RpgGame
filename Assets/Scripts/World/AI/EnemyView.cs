@@ -39,5 +39,12 @@ namespace World.AI
                 yield return new WaitForEndOfFrame();
             }
         }
+
+        public IEnumerator Respawn(float respawnDelay)
+        {
+            yield return new WaitForSeconds(respawnDelay);
+            
+            gameObject.SetActive(true);
+        }
     }
 }

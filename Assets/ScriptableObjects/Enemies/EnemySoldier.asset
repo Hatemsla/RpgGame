@@ -24,3 +24,4 @@ MonoBehaviour:
   minDamage: 5
   maxDamage: 15
   attackDelay: 2
+  respawnDelay: 3

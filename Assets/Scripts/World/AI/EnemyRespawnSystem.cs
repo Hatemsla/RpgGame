@@ -9,42 +9,44 @@ using World.Player;
 
 namespace World.AI
 {
-    public sealed class EnemyInitSystem : IEcsInitSystem
+    public sealed class EnemyRespawnSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<ZoneComp>> _zoneFilter = default;
+        private readonly EcsFilterInject<Inc<ZoneComp, HasEnemies>> _zoneFilter = default;
         private readonly EcsPoolInject<EnemyComp> _enemyPool = default;
         private readonly EcsPoolInject<RpgComp> _rpgPool = default;
-        private readonly EcsPoolInject<HasEnemies> _hasEnemiesPool = default;
 
-        private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<PoolService> _ps = default;
-        
+        private readonly EcsCustomInject<Configuration> _cf = default;
+        private readonly EcsCustomInject<SceneData> _sd = default;
+
         private readonly EcsWorldInject _world = default;
         
-        public void Init(IEcsSystems systems)
+        public void Run(IEcsSystems systems)
         {
-            _ps.Value.EnemyPool = new PoolBase<EnemyView>(Preload, GetAction, ReturnAction, 0);
-            
             foreach (var zoneEntity in _zoneFilter.Value)
             {
                 ref var zoneComp = ref _zoneFilter.Pools.Inc1.Get(zoneEntity);
                 var zonePackedEntity = _world.Value.PackEntity(zoneEntity);
-                ref var hasEnemies = ref _hasEnemiesPool.Value.Add(zoneEntity);
-                
-                for (var i = 0; i < zoneComp.ZoneView.enemiesCount; i++)
+                ref var hasEnemiesComp = ref _zoneFilter.Pools.Inc2.Get(zoneEntity);
+                var count = 0;
+
+                foreach (var packedEntity in hasEnemiesComp.Entities)
+                    if (packedEntity.Unpack(_world.Value, out _))
+                        count++;
+
+                for (var i = 0; i < zoneComp.ZoneView.enemiesCount - count; i++)
                 {
                     var enemyEntity = _world.Value.NewEntity();
-
+                    
                     ref var enemy = ref _enemyPool.Value.Add(enemyEntity);
                     ref var rpg = ref _rpgPool.Value.Add(enemyEntity);
-
+                    
                     var randomEnemy = Random.Range(0, zoneComp.ZoneView.enemiesType.Count - 1);
                     var randomEnemyType = zoneComp.ZoneView.enemiesType[randomEnemy];
-                    var enemyPrefab = randomEnemyType.enemyView;
-
-                    _ps.Value.EnemyPool.Add(Object.Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity));
+                    
                     var enemyView = _ps.Value.EnemyPool.Get();
-
+                    enemyView.gameObject.SetActive(false);
+                    
                     var enemyIndex = _cf.Value.enemyConfiguration.enemiesData.IndexOf(randomEnemyType);
                     
                     enemy.EnemyIndex = enemyIndex;
@@ -75,16 +77,11 @@ namespace World.AI
                     enemyView.EnemyPacked = enemyPackedEntity;
                     enemyView.ZonePacked = zonePackedEntity;
                     enemyView.SetWorld(_world.Value, enemyEntity);
+                    _sd.Value.StartCoroutine(enemyView.Respawn(randomEnemyType.respawnDelay));
                     
-                    hasEnemies.Entities.Add(enemyPackedEntity);
+                    hasEnemiesComp.Entities.Add(enemyPackedEntity);
                 }
             }
         }
-        
-        private EnemyView Preload() => Object.Instantiate(_cf.Value.enemyConfiguration.enemiesData[0].enemyView, 
-            Vector3.zero, Quaternion.identity);
-
-        private void GetAction(EnemyView spellObject) => spellObject.gameObject.SetActive(true);
-        private void ReturnAction(EnemyView spellObject) => spellObject.gameObject.SetActive(false);
     }
 }

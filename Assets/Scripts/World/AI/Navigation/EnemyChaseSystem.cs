@@ -52,7 +52,7 @@ namespace World.AI.Navigation
                                 enemyComp.EnemyState = EnemyState.Patrol;
                             }
 
-                            if (enemyComp.EnemyState == EnemyState.Chase)
+                            if (enemyComp.EnemyState == EnemyState.Chase && enemyComp.Agent)
                                 enemyComp.Agent.SetDestination(playerComp.Transform.position);
                         }
                     }

@@ -39,24 +39,19 @@ namespace World.Player
 
                     if (rpg.Mana >= abilityData.costPoint)
                     {
-                        //rpg.Mana -= spellObjectPrefab.costPoint;
+                        rpg.Mana -= abilityData.costPoint;
                         
                         var centerOfScreen = new Vector3(Screen.width / 2, Screen.height / 2, 0);
                         var ray = _sd.Value.mainCamera.OutputCamera.ScreenPointToRay(centerOfScreen);
                         Vector3 spellDirection;
 
                         if (Physics.Raycast(ray, out var hitInfo, abilityData.distance))
-                        {
                             spellDirection = hitInfo.point;
-                            //Debug.Log("Попал в объект: " + hitInfo.collider.gameObject.name);
-                        }
                         else
-                        {
                             spellDirection = ray.GetPoint(abilityData.distance);
-                        }
 
                         var journeyLenght = Vector3.Distance(player.Transform.position + player.Transform.forward,
-                            spellDirection);
+                        spellDirection);
                         var startTime = _ts.Value.Time;
 
                         var spellObject = _ps.Value.SpellPool.Get();

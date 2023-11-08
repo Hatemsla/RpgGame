@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6844303308138078127}
   - component: {fileID: -5577556761305309043}
   - component: {fileID: -861816401512577905}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FireBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,9 +119,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a77fa2f658b4fdf9a6e566c8c547130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spellTime: 0
   spellSpeed: 0
-  spellDirection: {x: 0, y: 0, z: 0}
+  spellDirection: 0
+  spellTime: 0
+  spellStart: {x: 0, y: 0, z: 0}
+  spellEnd: {x: 0, y: 0, z: 0}
 --- !u!54 &-861816401512577905
 Rigidbody:
   m_ObjectHideFlags: 0

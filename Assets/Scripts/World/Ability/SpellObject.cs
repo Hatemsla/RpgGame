@@ -11,14 +11,16 @@ namespace World.Ability
 {
     public class SpellObject : MonoBehaviour
     {
+        public float spellDamage;
         public float spellSpeed;
         public float spellDirection;
         public float spellTime;
         public Vector3 spellStart;
         public Vector3 spellEnd;
 
-        public EcsPackedEntity spellIdx;
-        public PoolService _ps;
+        public EcsPackedEntity SpellIdx;
+        public PoolService PoolService;
+        public TimeService TimeService;
 
         private EcsWorld _world;
         private int _playerEntity;
@@ -28,8 +30,8 @@ namespace World.Ability
 
         private void Update()
         {
-            float distanceCovered = (Time.time - spellTime) * spellSpeed;
-            float journeyFraction = distanceCovered / spellDirection;
+            var distanceCovered = (TimeService.Time - spellTime) * spellSpeed;
+            var journeyFraction = distanceCovered / spellDirection;
             transform.position = Vector3.Lerp(spellStart, spellEnd, journeyFraction);
 
             if (journeyFraction >= 1.0f)
@@ -38,13 +40,42 @@ namespace World.Ability
             }
         }
 
+        private void OnCollisionEnter(Collision other)
+        {
+            var enemyView = other.gameObject.GetComponent<EnemyView>();
+
+            if (enemyView)
+            {
+                if (enemyView.EnemyPacked.Unpack(_world, out var unpackedEnemyEntity))
+                {
+                    var enemyPool = _world.GetPool<EnemyComp>();
+                    var enemyRpgPool = _world.GetPool<RpgComp>();
+                    
+                    ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
+                    ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
+                    
+                    enemyRpgComp.Health -= spellDamage;
+
+                    if (enemyRpgComp.Health <= 0)
+                    {
+                        PoolService.EnemyPool.Return(enemyComp.EnemyView);
+                        
+                        enemyPool.Del(unpackedEnemyEntity);
+                        enemyRpgPool.Del(unpackedEnemyEntity);
+                    }
+                    
+                    DestroySpell();
+                }
+            }
+        }
+
         private void DestroySpell()
         {
-            if (spellIdx.Unpack(_world, out var unpackedEntity))
+            if (SpellIdx.Unpack(_world, out var unpackedEntity))
             {
                 ref var spell = ref _spellPool.Get(unpackedEntity);
                 
-                _ps.spellPool.Return(spell.spellObject);
+                PoolService.SpellPool.Return(spell.spellObject);
                 _spellPool.Del(unpackedEntity);
             }
         }

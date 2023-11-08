@@ -63,6 +63,7 @@ namespace World
                 .Add(new EnemyPatrolSystem())
                 .Add(new EnemyChaseSystem())
                 .Add(new EnemyAttackSystem())
+                .Add(new EnemyRecoverySystem())
                 
                 .AddWorld(new EcsWorld(), Idents.Worlds.Events)
 #if UNITY_EDITOR

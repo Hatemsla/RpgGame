@@ -25,22 +25,24 @@ namespace World.AI.Navigation
 
                 foreach (var packedEnemy in hasEnemiesComp.Entities)
                 {
-                    packedEnemy.Unpack(_world.Value, out var unpackedEnemy);
-
-                    ref var enemyComp = ref _enemyPool.Value.Get(unpackedEnemy);
-
-                    if (enemyComp.EnemyState != EnemyState.Patrol) continue;
-                    
-                    var distance = Vector3.Distance(enemyComp.Agent.transform.position,
-                        enemyComp.Agent.pathEndPosition);
-
-                    if (Math.Abs(distance - 1f) < _cf.Value.enemyConfiguration.targetError)
+                    if (packedEnemy.Unpack(_world.Value, out var unpackedEnemy))
                     {
-                        enemyComp.TargetIndex = Random.Range(0, zoneComp.ZoneView.targets.Count);
-                    }
 
-                    enemyComp.Agent.SetDestination(zoneComp.ZoneView.targets[enemyComp.TargetIndex].transform
-                        .position);
+                        ref var enemyComp = ref _enemyPool.Value.Get(unpackedEnemy);
+
+                        if (enemyComp.EnemyState != EnemyState.Patrol) continue;
+
+                        var distance = Vector3.Distance(enemyComp.Agent.transform.position,
+                            enemyComp.Agent.pathEndPosition);
+
+                        if (Math.Abs(distance - 1f) < _cf.Value.enemyConfiguration.targetError)
+                        {
+                            enemyComp.TargetIndex = Random.Range(0, zoneComp.ZoneView.targets.Count);
+                        }
+
+                        enemyComp.Agent.SetDestination(zoneComp.ZoneView.targets[enemyComp.TargetIndex].transform
+                            .position);
+                    }
                 }
             }
         }

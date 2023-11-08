@@ -2,6 +2,7 @@
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 using UnityEngine.AI;
+using Utils.ObjectsPool;
 using World.AI.Navigation;
 using World.Configurations;
 using World.Player;
@@ -16,11 +17,14 @@ namespace World.AI
         private readonly EcsPoolInject<HasEnemies> _hasEnemiesPool = default;
 
         private readonly EcsCustomInject<Configuration> _cf = default;
+        private readonly EcsCustomInject<PoolService> _ps = default;
         
         private readonly EcsWorldInject _world = default;
         
         public void Init(IEcsSystems systems)
         {
+            _ps.Value.EnemyPool = new PoolBase<EnemyView>(Preload, GetAction, ReturnAction, 0);
+            
             foreach (var zoneEntity in _zoneFilter.Value)
             {
                 ref var zoneComp = ref _zoneFilter.Pools.Inc1.Get(zoneEntity);
@@ -35,10 +39,16 @@ namespace World.AI
                     ref var rpg = ref _rpgPool.Value.Add(enemyEntity);
 
                     var randomEnemy = Random.Range(0, zoneComp.ZoneView.enemiesType.Count - 1);
-                    var enemyPrefab = zoneComp.ZoneView.enemiesType[randomEnemy].enemyView;
+                    var randomEnemyType = zoneComp.ZoneView.enemiesType[randomEnemy];
+                    var enemyPrefab = randomEnemyType.enemyView;
 
-                    var enemyView = Object.Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity);
+                    _ps.Value.EnemyPool.Add(Object.Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity));
+                    var enemyView = _ps.Value.EnemyPool.Get();
+
+                    var enemyIndex = _cf.Value.enemyConfiguration.enemiesData.IndexOf(randomEnemyType);
                     
+                    enemy.EnemyIndex = enemyIndex;
+                    enemy.EnemyName = randomEnemyType.enemyName;
                     enemy.Transform = enemyView.transform;
                     enemy.EnemyView = enemyView;
                     enemy.Agent = enemyView.GetComponent<NavMeshAgent>();
@@ -47,12 +57,11 @@ namespace World.AI
                     enemy.Transform.localPosition = Vector3.zero;
                     enemy.EnemyState = EnemyState.Patrol;
                     enemy.Agent.enabled = true;
-                    enemy.MinDamage = zoneComp.ZoneView.enemiesType[randomEnemy].minDamage;
-                    enemy.MaxDamage = zoneComp.ZoneView.enemiesType[randomEnemy].maxDamage;
-                    enemy.AttackDelay = zoneComp.ZoneView.enemiesType[randomEnemy].attackDelay;
+                    enemy.MinDamage = randomEnemyType.minDamage;
+                    enemy.MaxDamage = randomEnemyType.maxDamage;
+                    enemy.AttackDelay = randomEnemyType.attackDelay;
                     enemy.EnemyView.currentAttackDelay = enemy.AttackDelay;
-
-                    var randomEnemyType = zoneComp.ZoneView.enemiesType[randomEnemy];
+                    
                     rpg.Health = randomEnemyType.health;
                     rpg.Stamina = randomEnemyType.stamina;
                     rpg.Mana = randomEnemyType.mana;
@@ -70,5 +79,11 @@ namespace World.AI
                 }
             }
         }
+        
+        private EnemyView Preload() => Object.Instantiate(_cf.Value.enemyConfiguration.enemiesData[0].enemyView, 
+            Vector3.zero, Quaternion.identity);
+
+        private void GetAction(EnemyView spellObject) => spellObject.gameObject.SetActive(true);
+        private void ReturnAction(EnemyView spellObject) => spellObject.gameObject.SetActive(false);
     }
 }

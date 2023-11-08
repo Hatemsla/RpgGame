@@ -6,6 +6,8 @@ namespace World.AI
 {
     public struct EnemyComp
     {
+        public int EnemyIndex;
+        public string EnemyName;
         public Transform Transform;
         public EnemyView EnemyView;
         public int TargetIndex;

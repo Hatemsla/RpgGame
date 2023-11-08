@@ -11,18 +11,18 @@ namespace World.Ability
     {
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<PoolService> _ps = default;
-        private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp, RpgComp>> _player = default;
         
-        private const int SPELL_PRELOAD_COUNT = 20;
+        private const int SpellPreloadCount = 20;
 
         public void Init(IEcsSystems systems)
         {
-            _ps.Value.spellPool = new PoolBase<SpellObject>(Preload, GetAction, ReturnAction, SPELL_PRELOAD_COUNT);
+            _ps.Value.SpellPool = new PoolBase<SpellObject>(Preload, GetAction, ReturnAction, SpellPreloadCount);
         }
-        
-        public SpellObject Preload() => Object.Instantiate(_cf.Value.abilityConfiguration.abilityDatas[0].spell, 
+
+        private SpellObject Preload() => Object.Instantiate(_cf.Value.abilityConfiguration.abilityDatas[0].spell, 
             Vector3.zero, Quaternion.identity);
-        public void GetAction(SpellObject spellObject) => spellObject.gameObject.SetActive(true);
-        public void ReturnAction(SpellObject spellObject) => spellObject.gameObject.SetActive(false);
+
+        private void GetAction(SpellObject spellObject) => spellObject.gameObject.SetActive(true);
+        private void ReturnAction(SpellObject spellObject) => spellObject.gameObject.SetActive(false);
     }
 }

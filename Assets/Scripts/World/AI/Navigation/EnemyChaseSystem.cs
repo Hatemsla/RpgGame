@@ -23,37 +23,38 @@ namespace World.AI.Navigation
 
                 foreach (var packedEnemy in hasEnemiesComp.Entities)
                 {
-                    packedEnemy.Unpack(_world.Value, out var unpackedEnemy);
-
-                    ref var enemyComp = ref _enemyPool.Value.Get(unpackedEnemy);
-                    
-                    if(enemyComp.EnemyState == EnemyState.Attack) continue;
-
-                    foreach (var playerEntity in _playerFilter.Value)
+                    if (packedEnemy.Unpack(_world.Value, out var unpackedEnemy))
                     {
-                        ref var playerComp = ref _playerFilter.Pools.Inc1.Get(playerEntity);
-                        ref var rpgComp = ref _playerFilter.Pools.Inc2.Get(playerEntity);
+                        ref var enemyComp = ref _enemyPool.Value.Get(unpackedEnemy);
 
-                        if (rpgComp.IsDead)
-                        {
-                            enemyComp.EnemyState = EnemyState.Patrol;
-                            continue;
-                        }
-                        
-                        var distanceToPlayer = Vector3.Distance(playerComp.Transform.position,
-                            enemyComp.Agent.transform.position);
-                    
-                        if (Math.Abs(distanceToPlayer) < 7f && enemyComp.EnemyState != EnemyState.Chase)
-                        {
-                            enemyComp.EnemyState = EnemyState.Chase;
-                        }
-                        else if(enemyComp.EnemyState == EnemyState.Chase && Math.Abs(distanceToPlayer) >= 7f)
-                        {
-                            enemyComp.EnemyState = EnemyState.Patrol;
-                        }
+                        if (enemyComp.EnemyState == EnemyState.Attack) continue;
 
-                        if(enemyComp.EnemyState == EnemyState.Chase)
-                            enemyComp.Agent.SetDestination(playerComp.Transform.position);
+                        foreach (var playerEntity in _playerFilter.Value)
+                        {
+                            ref var playerComp = ref _playerFilter.Pools.Inc1.Get(playerEntity);
+                            ref var rpgComp = ref _playerFilter.Pools.Inc2.Get(playerEntity);
+
+                            if (rpgComp.IsDead)
+                            {
+                                enemyComp.EnemyState = EnemyState.Patrol;
+                                continue;
+                            }
+
+                            var distanceToPlayer = Vector3.Distance(playerComp.Transform.position,
+                                enemyComp.Agent.transform.position);
+
+                            if (Math.Abs(distanceToPlayer) < 7f && enemyComp.EnemyState != EnemyState.Chase)
+                            {
+                                enemyComp.EnemyState = EnemyState.Chase;
+                            }
+                            else if (enemyComp.EnemyState == EnemyState.Chase && Math.Abs(distanceToPlayer) >= 7f)
+                            {
+                                enemyComp.EnemyState = EnemyState.Patrol;
+                            }
+
+                            if (enemyComp.EnemyState == EnemyState.Chase)
+                                enemyComp.Agent.SetDestination(playerComp.Transform.position);
+                        }
                     }
                 }
             }

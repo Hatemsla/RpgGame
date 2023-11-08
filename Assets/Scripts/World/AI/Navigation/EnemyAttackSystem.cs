@@ -24,43 +24,44 @@ namespace World.AI.Navigation
 
                 foreach (var packedEnemy in hasEnemiesComp.Entities)
                 {
-                    packedEnemy.Unpack(_world.Value, out var unpackedEnemy);
-
-                    ref var enemyComp = ref _enemyPool.Value.Get(unpackedEnemy);
-                    
-                    foreach (var playerEntity in _playerFilter.Value)
+                    if (packedEnemy.Unpack(_world.Value, out var unpackedEnemy))
                     {
-                        ref var playerComp = ref _playerFilter.Pools.Inc1.Get(playerEntity);
-                        ref var rpgComp = ref _playerFilter.Pools.Inc2.Get(playerEntity);
+                        ref var enemyComp = ref _enemyPool.Value.Get(unpackedEnemy);
 
-                        if (rpgComp.IsDead)
+                        foreach (var playerEntity in _playerFilter.Value)
                         {
-                            enemyComp.EnemyState = EnemyState.Patrol;
-                            break;
-                        }
-                        
-                        var distanceToPlayer = Vector3.Distance(playerComp.Transform.position,
-                            enemyComp.Agent.transform.position);
-                    
-                        if (Math.Abs(distanceToPlayer) < 3f && enemyComp.EnemyState != EnemyState.Attack)
-                        {
-                            enemyComp.EnemyState = EnemyState.Attack;
-                        }
-                        else if(enemyComp.EnemyState == EnemyState.Attack && Math.Abs(distanceToPlayer) >= 3f)
-                        {
-                            enemyComp.EnemyState = EnemyState.Chase;
-                        }
+                            ref var playerComp = ref _playerFilter.Pools.Inc1.Get(playerEntity);
+                            ref var rpgComp = ref _playerFilter.Pools.Inc2.Get(playerEntity);
 
-                        if (enemyComp.EnemyState == EnemyState.Attack)
-                        {
-                            enemyComp.Agent.SetDestination(playerComp.Transform.position);
-
-                            if (enemyComp.EnemyView.currentAttackDelay >= enemyComp.AttackDelay)
+                            if (rpgComp.IsDead)
                             {
-                                Debug.Log("Attack");
-                                rpgComp.Health -= Random.Range(enemyComp.MinDamage, enemyComp.MaxDamage);
-                                enemyComp.EnemyView.StartCoroutine(
-                                    enemyComp.EnemyView.AttackDelay(enemyComp.AttackDelay));
+                                enemyComp.EnemyState = EnemyState.Patrol;
+                                break;
+                            }
+
+                            var distanceToPlayer = Vector3.Distance(playerComp.Transform.position,
+                                enemyComp.Agent.transform.position);
+
+                            if (Math.Abs(distanceToPlayer) < 3f && enemyComp.EnemyState != EnemyState.Attack)
+                            {
+                                enemyComp.EnemyState = EnemyState.Attack;
+                            }
+                            else if (enemyComp.EnemyState == EnemyState.Attack && Math.Abs(distanceToPlayer) >= 3f)
+                            {
+                                enemyComp.EnemyState = EnemyState.Chase;
+                            }
+
+                            if (enemyComp.EnemyState == EnemyState.Attack)
+                            {
+                                enemyComp.Agent.SetDestination(playerComp.Transform.position);
+
+                                if (enemyComp.EnemyView.currentAttackDelay >= enemyComp.AttackDelay)
+                                {
+                                    Debug.Log("Attack");
+                                    rpgComp.Health -= Random.Range(enemyComp.MinDamage, enemyComp.MaxDamage);
+                                    enemyComp.EnemyView.StartCoroutine(
+                                        enemyComp.EnemyView.AttackDelay(enemyComp.AttackDelay));
+                                }
                             }
                         }
                     }

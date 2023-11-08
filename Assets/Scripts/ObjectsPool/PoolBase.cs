@@ -39,6 +39,20 @@ namespace Utils.ObjectsPool
 
         #region methods
 
+        public void Add(T item)
+        {
+            if (item != null)
+            {
+                _pool.Enqueue(item);
+                _returnAction(item);
+                _active.Remove(item);
+            }
+            else
+            {
+                Debug.LogError("Cannot add a null item to the pool.");
+            }
+        }
+        
         public T Get()
         {
             var item = _pool.Count > 0 ? _pool.Dequeue() : _preloadFunc();

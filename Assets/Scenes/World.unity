@@ -3166,7 +3166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &126489976
 Transform:
   m_ObjectHideFlags: 0
@@ -3278,7 +3278,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &143854989
 Transform:
   m_ObjectHideFlags: 0
@@ -3548,7 +3548,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &164181506
 Transform:
   m_ObjectHideFlags: 0
@@ -9896,7 +9896,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &438690040
 Transform:
   m_ObjectHideFlags: 0
@@ -19887,7 +19887,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &870323907
 Transform:
   m_ObjectHideFlags: 0
@@ -25371,7 +25371,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1062610658
 Transform:
   m_ObjectHideFlags: 0
@@ -26440,7 +26440,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1102653676}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 56.369247, y: 1, z: 188.00813}
+  m_LocalPosition: {x: 65.11925, y: 1, z: 152.17949}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -26523,7 +26523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ee4699534d94b0c9fad781006675b4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemiesCount: 20
+  enemiesCount: 1
   enemiesType:
   - {fileID: 11400000, guid: 61f0b2369089194489bd310653303dcf, type: 2}
   targets: []
@@ -40443,7 +40443,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1600491589
 Transform:
   m_ObjectHideFlags: 0
@@ -43721,7 +43721,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1724818872
 Transform:
   m_ObjectHideFlags: 0
@@ -50143,15 +50143,6 @@ MonoBehaviour:
   - {fileID: 1755948581}
   zones:
   - {fileID: 1102653678}
-  - {fileID: 164181507}
-  - {fileID: 2114545673}
-  - {fileID: 1724818873}
-  - {fileID: 1062610659}
-  - {fileID: 1600491590}
-  - {fileID: 143854990}
-  - {fileID: 870323908}
-  - {fileID: 438690041}
-  - {fileID: 126489977}
 --- !u!114 &1968066359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53945,7 +53936,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2114545672
 Transform:
   m_ObjectHideFlags: 0

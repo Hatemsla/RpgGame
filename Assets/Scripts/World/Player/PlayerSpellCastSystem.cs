@@ -5,8 +5,6 @@ using UnityEngine.EventSystems;
 using Utils.ObjectsPool;
 using World.Ability;
 using World.Configurations;
-using Object = UnityEngine.Object;
-using Quaternion = UnityEngine.Quaternion;
 
 namespace World.Player
 {
@@ -15,9 +13,11 @@ namespace World.Player
         private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp, RpgComp>> _player = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<SceneData> _sd = default;
+        
         private readonly EcsCustomInject<CursorService> _cs = default;
         private readonly EcsCustomInject<PoolService> _ps = default;
-        
+        private readonly EcsCustomInject<TimeService> _ts = default;
+
         private readonly EcsPoolInject<SpellComp> _spell = default;
 
         public void Run(IEcsSystems systems)
@@ -29,57 +29,57 @@ namespace World.Player
                 ref var input = ref _player.Pools.Inc2.Get(playerEntity);
                 ref var rpg = ref _player.Pools.Inc3.Get(playerEntity);
 
-                if(rpg.IsDead || input.FreeCursor || _cs.Value.CursorVisible) return;
-                
-                if(EventSystem.current.IsPointerOverGameObject()) return;
-                
+                if (rpg.IsDead || input.FreeCursor || _cs.Value.CursorVisible) return;
+
+                if (EventSystem.current.IsPointerOverGameObject()) return;
+
                 if (input.UseAbility)
                 {
-                    var spellObjectPrefab = _cf.Value.abilityConfiguration.abilityDatas[0];
+                    var abilityData = _cf.Value.abilityConfiguration.abilityDatas[0];
 
-                    if (rpg.Mana >= spellObjectPrefab.costPoint)
+                    if (rpg.Mana >= abilityData.costPoint)
                     {
                         //rpg.Mana -= spellObjectPrefab.costPoint;
                         
-                        
-                        Vector3 centerOfScreen = new Vector3(Screen.width / 2, Screen.height / 2, 0);
-                        Ray ray = _sd.Value.mainCamera.OutputCamera.ScreenPointToRay(centerOfScreen);
+                        var centerOfScreen = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+                        var ray = _sd.Value.mainCamera.OutputCamera.ScreenPointToRay(centerOfScreen);
                         Vector3 spellDirection;
-                        RaycastHit hitInfo;
 
-                        if (Physics.Raycast(ray, out hitInfo, spellObjectPrefab.distance))
+                        if (Physics.Raycast(ray, out var hitInfo, abilityData.distance))
                         {
                             spellDirection = hitInfo.point;
                             //Debug.Log("Попал в объект: " + hitInfo.collider.gameObject.name);
                         }
                         else
                         {
-                            spellDirection = ray.GetPoint(spellObjectPrefab.distance);
+                            spellDirection = ray.GetPoint(abilityData.distance);
                         }
 
-                        float journeyLenght = Vector3.Distance(player.Transform.position + player.Transform.forward,
+                        var journeyLenght = Vector3.Distance(player.Transform.position + player.Transform.forward,
                             spellDirection);
-                        float startTime = Time.time;
+                        var startTime = _ts.Value.Time;
 
-                        var spellObject = _ps.Value.spellPool.Get();
+                        var spellObject = _ps.Value.SpellPool.Get();
                         spellObject.transform.position = player.Transform.position + player.Transform.forward;
-                        
+
                         var spellEntity = world.NewEntity();
                         var spellPackedEntity = world.PackEntity(spellEntity);
                         ref var spell = ref _spell.Value.Add(spellEntity);
-                        
+
                         spell.spellObject = spellObject;
                         spell.spellOwner = playerEntity;
-                        
-                        spellObject._ps = _ps.Value;
 
+                        spellObject.PoolService = _ps.Value;
+                        spellObject.TimeService = _ts.Value;
+
+                        spellObject.spellDamage = abilityData.damage;
                         spellObject.spellTime = startTime;
                         spellObject.spellDirection = journeyLenght;
                         spellObject.spellStart = player.Transform.position + player.Transform.forward;
                         spellObject.spellEnd = spellDirection;
-                        spellObject.spellSpeed = spellObjectPrefab.speed;
+                        spellObject.spellSpeed = abilityData.speed;
 
-                        spellObject.spellIdx = spellPackedEntity;
+                        spellObject.SpellIdx = spellPackedEntity;
                         spellObject.SetWorld(world, playerEntity);
                     }
                 }

@@ -92,9 +92,12 @@ namespace World.Inventory
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            _parentAfterDrag = transform.parent;
-            transform.SetParent(transform.root);
-            transform.SetAsLastSibling();
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                _parentAfterDrag = transform.parent;
+                transform.SetParent(transform.root);
+                transform.SetAsLastSibling();
+            }
         }
 
         public void OnDrag(PointerEventData eventData)

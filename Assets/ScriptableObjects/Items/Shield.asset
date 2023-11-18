@@ -18,7 +18,7 @@ MonoBehaviour:
   itemCount: 1
   itemWeight: 7.5
   itemType: 0
-  itemSprite: {fileID: 21300000, guid: d46e0db28f323f6499629854eda9c0dc, type: 3}
+  itemSprite: {fileID: 21300000, guid: fb6df7dc5ceebe744a0ea02ca322493c, type: 3}
   itemViewPrefab: {fileID: 5094765688295937399, guid: 3a4b49cd2c162634e903351b9fbe686a,
     type: 3}
   itemObjectPrefab: {fileID: 1420541304501039748, guid: 913b2823d8469fd468018274a364ccb8,

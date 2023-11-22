@@ -1,5 +1,4 @@
-﻿using Leopotam.EcsLite;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace World.Inventory
 {

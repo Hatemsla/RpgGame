@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using World.Ability;
 using World.AI;
+using World.Inventory;
 
 namespace Utils.ObjectsPool
 {

@@ -13,6 +13,9 @@ namespace World.Player
         
         private readonly EcsPoolInject<ItemComp> _itemsPool = default;
         private readonly EcsPoolInject<HasItems> _hasItemsPool = default;
+        private readonly EcsCustomInject<SceneData> _sd = default;
+
+        private readonly EcsWorldInject _world = default;
         
         [EcsUguiNamed(Idents.UI.PlayerInventoryView)]
         private readonly GameObject _inventoryView = default;
@@ -29,19 +32,40 @@ namespace World.Player
                     _inventoryView.SetActive(!_inventoryView.activeSelf);
                 }
                 
-                if (input.GetFirstItem)
+                if (input.Alpha1 && _sd.Value.fastItemViews[0].itemObject != null)
                 {
-                    TryGetItem(0, entity);
+                    if(_sd.Value.fastItemViews[0].itemObject.ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                        TryGetItem(unpackedItem, entity);
                 }
 
-                if (input.GetSecondItem)
+                if (input.Alpha2 && _sd.Value.fastItemViews[1].itemObject != null)
                 {
-                    TryGetItem(1, entity);
+                    if(_sd.Value.fastItemViews[1].itemObject.ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                        TryGetItem(unpackedItem, entity);
                 }
                 
-                if (input.GetThirdItem)
+                if (input.Alpha3 && _sd.Value.fastItemViews[2].itemObject != null)
                 {
-                    TryGetItem(2, entity);
+                    if(_sd.Value.fastItemViews[2].itemObject.ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                        TryGetItem(unpackedItem, entity);
+                }
+                
+                if (input.Alpha4 && _sd.Value.fastItemViews[3].itemObject != null)
+                {
+                    if(_sd.Value.fastItemViews[3].itemObject.ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                        TryGetItem(unpackedItem, entity);
+                }
+
+                if (input.Alpha5 && _sd.Value.fastItemViews[4].itemObject != null)
+                {
+                    if(_sd.Value.fastItemViews[4].itemObject.ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                        TryGetItem(unpackedItem, entity);
+                }
+                
+                if (input.Alpha6 && _sd.Value.fastItemViews[5].itemObject != null)
+                {
+                    if(_sd.Value.fastItemViews[5].itemObject.ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                        TryGetItem(unpackedItem, entity);
                 }
             }
         }
@@ -51,22 +75,16 @@ namespace World.Player
             var world = _hasItemsPool.Value.GetWorld();
             ref var hasItems = ref _hasItemsPool.Value.Get(entity);
 
-            for (var i = 0; i < hasItems.Entities.Count; i++)
+            foreach (var itemPacked in hasItems.Entities)
             {
-                var itemPacked = hasItems.Entities[i];
-
                 if (itemPacked.Unpack(world, out var unpackedEntity))
                 {
                     ref var item = ref _itemsPool.Value.Get(unpackedEntity);
 
-                    if (i == itemIdx)
-                    {
+                    if (unpackedEntity == itemIdx)
                         item.ItemView.itemObject.gameObject.SetActive(!item.ItemView.itemObject.gameObject.activeSelf);
-                    }
                     else
-                    {
                         item.ItemView.itemObject.gameObject.SetActive(false);
-                    }
                 }
             }
         }

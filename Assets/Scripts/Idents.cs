@@ -23,6 +23,9 @@
             public const string ChestInventoryView = "ChestInventoryView";
             public const string ChestInventoryViewContent = "ChestInventoryViewContent";
             public const string ChestInventoryWeight = "ChestInventoryWeight";
+            
+            public const string FastItemsView = "FastItemsView";
+            public const string FastItemsViewContent = "FastItemsViewContent";
 
 
             public const string CrosshairView = "CrosshairView";
@@ -38,6 +41,11 @@
             public const string Bow = "Bow";
             public const string Shield = "Shield";
             public const string Sword = "Sword";
+        }
+
+        public static class Layers
+        {
+            public const string FastItemView = "FastItemView";
         }
     }
 }

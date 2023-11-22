@@ -8,6 +8,7 @@ using World.Ability;
 using World.AI;
 using World.AI.Navigation;
 using World.Configurations;
+using World.Inventory;
 using World.Inventory.Chest;
 using World.Player;
 
@@ -36,6 +37,7 @@ namespace World
             _systemsUpdate
                 //Init systems
                 .Add(new PlayerInitSystem())
+                .Add(new ItemsInitSystem())
                 .Add(new SpellInitSystem())
                 .Add(new ChestInitSystem())
                 .Add(new ZoneInitSystem())

@@ -1,10 +1,13 @@
-﻿using Leopotam.EcsLite;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Leopotam.EcsLite;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using World.Inventory.Chest;
+using World.Player;
 
 namespace World.Inventory
 {
@@ -15,11 +18,13 @@ namespace World.Inventory
         public Image itemImage;
         public RectTransform playerInventoryView;
         public RectTransform chestInventoryView;
+        public RectTransform fastItemsView;
         [SerializeField] private TMP_Text itemName;
         [SerializeField] private TMP_Text itemDescription;
         [SerializeField] private TMP_Text itemCount;
 
-        private Transform _parentAfterDrag;
+        private Transform _parentBeforeDrag;
+        private SceneData _sd;
 
         public string ItemName
         {
@@ -45,11 +50,12 @@ namespace World.Inventory
         private EcsPool<ItemComp> _itemsPool;
         private EcsPool<InventoryComp> _inventoryPool;
         private EcsPool<ChestComp> _chestPool;
+        private EcsPool<PlayerComp> _playerPool;
 
         private ContentView _playerInventoryViewContent;
         private ContentView _chestInventoryViewContent;
         
-        public void SetWorld(EcsWorld world, int entity)
+        public void SetWorld(EcsWorld world, int entity, SceneData sd)
         {
             _world = world;
             _ownerEntity = entity;
@@ -57,12 +63,15 @@ namespace World.Inventory
             _itemsPool = _world.GetPool<ItemComp>();
             _inventoryPool = _world.GetPool<InventoryComp>();
             _chestPool = _world.GetPool<ChestComp>();
+            _playerPool = _world.GetPool<PlayerComp>();
+            _sd = sd;
         }
 
-        public void SetViews(RectTransform playerInventoryView, RectTransform chestInventoryView)
+        public void SetViews(RectTransform playerInventoryView, RectTransform chestInventoryView, RectTransform fastItemsView)
         {
             this.playerInventoryView = playerInventoryView;
             this.chestInventoryView = chestInventoryView;
+            this.fastItemsView = fastItemsView;
 
             _playerInventoryViewContent = playerInventoryView.GetComponentInChildren<ContentView>();
             _chestInventoryViewContent = chestInventoryView.GetComponentInChildren<ContentView>();
@@ -94,7 +103,7 @@ namespace World.Inventory
         {
             if (eventData.button == PointerEventData.InputButton.Left)
             {
-                _parentAfterDrag = transform.parent;
+                _parentBeforeDrag = transform.parent;
                 transform.SetParent(transform.root);
                 transform.SetAsLastSibling();
             }
@@ -102,22 +111,39 @@ namespace World.Inventory
 
         public void OnDrag(PointerEventData eventData)
         {
-            transform.position = Mouse.current.position.value;
+            if(eventData.button == PointerEventData.InputButton.Left)
+                transform.position = Mouse.current.position.value;
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            if(eventData.button != PointerEventData.InputButton.Left)
+                return;
+            
             if (IsItemOutInventory(transform.position, playerInventoryView) || IsItemOutInventory(transform.position, chestInventoryView))
             {
-                if (IsItemInsideInventory(transform.position, chestInventoryView))
+                if (IsItemInsideInventory(transform.position, fastItemsView))
                 {
-                    transform.SetParent(_chestInventoryViewContent.transform);
-                    MoveItem(_chestInventoryViewContent.currentEntity);
+                    SetFastItemView();
+                    if(_ownerEntity == _playerInventoryViewContent.currentEntity)
+                        transform.SetParent(_parentBeforeDrag);
+                    else
+                    {
+                        MoveItem(_playerInventoryViewContent.currentEntity, _playerInventoryViewContent.transform);
+                        var playerComp = _playerPool.Get(_playerInventoryViewContent.currentEntity);
+                        var rot = itemObject.transform.localRotation;
+                        itemObject.transform.SetParent(playerComp.Transform);
+                        itemObject.transform.localRotation = rot;
+                        itemObject.transform.position = playerComp.Transform.localPosition + playerComp.Transform.forward;
+                    }
+                }
+                else if (IsItemInsideInventory(transform.position, chestInventoryView))
+                {
+                    MoveItem(_chestInventoryViewContent.currentEntity, _chestInventoryViewContent.transform);
                 }
                 else if (IsItemInsideInventory(transform.position, playerInventoryView))
                 {
-                    transform.SetParent(_playerInventoryViewContent.transform);
-                    MoveItem(_playerInventoryViewContent.currentEntity);
+                    MoveItem(_playerInventoryViewContent.currentEntity, _playerInventoryViewContent.transform);
                 }
                 else
                 {
@@ -126,12 +152,53 @@ namespace World.Inventory
             }
             else
             {
-                transform.SetParent(_parentAfterDrag);
+                transform.SetParent(_parentBeforeDrag);
             }
         }
 
-        private void MoveItem(int otherEntity)
+        private void SetFastItemView()
         {
+            foreach (var ft in _sd.fastItemViews)
+            {
+                if (IsCursorOver(ft))
+                {
+                    ft.itemImage.sprite = itemImage.sprite;
+                    ft.itemObject = itemObject;
+                    ft.itemObject.ItemIdx = ItemIdx;
+                    ft.itemName.text = ItemName;
+                    ft.itemCount.text = ItemCount;
+                    return;
+                }
+            }
+        }
+        
+        private bool IsCursorOver(FastItemView ft)
+        {
+            return IsPointerOverUIElement(GetEventSystemRaycastResults(), ft);
+        }
+
+        private FastItemView IsPointerOverUIElement(List<RaycastResult> eventSystemRaysastResults, FastItemView ft)
+        {
+            return eventSystemRaysastResults
+                .Select(curRaysastResult => curRaysastResult.gameObject.GetComponentInParent<FastItemView>())
+                .FirstOrDefault(targetComp => targetComp && targetComp == ft);
+        }
+
+        private List<RaycastResult> GetEventSystemRaycastResults()
+        {
+            var eventData = new PointerEventData(EventSystem.current);
+            eventData.position = Input.mousePosition;
+            var raysastResults = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventData, raysastResults);
+            return raysastResults;
+        }
+
+
+        private void MoveItem(int otherEntity, Transform newParent)
+        {
+            if(otherEntity == _ownerEntity)
+                return;
+            
             ref var hasItemsOwner = ref _hasItems.Get(_ownerEntity);
             ref var hasItemsOther = ref _hasItems.Get(otherEntity);
 
@@ -157,6 +224,7 @@ namespace World.Inventory
             hasItemsOther.Entities.Add(ItemIdx);
             hasItemsOwner.Entities.Remove(ItemIdx);
 
+            transform.SetParent(newParent);
             _ownerEntity = otherEntity;
         }
 

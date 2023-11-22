@@ -29,9 +29,12 @@ namespace World.Player
                 inputComp.Walk = input.Walk.WasPerformedThisFrame();
                 inputComp.Dash = input.Dash.WasPerformedThisFrame();
                 inputComp.FreeLook = input.FreeLook.IsPressed();
-                inputComp.GetFirstItem = input.Alpha1.WasPerformedThisFrame();
-                inputComp.GetSecondItem = input.Alpha2.WasPerformedThisFrame();
-                inputComp.GetThirdItem = input.Alpha3.WasPerformedThisFrame();
+                inputComp.Alpha1 = input.Alpha1.WasPerformedThisFrame();
+                inputComp.Alpha2 = input.Alpha2.WasPerformedThisFrame();
+                inputComp.Alpha3 = input.Alpha3.WasPerformedThisFrame();
+                inputComp.Alpha4 = input.Alpha4.WasPerformedThisFrame();
+                inputComp.Alpha5 = input.Alpha5.WasPerformedThisFrame();
+                inputComp.Alpha6 = input.Alpha6.WasPerformedThisFrame();
                 inputComp.UseAbility = input.UseAbility.WasPerformedThisFrame();
                 inputComp.Inventory = input.Inventory.WasPerformedThisFrame();
                 inputComp.AutoRun = input.AutoRun.WasPerformedThisFrame();

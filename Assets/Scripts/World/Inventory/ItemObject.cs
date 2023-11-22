@@ -5,6 +5,6 @@ namespace World.Inventory
 {
     public sealed class ItemObject : MonoBehaviour
     {
-        public EcsPackedEntity itemIdx;
+        public EcsPackedEntity ItemIdx;
     }
 }

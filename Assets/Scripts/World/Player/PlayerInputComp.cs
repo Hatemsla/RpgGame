@@ -12,9 +12,12 @@ namespace World.Player
         public bool Walk;
         public bool Dash;
         public bool FreeLook;
-        public bool GetFirstItem;
-        public bool GetSecondItem;
-        public bool GetThirdItem;
+        public bool Alpha1;
+        public bool Alpha2;
+        public bool Alpha3;
+        public bool Alpha4;
+        public bool Alpha5;
+        public bool Alpha6;
         public bool UseAbility;
         public bool Inventory;
         public bool AutoRun;

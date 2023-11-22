@@ -26,6 +26,9 @@ namespace World.Inventory.Chest
         [EcsUguiNamed(Idents.UI.ChestInventoryView)]
         private readonly RectTransform _chestInventoryView = default;
         
+        [EcsUguiNamed(Idents.UI.FastItemsView)]
+        private readonly RectTransform _fastItemsView = default;
+        
         [EcsUguiNamed(Idents.UI.ChestInventoryWeight)]
         private readonly Transform _chestInventoryWeightText = default;
         
@@ -56,6 +59,12 @@ namespace World.Inventory.Chest
                     it.Cost = itemData.cost;
                     it.Weight = itemData.itemWeight;
                     
+                    var itemObject = Object.Instantiate(itemData.itemObjectPrefab,
+                        Vector3.zero,
+                        itemData.itemObjectPrefab.transform.rotation);
+                    itemObject.transform.SetParent(chest.transform);
+                    itemObject.gameObject.SetActive(false);
+                    
                     var itemView = Object.Instantiate(itemData.itemViewPrefab, Vector3.zero, Quaternion.identity);
                     itemView.transform.SetParent(chest.transform);
                 
@@ -67,12 +76,14 @@ namespace World.Inventory.Chest
                     
                     chest.itemViews.Add(itemView);
                     it.ItemView = itemView;
+                    it.ItemView.itemObject = itemObject;
+                    it.ItemView.itemObject.ItemIdx = itemPackedEntity;
                     it.ItemView.ItemIdx = itemPackedEntity;
                     it.ItemView.ItemName = itemData.itemName;
                     it.ItemView.ItemDescription = itemData.itemDescription;
                     it.ItemView.ItemCount = itemData.itemCount.ToString();
-                    it.ItemView.SetWorld(world, entity);
-                    it.ItemView.SetViews(_playerInventoryView, _chestInventoryView);
+                    it.ItemView.SetWorld(world, entity, _sd.Value);
+                    it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView);
 
                     hasItemsComp.Entities.Add(itemPackedEntity);
                 }

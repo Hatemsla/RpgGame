@@ -32,8 +32,13 @@ namespace World.Inventory
         [EcsUguiNamed(Idents.UI.FastItemsView)]
         private readonly RectTransform _fastItemsView = default;
         
+        [EcsUguiNamed(Idents.UI.DeleteFormView)]
+        private readonly RectTransform _deleteFormView = default;
+        
         public void Init(IEcsSystems systems)
         {
+            _deleteFormView.gameObject.SetActive(false);
+            
             foreach (var entity in _playerFilter.Value)
             {
                 ref var playerComp = ref _playerFilter.Pools.Inc1.Get(entity);
@@ -83,7 +88,7 @@ namespace World.Inventory
                     it.ItemView.ItemDescription = itemData.itemDescription;
                     it.ItemView.ItemCount = itemData.itemCount.ToString();
                     it.ItemView.SetWorld(_world.Value, entity, _sd.Value);
-                    it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView);
+                    it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView, _deleteFormView);
 
                     _sd.Value.fastItemViews[i].itemImage.sprite = itemData.itemSprite;
                     _sd.Value.fastItemViews[i].itemObject = itemObject;

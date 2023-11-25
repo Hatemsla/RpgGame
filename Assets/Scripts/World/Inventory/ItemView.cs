@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Leopotam.EcsLite;
 using TMPro;
@@ -25,6 +26,7 @@ namespace World.Inventory
 
         private Transform _parentBeforeDrag;
         private SceneData _sd;
+        private bool _isDeleteEvent;
 
         public string ItemName
         {
@@ -51,9 +53,15 @@ namespace World.Inventory
         private EcsPool<InventoryComp> _inventoryPool;
         private EcsPool<ChestComp> _chestPool;
         private EcsPool<PlayerComp> _playerPool;
+        private EcsPool<DeleteEvent> _deletePool;
+        private EcsFilter _deleteFilter;
 
         private ContentView _playerInventoryViewContent;
         private ContentView _chestInventoryViewContent;
+        private DeleteFormView _deleteFormView;
+        
+        private float _lastClickTime;
+        private float _doubleClickThreshold = 0.3f;
         
         public void SetWorld(EcsWorld world, int entity, SceneData sd)
         {
@@ -64,10 +72,45 @@ namespace World.Inventory
             _inventoryPool = _world.GetPool<InventoryComp>();
             _chestPool = _world.GetPool<ChestComp>();
             _playerPool = _world.GetPool<PlayerComp>();
+            _deletePool = _world.GetPool<DeleteEvent>();
             _sd = sd;
         }
 
-        public void SetViews(RectTransform playerInventoryView, RectTransform chestInventoryView, RectTransform fastItemsView)
+        private void Start()
+        {
+            _parentBeforeDrag = transform.parent;
+        }
+
+        private void Update()
+        {
+            _deleteFilter = _world.Filter<DeleteEvent>().End();
+            foreach (var entity in _deleteFilter)
+            {
+                ref var deleteEvent = ref _deletePool.Get(entity);
+
+                if (deleteEvent.Result)
+                {
+                    if (_isDeleteEvent)
+                    {
+                        DestroyItem();
+                        _isDeleteEvent = false;
+                    }
+
+                    _deleteFormView.gameObject.SetActive(false);
+                }
+                else
+                {
+                    if(_ownerEntity == _playerInventoryViewContent.currentEntity)
+                        MoveItemTo(_playerInventoryViewContent.currentEntity, _playerInventoryViewContent.transform);
+                    else if(_ownerEntity == _chestInventoryViewContent.currentEntity)
+                        MoveItemTo(_chestInventoryViewContent.currentEntity, _chestInventoryViewContent.transform);
+                    
+                    _deleteFormView.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        public void SetViews(RectTransform playerInventoryView, RectTransform chestInventoryView, RectTransform fastItemsView, RectTransform deleteFormView)
         {
             this.playerInventoryView = playerInventoryView;
             this.chestInventoryView = chestInventoryView;
@@ -75,11 +118,21 @@ namespace World.Inventory
 
             _playerInventoryViewContent = playerInventoryView.GetComponentInChildren<ContentView>();
             _chestInventoryViewContent = chestInventoryView.GetComponentInChildren<ContentView>();
+            _deleteFormView = deleteFormView.GetComponent<DeleteFormView>();
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (eventData.button == PointerEventData.InputButton.Right)
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                if (Time.time - _lastClickTime <= _doubleClickThreshold)
+                {
+                    MoveItemTo(_playerInventoryViewContent.currentEntity, _playerInventoryViewContent.transform);
+                }
+
+                _lastClickTime = Time.time;
+            }
+            else if (eventData.button == PointerEventData.InputButton.Right)
             {
                 if(!itemObject)
                     return;
@@ -129,7 +182,7 @@ namespace World.Inventory
                         transform.SetParent(_parentBeforeDrag);
                     else
                     {
-                        MoveItem(_playerInventoryViewContent.currentEntity, _playerInventoryViewContent.transform);
+                        MoveItemTo(_playerInventoryViewContent.currentEntity, _playerInventoryViewContent.transform);
                         var playerComp = _playerPool.Get(_playerInventoryViewContent.currentEntity);
                         var rot = itemObject.transform.localRotation;
                         itemObject.transform.SetParent(playerComp.Transform);
@@ -139,15 +192,16 @@ namespace World.Inventory
                 }
                 else if (IsItemInsideInventory(transform.position, chestInventoryView))
                 {
-                    MoveItem(_chestInventoryViewContent.currentEntity, _chestInventoryViewContent.transform);
+                    MoveItemTo(_chestInventoryViewContent.currentEntity, _chestInventoryViewContent.transform);
                 }
                 else if (IsItemInsideInventory(transform.position, playerInventoryView))
                 {
-                    MoveItem(_playerInventoryViewContent.currentEntity, _playerInventoryViewContent.transform);
+                    MoveItemTo(_playerInventoryViewContent.currentEntity, _playerInventoryViewContent.transform);
                 }
                 else
                 {
-                    DestroyItem();   
+                    _deleteFormView.gameObject.SetActive(true);
+                    _isDeleteEvent = true;
                 }
             }
             else
@@ -194,11 +248,14 @@ namespace World.Inventory
         }
 
 
-        private void MoveItem(int otherEntity, Transform newParent)
+        private void MoveItemTo(int otherEntity, Transform newParent)
         {
-            if(otherEntity == _ownerEntity)
+            if (otherEntity == _ownerEntity)
+            {
+                transform.SetParent(_parentBeforeDrag);
                 return;
-            
+            }
+
             ref var hasItemsOwner = ref _hasItems.Get(_ownerEntity);
             ref var hasItemsOther = ref _hasItems.Get(otherEntity);
 

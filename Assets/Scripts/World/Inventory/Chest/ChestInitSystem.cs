@@ -32,6 +32,9 @@ namespace World.Inventory.Chest
         [EcsUguiNamed(Idents.UI.ChestInventoryWeight)]
         private readonly Transform _chestInventoryWeightText = default;
         
+        [EcsUguiNamed(Idents.UI.DeleteFormView)]
+        private readonly RectTransform _deleteFormView = default;
+        
         public void Init(IEcsSystems systems)
         {
             var world = _itemsWorld.Value;
@@ -83,7 +86,7 @@ namespace World.Inventory.Chest
                     it.ItemView.ItemDescription = itemData.itemDescription;
                     it.ItemView.ItemCount = itemData.itemCount.ToString();
                     it.ItemView.SetWorld(world, entity, _sd.Value);
-                    it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView);
+                    it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView, _deleteFormView);
 
                     hasItemsComp.Entities.Add(itemPackedEntity);
                 }

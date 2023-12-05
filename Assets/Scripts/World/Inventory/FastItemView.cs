@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Leopotam.EcsLite;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,7 +11,6 @@ namespace World.Inventory
     public class FastItemView : MonoBehaviour, IPointerClickHandler
     {
         public InputActionReference actionReference;
-
         public ItemObject itemObject;
         public Image itemImage;
         public TMP_Text itemName;
@@ -33,6 +33,7 @@ namespace World.Inventory
             }
             else if (eventData.button == PointerEventData.InputButton.Left)
             {
+                //TODO Заюзать предмет
             }
         }
     }

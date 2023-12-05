@@ -19,11 +19,6 @@ namespace World.Inventory
             foreach (var entity in _playerFilter.Value)
             {
                 ref var deleteEvent = ref _deleteEventPool.Value.Add(entity);
-                
-                ref var inventoryComp = ref _playerFilter.Pools.Inc2.Get(entity);
-                
-                
-                
                 deleteEvent.Result = true;
             }
         }

@@ -35,6 +35,9 @@ namespace World.Inventory
         [EcsUguiNamed(Idents.UI.DeleteFormView)]
         private readonly RectTransform _deleteFormView = default;
         
+        [EcsUguiNamed(Idents.UI.CrosshairView)]
+        private readonly RectTransform _crosshairView = default;
+        
         public void Init(IEcsSystems systems)
         {
             _deleteFormView.gameObject.SetActive(false);
@@ -88,7 +91,7 @@ namespace World.Inventory
                     it.ItemView.ItemDescription = itemData.itemDescription;
                     it.ItemView.ItemCount = itemData.itemCount.ToString();
                     it.ItemView.SetWorld(_world.Value, entity, _sd.Value);
-                    it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView, _deleteFormView);
+                    it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView, _deleteFormView, _crosshairView);
 
                     _sd.Value.fastItemViews[i].itemImage.sprite = itemData.itemSprite;
                     _sd.Value.fastItemViews[i].itemObject = itemObject;

@@ -23,7 +23,6 @@ namespace World.Player
         private readonly EcsCustomInject<SceneData> _sd = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
         
-
         public void Init(IEcsSystems systems)
         {
             var playerEntity = _world.Value.NewEntity();

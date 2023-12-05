@@ -35,6 +35,9 @@ namespace World.Inventory.Chest
         [EcsUguiNamed(Idents.UI.DeleteFormView)]
         private readonly RectTransform _deleteFormView = default;
         
+        [EcsUguiNamed(Idents.UI.CrosshairView)]
+        private readonly RectTransform _crosshairView = default;
+        
         public void Init(IEcsSystems systems)
         {
             var world = _itemsWorld.Value;
@@ -86,7 +89,7 @@ namespace World.Inventory.Chest
                     it.ItemView.ItemDescription = itemData.itemDescription;
                     it.ItemView.ItemCount = itemData.itemCount.ToString();
                     it.ItemView.SetWorld(world, entity, _sd.Value);
-                    it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView, _deleteFormView);
+                    it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView, _deleteFormView, _crosshairView);
 
                     hasItemsComp.Entities.Add(itemPackedEntity);
                 }

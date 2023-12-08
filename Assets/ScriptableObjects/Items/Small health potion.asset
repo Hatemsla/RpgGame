@@ -12,13 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7020320206a544588272ffbc31d8d7d4, type: 3}
   m_Name: Small health potion
   m_EditorClassIdentifier: 
-  itemName: Small Health Potion
-  itemDescription: "\u041C\u0430\u043B\u0435\u043D\u044C\u043A\u043E\u0435 \u0437\u0435\u043B\u044C\u0435
-    \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F. \u0412\u043E\u0441\u0441\u0442\u0430\u043D\u0430\u0432\u043B\u0438\u0432\u0430\u0435\u0442
-    20 \u0445\u043F"
+  itemName: 
+  itemDescription: 
   itemCount: 0
   itemWeight: 0
-  itemType: 0
+  itemTypeData: {fileID: 0}
   itemSprite: {fileID: 0}
   itemViewPrefab: {fileID: 0}
   itemObjectPrefab: {fileID: 0}

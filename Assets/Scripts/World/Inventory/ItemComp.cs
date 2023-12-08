@@ -1,4 +1,6 @@
-﻿namespace World.Inventory
+﻿using World.Inventory.ItemTypes;
+
+namespace World.Inventory
 {
     public struct ItemComp
     {
@@ -8,5 +10,6 @@
         public float Weight;
         public ItemView ItemView;
         public bool Used;
+        public ItemType itemType;
     }
 }

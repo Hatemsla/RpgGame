@@ -3,17 +3,22 @@ using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
 using Utils;
+using World.Configurations;
 using World.Inventory;
+using World.Inventory.ItemTypes;
+using World.Inventory.ItemTypes.Potions;
+using World.Inventory.ItemTypes.Weapons;
 
 namespace World.Player
 {
     public class PlayerGetItemSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<PlayerInputComp, PlayerComp>> _player = default;
+        private readonly EcsFilterInject<Inc<PlayerInputComp, PlayerComp, RpgComp>> _player = default;
         
         private readonly EcsPoolInject<ItemComp> _itemsPool = default;
         private readonly EcsPoolInject<HasItems> _hasItemsPool = default;
         private readonly EcsCustomInject<SceneData> _sd = default;
+        private readonly EcsCustomInject<Configuration> _cf = default;
 
         private readonly EcsWorldInject _world = default;
         
@@ -74,6 +79,7 @@ namespace World.Player
         {
             var world = _hasItemsPool.Value.GetWorld();
             ref var hasItems = ref _hasItemsPool.Value.Get(entity);
+            ref var rpg = ref _player.Pools.Inc3.Get(entity);
 
             foreach (var itemPacked in hasItems.Entities)
             {
@@ -81,12 +87,40 @@ namespace World.Player
                 {
                     ref var item = ref _itemsPool.Value.Get(unpackedEntity);
 
-                    if (unpackedEntity == itemIdx)
-                        item.ItemView.itemObject.gameObject.SetActive(!item.ItemView.itemObject.gameObject.activeSelf);
-                    else
-                        item.ItemView.itemObject.gameObject.SetActive(false);
+                    switch (item.itemType)
+                    {
+                        // Potions
+                        case ItemHealthPotion type:
+                            rpg.Health += _cf.Value.playerConfiguration.health * type.healthPercent;
+                            break;
+                        case ItemManaPotion type:
+                            rpg.Mana += _cf.Value.playerConfiguration.mana * type.manaPercent;
+                            break;
+                        // Weapons
+                        case ItemShieldWeapon:
+                            CreateItemView(item, unpackedEntity, itemIdx);
+                            break;
+                        case ItemSwordWeapon:
+                            CreateItemView(item, unpackedEntity, itemIdx);
+                            break;
+                        case ItemBowWeapon:
+                            CreateItemView(item, unpackedEntity, itemIdx);
+                            break;
+                        // Tools
+                        case ItemTool:
+                            CreateItemView(item, unpackedEntity, itemIdx);
+                            break;
+                    }
                 }
             }
+        }
+
+        private void CreateItemView(ItemComp item, int unpackedEntity,int itemIdx)
+        {
+            if (unpackedEntity == itemIdx)
+                item.ItemView.itemObject.gameObject.SetActive(!item.ItemView.itemObject.gameObject.activeSelf);
+            else
+                item.ItemView.itemObject.gameObject.SetActive(false);
         }
     }
 }

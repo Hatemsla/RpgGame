@@ -4,6 +4,12 @@ using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
 using Utils;
 using World.Configurations;
+using World.Inventory.ItemTypes;
+using World.Inventory.ItemTypes.Potions;
+using World.Inventory.ItemTypes.Weapons;
+using World.Inventory.ItemTypesData;
+using World.Inventory.ItemTypesData.PotionsData;
+using World.Inventory.ItemTypesData.WeaponsData;
 using World.Player;
 
 namespace World.Inventory
@@ -61,33 +67,37 @@ namespace World.Inventory
                     it.ItemDescription = itemData.itemDescription;
                     it.Cost = itemData.cost;
                     it.Weight = itemData.itemWeight;
+                    it.itemType = DefineItemType(itemData.itemTypeData);
 
                     weight += itemData.itemWeight;
-
-                    var itemObject = Object.Instantiate(itemData.itemObjectPrefab,
-                        playerComp.Transform.position + playerComp.Transform.forward,
-                        itemData.itemObjectPrefab.transform.rotation);
-                    itemObject.transform.SetParent(playerComp.Transform);
-                    itemObject.gameObject.SetActive(false);
 
                     var itemView = Object.Instantiate(itemData.itemViewPrefab, Vector3.zero, Quaternion.identity);
                     itemView.transform.SetParent(playerInventoryViewContent.transform);
                     it.ItemView = itemView;
 
                     it.ItemView.itemImage.sprite = itemData.itemSprite;
-
-                    it.ItemView.itemObject = itemObject;
-                    it.ItemView.itemObject.ItemIdx = itemPackedEntity;
                     it.ItemView.ItemIdx = itemPackedEntity;
                     it.ItemView.ItemName = itemData.itemName;
                     it.ItemView.ItemDescription = itemData.itemDescription;
                     it.ItemView.ItemCount = itemData.itemCount.ToString();
                     it.ItemView.SetWorld(_world.Value, entity, _sd.Value);
                     it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView);
+                    
+                    if (itemData.itemObjectPrefab)
+                    {
+                        var itemObject = Object.Instantiate(itemData.itemObjectPrefab,
+                            playerComp.Transform.position + playerComp.Transform.forward,
+                            itemData.itemObjectPrefab.transform.rotation);
+                        itemObject.transform.SetParent(playerComp.Transform);
+                        itemObject.gameObject.SetActive(false);
+                        
+                        it.ItemView.itemObject = itemObject;
+                        it.ItemView.itemObject.ItemIdx = itemPackedEntity;
+                        _sd.Value.fastItemViews[i].itemObject = itemObject;
+                        _sd.Value.fastItemViews[i].itemObject.ItemIdx = itemPackedEntity;
+                    }
 
                     _sd.Value.fastItemViews[i].itemImage.sprite = itemData.itemSprite;
-                    _sd.Value.fastItemViews[i].itemObject = itemObject;
-                    _sd.Value.fastItemViews[i].itemObject.ItemIdx = itemPackedEntity;
                     _sd.Value.fastItemViews[i].itemName.text = itemData.itemName;
                     _sd.Value.fastItemViews[i].itemCount.text = itemData.itemCount.ToString();
 
@@ -99,6 +109,43 @@ namespace World.Inventory
                 inventoryComp.InventoryWeightView = _playerInventoryWeightText.GetComponent<InventoryWeightView>();
                 inventoryComp.InventoryWeightView.inventoryWeightText.text = $"Вес: {inventoryComp.CurrentWeight}/{inventoryComp.MaxWeight}";
             }
+        }
+
+        public ItemType DefineItemType(ItemTypeData itemTypeData)
+        {
+            ItemType value = null;
+            switch (itemTypeData)
+            {
+                // Potions
+                case HealthPotionItemData data:
+                    value = new ItemHealthPotion();
+                    ((ItemHealthPotion) value).healthPercent = data.healthPercent;
+                    break;
+                case ManaPotionItemData data:
+                    value = new ItemManaPotion();
+                    ((ItemManaPotion) value).manaPercent = data.manaPercent;
+                    break;
+                // Weapons
+                case SwordWeaponItemData data:
+                    value = new ItemSwordWeapon();
+                    ((ItemSwordWeapon) value).damage = data.damage;
+                    break;
+                case ShieldWeaponItemData data:
+                    value = new ItemShieldWeapon();
+                    ((ItemShieldWeapon) value).damageAbsorption = data.damageAbsorption;
+                    break;
+                case BowWeaponItemData data:
+                    value = new ItemBowWeapon();
+                    ((ItemBowWeapon) value).damage = data.damage;
+                    ((ItemBowWeapon) value).distance = data.distance;
+                    break;
+                // Tools
+                case ToolItemData data:
+                    value = new ItemTool();
+                    ((ItemTool)value).durability = data.durability;
+                    break;
+            }
+            return value;
         }
     }
 }

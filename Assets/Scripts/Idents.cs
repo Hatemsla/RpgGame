@@ -26,9 +26,12 @@
             
             public const string FastItemsView = "FastItemsView";
             public const string FastItemsViewContent = "FastItemsViewContent";
-
-
+            
             public const string CrosshairView = "CrosshairView";
+
+            public const string DeleteFormView = "DeleteFormView";
+            public const string YesDeleteBtn = "YesDelete";
+            public const string NoDeleteBtn = "NoDelete";
         }
 
         public static class Abilities

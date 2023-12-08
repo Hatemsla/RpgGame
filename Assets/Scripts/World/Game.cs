@@ -1,5 +1,6 @@
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Leopotam.EcsLite.ExtendedSystems;
 using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
 using Utils;
@@ -61,6 +62,9 @@ namespace World
                 .Add(new PlayerSpellCastSystem())
                 .Add(new PlayerGetItemSystem())
                 .Add(new ChestUpdateSystem())
+                
+                .DelHere<DeleteEvent>()
+                .Add(new DeleteFormSystem())
                 
                 .Add(new EnemyPatrolSystem())
                 .Add(new EnemyChaseSystem())

@@ -2,6 +2,6 @@
 {
     public class ItemHealthPotion : ItemPotion
     {
-        public int healthPercent;
+        public float healthPercent;
     }
 }

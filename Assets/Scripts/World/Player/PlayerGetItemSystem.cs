@@ -1,4 +1,5 @@
-﻿using Leopotam.EcsLite;
+﻿using System;
+using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
@@ -24,7 +25,7 @@ namespace World.Player
         
         [EcsUguiNamed(Idents.UI.PlayerInventoryView)]
         private readonly GameObject _inventoryView = default;
-        
+
         public void Run(IEcsSystems systems)
         {
             foreach (var entity in _player.Value)
@@ -37,39 +38,39 @@ namespace World.Player
                     _inventoryView.SetActive(!_inventoryView.activeSelf);
                 }
                 
-                if (input.Alpha1 && _sd.Value.fastItemViews[0].itemObject != null)
+                if (input.Alpha1)
                 {
-                    if(_sd.Value.fastItemViews[0].itemObject.ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                    if(_sd.Value.fastItemViews[0].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
 
-                if (input.Alpha2 && _sd.Value.fastItemViews[1].itemObject != null)
+                if (input.Alpha2)
                 {
-                    if(_sd.Value.fastItemViews[1].itemObject.ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                    if(_sd.Value.fastItemViews[1].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
                 
-                if (input.Alpha3 && _sd.Value.fastItemViews[2].itemObject != null)
+                if (input.Alpha3)
                 {
-                    if(_sd.Value.fastItemViews[2].itemObject.ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                    if(_sd.Value.fastItemViews[2].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
                 
-                if (input.Alpha4 && _sd.Value.fastItemViews[3].itemObject != null)
+                if (input.Alpha4)
                 {
-                    if(_sd.Value.fastItemViews[3].itemObject.ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                    if(_sd.Value.fastItemViews[3].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
 
-                if (input.Alpha5 && _sd.Value.fastItemViews[4].itemObject != null)
+                if (input.Alpha5)
                 {
-                    if(_sd.Value.fastItemViews[4].itemObject.ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                    if(_sd.Value.fastItemViews[4].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
                 
-                if (input.Alpha6 && _sd.Value.fastItemViews[5].itemObject != null)
+                if (input.Alpha6)
                 {
-                    if(_sd.Value.fastItemViews[5].itemObject.ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                    if(_sd.Value.fastItemViews[5].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
             }
@@ -86,15 +87,16 @@ namespace World.Player
                 if (itemPacked.Unpack(world, out var unpackedEntity))
                 {
                     ref var item = ref _itemsPool.Value.Get(unpackedEntity);
-
                     switch (item.itemType)
                     {
                         // Potions
                         case ItemHealthPotion type:
-                            rpg.Health += _cf.Value.playerConfiguration.health * type.healthPercent;
+                            if (unpackedEntity == itemIdx)
+                                rpg.Health += _cf.Value.playerConfiguration.health * type.healthPercent;
                             break;
                         case ItemManaPotion type:
-                            rpg.Mana += _cf.Value.playerConfiguration.mana * type.manaPercent;
+                            if (unpackedEntity == itemIdx)
+                                rpg.Mana += _cf.Value.playerConfiguration.mana * type.manaPercent;
                             break;
                         // Weapons
                         case ItemShieldWeapon:

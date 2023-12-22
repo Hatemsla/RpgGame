@@ -103,8 +103,10 @@ namespace World.Inventory
                         _sd.Value.fastItemViews[i].itemObject = itemObject;
                         _sd.Value.fastItemViews[i].itemObject.ItemIdx = itemPackedEntity;
                     }
+
                     it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView, _deleteFormView, _crosshairView);
 
+                    _sd.Value.fastItemViews[i].ItemIdx = itemPackedEntity;
                     _sd.Value.fastItemViews[i].itemImage.sprite = itemData.itemSprite;
                     _sd.Value.fastItemViews[i].itemName.text = itemData.itemName;
                     _sd.Value.fastItemViews[i].itemCount.text = itemData.itemCount.ToString();

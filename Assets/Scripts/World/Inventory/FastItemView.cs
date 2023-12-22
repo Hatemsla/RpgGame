@@ -10,6 +10,7 @@ namespace World.Inventory
 {
     public class FastItemView : MonoBehaviour, IPointerClickHandler
     {
+        public EcsPackedEntity ItemIdx;
         public InputActionReference actionReference;
         public ItemObject itemObject;
         public Image itemImage;

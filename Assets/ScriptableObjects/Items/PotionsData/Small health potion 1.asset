@@ -18,9 +18,9 @@ MonoBehaviour:
     20 \u0445\u043F"
   itemCount: 2
   itemWeight: 1
-  itemType: 2
   itemSprite: {fileID: 21300000, guid: e47b943f4b3ab754188ed13b0f4cfad6, type: 3}
-  itemViewPrefab: {fileID: 0}
+  itemViewPrefab: {fileID: 5094765688295937399, guid: 3a4b49cd2c162634e903351b9fbe686a,
+    type: 3}
   itemObjectPrefab: {fileID: 0}
   cost: 150
   healthPercent: 20

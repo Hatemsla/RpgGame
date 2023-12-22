@@ -12,15 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63562d50b2ed4c3fb5ed6542a006c2cd, type: 3}
   m_Name: Small health potion 1
   m_EditorClassIdentifier: 
-  itemName: Small Health Potion
-  itemDescription: "\u041C\u0430\u043B\u0435\u043D\u044C\u043A\u043E\u0435 \u0437\u0435\u043B\u044C\u0435
-    \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F. \u0412\u043E\u0441\u0441\u0442\u0430\u043D\u0430\u0432\u043B\u0438\u0432\u0430\u0435\u0442
-    20 \u0445\u043F"
-  itemCount: 2
-  itemWeight: 1
-  itemSprite: {fileID: 21300000, guid: e47b943f4b3ab754188ed13b0f4cfad6, type: 3}
-  itemViewPrefab: {fileID: 5094765688295937399, guid: 3a4b49cd2c162634e903351b9fbe686a,
-    type: 3}
-  itemObjectPrefab: {fileID: 0}
-  cost: 150
-  healthPercent: 20
+  healthPercent: 15

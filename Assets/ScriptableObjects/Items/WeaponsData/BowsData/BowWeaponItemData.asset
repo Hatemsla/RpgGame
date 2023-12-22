@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84b9316228d94e7ca3cf16702f8110cf, type: 3}
   m_Name: BowWeaponItemData
   m_EditorClassIdentifier: 
-  damage: 0
-  distance: 0
+  damage: 50
+  distance: 250

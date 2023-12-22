@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2ff0ee737bf489fb0baa03362a85c02, type: 3}
   m_Name: ShieldWeaponItemData
   m_EditorClassIdentifier: 
-  damageAbsorption: 0
+  damageAbsorption: 20

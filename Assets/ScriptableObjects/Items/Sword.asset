@@ -17,7 +17,7 @@ MonoBehaviour:
     \u0432\u043E\u0437\u0434\u0443\u0445 (\u0438 \u0441\u0430\u043B\u043E)"
   itemCount: 1
   itemWeight: 4
-  itemType: 0
+  itemTypeData: {fileID: 11400000, guid: 346e61806d036344c8ed79535356ae96, type: 2}
   itemSprite: {fileID: 21300000, guid: c0ea4b6e528e7fe4aa6cdc94d38691a1, type: 3}
   itemViewPrefab: {fileID: 5094765688295937399, guid: 3a4b49cd2c162634e903351b9fbe686a,
     type: 3}

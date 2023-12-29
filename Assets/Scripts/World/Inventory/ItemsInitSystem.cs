@@ -90,6 +90,8 @@ namespace World.Inventory
                     it.ItemView.ItemCount = itemData.itemCount.ToString();
                     it.ItemView.SetWorld(_world.Value, entity, _sd.Value);
 
+                    it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView, _deleteFormView, _crosshairView);
+                    
                     if (itemData.itemObjectPrefab)
                     {
                         var itemObject = Object.Instantiate(itemData.itemObjectPrefab,

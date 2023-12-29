@@ -5,11 +5,7 @@ PluginImporter:
   serializedVersion: 2
   iconMap: {}
   executionOrder:
-    Fusion.HitboxRoot: -2000
-    Fusion.NetworkMecanimAnimator: 600
-    Fusion.NetworkObject: 5000
-    Fusion.NetworkTransform: -1400
-    Fusion.NetworkObjectInactivityGuard: -10000
+    Fusion.NetworkObject: 500
   defineConstraints: []
   isPreloaded: 0
   isOverridable: 0

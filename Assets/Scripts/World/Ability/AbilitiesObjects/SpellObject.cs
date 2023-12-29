@@ -1,13 +1,10 @@
-﻿using System;
-using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
+﻿using Leopotam.EcsLite;
 using UnityEngine;
 using Utils.ObjectsPool;
 using World.AI;
-using World.Inventory;
 using World.Player;
 
-namespace World.Ability
+namespace World.Ability.AbilitiesObjects
 {
     public class SpellObject : MonoBehaviour
     {

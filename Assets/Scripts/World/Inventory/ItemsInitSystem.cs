@@ -75,7 +75,7 @@ namespace World.Inventory
                     it.ItemDescription = itemData.itemDescription;
                     it.Cost = itemData.cost;
                     it.Weight = itemData.itemWeight;
-                    it.itemType = DefineItemType(itemData.itemTypeData);
+                    it.ItemType = DefineItemType(itemData.itemTypeData);
 
                     weight += itemData.itemWeight;
 

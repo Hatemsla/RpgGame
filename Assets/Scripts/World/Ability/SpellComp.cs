@@ -1,4 +1,5 @@
 ﻿using Leopotam.EcsLite;
+using World.Ability.AbilitiesObjects;
 
 namespace World.Ability
 {

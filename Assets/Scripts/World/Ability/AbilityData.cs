@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using World.Ability;
+using World.Ability.AbilitiesData;
+using World.Ability.AbilitiesObjects;
 
 namespace World
 {
@@ -7,17 +9,19 @@ namespace World
     public class AbilityData : ScriptableObject
     {
         [Header("Ability")]
-        [Tooltip("Ability's name")]
-        public new string name;
-        [Tooltip("Ability's cost")]
+        [Tooltip("Ability name")]
+        public string abilityName;
+        [Tooltip("Ability description")]
+        public string abilityDescription;
+        [Tooltip("Ability mana cost")]
         public float costPoint;
-        [Tooltip("Ability's damage")]
-        public float damage;
-        [Tooltip("Ability's distance")]
-        public float distance;
-        [Tooltip("Ability's speed")]
-        public float speed;
-        [Tooltip("Ability's object")]
-        public SpellObject spell;
+        [Tooltip("Ability type data")] 
+        public AbilityTypeData abilityTypeData;
+        [Tooltip("Ability sprite")]
+        public Sprite abilitySprite;
+        [Tooltip("Ability view prefab")] 
+        public AbilityView abilityViewPrefab;
+        [Tooltip("Ability object prefab")]
+        public SpellObject abilityObjectPrefab;
     }
 }

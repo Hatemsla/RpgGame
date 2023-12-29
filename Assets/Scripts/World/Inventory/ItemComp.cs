@@ -10,6 +10,6 @@ namespace World.Inventory
         public float Weight;
         public ItemView ItemView;
         public bool Used;
-        public ItemType itemType;
+        public ItemType ItemType;
     }
 }

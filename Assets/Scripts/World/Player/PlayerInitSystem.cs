@@ -59,30 +59,6 @@ namespace World.Player
             rpg.CanRun = true;
             rpg.CanDash = true;
             rpg.CanJump = true;
-
-			CreateAbilities(playerEntity, _world.Value);
-        }
-        
-        private void CreateAbilities(int playerEntity, EcsWorld world)
-        {
-            ref var hasAbilities = ref _hasAbilitiesPool.Value.Add(playerEntity);
-            foreach (var ability in _cf.Value.abilityConfiguration.abilityDatas)
-            {
-                if (ability.name == Idents.Abilities.FireBall)
-                {
-                    var abilityEntity = world.NewEntity();
-                    var abilityPackedEntity = world.PackEntity(abilityEntity);
-                    ref var abil = ref _ability.Value.Add(abilityEntity);
-                    
-                    abil.Name = ability.name;
-                    abil.Damage = ability.damage;
-                    abil.Distance = ability.distance;
-                    abil.Speed = ability.speed;
-                    abil.CostPoint = ability.costPoint;
-                    
-                    hasAbilities.Entities.Add(abilityPackedEntity);
-                }
-            }
         }
     }
 }

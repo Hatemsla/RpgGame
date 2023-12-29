@@ -2,6 +2,7 @@
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 using Utils.ObjectsPool;
+using World.Ability.AbilitiesObjects;
 using World.Configurations;
 using World.Player;
 

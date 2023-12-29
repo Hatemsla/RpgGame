@@ -1,14 +1,14 @@
-﻿using UnityEngine;
+﻿using World.Ability.AbilitiesTypes;
 
-namespace World.Player
+namespace World.Ability
 {
     public struct AbilityComp
     {
         public string Name;
+        public string Description;
         public float CostPoint;
-        public float Damage;
-        public float Distance;
-        public float Speed;
         public float OwnerEntity;
+        public AbilityView abilityView;
+        public AbilityType abilityType;
     }
 }

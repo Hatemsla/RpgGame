@@ -87,7 +87,7 @@ namespace World.Player
                 if (itemPacked.Unpack(world, out var unpackedEntity))
                 {
                     ref var item = ref _itemsPool.Value.Get(unpackedEntity);
-                    switch (item.itemType)
+                    switch (item.ItemType)
                     {
                         // Potions
                         case ItemHealthPotion type:

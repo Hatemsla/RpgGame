@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using Utils;
 using World.Configurations;
+using World.Network;
 
 namespace World.Inventory.Chest
 {
@@ -19,6 +20,7 @@ namespace World.Inventory.Chest
 
         private readonly EcsCustomInject<SceneData> _sd = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
+        private readonly EcsCustomInject<NetworkRunnerService> _nrs = default;
         
         [EcsUguiNamed(Idents.UI.PlayerInventoryView)]
         private readonly RectTransform _playerInventoryView = default;
@@ -40,6 +42,9 @@ namespace World.Inventory.Chest
         
         public void Init(IEcsSystems systems)
         {
+            if(!_nrs.Value.IsPlayerJoined)
+                return;
+            
             var world = _itemsWorld.Value;
             
             foreach (var chest in _sd.Value.chests)

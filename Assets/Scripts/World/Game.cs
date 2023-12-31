@@ -1,3 +1,6 @@
+using System;
+using System.Threading.Tasks;
+using Fusion;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.ExtendedSystems;
@@ -11,6 +14,7 @@ using World.AI.Navigation;
 using World.Configurations;
 using World.Inventory;
 using World.Inventory.Chest;
+using World.Network;
 using World.Player;
 
 namespace World
@@ -24,18 +28,38 @@ namespace World
         private EcsSystems _systemsFixedUpdate;
         private EcsSystems _systemsLateUpdate;
 
-        private void Start()
+        private EcsWorld _world;
+        private NetworkRunner _networkRunner;
+        private NetworkRunnerService _networkRunnerService;
+
+        private void Awake()
         {
-            var world = new EcsWorld();
-            _systemsUpdate = new EcsSystems(world);
-            _systemsFixedUpdate = new EcsSystems(world);
-            _systemsLateUpdate = new EcsSystems(world);
+            var networkRunnerInScene = FindObjectOfType<NetworkRunner>();
+
+            if (networkRunnerInScene != null)
+                _networkRunner = networkRunnerInScene;
+        }
+
+        private async void Start()
+        {
+            _networkRunnerService = new NetworkRunnerService(configuration.networkConfiguration.networkRunnerPrefab, _networkRunner);
+            
+            await WaitForPlayerJoined();
+            
+            Utils.Utils.DebugLog("Game Start");
+            
+            _world = new EcsWorld();
+            _systemsUpdate = new EcsSystems(_world);
+            _systemsFixedUpdate = new EcsSystems(_world);
+            _systemsLateUpdate = new EcsSystems(_world);
+            
             var ts = new TimeService();
             var ps = new PoolService();
             var cs = new CursorService();
             var mainInput = new MainInput();
 
             _systemsUpdate
+                    
                 //Init systems
                 .Add(new PlayerInitSystem())
                 .Add(new ItemsInitSystem())
@@ -75,10 +99,11 @@ namespace World
                 .AddWorld(new EcsWorld(), Idents.Worlds.Events)
 #if UNITY_EDITOR
                 .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
+                .Add(new Leopotam.EcsLite.UnityEditor.EcsSystemsDebugSystem())
                 .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem(Idents.Worlds.Events))
 #endif
 
-                .Inject(ts, ps, cs, configuration, sceneData, mainInput)
+                .Inject(ts, ps, cs, configuration, sceneData, mainInput, _networkRunnerService)
                 .InjectUgui(uguiEmitter, Idents.Worlds.Events)
                 .Init();
             _systemsFixedUpdate
@@ -88,20 +113,31 @@ namespace World
                 .Inject(ts, configuration, sceneData, mainInput)
                 .Init();
         }
+        
+        private async Task WaitForPlayerJoined()
+        {
+            while (!_networkRunnerService.IsPlayerJoined)
+            {
+                await Task.Yield();
+            }
+        }
 
         private void Update()
         {
-            _systemsUpdate?.Run();
+            if(_networkRunnerService.IsPlayerJoined)
+                _systemsUpdate?.Run();
         }
-
+        
         private void FixedUpdate()
         {
-            _systemsFixedUpdate?.Run();
+            if(_networkRunnerService.IsPlayerJoined)
+                _systemsFixedUpdate?.Run();
         }
-
+        
         private void LateUpdate()
         {
-            _systemsLateUpdate?.Run();
+            if(_networkRunnerService.IsPlayerJoined)
+                _systemsLateUpdate?.Run();
         }
 
         private void OnDestroy()

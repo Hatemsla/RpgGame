@@ -10,6 +10,7 @@ using World.Inventory.ItemTypes.Weapons;
 using World.Inventory.ItemTypesData;
 using World.Inventory.ItemTypesData.PotionsData;
 using World.Inventory.ItemTypesData.WeaponsData;
+using World.Network;
 using World.Player;
 
 namespace World.Inventory
@@ -23,6 +24,7 @@ namespace World.Inventory
         
         private readonly EcsCustomInject<SceneData> _sd = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
+        private readonly EcsCustomInject<NetworkRunnerService> _nrs = default;
         
         private readonly EcsWorldInject _world = default;
         
@@ -46,6 +48,9 @@ namespace World.Inventory
         
         public void Init(IEcsSystems systems)
         {
+            if(!_nrs.Value.IsPlayerJoined)
+                return;
+            
             _deleteFormView.gameObject.SetActive(false);
             
             foreach (var entity in _playerFilter.Value)

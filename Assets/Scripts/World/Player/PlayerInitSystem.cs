@@ -1,17 +1,23 @@
-﻿using Leopotam.EcsLite;
+﻿using System;
+using System.Collections.Generic;
+using Fusion;
+using Fusion.Sockets;
+using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
 using Utils;
 using World.Inventory;
 using World.Ability;
 using World.Configurations;
+using World.Network;
+using Object = UnityEngine.Object;
 
 namespace World.Player
 {
     public sealed class PlayerInitSystem : IEcsInitSystem
     {
         private readonly EcsPoolInject<PlayerComp> _playerPool = default;
+        private readonly EcsPoolInject<NetworkComp> _networkPool = default;
         private readonly EcsPoolInject<PlayerInputComp> _playerInputPool = default;
         private readonly EcsPoolInject<RpgComp> _rpgPool = default;
         private readonly EcsPoolInject<InventoryComp> _inventoryPool = default;
@@ -22,47 +28,52 @@ namespace World.Player
 
         private readonly EcsCustomInject<SceneData> _sd = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
-        
+        private readonly EcsCustomInject<NetworkRunnerService> _nrs = default;
+
         public void Init(IEcsSystems systems)
         {
+            Utils.Utils.DebugLog("PlayerInitSystem");
+
             var playerEntity = _world.Value.NewEntity();
             var playerPacked = _world.Value.PackEntity(playerEntity);
-                
-            ref var player = ref _playerPool.Value.Add(playerEntity);
-            ref var rpg = ref _rpgPool.Value.Add(playerEntity);
+
+            ref var playerComp = ref _playerPool.Value.Add(playerEntity);
+            ref var rpgComp = ref _rpgPool.Value.Add(playerEntity);
+            ref var networkComp = ref _networkPool.Value.Add(playerEntity);
             _inventoryPool.Value.Add(playerEntity);
             _playerInputPool.Value.Add(playerEntity);
 
             var playerPrefab = _cf.Value.playerConfiguration.playerPrefab;
             var playerFollowCameraPrefab = _cf.Value.playerConfiguration.playerFollowCameraPrefab;
             var playerStartPosition = _sd.Value.playerSpawnPosition.position;
+            // var playerObject = runner.Spawn(playerPrefab, playerStartPosition, Quaternion.identity, player);
             var playerObject = Object.Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
             var playerFollowCameraView =
                 Object.Instantiate(playerFollowCameraPrefab, Vector3.zero, Quaternion.identity);
-            
-            player.Transform = playerObject.transform;
-            player.Position = playerStartPosition;
-            player.Rotation = Quaternion.identity;
-            player.CharacterController = playerObject.GetComponent<CharacterController>();
-            player.PlayerCameraRoot = playerObject.GetComponentInChildren<PlayerCameraRootView>().transform;
-            player.Grounded = true;
-            player.PlayerCamera = playerFollowCameraView;
-            
-            var playerView = player.Transform.GetComponentInChildren<PlayerView>();
+
+            playerComp.Transform = playerObject.transform;
+            playerComp.Position = playerStartPosition;
+            playerComp.Rotation = Quaternion.identity;
+            playerComp.CharacterController = playerObject.GetComponent<CharacterController>();
+            playerComp.PlayerCameraRoot = playerObject.GetComponentInChildren<PlayerCameraRootView>().transform;
+            playerComp.Grounded = true;
+            playerComp.PlayerCamera = playerFollowCameraView;
+
+            var playerView = playerComp.Transform.GetComponentInChildren<PlayerView>();
             playerView.PlayerPacked = playerPacked;
 
-            playerFollowCameraView.Follow = player.PlayerCameraRoot;
+            playerFollowCameraView.Follow = playerComp.PlayerCameraRoot;
 
-            rpg.Health = _cf.Value.playerConfiguration.health;
-            rpg.Stamina = _cf.Value.playerConfiguration.stamina;
-            rpg.Mana = _cf.Value.playerConfiguration.mana;
-            rpg.CanRun = true;
-            rpg.CanDash = true;
-            rpg.CanJump = true;
+            rpgComp.Health = _cf.Value.playerConfiguration.health;
+            rpgComp.Stamina = _cf.Value.playerConfiguration.stamina;
+            rpgComp.Mana = _cf.Value.playerConfiguration.mana;
+            rpgComp.CanRun = true;
+            rpgComp.CanDash = true;
+            rpgComp.CanJump = true;
 
-			CreateAbilities(playerEntity, _world.Value);
+            CreateAbilities(playerEntity, _world.Value);
         }
-        
+
         private void CreateAbilities(int playerEntity, EcsWorld world)
         {
             ref var hasAbilities = ref _hasAbilitiesPool.Value.Add(playerEntity);

@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SharedMode.unity
     guid: 4171543c384732a47928de8a2459865d
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/World.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 0
@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Photon/Fusion/Demos/BasicNetworkSetup.unity
     guid: 2ec534fc2617ad245b9eb5f94e2d27a0
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/HostMode.unity
     guid: bcf4268576842a94ab24c321f696e7be
   m_configObjects:

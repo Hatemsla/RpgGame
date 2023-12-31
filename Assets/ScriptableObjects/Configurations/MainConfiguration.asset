@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerConfiguration: {fileID: 11400000, guid: eb99d488f722cd44ba0e7cc2aedc7aa1,
     type: 2}
+  networkConfiguration: {fileID: 11400000, guid: 293dae8fac2325e4fbd0591fa7bcd5b6,
+    type: 2}
   uiConfiguration: {fileID: 11400000, guid: 1f2ae600818eca34dbb19ee7bac95476, type: 2}
   abilityConfiguration: {fileID: 11400000, guid: bf9e24a615ad9ed46be1da1eedb683f6,
     type: 2}

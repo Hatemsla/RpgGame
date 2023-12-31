@@ -3,6 +3,7 @@ using Leopotam.EcsLite.Di;
 using UnityEngine;
 using Utils.ObjectsPool;
 using World.Configurations;
+using World.Network;
 using World.Player;
 
 namespace World.Ability
@@ -11,11 +12,15 @@ namespace World.Ability
     {
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<PoolService> _ps = default;
+        private readonly EcsCustomInject<NetworkRunnerService> _nrs = default;
         
         private const int SpellPreloadCount = 20;
 
         public void Init(IEcsSystems systems)
         {
+            if(!_nrs.Value.IsPlayerJoined)
+                return;
+            
             _ps.Value.SpellPool = new PoolBase<SpellObject>(Preload, GetAction, ReturnAction, SpellPreloadCount);
         }
 

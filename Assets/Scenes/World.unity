@@ -54595,6 +54595,7 @@ MonoBehaviour:
   sceneData: {fileID: 1968066358}
   configuration: {fileID: 11400000, guid: 24d62d02478ba6e468ab3335461777de, type: 2}
   uguiEmitter: {fileID: 1180649491}
+  connectionToken: 
 --- !u!4 &1968066360
 Transform:
   m_ObjectHideFlags: 0

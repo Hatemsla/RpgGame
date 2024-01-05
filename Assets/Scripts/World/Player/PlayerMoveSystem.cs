@@ -2,12 +2,13 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 using World.Configurations;
+using World.Network;
 
 namespace World.Player
 {
     public sealed class PlayerMoveSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp, RpgComp>> _playerMove = default;
+        private readonly EcsFilterInject<Inc<PlayerComp, RpgComp>> _playerMove = default;
 
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<SceneData> _sd = default;
@@ -20,11 +21,15 @@ namespace World.Player
 
         public void Run(IEcsSystems systems)
         {
+            var networkPlayerObject = NetworkPlayerObject.Local;
+            
+            if (networkPlayerObject.GetInput<PlayerInputComp>(out var input) == false) return;
+            
             foreach (var entity in _playerMove.Value)
             {
+                Debug.Log("PlayerMoveSystem");
                 ref var player = ref _playerMove.Pools.Inc1.Get(entity);
-                ref var input = ref _playerMove.Pools.Inc2.Get(entity);
-                ref var rpg = ref _playerMove.Pools.Inc3.Get(entity);
+                ref var rpg = ref _playerMove.Pools.Inc2.Get(entity);
                 
                 if (rpg.IsDead) return;
                 
@@ -52,7 +57,7 @@ namespace World.Player
                 if (input.Move == Vector2.zero) 
                     targetSpeed = 0f;
                 
-                var playerVelocity = player.CharacterController.velocity;
+                var playerVelocity = player.CharacterController.Velocity;
                 var currentHorizontalSpeed = new Vector3(playerVelocity.x, 0.0f, playerVelocity.z).magnitude;
 
                 var speedOffset = 0.1f;

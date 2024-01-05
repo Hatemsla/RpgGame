@@ -5,20 +5,21 @@ using Fusion.Sockets;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
+using World.Network.Input;
 using Object = UnityEngine.Object;
 
 namespace World.Network
 {
     public class NetworkRunnerService
     {
-        public NetworkRunnerService(NetworkRunner networkRunnerPrefab, NetworkRunner networkRunner)
+        public NetworkRunnerService(NetworkRunner networkRunnerPrefab, NetworkRunner networkRunner, InputService inputService)
         {
             if (networkRunner == null)
             {
                 networkRunner = Object.Instantiate(networkRunnerPrefab);
                 networkRunner.name = "Network runner";
                 
-                networkRunner.GetComponent<NetworkSpawnerService>().SetNetworkRunnerToken(this);
+                networkRunner.GetComponent<NetworkSpawnerService>().SetNetworkRunnerToken(this, inputService);
 
                 var gameMode = GameMode.Client;
 
@@ -38,7 +39,9 @@ namespace World.Network
             }
         }
         
-        public bool IsPlayerJoined { get; set; }
+        public bool isPlayerJoined { get; set; }
+        public NetworkRunner connectedNetworkRunner { get; set; }
+        public PlayerRef playerRef { get; set; }
         
         public byte[] connectionToken { get; set; }
 

@@ -15787,6 +15787,7 @@ GameObject:
   - component: {fileID: 622143153}
   - component: {fileID: 622143152}
   - component: {fileID: 622143155}
+  - component: {fileID: 622143156}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -15898,6 +15899,29 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: a26ec69110bea3c4a81ff7eafac4a2fc, type: 2}
   m_BuildHeightMesh: 0
+--- !u!114 &622143156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622143151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectInterest: 1
+  DefaultInterestGroups: []
+  DestroyWhenStateAuthorityLeaves: 0
+  AllowStateAuthorityOverride: 1
+  AoiPositionSource: {fileID: 0}
+  Flags: 2561
+  NetworkGuid:
+    RawGuidValue: 107423ce02b94b708311bfddc4e68d4c
+  NestedObjects: []
+  NetworkedBehaviours: []
+  SimulationBehaviours: []
 --- !u!1001 &622419422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54546,6 +54570,7 @@ GameObject:
   - component: {fileID: 1968066360}
   - component: {fileID: 1968066359}
   - component: {fileID: 1968066358}
+  - component: {fileID: 1968066361}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -54592,10 +54617,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1ff63f8b2d5b2442909312706367d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
   sceneData: {fileID: 1968066358}
   configuration: {fileID: 11400000, guid: 24d62d02478ba6e468ab3335461777de, type: 2}
   uguiEmitter: {fileID: 1180649491}
-  connectionToken: 
 --- !u!4 &1968066360
 Transform:
   m_ObjectHideFlags: 0
@@ -54611,6 +54636,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1968066361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968066357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectInterest: 1
+  DefaultInterestGroups: []
+  DestroyWhenStateAuthorityLeaves: 0
+  AllowStateAuthorityOverride: 1
+  AoiPositionSource: {fileID: 0}
+  Flags: 2561
+  NetworkGuid:
+    RawGuidValue: 6971f3e667df48e18e644b253ad3129d
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1968066359}
+  SimulationBehaviours: []
 --- !u!4 &1968368066 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6317020595886276252, guid: d67ec10685933f94282f9a91fcc87ea8,

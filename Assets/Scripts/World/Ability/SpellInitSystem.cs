@@ -15,16 +15,19 @@ namespace World.Ability
         private readonly EcsCustomInject<NetworkRunnerService> _nrs = default;
         
         private const int SpellPreloadCount = 20;
-
+        
         public void Init(IEcsSystems systems)
         {
-            if(!_nrs.Value.IsPlayerJoined)
+            if(!_nrs.Value.isPlayerJoined)
                 return;
-            
-            _ps.Value.SpellPool = new PoolBase<SpellObject>(Preload, GetAction, ReturnAction, SpellPreloadCount);
+
+            for (var i = 0; i < _cf.Value.abilityConfiguration.abilityDatas.Count; i++)
+            {
+                _ps.Value.SpellPool = new PoolBase<SpellObject>(() => Preload(i), GetAction, ReturnAction, SpellPreloadCount);   
+            }
         }
 
-        private SpellObject Preload() => Object.Instantiate(_cf.Value.abilityConfiguration.abilityDatas[0].spell, 
+        private SpellObject Preload(int index) => Object.Instantiate(_cf.Value.abilityConfiguration.abilityDatas[index].spell, 
             Vector3.zero, Quaternion.identity);
 
         private void GetAction(SpellObject spellObject) => spellObject.gameObject.SetActive(true);

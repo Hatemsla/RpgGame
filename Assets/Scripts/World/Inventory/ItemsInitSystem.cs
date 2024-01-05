@@ -48,7 +48,7 @@ namespace World.Inventory
         
         public void Init(IEcsSystems systems)
         {
-            if(!_nrs.Value.IsPlayerJoined)
+            if(!_nrs.Value.isPlayerJoined)
                 return;
             
             _deleteFormView.gameObject.SetActive(false);

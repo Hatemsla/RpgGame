@@ -8,7 +8,7 @@ namespace World.Player
         public Transform Transform;
         public Vector3 Position;
         public Quaternion Rotation;
-        public CharacterController CharacterController;
+        public NetworkCharacterControllerPrototype CharacterController;
         public Transform PlayerCameraRoot;
         public CinemachineVirtualCamera PlayerCamera;
         public bool Grounded;

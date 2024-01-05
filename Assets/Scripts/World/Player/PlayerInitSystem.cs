@@ -18,7 +18,6 @@ namespace World.Player
     {
         private readonly EcsPoolInject<PlayerComp> _playerPool = default;
         private readonly EcsPoolInject<NetworkComp> _networkPool = default;
-        private readonly EcsPoolInject<PlayerInputComp> _playerInputPool = default;
         private readonly EcsPoolInject<RpgComp> _rpgPool = default;
         private readonly EcsPoolInject<InventoryComp> _inventoryPool = default;
         private readonly EcsPoolInject<AbilityComp> _ability = default;
@@ -41,20 +40,19 @@ namespace World.Player
             ref var rpgComp = ref _rpgPool.Value.Add(playerEntity);
             ref var networkComp = ref _networkPool.Value.Add(playerEntity);
             _inventoryPool.Value.Add(playerEntity);
-            _playerInputPool.Value.Add(playerEntity);
 
             var playerPrefab = _cf.Value.playerConfiguration.playerPrefab;
             var playerFollowCameraPrefab = _cf.Value.playerConfiguration.playerFollowCameraPrefab;
             var playerStartPosition = _sd.Value.playerSpawnPosition.position;
-            // var playerObject = runner.Spawn(playerPrefab, playerStartPosition, Quaternion.identity, player);
-            var playerObject = Object.Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
+            var playerObject = _nrs.Value.connectedNetworkRunner.Spawn(playerPrefab, playerStartPosition, Quaternion.identity, _nrs.Value.playerRef);
+            // var playerObject = Object.Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
             var playerFollowCameraView =
                 Object.Instantiate(playerFollowCameraPrefab, Vector3.zero, Quaternion.identity);
 
             playerComp.Transform = playerObject.transform;
             playerComp.Position = playerStartPosition;
             playerComp.Rotation = Quaternion.identity;
-            playerComp.CharacterController = playerObject.GetComponent<CharacterController>();
+            playerComp.CharacterController = playerObject.GetComponent<NetworkCharacterControllerPrototype>();
             playerComp.PlayerCameraRoot = playerObject.GetComponentInChildren<PlayerCameraRootView>().transform;
             playerComp.Grounded = true;
             playerComp.PlayerCamera = playerFollowCameraView;

@@ -4,16 +4,19 @@ using Fusion;
 using Fusion.Sockets;
 using UnityEngine;
 using Utils;
+using World.Network.Input;
 
 namespace World.Network
 {
     public class NetworkSpawnerService : MonoBehaviour, INetworkRunnerCallbacks
     {
         private NetworkRunnerService _nrs;
+        private InputService _inputService;
 
-        public void SetNetworkRunnerToken(NetworkRunnerService nrs)
+        public void SetNetworkRunnerToken(NetworkRunnerService nrs, InputService inputService)
         {
             _nrs = nrs;
+            _inputService = inputService;
         }
         
         private int GetPlayerToken(NetworkRunner runner, PlayerRef playerRef)
@@ -43,7 +46,9 @@ namespace World.Network
                 
                 Utils.Utils.DebugLog($"Spawning new player for connection token {playerToken}");
 
-                _nrs.IsPlayerJoined = true;
+                _nrs.isPlayerJoined = true;
+                _nrs.connectedNetworkRunner = runner;
+                _nrs.playerRef = player;
             }
             else
             {
@@ -55,17 +60,23 @@ namespace World.Network
         {
             Utils.Utils.DebugLog("OnPlayerLeft");
             
-            _nrs.IsPlayerJoined = false;
+            _nrs.isPlayerJoined = false;
         }
 
         public void OnInput(NetworkRunner runner, NetworkInput input)
         {
-            
+            // if (_inputService == null && NetworkPlayer.Local != null)
+            //     _inputService = new InputService();
+
+            if (_inputService != null)
+            {
+                input.Set(_inputService.playerInputComp);
+            }
         }
 
         public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
         {
-            
+            Utils.Utils.DebugLog("OnInputMissing");
         }
 
         public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)

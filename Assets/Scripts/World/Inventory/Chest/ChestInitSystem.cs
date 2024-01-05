@@ -42,7 +42,7 @@ namespace World.Inventory.Chest
         
         public void Init(IEcsSystems systems)
         {
-            if(!_nrs.Value.IsPlayerJoined)
+            if(!_nrs.Value.isPlayerJoined)
                 return;
             
             var world = _itemsWorld.Value;

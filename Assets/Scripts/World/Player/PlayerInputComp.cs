@@ -1,27 +1,28 @@
-﻿using UnityEngine;
+﻿using Fusion;
+using UnityEngine;
 
 namespace World.Player
 {
-    public struct PlayerInputComp
+    public struct PlayerInputComp : INetworkInput
     {
         public Vector2 Move;
         public Vector2 Look;
         public float Zoom;
-        public bool Jump;
-        public bool Sprint;
-        public bool Walk;
-        public bool Dash;
-        public bool FreeLook;
-        public bool Alpha1;
-        public bool Alpha2;
-        public bool Alpha3;
-        public bool Alpha4;
-        public bool Alpha5;
-        public bool Alpha6;
-        public bool UseAbility;
-        public bool Inventory;
-        public bool AutoRun;
-        public bool FreeCursor;
-        public bool ActiveAction;
+        public NetworkBool Jump;
+        public NetworkBool Sprint;
+        public NetworkBool Walk;
+        public NetworkBool Dash;
+        public NetworkBool FreeLook;
+        public NetworkBool Alpha1;
+        public NetworkBool Alpha2;
+        public NetworkBool Alpha3;
+        public NetworkBool Alpha4;
+        public NetworkBool Alpha5;
+        public NetworkBool Alpha6;
+        public NetworkBool UseAbility;
+        public NetworkBool Inventory;
+        public NetworkBool AutoRun;
+        public NetworkBool FreeCursor;
+        public NetworkBool ActiveAction;
     }
 }

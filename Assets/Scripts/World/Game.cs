@@ -15,11 +15,12 @@ using World.Configurations;
 using World.Inventory;
 using World.Inventory.Chest;
 using World.Network;
+using World.Network.Input;
 using World.Player;
 
 namespace World
 {
-    public sealed class Game : MonoBehaviour
+    public sealed class Game : NetworkBehaviour
     {
         [SerializeField] private SceneData sceneData;
         [SerializeField] private Configuration configuration;
@@ -42,7 +43,8 @@ namespace World
 
         private async void Start()
         {
-            _networkRunnerService = new NetworkRunnerService(configuration.networkConfiguration.networkRunnerPrefab, _networkRunner);
+            var input = new InputService();
+            _networkRunnerService = new NetworkRunnerService(configuration.networkConfiguration.networkRunnerPrefab, _networkRunner, input);
             
             await WaitForPlayerJoined();
             
@@ -61,16 +63,23 @@ namespace World
             _systemsUpdate
                     
                 //Init systems
+                
+                
+                //Run systems
+                .Add(new TimeSystem())
+                .Add(new PlayerInputSystem())
+                
+
+                .Inject(ts, ps, cs, configuration, sceneData, mainInput, _networkRunnerService, input)
+                .Init();
+            _systemsFixedUpdate
                 .Add(new PlayerInitSystem())
                 .Add(new ItemsInitSystem())
                 .Add(new SpellInitSystem())
                 .Add(new ChestInitSystem())
                 .Add(new ZoneInitSystem())
                 .Add(new EnemyInitSystem())
-                
                 //Run systems
-                .Add(new TimeSystem())
-                .Add(new PlayerInputSystem())
                 .Add(new CursorControllingSystem())
                 .Add(new PlayerDeathSystem())
                 .Add(new PlayerJumpAndGravitySystem())
@@ -106,8 +115,6 @@ namespace World
                 .Inject(ts, ps, cs, configuration, sceneData, mainInput, _networkRunnerService)
                 .InjectUgui(uguiEmitter, Idents.Worlds.Events)
                 .Init();
-            _systemsFixedUpdate
-                .Init();
 
             _systemsLateUpdate
                 .Inject(ts, configuration, sceneData, mainInput)
@@ -116,7 +123,7 @@ namespace World
         
         private async Task WaitForPlayerJoined()
         {
-            while (!_networkRunnerService.IsPlayerJoined)
+            while (!_networkRunnerService.isPlayerJoined)
             {
                 await Task.Yield();
             }
@@ -124,21 +131,26 @@ namespace World
 
         private void Update()
         {
-            if(_networkRunnerService.IsPlayerJoined)
+            if(_networkRunnerService.isPlayerJoined)
                 _systemsUpdate?.Run();
         }
-        
-        private void FixedUpdate()
+
+        public override void FixedUpdateNetwork()
         {
-            if(_networkRunnerService.IsPlayerJoined)
+            if(_networkRunnerService.isPlayerJoined)
                 _systemsFixedUpdate?.Run();
         }
-        
-        private void LateUpdate()
-        {
-            if(_networkRunnerService.IsPlayerJoined)
-                _systemsLateUpdate?.Run();
+
+        private void FixedUpdate()
+        { 
+            // _systemsFixedUpdate?.Run();
         }
+        
+        // private void LateUpdate()
+        // {
+        //     if(_networkRunnerService.isPlayerJoined)
+        //         _systemsLateUpdate?.Run();
+        // }
 
         private void OnDestroy()
         {

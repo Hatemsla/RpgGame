@@ -11,6 +11,7 @@ using World.Ability.AbilitiesData;
 using World.Ability.AbilitiesObjects;
 using World.Ability.AbilitiesTypes;
 using World.Configurations;
+using World.RPG;
 
 namespace World.Player
 {

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Utils;
 using World.Configurations;
+using World.RPG;
 
 namespace World.Player
 {

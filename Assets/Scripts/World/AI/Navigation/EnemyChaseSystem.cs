@@ -3,6 +3,7 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 using World.Player;
+using World.RPG;
 
 namespace World.AI.Navigation
 {

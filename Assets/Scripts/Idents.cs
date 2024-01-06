@@ -25,8 +25,10 @@
             public const string ChestInventoryWeight = "ChestInventoryWeight";
             
             public const string FastItemsView = "FastItemsView";
+            public const string FastSkillsView = "FastSkillsView";
             public const string FastItemsViewContent = "FastItemsViewContent";
-            public const string FastSkillView = "FastSkillView";
+            public const string FastSkillsViewContent = "FastSkillsViewContent";
+            
             public const string CrosshairView = "CrosshairView";
 
             public const string DeleteFormView = "DeleteFormView";
@@ -49,6 +51,7 @@
         public static class Layers
         {
             public const string FastItemView = "FastItemView";
+            public const string FastSkillsView = "FastSkillsView";
         }
     }
 }

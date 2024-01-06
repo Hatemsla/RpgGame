@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/World.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 0
-    path: Assets/StarterAssets/ThirdPersonController/Scenes/Playground.unity
+    path: Assets/Plugins/StarterAssets/ThirdPersonController/Scenes/Playground.unity
     guid: e9017d5f96b9f09489b4b37e1d6eb914
   - enabled: 0
     path: Assets/Photon/Fusion/Demos/BasicNetworkSetup.unity

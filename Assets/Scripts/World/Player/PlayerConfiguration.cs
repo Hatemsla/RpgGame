@@ -1,4 +1,5 @@
-﻿using Cinemachine;
+﻿using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 namespace World.Player
@@ -73,6 +74,13 @@ namespace World.Player
 
         [Tooltip("Mana recovery rate")]
         public float manaRecovery;
+        
+        [Tooltip("Start level")]
+        public int startLevel = 1;
+        [Tooltip("Start experience")]
+        public int startExperience;
+        [Tooltip("Experience needed to reach next level")]
+        public List<int> experienceToNextLevel;
         
         [Header("Other settings")]
         [Tooltip("What layers the character uses as ground")]

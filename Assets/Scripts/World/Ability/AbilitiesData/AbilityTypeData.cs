@@ -1,6 +1,6 @@
 ﻿namespace World.Ability.AbilitiesData
 {
-    public class AbilityTypeData
+    public abstract class AbilityTypeData
     {
         
     }

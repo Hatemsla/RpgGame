@@ -4,9 +4,9 @@ using Leopotam.EcsLite;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using World.Inventory;
-using World.Inventory.Chest;
+using World.Ability.AbilitiesObjects;
 using World.Player;
 
 namespace World.Ability
@@ -15,10 +15,13 @@ namespace World.Ability
     {
         public EcsPackedEntity AbilityIdx;
         public Image abilityImage;
+        public AbilityObject abilityObject;
         
         [SerializeField] private TMP_Text abilityName;
         [SerializeField] private TMP_Text abilityDescription;
-        [SerializeField] private TMP_Text abilityParametrs;
+        [SerializeField] private TMP_Text abilityParams;
+
+        //private ContentView _playerSkillViewContent;
         
         private Transform _parentBeforeDrag;
         private SceneData _sd;
@@ -36,21 +39,20 @@ namespace World.Ability
             set => abilityDescription.text = value;
         }
         
-        public string AabilityParametrs
+        public string AbilityParams
         {
-            get => abilityParametrs.text;
-            set => abilityParametrs.text = value;
+            get => abilityParams.text;
+            set => abilityParams.text = value;
         }
         
         private EcsWorld _world;
         private int _ownerEntity;
         private EcsPool<HasAbilities> _hasAbilities;
-        private EcsPool<AbilityComp> _abilityComp;
+        private EcsPool<AbilityComp> _abilityPool;
         private EcsPool<PlayerComp> _playerPool;
-        private EcsFilter _deleteFilter;
         
         private RectTransform _crosshairView;
-        private RectTransform _fastItemsView;
+        private RectTransform _fastSkillsView;
         
         private float _lastClickTime;
         private readonly float _doubleClickThreshold = 0.3f;
@@ -69,77 +71,102 @@ namespace World.Ability
             _parentBeforeDrag = transform.parent;
         }
         
-        public void SetViews(RectTransform playerInventoryView, RectTransform chestInventoryView,
-            RectTransform fastItemsView, RectTransform deleteFormView, RectTransform crosshairView)
+        public void SetViews(RectTransform fastSkillsView, RectTransform crosshairView)
         {
-            _fastItemsView = fastItemsView;
+            _fastSkillsView = fastSkillsView;
             _crosshairView = crosshairView;
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            /*if (eventData.button == PointerEventData.InputButton.Left)
+            if (eventData.button == PointerEventData.InputButton.Left)
             {
-                if (Time.time - _lastClickTime <= _doubleClickThreshold)
-                    MoveItemTo(_playerInventoryViewContent.currentEntity, _playerInventoryViewContent.transform);
+                /*if (Time.time - _lastClickTime <= _doubleClickThreshold)
+                    MoveSkillTo(_playerSkillViewContent.currentEntity, _playerSkillViewContent.transform);*/
 
                 _lastClickTime = Time.time;
             }
             else if (eventData.button == PointerEventData.InputButton.Right)
             {
-                if (!itemObject)
+                if (!abilityObject)
                     return;
 
-                ref var hasItems = ref _hasItems.Get(_ownerEntity);
+                ref var hasAbilities = ref _hasAbilities.Get(_ownerEntity);
 
-                ItemIdx.Unpack(_world, out var currentEntity);
+                AbilityIdx.Unpack(_world, out var currentEntity);
 
-                foreach (var itemPacked in hasItems.Entities)
-                    if (itemPacked.Unpack(_world, out var unpackedEntity))
+                foreach (var abilityPacked in hasAbilities.Entities)
+                    if (abilityPacked.Unpack(_world, out var unpackedEntity))
                     {
                         if (currentEntity == unpackedEntity)
-                            itemObject.gameObject.SetActive(!itemObject.gameObject.activeSelf);
+                            abilityObject.gameObject.SetActive(!abilityObject.gameObject.activeSelf);
                         else
-                            itemObject.gameObject.SetActive(false);
+                            abilityObject.gameObject.SetActive(false);
                     }
-            }*/
+            }
         }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            throw new System.NotImplementedException();
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                _parentBeforeDrag = transform.parent;
+                transform.SetParent(transform.root);
+                transform.SetAsLastSibling();
+            }
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            throw new System.NotImplementedException();
+            if (eventData.button == PointerEventData.InputButton.Left)
+                transform.position = Mouse.current.position.value;
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            throw new System.NotImplementedException();
+            if (eventData.button != PointerEventData.InputButton.Left)
+                return;
+            if (IsSkillInsideInventory(transform.position, _fastSkillsView))
+            {
+                SetFastSkillView();
+                /*if (_ownerEntity == _playerInventoryViewContent.currentEntity)
+                {
+                    transform.SetParent(_parentBeforeDrag);
+                }
+                else
+                {
+                    MoveSkillTo(_playerInventoryViewContent.currentEntity, _playerInventoryViewContent.transform);
+                    var playerComp = _playerPool.Get(_playerInventoryViewContent.currentEntity);
+                    var rot = itemObject.transform.localRotation;
+                    itemObject.transform.SetParent(playerComp.Transform);
+                    itemObject.transform.localRotation = rot;
+                    itemObject.transform.position =
+                        playerComp.Transform.localPosition + playerComp.Transform.forward;
+                }*/
+            }
         }
         
         private void SetFastSkillView()
         {
-            foreach (var ft in _sd.fastSkillViews)
-                if (IsCursorOver(ft))
+            foreach (var fs in _sd.fastSkillViews)
+                if (IsCursorOver(fs))
                 {
-                    ft.abilityImage.sprite = abilityImage.sprite;
-                    ft.abilityName.text = AbilityName;
+                    fs.abilityImage.sprite = abilityImage.sprite;
+                    fs.abilityObject = abilityObject;
+                    fs.abilityName.text = AbilityName;
                     return;
                 }
         }
         
-        private bool IsCursorOver(FastSkillView ft)
+        private bool IsCursorOver(FastSkillView fs)
         {
-            return IsPointerOverUIElement(GetEventSystemRaycastResults(), ft);
+            return IsPointerOverUIElement(GetEventSystemRaycastResults(), fs);
         }
         
-        private FastItemView IsPointerOverUIElement(List<RaycastResult> eventSystemRaysastResults, FastSkillView ft)
+        private FastSkillView IsPointerOverUIElement(List<RaycastResult> eventSystemRaysastResults, FastSkillView ft)
         {
             return eventSystemRaysastResults
-                .Select(curRaysastResult => curRaysastResult.gameObject.GetComponentInParent<FastItemView>())
+                .Select(curRaysastResult => curRaysastResult.gameObject.GetComponentInParent<FastSkillView>())
                 .FirstOrDefault(targetComp => targetComp && targetComp == ft);
         }
         
@@ -150,6 +177,42 @@ namespace World.Ability
             var raysastResults = new List<RaycastResult>();
             EventSystem.current.RaycastAll(eventData, raysastResults);
             return raysastResults;
+        }
+        
+        private void MoveSkillTo(int otherEntity, Transform newParent)
+        {
+            if (otherEntity == _ownerEntity)
+            {
+                transform.SetParent(_parentBeforeDrag);
+                return;
+            }
+
+            ref var hasSkillsOwner = ref _hasAbilities.Get(_ownerEntity);
+            ref var hasSkillsOther = ref _hasAbilities.Get(otherEntity);
+            
+            transform.SetParent(newParent);
+            _ownerEntity = otherEntity;
+        }
+        
+        private bool IsSkillOutInventory(Vector3 position, RectTransform view)
+        {
+            var minPosition = view.TransformPoint(view.rect.min);
+            var maxPosition = view.TransformPoint(view.rect.max);
+
+            return position.x < minPosition.x || position.x > maxPosition.x || position.y < minPosition.y ||
+                   position.y > maxPosition.y;
+        }
+
+        private bool IsSkillInsideInventory(Vector3 position, RectTransform view)
+        {
+            if (!view.gameObject.activeInHierarchy)
+                return false;
+
+            var minPosition = view.TransformPoint(view.rect.min);
+            var maxPosition = view.TransformPoint(view.rect.max);
+
+            return position.x >= minPosition.x && position.x <= maxPosition.x &&
+                   position.y >= minPosition.y && position.y <= maxPosition.y;
         }
     }
 }

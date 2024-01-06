@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using World.Ability.AbilitiesObjects;
 
 namespace World.Ability
 {
@@ -11,6 +12,7 @@ namespace World.Ability
     {
         public EcsPackedEntity AbilityIdx;
         public InputActionReference actionReference;
+        public AbilityObject abilityObject;
         public Image abilityImage;
         public TMP_Text abilityName;
         public TMP_Text abilityBinding;

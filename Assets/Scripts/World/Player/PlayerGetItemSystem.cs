@@ -79,13 +79,12 @@ namespace World.Player
 
         private void TryGetItem(int itemIdx, int entity)
         {
-            var world = _hasItemsPool.Value.GetWorld();
             ref var hasItems = ref _hasItemsPool.Value.Get(entity);
             ref var rpg = ref _player.Pools.Inc3.Get(entity);
 
             foreach (var itemPacked in hasItems.Entities)
             {
-                if (itemPacked.Unpack(world, out var unpackedEntity))
+                if (itemPacked.Unpack(_world.Value, out var unpackedEntity))
                 {
                     ref var item = ref _itemsPool.Value.Get(unpackedEntity);
                     switch (item.ItemType)
@@ -101,24 +100,24 @@ namespace World.Player
                             break;
                         // Weapons
                         case ItemShieldWeapon:
-                            CreateItemView(item, unpackedEntity, itemIdx);
+                            GetItemView(item, unpackedEntity, itemIdx);
                             break;
                         case ItemSwordWeapon:
-                            CreateItemView(item, unpackedEntity, itemIdx);
+                            GetItemView(item, unpackedEntity, itemIdx);
                             break;
                         case ItemBowWeapon:
-                            CreateItemView(item, unpackedEntity, itemIdx);
+                            GetItemView(item, unpackedEntity, itemIdx);
                             break;
                         // Tools
                         case ItemTool:
-                            CreateItemView(item, unpackedEntity, itemIdx);
+                            GetItemView(item, unpackedEntity, itemIdx);
                             break;
                     }
                 }
             }
         }
 
-        private void CreateItemView(ItemComp item, int unpackedEntity,int itemIdx)
+        private void GetItemView(ItemComp item, int unpackedEntity,int itemIdx)
         {
             if (unpackedEntity == itemIdx)
                 item.ItemView.itemObject.gameObject.SetActive(!item.ItemView.itemObject.gameObject.activeSelf);

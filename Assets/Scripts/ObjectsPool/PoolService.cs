@@ -8,7 +8,7 @@ namespace Utils.ObjectsPool
 {
     public sealed class PoolService
     {
-        public PoolBase<SpellObject> SpellPool;
+        public PoolBase<AbilityObject> SpellPool;
         public PoolBase<EnemyView> EnemyPool;
     }
 }

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6600087411207209669}
   - component: {fileID: 1469142413041109862}
   - component: {fileID: 6844303308138078127}
-  - component: {fileID: -5577556761305309043}
   - component: {fileID: -861816401512577905}
+  - component: {fileID: 6066561387642604712}
   m_Layer: 9
   m_Name: FireBall
   m_TagString: Untagged
@@ -28,13 +28,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8285538237981431916}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6600087411207209669
 MeshFilter:
@@ -107,23 +107,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-5577556761305309043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8285538237981431916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a77fa2f658b4fdf9a6e566c8c547130, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spellSpeed: 0
-  spellDirection: 0
-  spellTime: 0
-  spellStart: {x: 0, y: 0, z: 0}
-  spellEnd: {x: 0, y: 0, z: 0}
 --- !u!54 &-861816401512577905
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -151,3 +134,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6066561387642604712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8285538237981431916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d016390e604e4ae0992ec7abe38311c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  direction: 0
+  startDirection: {x: 0, y: 0, z: 0}
+  endDirection: {x: 0, y: 0, z: 0}
+  speed: 0
+  startTime: 0

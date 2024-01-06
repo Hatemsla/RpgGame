@@ -12,6 +12,7 @@ using World.Configurations;
 using World.Inventory;
 using World.Inventory.Chest;
 using World.Player;
+using World.RPG;
 
 namespace World
 {
@@ -61,9 +62,11 @@ namespace World
                 .Add(new PlayerManaSystem())
                 .Add(new PlayerSpellCastSystem())
                 .Add(new PlayerGetItemSystem())
+                .Add(new PlayerLevelSystem())
                 .Add(new ChestUpdateSystem())
                 
                 .DelHere<DeleteEvent>()
+                .DelHere<LevelChangedEvent>()
                 .Add(new DeleteFormSystem())
                 
                 .Add(new EnemyPatrolSystem())

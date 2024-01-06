@@ -12,6 +12,7 @@ namespace World
     {
         public Transform playerSpawnPosition;
         public CinemachineBrain mainCamera;
+        public UISceneData uiSceneData;
         public List<FastItemView> fastItemViews;
         public List<FastSkillView> fastSkillViews;
         public List<ChestObject> chests;

@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca41ea42b0554435bd8cde1358a260d8, type: 3}
   m_Name: FireBall
   m_EditorClassIdentifier: 
-  abilityName: 
+  abilityName: Fire Ball
   abilityDescription: 
   costPoint: 20
   abilitySprite: {fileID: 0}
   abilityViewPrefab: {fileID: 0}
-  abilityObjectPrefab: {fileID: -5577556761305309043, guid: 5e9f8e8cb2ca82445bba42bccaaa6b45,
+  abilityObjectPrefab: {fileID: 6066561387642604712, guid: 5e9f8e8cb2ca82445bba42bccaaa6b45,
     type: 3}
+  abilityDelay: 0

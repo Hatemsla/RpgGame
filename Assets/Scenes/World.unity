@@ -16358,7 +16358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a2bb647df7944f4b8f1a565fb2bc704, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _widgetName: PlayerInventoryViewContent
+  _widgetName: PlayerAbilityViewContent
   _emitter: {fileID: 1180649491}
   _nameRegistrationType: 1
   _selectable: {fileID: 0}
@@ -62004,7 +62004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a2bb647df7944f4b8f1a565fb2bc704, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _widgetName: PlayerInventoryView
+  _widgetName: PlayerAbilityView
   _emitter: {fileID: 1180649491}
   _nameRegistrationType: 1
   _selectable: {fileID: 0}

@@ -10,7 +10,7 @@ using Object = UnityEngine.Object;
 
 namespace World.Ability
 {
-    public class SpellInitSystem : IEcsInitSystem
+    public class AbilityObjectsInitSystem : IEcsInitSystem
     {
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<PoolService> _ps = default;

@@ -140,7 +140,7 @@ namespace World.Player
             ((BallAbilityObject)abilityObject).endDirection = abilityDirection;  
             ((BallAbilityObject)abilityObject).speed = ((BallAbility)ability.abilityType).speed;
 
-            abilityObject.SpellIdx = abilityPackedEntity;
+            abilityObject.AbilityIdx = abilityPackedEntity;
             abilityObject.SetWorld(_world.Value, entity);
         }
     }

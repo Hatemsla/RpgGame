@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using World.RPG.UI;
 
 namespace World.Configurations
 {
@@ -7,5 +8,8 @@ namespace World.Configurations
     {
         [Tooltip("How fast changes hsm bars")]
         public float hsmBarsChangeRate = 1f;
+        
+        [Tooltip("Experience slider view")]
+        public ExperienceSliderView experienceSliderView;
     }
 }

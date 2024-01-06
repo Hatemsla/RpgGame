@@ -223,9 +223,12 @@ namespace World.Inventory
             foreach (var ft in _sd.fastItemViews)
                 if (IsCursorOver(ft))
                 {
+                    if (ft.itemObject != null)
+                    {
+                        ft.itemObject = itemObject;
+                        ft.itemObject.ItemIdx = ItemIdx;
+                    }
                     ft.itemImage.sprite = itemImage.sprite;
-                    ft.itemObject = itemObject;
-                    ft.itemObject.ItemIdx = ItemIdx;
                     ft.itemName.text = ItemName;
                     ft.itemCount.text = ItemCount;
                     return;

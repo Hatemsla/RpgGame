@@ -9,7 +9,7 @@ using UnityEngine.UI;
 using World.Ability.AbilitiesObjects;
 using World.Player;
 
-namespace World.Ability
+namespace World.Ability.UI
 {
     public class AbilityView : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
     {

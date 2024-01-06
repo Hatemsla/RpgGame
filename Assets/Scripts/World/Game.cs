@@ -40,7 +40,7 @@ namespace World
                 //Init systems
                 .Add(new PlayerInitSystem())
                 .Add(new ItemsInitSystem())
-                .Add(new SpellInitSystem())
+                .Add(new AbilityObjectsInitSystem())
                 .Add(new ChestInitSystem())
                 .Add(new ZoneInitSystem())
                 .Add(new EnemyInitSystem())

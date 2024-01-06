@@ -8,7 +8,7 @@ namespace World.Ability.AbilitiesObjects
 {
     public abstract class AbilityObject : MonoBehaviour
     {
-        public EcsPackedEntity SpellIdx;
+        public EcsPackedEntity AbilityIdx;
         public PoolService PoolService;
 
         private protected bool _isCast;

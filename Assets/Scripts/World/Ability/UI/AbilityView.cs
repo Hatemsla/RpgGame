@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using World.Ability.AbilitiesObjects;
+using World.Inventory;
 using World.Player;
 
 namespace World.Ability.UI
@@ -51,9 +52,12 @@ namespace World.Ability.UI
         private EcsPool<AbilityComp> _abilityPool;
         private EcsPool<PlayerComp> _playerPool;
         
-        private RectTransform _crosshairView;
-        private RectTransform _fastSkillsView;
+        private ContentView _playerAbilityViewContent;
         
+        private RectTransform _crosshairView;
+        private RectTransform _playerAbilityView;
+        private RectTransform _fastSkillsView;
+
         private float _lastClickTime;
         private readonly float _doubleClickThreshold = 0.3f;
         
@@ -62,6 +66,7 @@ namespace World.Ability.UI
             _world = world;
             _ownerEntity = entity;
             _hasAbilities = _world.GetPool<HasAbilities>();
+            _abilityPool = _world.GetPool<AbilityComp>();
             _playerPool = _world.GetPool<PlayerComp>();
             _sd = sd;
         }
@@ -70,19 +75,22 @@ namespace World.Ability.UI
         {
             _parentBeforeDrag = transform.parent;
         }
-        
-        public void SetViews(RectTransform fastSkillsView, RectTransform crosshairView)
+
+        public void SetViews(RectTransform playerAbilityView, RectTransform fastSkillsView, RectTransform crosshairView)
         {
+            _playerAbilityView = playerAbilityView;
             _fastSkillsView = fastSkillsView;
             _crosshairView = crosshairView;
+
+            _playerAbilityViewContent = playerAbilityView.GetComponentInChildren<ContentView>();
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
             if (eventData.button == PointerEventData.InputButton.Left)
             {
-                /*if (Time.time - _lastClickTime <= _doubleClickThreshold)
-                    MoveSkillTo(_playerSkillViewContent.currentEntity, _playerSkillViewContent.transform);*/
+                if (Time.time - _lastClickTime <= _doubleClickThreshold)
+                    MoveSkillTo(_playerAbilityViewContent.currentEntity, _playerAbilityViewContent.transform);
 
                 _lastClickTime = Time.time;
             }
@@ -126,23 +134,34 @@ namespace World.Ability.UI
         {
             if (eventData.button != PointerEventData.InputButton.Left)
                 return;
-            if (IsSkillInsideInventory(transform.position, _fastSkillsView))
+            if (IsSkillOutList(transform.position, _playerAbilityView))
             {
-                SetFastSkillView();
-                /*if (_ownerEntity == _playerInventoryViewContent.currentEntity)
+                if (IsSkillInsideList(transform.position, _fastSkillsView))
                 {
-                    transform.SetParent(_parentBeforeDrag);
+                    SetFastSkillView();
+                    if (_ownerEntity == _playerAbilityViewContent.currentEntity)
+                    {
+                        transform.SetParent(_parentBeforeDrag);
+                    }
+                    else
+                    {
+                        MoveSkillTo(_playerAbilityViewContent.currentEntity, _playerAbilityViewContent.transform);
+                        var playerComp = _playerPool.Get(_playerAbilityViewContent.currentEntity);
+                        var rot = abilityObject.transform.localRotation;
+                        abilityObject.transform.SetParent(playerComp.Transform);
+                        abilityObject.transform.localRotation = rot;
+                        abilityObject.transform.position =
+                            playerComp.Transform.localPosition + playerComp.Transform.forward;
+                    }
                 }
-                else
+                else if (IsSkillInsideList(transform.position, _playerAbilityView))
                 {
-                    MoveSkillTo(_playerInventoryViewContent.currentEntity, _playerInventoryViewContent.transform);
-                    var playerComp = _playerPool.Get(_playerInventoryViewContent.currentEntity);
-                    var rot = itemObject.transform.localRotation;
-                    itemObject.transform.SetParent(playerComp.Transform);
-                    itemObject.transform.localRotation = rot;
-                    itemObject.transform.position =
-                        playerComp.Transform.localPosition + playerComp.Transform.forward;
-                }*/
+                    MoveSkillTo(_playerAbilityViewContent.currentEntity, _playerAbilityViewContent.transform);
+                }
+            }
+            else
+            {
+                transform.SetParent(_parentBeforeDrag);
             }
         }
         
@@ -151,8 +170,9 @@ namespace World.Ability.UI
             foreach (var fs in _sd.fastSkillViews)
                 if (IsCursorOver(fs))
                 {
-                    fs.abilityImage.sprite = abilityImage.sprite;
                     fs.abilityObject = abilityObject;
+                    fs.abilityObject.AbilityIdx = AbilityIdx;
+                    fs.abilityImage.sprite = abilityImage.sprite;
                     fs.abilityName.text = AbilityName;
                     return;
                 }
@@ -163,11 +183,11 @@ namespace World.Ability.UI
             return IsPointerOverUIElement(GetEventSystemRaycastResults(), fs);
         }
         
-        private FastSkillView IsPointerOverUIElement(List<RaycastResult> eventSystemRaysastResults, FastSkillView ft)
+        private FastSkillView IsPointerOverUIElement(List<RaycastResult> eventSystemRaysastResults, FastSkillView fs)
         {
             return eventSystemRaysastResults
                 .Select(curRaysastResult => curRaysastResult.gameObject.GetComponentInParent<FastSkillView>())
-                .FirstOrDefault(targetComp => targetComp && targetComp == ft);
+                .FirstOrDefault(targetComp => targetComp && targetComp == fs);
         }
         
         private List<RaycastResult> GetEventSystemRaycastResults()
@@ -190,11 +210,17 @@ namespace World.Ability.UI
             ref var hasSkillsOwner = ref _hasAbilities.Get(_ownerEntity);
             ref var hasSkillsOther = ref _hasAbilities.Get(otherEntity);
             
+            AbilityIdx.Unpack(_world, out var unpackedEntity);
+            ref var ability = ref _abilityPool.Get(unpackedEntity);
+            
+            hasSkillsOther.Entities.Add(AbilityIdx);
+            hasSkillsOwner.Entities.Remove(AbilityIdx);
+            
             transform.SetParent(newParent);
             _ownerEntity = otherEntity;
         }
         
-        private bool IsSkillOutInventory(Vector3 position, RectTransform view)
+        private bool IsSkillOutList(Vector3 position, RectTransform view)
         {
             var minPosition = view.TransformPoint(view.rect.min);
             var maxPosition = view.TransformPoint(view.rect.max);
@@ -203,7 +229,7 @@ namespace World.Ability.UI
                    position.y > maxPosition.y;
         }
 
-        private bool IsSkillInsideInventory(Vector3 position, RectTransform view)
+        private bool IsSkillInsideList(Vector3 position, RectTransform view)
         {
             if (!view.gameObject.activeInHierarchy)
                 return false;

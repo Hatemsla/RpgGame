@@ -56,7 +56,7 @@ namespace World.Ability.AbilitiesObjects
 
         private void DestroySpell()
         {
-            if (SpellIdx.Unpack(_world, out var unpackedEntity))
+            if (AbilityIdx.Unpack(_world, out var unpackedEntity))
             {
                 ref var spell = ref _releasedAbilityPool.Get(unpackedEntity);
                 

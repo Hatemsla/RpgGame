@@ -20,7 +20,7 @@ namespace World.Ability
             _ps.Value.SpellPool = new PoolBase<SpellObject>(Preload, GetAction, ReturnAction, SpellPreloadCount);
         }
 
-        private SpellObject Preload() => Object.Instantiate(_cf.Value.abilityConfiguration.abilityDatas[0].spell, 
+        private SpellObject Preload() => Object.Instantiate(_cf.Value.abilityConfiguration.abilityDatas[0].abilityObjectPrefab, 
             Vector3.zero, Quaternion.identity);
 
         private void GetAction(SpellObject spellObject) => spellObject.gameObject.SetActive(true);

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Utils.ObjectsPool;
 using World.Ability;
+using World.Ability.AbilitiesData;
 using World.Configurations;
 
 namespace World.Player
@@ -45,10 +46,10 @@ namespace World.Player
                         var ray = _sd.Value.mainCamera.OutputCamera.ScreenPointToRay(centerOfScreen);
                         Vector3 spellDirection;
 
-                        if (Physics.Raycast(ray, out var hitInfo, abilityData.distance))
+                        if (Physics.Raycast(ray, out var hitInfo, ((SpellAbilityData)abilityData.abilityTypeData).distance))
                             spellDirection = hitInfo.point;
                         else
-                            spellDirection = ray.GetPoint(abilityData.distance);
+                            spellDirection = ray.GetPoint(((SpellAbilityData)abilityData.abilityTypeData).distance);
 
                         var journeyLenght = Vector3.Distance(player.Transform.position + player.Transform.forward,
                         spellDirection);
@@ -67,12 +68,12 @@ namespace World.Player
                         spellObject.PoolService = _ps.Value;
                         spellObject.TimeService = _ts.Value;
 
-                        spellObject.spellDamage = abilityData.damage;
+                        spellObject.spellDamage = ((SpellAbilityData)abilityData.abilityTypeData).damage;
                         spellObject.spellTime = startTime;
                         spellObject.spellDirection = journeyLenght;
                         spellObject.spellStart = player.Transform.position + player.Transform.forward;
                         spellObject.spellEnd = spellDirection;
-                        spellObject.spellSpeed = abilityData.speed;
+                        spellObject.spellSpeed = ((SpellAbilityData)abilityData.abilityTypeData).speed;
 
                         spellObject.SpellIdx = spellPackedEntity;
                         spellObject.SetWorld(world, playerEntity);

@@ -136,7 +136,7 @@ namespace World.Ability
             return IsPointerOverUIElement(GetEventSystemRaycastResults(), ft);
         }
         
-        private FastItemView IsPointerOverUIElement(List<RaycastResult> eventSystemRaysastResults, FastItemView ft)
+        private FastItemView IsPointerOverUIElement(List<RaycastResult> eventSystemRaysastResults, FastSkillView ft)
         {
             return eventSystemRaysastResults
                 .Select(curRaysastResult => curRaysastResult.gameObject.GetComponentInParent<FastItemView>())

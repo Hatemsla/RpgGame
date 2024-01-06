@@ -42,7 +42,7 @@ namespace World.Ability
 
                         var abilityView = Object.Instantiate(abilityData.abilityViewPrefab, Vector3.zero,
                             Quaternion.identity);
-                        abil.abilityView.abilityImage.sprite = 
+                        abil.abilityView.abilityImage.sprite = abilityData.abilitySprite;
                         
                         hasAbilities.Entities.Add(abilityPackedEntity);
                     }

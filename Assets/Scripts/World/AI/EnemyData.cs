@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace World.AI
 {
@@ -11,7 +12,7 @@ namespace World.AI
         [Tooltip("Enemy prefab")] 
         public EnemyView enemyView;
         
-        [Header("Enemy rpg settings")]
+        [Header("Rpg settings")]
         [Tooltip("Start enemy health points")]
         public float health;
         [Tooltip("Start enemy stamina points")]
@@ -36,5 +37,12 @@ namespace World.AI
 
         [Tooltip("Respawn delay")] 
         public float respawnDelay;
+        
+        [Tooltip("Start level")]
+        public int startLevel = 1;
+        [Tooltip("Start experience")]
+        public int startExperience;
+        [Tooltip("Experience needed to reach next level")]
+        public List<int> experienceToNextLevel;
     }
 }

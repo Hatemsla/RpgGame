@@ -7,6 +7,10 @@ namespace World.AI.Navigation
     public sealed class ZoneView : MonoBehaviour
     {
         public int enemiesCount;
+
+        public int minEnemyLevel;
+        public int maxEnemyLevel;
+        
         public List<EnemyData> enemiesType;
         public List<TargetView> targets;
 

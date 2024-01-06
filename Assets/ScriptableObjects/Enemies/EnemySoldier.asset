@@ -25,3 +25,6 @@ MonoBehaviour:
   maxDamage: 15
   attackDelay: 2
   respawnDelay: 3
+  startLevel: 1
+  startExperience: 0
+  experienceToNextLevel: 960000002c01000058020000e8030000

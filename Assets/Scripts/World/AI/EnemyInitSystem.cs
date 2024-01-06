@@ -6,6 +6,7 @@ using Utils.ObjectsPool;
 using World.AI.Navigation;
 using World.Configurations;
 using World.Player;
+using World.RPG;
 
 namespace World.AI
 {
@@ -15,6 +16,7 @@ namespace World.AI
         private readonly EcsPoolInject<EnemyComp> _enemyPool = default;
         private readonly EcsPoolInject<RpgComp> _rpgPool = default;
         private readonly EcsPoolInject<HasEnemies> _hasEnemiesPool = default;
+        private readonly EcsPoolInject<LevelComp> _levelPool = default;
 
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<PoolService> _ps = default;
@@ -37,6 +39,7 @@ namespace World.AI
 
                     ref var enemy = ref _enemyPool.Value.Add(enemyEntity);
                     ref var rpg = ref _rpgPool.Value.Add(enemyEntity);
+                    ref var level = ref _levelPool.Value.Add(enemyEntity);
 
                     var randomEnemy = Random.Range(0, zoneComp.ZoneView.enemiesType.Count - 1);
                     var randomEnemyType = zoneComp.ZoneView.enemiesType[randomEnemy];
@@ -69,6 +72,10 @@ namespace World.AI
                     rpg.CanDash = true;
                     rpg.CanJump = true;
                     rpg.CanRun = true;
+                    
+                    level.Level = Random.Range(zoneComp.ZoneView.minEnemyLevel, zoneComp.ZoneView.maxEnemyLevel + 1);
+                    level.Experience = _cf.Value.enemyConfiguration.enemiesData[enemyIndex].startExperience;
+                    level.ExperienceToNextLevel = _cf.Value.enemyConfiguration.enemiesData[enemyIndex].experienceToNextLevel[level.Level - 1];
                     
                     var enemyPackedEntity = _world.Value.PackEntity(enemyEntity);
 

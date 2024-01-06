@@ -2,6 +2,7 @@
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 using World.Configurations;
+using World.RPG;
 
 namespace World.Player
 {

@@ -42,6 +42,9 @@ MonoBehaviour:
   minDamageHeight: -10
   healthRecovery: 2
   manaRecovery: 5
+  startLevel: 1
+  startExperience: 0
+  experienceToNextLevel: 64000000c800000058020000b00400000807000060090000b80b0000100e0000a00f000088130000
   groundLayers:
     serializedVersion: 2
     m_Bits: 1

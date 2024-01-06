@@ -6,6 +6,7 @@ using Utils.ObjectsPool;
 using World.Ability;
 using World.Ability.AbilitiesData;
 using World.Configurations;
+using World.RPG;
 
 namespace World.Player
 {

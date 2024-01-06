@@ -1,6 +1,7 @@
 ﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using World.Configurations;
+using World.RPG;
 
 namespace World.Player
 {

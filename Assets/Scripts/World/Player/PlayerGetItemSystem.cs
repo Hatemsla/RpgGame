@@ -9,6 +9,7 @@ using World.Inventory;
 using World.Inventory.ItemTypes;
 using World.Inventory.ItemTypes.Potions;
 using World.Inventory.ItemTypes.Weapons;
+using World.RPG;
 
 namespace World.Player
 {

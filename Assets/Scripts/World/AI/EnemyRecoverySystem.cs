@@ -2,6 +2,7 @@
 using Leopotam.EcsLite.Di;
 using World.Configurations;
 using World.Player;
+using World.RPG;
 
 namespace World.AI
 {

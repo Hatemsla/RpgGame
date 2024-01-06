@@ -1,4 +1,4 @@
-﻿namespace World.Player
+﻿namespace World.RPG
 {
     public struct RpgComp
     {

@@ -6,6 +6,7 @@ using Utils;
 using World.Inventory;
 using World.Ability;
 using World.Configurations;
+using World.RPG;
 
 namespace World.Player
 {
@@ -15,21 +16,21 @@ namespace World.Player
         private readonly EcsPoolInject<PlayerInputComp> _playerInputPool = default;
         private readonly EcsPoolInject<RpgComp> _rpgPool = default;
         private readonly EcsPoolInject<InventoryComp> _inventoryPool = default;
-        private readonly EcsPoolInject<AbilityComp> _ability = default;
-        private readonly EcsPoolInject<HasAbilities> _hasAbilitiesPool = default;
+        private readonly EcsPoolInject<LevelComp> _levelPool = default;
 
         private readonly EcsWorldInject _world = default;
 
         private readonly EcsCustomInject<SceneData> _sd = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
-        
+
         public void Init(IEcsSystems systems)
         {
             var playerEntity = _world.Value.NewEntity();
             var playerPacked = _world.Value.PackEntity(playerEntity);
-                
+
             ref var player = ref _playerPool.Value.Add(playerEntity);
             ref var rpg = ref _rpgPool.Value.Add(playerEntity);
+            ref var level = ref _levelPool.Value.Add(playerEntity);
             _inventoryPool.Value.Add(playerEntity);
             _playerInputPool.Value.Add(playerEntity);
 
@@ -39,7 +40,7 @@ namespace World.Player
             var playerObject = Object.Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
             var playerFollowCameraView =
                 Object.Instantiate(playerFollowCameraPrefab, Vector3.zero, Quaternion.identity);
-            
+
             player.Transform = playerObject.transform;
             player.Position = playerStartPosition;
             player.Rotation = Quaternion.identity;
@@ -47,7 +48,7 @@ namespace World.Player
             player.PlayerCameraRoot = playerObject.GetComponentInChildren<PlayerCameraRootView>().transform;
             player.Grounded = true;
             player.PlayerCamera = playerFollowCameraView;
-            
+
             var playerView = player.Transform.GetComponentInChildren<PlayerView>();
             playerView.PlayerPacked = playerPacked;
 
@@ -59,6 +60,10 @@ namespace World.Player
             rpg.CanRun = true;
             rpg.CanDash = true;
             rpg.CanJump = true;
+
+            level.Level = _cf.Value.playerConfiguration.startLevel;
+            level.Experience = _cf.Value.playerConfiguration.startExperience;
+            level.ExperienceToNextLevel = _cf.Value.playerConfiguration.experienceToNextLevel[0];
         }
     }
 }

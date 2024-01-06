@@ -10,8 +10,8 @@ namespace World.Ability.AbilitiesObjects
     public class BallAbilityObject : DirectionalAbilityObject
     {
         public TimeService TimeService;
-        public float speed;
-        public float startTime;
+        [HideInInspector] public float speed;
+        [HideInInspector] public float startTime;
         
         private void Update()
         {

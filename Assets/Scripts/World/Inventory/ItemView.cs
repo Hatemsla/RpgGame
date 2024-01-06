@@ -226,7 +226,8 @@ namespace World.Inventory
                     if (ft.itemObject != null)
                     {
                         ft.itemObject = itemObject;
-                        ft.itemObject.ItemIdx = ItemIdx;
+                        if(ft.itemObject != null)
+                            ft.itemObject.ItemIdx = ItemIdx;
                     }
                     ft.itemImage.sprite = itemImage.sprite;
                     ft.itemName.text = ItemName;

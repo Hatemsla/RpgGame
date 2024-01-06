@@ -35,11 +35,13 @@ namespace World.Player
                 inputComp.Alpha4 = input.Alpha4.WasPerformedThisFrame();
                 inputComp.Alpha5 = input.Alpha5.WasPerformedThisFrame();
                 inputComp.Alpha6 = input.Alpha6.WasPerformedThisFrame();
-                inputComp.UseAbility = input.UseAbility.WasPerformedThisFrame();
                 inputComp.Inventory = input.Inventory.WasPerformedThisFrame();
                 inputComp.AutoRun = input.AutoRun.WasPerformedThisFrame();
                 inputComp.FreeCursor = input.FreeCursor.IsPressed();
                 inputComp.ActiveAction = input.ActiveAction.WasPerformedThisFrame();
+                inputComp.Skill1 = input.Skill1.WasPerformedThisFrame();
+                inputComp.Skill2 = input.Skill2.WasPerformedThisFrame();
+                inputComp.Skill3 = input.Skill3.WasPerformedThisFrame();
             }
         }
     }

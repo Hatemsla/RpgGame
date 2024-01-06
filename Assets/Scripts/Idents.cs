@@ -26,7 +26,7 @@
             
             public const string FastItemsView = "FastItemsView";
             public const string FastItemsViewContent = "FastItemsViewContent";
-            
+            public const string FastSkillView = "FastSkillView";
             public const string CrosshairView = "CrosshairView";
 
             public const string DeleteFormView = "DeleteFormView";

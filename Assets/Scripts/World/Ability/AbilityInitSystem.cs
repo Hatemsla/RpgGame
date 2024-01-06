@@ -32,17 +32,19 @@ namespace World.Ability
                     {
                         var abilityEntity = _world.Value.NewEntity();
                         var abilityPackedEntity = _world.Value.PackEntity(abilityEntity);
-                        ref var abil = ref _ability.Value.Add(abilityEntity);
+                        ref var abilityComp = ref _ability.Value.Add(abilityEntity);
                         
-                        abil.Name = abilityData.name;
-                        abil.Description = abilityData.abilityDescription;
-                        abil.CostPoint = abilityData.costPoint;
-                        abil.OwnerEntity = entity;
-                        abil.abilityType = DefineAbilityType(abilityData.abilityTypeData);
+                        abilityComp.name = abilityData.name;
+                        abilityComp.description = abilityData.abilityDescription;
+                        abilityComp.costPoint = abilityData.costPoint;
+                        abilityComp.ownerEntity = entity;
+                        abilityComp.abilityType = DefineAbilityType(abilityData.abilityTypeData);
 
                         var abilityView = Object.Instantiate(abilityData.abilityViewPrefab, Vector3.zero,
                             Quaternion.identity);
-                        abil.abilityView.abilityImage.sprite = abilityData.abilityViewPrefab.abilityImage.sprite;
+                        abilityView.abilityObject = abilityData.abilityObjectPrefab;
+                        
+                        abilityComp.abilityView.abilityImage.sprite = abilityData.abilityViewPrefab.abilityImage.sprite;
                         
                         hasAbilities.Entities.Add(abilityPackedEntity);
                     }
@@ -51,17 +53,22 @@ namespace World.Ability
 
         }
 
-        public AbilityType DefineAbilityType(AbilityTypeData abilityTypeData)
+        private AbilityType DefineAbilityType(AbilityTypeData abilityTypeData)
         {
             AbilityType value = null;
             switch (abilityTypeData)
             {
                 // Spells
-                case SpellAbilityData data:
-                    value = new AbilitySpell();
-                    ((AbilitySpell)value).Damage = data.damage;
-                    ((AbilitySpell)value).Distance = data.distance;
-                    ((AbilitySpell)value).Speed = data.speed;
+                case DirectionalAbilityData directionalData:
+                    switch (directionalData)
+                    {
+                        case BallAbilityData data:
+                            value = new BallAbility();
+                            ((BallAbility)value).damage = data.damage;
+                            ((BallAbility)value).distance = data.distance;
+                            ((BallAbility)value).speed = data.speed;
+                            break;
+                    }
                     break;
             }
             return value;

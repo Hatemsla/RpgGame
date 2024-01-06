@@ -18,10 +18,12 @@ namespace World.Player
         public bool Alpha4;
         public bool Alpha5;
         public bool Alpha6;
-        public bool UseAbility;
         public bool Inventory;
         public bool AutoRun;
         public bool FreeCursor;
         public bool ActiveAction;
+        public bool Skill1;
+        public bool Skill2;
+        public bool Skill3;
     }
 }

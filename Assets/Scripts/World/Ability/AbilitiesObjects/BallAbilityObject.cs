@@ -1,35 +1,22 @@
 ﻿using Leopotam.EcsLite;
 using UnityEngine;
-using Utils.ObjectsPool;
+using World.Ability.AbilitiesTypes;
 using World.AI;
 using World.Player;
 
 namespace World.Ability.AbilitiesObjects
 {
-    public class SpellObject : MonoBehaviour
+    public class BallAbilityObject : DirectionalAbilityObject
     {
-        public float spellDamage;
-        public float spellSpeed;
-        public float spellDirection;
-        public float spellTime;
-        public Vector3 spellStart;
-        public Vector3 spellEnd;
-
-        public EcsPackedEntity SpellIdx;
-        public PoolService PoolService;
         public TimeService TimeService;
-
-        private EcsWorld _world;
-        private int _playerEntity;
-        private EcsPool<HasAbilities> _hasAbilities;
-        private EcsPool<SpellComp> _spellPool;
-        private EcsPool<AbilityComp> _abilityPool;
-
+        public float speed;
+        public float startTime;
+        
         private void Update()
         {
-            var distanceCovered = (TimeService.Time - spellTime) * spellSpeed;
-            var journeyFraction = distanceCovered / spellDirection;
-            transform.position = Vector3.Lerp(spellStart, spellEnd, journeyFraction);
+            var distanceCovered = (TimeService.Time - startTime) * speed;
+            var journeyFraction = distanceCovered / direction;
+            transform.position = Vector3.Lerp(startDirection, endDirection, journeyFraction);
 
             if (journeyFraction >= 1.0f)
             {
@@ -51,7 +38,7 @@ namespace World.Ability.AbilitiesObjects
                     ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
                     
-                    enemyRpgComp.Health -= spellDamage;
+                    enemyRpgComp.Health -= damage;
 
                     if (enemyRpgComp.Health <= 0)
                     {
@@ -70,19 +57,11 @@ namespace World.Ability.AbilitiesObjects
         {
             if (SpellIdx.Unpack(_world, out var unpackedEntity))
             {
-                ref var spell = ref _spellPool.Get(unpackedEntity);
+                ref var spell = ref _releasedAbilityPool.Get(unpackedEntity);
                 
-                PoolService.SpellPool.Return(spell.spellObject);
-                _spellPool.Del(unpackedEntity);
+                PoolService.SpellPool.Return(spell.abilityObject);
+                _releasedAbilityPool.Del(unpackedEntity);
             }
-        }
-
-        public void SetWorld(EcsWorld world, int entity)
-        {
-            _world = world;
-            _playerEntity = entity;
-            _spellPool = _world.GetPool<SpellComp>();
-            _abilityPool = _world.GetPool<AbilityComp>();
         }
     }
 }

@@ -123,7 +123,7 @@ namespace World.Inventory
             }
         }
 
-        public ItemType DefineItemType(ItemTypeData itemTypeData)
+        private ItemType DefineItemType(ItemTypeData itemTypeData)
         {
             ItemType value = null;
             switch (itemTypeData)

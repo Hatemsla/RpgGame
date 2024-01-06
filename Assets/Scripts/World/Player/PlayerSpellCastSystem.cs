@@ -1,9 +1,15 @@
 ﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Leopotam.EcsLite.Unity.Ugui;
+using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Utils;
 using Utils.ObjectsPool;
 using World.Ability;
+using World.Ability.AbilitiesData;
+using World.Ability.AbilitiesObjects;
+using World.Ability.AbilitiesTypes;
 using World.Configurations;
 
 namespace World.Player
@@ -11,21 +17,25 @@ namespace World.Player
     public sealed class PlayerSpellCastSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp, RpgComp>> _player = default;
-        private readonly EcsCustomInject<Configuration> _cf = default;
-        private readonly EcsCustomInject<SceneData> _sd = default;
+        
+        private readonly EcsPoolInject<AbilityComp> _abilityPool = default;
+        private readonly EcsPoolInject<HasAbilities> _hasAbilities = default;
+        private readonly EcsPoolInject<ReleasedAbilityComp> _spell = default;
         
         private readonly EcsCustomInject<CursorService> _cs = default;
-        private readonly EcsCustomInject<PoolService> _ps = default;
+        private readonly EcsCustomInject<SceneData> _sd = default;
         private readonly EcsCustomInject<TimeService> _ts = default;
+        private readonly EcsCustomInject<PoolService> _ps = default;
+        
+        private readonly EcsWorldInject _world = default;
+        
+        //private readonly EcsCustomInject<Configuration> _cf = default;
 
-        private readonly EcsPoolInject<SpellComp> _spell = default;
 
         public void Run(IEcsSystems systems)
         {
             foreach (var playerEntity in _player.Value)
             {
-                var world = systems.GetWorld();
-                ref var player = ref _player.Pools.Inc1.Get(playerEntity);
                 ref var input = ref _player.Pools.Inc2.Get(playerEntity);
                 ref var rpg = ref _player.Pools.Inc3.Get(playerEntity);
 
@@ -33,52 +43,104 @@ namespace World.Player
 
                 if (EventSystem.current.IsPointerOverGameObject()) return;
 
-                if (input.UseAbility)
+                if (input.Skill1)
                 {
-                    var abilityData = _cf.Value.abilityConfiguration.abilityDatas[0];
+                    if (_sd.Value.fastSkillViews[0].AbilityIdx.Unpack(_world.Value, out var unpackedSkill))
+                        TryUseAbility(unpackedSkill, playerEntity);
+                }
 
-                    if (rpg.Mana >= abilityData.costPoint)
+                if (input.Skill2)
+                {
+                    if (_sd.Value.fastSkillViews[1].AbilityIdx.Unpack(_world.Value, out var unpackedSkill))
+                        TryUseAbility(unpackedSkill, playerEntity);
+                }
+
+                if (input.Skill3)
+                {
+                    if (_sd.Value.fastSkillViews[2].AbilityIdx.Unpack(_world.Value, out var unpackedSkill))
+                        TryUseAbility(unpackedSkill, playerEntity);
+                }
+            }
+        }
+
+        private void TryUseAbility(int skillIdx, int entity)
+        {
+            ref var hasAbilities = ref _hasAbilities.Value.Get(entity);
+            ref var rpg = ref _player.Pools.Inc3.Get(entity);
+
+            foreach (var abilityPacked in hasAbilities.Entities)
+            {
+                if (abilityPacked.Unpack(_world.Value, out var unpackedEntity))
+                {
+                    ref var ability = ref _abilityPool.Value.Get(unpackedEntity);
+
+                    if (rpg.Mana >= ability.costPoint)
                     {
-                        rpg.Mana -= abilityData.costPoint;
-                        
-                        var centerOfScreen = new Vector3(Screen.width / 2, Screen.height / 2, 0);
-                        var ray = _sd.Value.mainCamera.OutputCamera.ScreenPointToRay(centerOfScreen);
-                        Vector3 spellDirection;
-
-                        if (Physics.Raycast(ray, out var hitInfo, abilityData.distance))
-                            spellDirection = hitInfo.point;
-                        else
-                            spellDirection = ray.GetPoint(abilityData.distance);
-
-                        var journeyLenght = Vector3.Distance(player.Transform.position + player.Transform.forward,
-                        spellDirection);
-                        var startTime = _ts.Value.Time;
-
-                        var spellObject = _ps.Value.SpellPool.Get();
-                        spellObject.transform.position = player.Transform.position + player.Transform.forward;
-
-                        var spellEntity = world.NewEntity();
-                        var spellPackedEntity = world.PackEntity(spellEntity);
-                        ref var spell = ref _spell.Value.Add(spellEntity);
-
-                        spell.spellObject = spellObject;
-                        spell.spellOwner = playerEntity;
-
-                        spellObject.PoolService = _ps.Value;
-                        spellObject.TimeService = _ts.Value;
-
-                        spellObject.spellDamage = abilityData.damage;
-                        spellObject.spellTime = startTime;
-                        spellObject.spellDirection = journeyLenght;
-                        spellObject.spellStart = player.Transform.position + player.Transform.forward;
-                        spellObject.spellEnd = spellDirection;
-                        spellObject.spellSpeed = abilityData.speed;
-
-                        spellObject.SpellIdx = spellPackedEntity;
-                        spellObject.SetWorld(world, playerEntity);
+                        rpg.Mana -= ability.costPoint;
+                        switch (ability.abilityType)
+                        {
+                            // Directional Ability
+                            case DirectionalAbility directionalType:
+                                switch (directionalType)
+                                {
+                                    // Balls
+                                    case BallAbility type:
+                                        if (unpackedEntity == skillIdx)
+                                        {
+                                            InitializeBallAbility(ability, entity);
+                                        }
+                                        break;
+                                }
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        return;
                     }
                 }
             }
+        }
+
+        private void InitializeBallAbility(AbilityComp ability, int entity)
+        {
+            var player = _player.Pools.Inc1.Get(entity);
+
+            var centerOfScreen = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+            var ray = _sd.Value.mainCamera.OutputCamera.ScreenPointToRay(centerOfScreen);
+            Vector3 abilityDirection;
+
+            if (Physics.Raycast(ray, out var hitInfo, ((BallAbility)ability.abilityType).distance))
+                abilityDirection = hitInfo.point;
+            else
+                abilityDirection = ray.GetPoint(((BallAbility)ability.abilityType).distance);
+
+            var journeyLenght = Vector3.Distance(player.Transform.position + player.Transform.forward,
+                abilityDirection);
+            var startTime = _ts.Value.Time;
+
+            var abilityObject = _ps.Value.SpellPool.Get();
+            abilityObject.transform.position = player.Transform.position + player.Transform.forward;
+
+            var abilityEntity = _world.Value.NewEntity();
+            var abilityPackedEntity = _world.Value.PackEntity(abilityEntity);
+            ref var releasedAbility = ref _spell.Value.Add(abilityEntity);
+
+            releasedAbility.abilityObject = abilityObject;
+            releasedAbility.spellOwner = entity;
+
+            abilityObject.PoolService = _ps.Value;
+            ((BallAbilityObject)abilityObject).TimeService = _ts.Value;
+
+            ((BallAbilityObject)abilityObject).damage = ((BallAbility)ability.abilityType).damage;
+            ((BallAbilityObject)abilityObject).startTime = startTime;
+            ((BallAbilityObject)abilityObject).startDirection = player.Transform.position + player.Transform.forward;  
+            ((BallAbilityObject)abilityObject).direction = journeyLenght;
+            ((BallAbilityObject)abilityObject).endDirection = abilityDirection;  
+            ((BallAbilityObject)abilityObject).speed = ((BallAbility)ability.abilityType).speed;
+
+            abilityObject.SpellIdx = abilityPackedEntity;
+            abilityObject.SetWorld(_world.Value, entity);
         }
     }
 }

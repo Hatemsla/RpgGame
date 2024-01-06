@@ -2,6 +2,7 @@
 using World.Ability;
 using World.Ability.AbilitiesData;
 using World.Ability.AbilitiesObjects;
+using World.Ability.AbilitiesPostEffects;
 
 namespace World
 {
@@ -22,6 +23,10 @@ namespace World
         [Tooltip("Ability view prefab")] 
         public AbilityView abilityViewPrefab;
         [Tooltip("Ability object prefab")]
-        public SpellObject abilityObjectPrefab;
+        public AbilityObject abilityObjectPrefab;
+        [Tooltip("Abilities post effect data")]
+        public PostEffectData postEffectData;
+        [Tooltip("Ability delay")]
+        public float abilityDelay;
     }
 }

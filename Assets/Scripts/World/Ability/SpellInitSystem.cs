@@ -1,10 +1,12 @@
-﻿using Leopotam.EcsLite;
+﻿using System;
+using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 using Utils.ObjectsPool;
 using World.Ability.AbilitiesObjects;
 using World.Configurations;
 using World.Player;
+using Object = UnityEngine.Object;
 
 namespace World.Ability
 {
@@ -17,13 +19,16 @@ namespace World.Ability
 
         public void Init(IEcsSystems systems)
         {
-            _ps.Value.SpellPool = new PoolBase<SpellObject>(Preload, GetAction, ReturnAction, SpellPreloadCount);
+            for (int index = 0; index < _cf.Value.abilityConfiguration.abilityDatas.Count; index++)
+            {
+                _ps.Value.SpellPool = new PoolBase<AbilityObject>(Preload(index), GetAction, ReturnAction, SpellPreloadCount);
+            }
         }
 
-        private SpellObject Preload() => Object.Instantiate(_cf.Value.abilityConfiguration.abilityDatas[0].spell, 
+        private Func<AbilityObject> Preload(int index) => () => Object.Instantiate(_cf.Value.abilityConfiguration.abilityDatas[index].abilityObjectPrefab, 
             Vector3.zero, Quaternion.identity);
 
-        private void GetAction(SpellObject spellObject) => spellObject.gameObject.SetActive(true);
-        private void ReturnAction(SpellObject spellObject) => spellObject.gameObject.SetActive(false);
+        private void GetAction(AbilityObject abilityObject) => abilityObject.gameObject.SetActive(true);
+        private void ReturnAction(AbilityObject abilityObject) => abilityObject.gameObject.SetActive(false);
     }
 }

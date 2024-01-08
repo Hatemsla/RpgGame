@@ -10,7 +10,7 @@ namespace World.Inventory
     {
         private readonly EcsFilterInject<Inc<PlayerComp, InventoryComp>> _playerFilter = default;
 
-        private readonly EcsPoolInject<DeleteEvent> _deleteEventPool = default;
+        private readonly EcsPoolInject<DeleteEvent> _deleteEventPool = Idents.Worlds.Events;
         
         [Preserve]
         [EcsUguiClickEvent(Idents.UI.YesDeleteBtn, Idents.Worlds.Events)]

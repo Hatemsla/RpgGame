@@ -16,14 +16,14 @@ namespace World.Player
     public class PlayerGetItemSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<Inc<PlayerInputComp, PlayerComp, RpgComp>> _player = default;
-        
+
         private readonly EcsPoolInject<ItemComp> _itemsPool = default;
         private readonly EcsPoolInject<HasItems> _hasItemsPool = default;
         private readonly EcsCustomInject<SceneData> _sd = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
 
         private readonly EcsWorldInject _world = default;
-        
+
         [EcsUguiNamed(Idents.UI.PlayerInventoryView)]
         private readonly GameObject _inventoryView = default;
 
@@ -38,40 +38,40 @@ namespace World.Player
                 {
                     _inventoryView.SetActive(!_inventoryView.activeSelf);
                 }
-                
+
                 if (input.Alpha1)
                 {
-                    if(_sd.Value.fastItemViews[0].ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                    if (_sd.Value.fastItemViews[0].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
 
                 if (input.Alpha2)
                 {
-                    if(_sd.Value.fastItemViews[1].ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                    if (_sd.Value.fastItemViews[1].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
-                
+
                 if (input.Alpha3)
                 {
-                    if(_sd.Value.fastItemViews[2].ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                    if (_sd.Value.fastItemViews[2].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
-                
+
                 if (input.Alpha4)
                 {
-                    if(_sd.Value.fastItemViews[3].ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                    if (_sd.Value.fastItemViews[3].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
 
                 if (input.Alpha5)
                 {
-                    if(_sd.Value.fastItemViews[4].ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                    if (_sd.Value.fastItemViews[4].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
-                
+
                 if (input.Alpha6)
                 {
-                    if(_sd.Value.fastItemViews[5].ItemIdx.Unpack(_world.Value, out var unpackedItem))
+                    if (_sd.Value.fastItemViews[5].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
             }
@@ -81,6 +81,7 @@ namespace World.Player
         {
             ref var hasItems = ref _hasItemsPool.Value.Get(entity);
             ref var rpg = ref _player.Pools.Inc3.Get(entity);
+            ref var getItem = ref _itemsPool.Value.Get(itemIdx);
 
             foreach (var itemPacked in hasItems.Entities)
             {
@@ -100,28 +101,28 @@ namespace World.Player
                             break;
                         // Weapons
                         case ItemShieldWeapon:
-                            GetItemView(item, unpackedEntity, itemIdx);
+                            ToggleItemView(item, getItem, unpackedEntity, itemIdx);
                             break;
                         case ItemSwordWeapon:
-                            GetItemView(item, unpackedEntity, itemIdx);
+                            ToggleItemView(item, getItem, unpackedEntity, itemIdx);
                             break;
                         case ItemBowWeapon:
-                            GetItemView(item, unpackedEntity, itemIdx);
+                            ToggleItemView(item, getItem, unpackedEntity, itemIdx);
                             break;
                         // Tools
                         case ItemTool:
-                            GetItemView(item, unpackedEntity, itemIdx);
+                            ToggleItemView(item, getItem, unpackedEntity, itemIdx);
                             break;
                     }
                 }
             }
         }
 
-        private void GetItemView(ItemComp item, int unpackedEntity,int itemIdx)
+        private void ToggleItemView(ItemComp item, ItemComp getItem, int unpackedEntity, int itemIdx)
         {
             if (unpackedEntity == itemIdx)
                 item.ItemView.itemObject.gameObject.SetActive(!item.ItemView.itemObject.gameObject.activeSelf);
-            else
+            else if(getItem.ItemType is not ItemPotion)
                 item.ItemView.itemObject.gameObject.SetActive(false);
         }
     }

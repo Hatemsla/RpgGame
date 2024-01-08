@@ -2,6 +2,6 @@
 {
     public class ItemSwordWeapon : ItemWeapon
     {
-        public float damage;
+        public float Damage;
     }
 }

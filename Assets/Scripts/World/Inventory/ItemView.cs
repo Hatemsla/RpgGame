@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -43,6 +44,7 @@ namespace World.Inventory
         }
 
         private EcsWorld _world;
+        private EcsWorld _eventWorld;
         private int _ownerEntity;
         private EcsPool<HasItems> _hasItems;
         private EcsPool<ItemComp> _itemsPool;
@@ -64,16 +66,17 @@ namespace World.Inventory
         private float _lastClickTime;
         private readonly float _doubleClickThreshold = 0.3f;
 
-        public void SetWorld(EcsWorld world, int entity, SceneData sd)
+        public void SetWorld(EcsWorld world, EcsWorld eventWorld, int entity, SceneData sd)
         {
             _world = world;
+            _eventWorld = eventWorld;
             _ownerEntity = entity;
             _hasItems = _world.GetPool<HasItems>();
             _itemsPool = _world.GetPool<ItemComp>();
             _inventoryPool = _world.GetPool<InventoryComp>();
             _chestPool = _world.GetPool<ChestComp>();
             _playerPool = _world.GetPool<PlayerComp>();
-            _deletePool = _world.GetPool<DeleteEvent>();
+            _deletePool = _eventWorld.GetPool<DeleteEvent>();
             _sd = sd;
         }
 
@@ -84,7 +87,7 @@ namespace World.Inventory
 
         private void Update()
         {
-            _deleteFilter = _world.Filter<DeleteEvent>().End();
+            _deleteFilter = _eventWorld.Filter<DeleteEvent>().End();
             foreach (var entity in _deleteFilter)
             {
                 ref var deleteEvent = ref _deletePool.Get(entity);
@@ -226,9 +229,11 @@ namespace World.Inventory
                     if (ft.itemObject != null)
                     {
                         ft.itemObject = itemObject;
-                        if(ft.itemObject != null)
+                        if (ft.itemObject != null)
                             ft.itemObject.ItemIdx = ItemIdx;
                     }
+
+                    ft.ItemIdx = ItemIdx;
                     ft.itemImage.sprite = itemImage.sprite;
                     ft.itemName.text = ItemName;
                     ft.itemCount.text = ItemCount;
@@ -244,19 +249,20 @@ namespace World.Inventory
         private FastItemView IsPointerOverUIElement(List<RaycastResult> eventSystemRaysastResults, FastItemView ft)
         {
             return eventSystemRaysastResults
-                .Select(curRaysastResult => curRaysastResult.gameObject.GetComponentInParent<FastItemView>())
+                .Select(raycastResult => raycastResult.gameObject.GetComponentInParent<FastItemView>())
                 .FirstOrDefault(targetComp => targetComp && targetComp == ft);
         }
 
         private List<RaycastResult> GetEventSystemRaycastResults()
         {
-            var eventData = new PointerEventData(EventSystem.current);
-            eventData.position = Input.mousePosition;
-            var raysastResults = new List<RaycastResult>();
-            EventSystem.current.RaycastAll(eventData, raysastResults);
-            return raysastResults;
+            var eventData = new PointerEventData(EventSystem.current)
+            {
+                position = Input.mousePosition
+            };
+            var raycastResults = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventData, raycastResults);
+            return raycastResults;
         }
-
 
         private void MoveItemTo(int otherEntity, Transform newParent)
         {
@@ -302,15 +308,24 @@ namespace World.Inventory
             if (ItemIdx.Unpack(_world, out var unpackedEntity))
             {
                 foreach (var ft in _sd.fastItemViews)
-                    if (ft.itemObject && ft.itemObject.ItemIdx.Unpack(_world, out var ftUnpackedEntity))
-                        if (ftUnpackedEntity == unpackedEntity)
+                {
+                    if (ft.itemObject && ft.itemObject.ItemIdx.Unpack(_world, out var ftObjectUnpackedEntity))
+                    {
+                        if (ftObjectUnpackedEntity == unpackedEntity)
                         {
-                            ft.itemObject = null;
-                            ft.itemImage.sprite = null;
-                            ft.itemName.text = "";
-                            ft.itemCount.text = "";
+                            ResetFastItemView(ft);
                             break;
                         }
+                    }
+                    else if (ft.ItemIdx.Unpack(_world, out var ftUnpackedEntity))
+                    {
+                        if (ftUnpackedEntity == unpackedEntity)
+                        {
+                            ResetFastItemView(ft);
+                            break;
+                        }
+                    }
+                }
 
                 ref var item = ref _itemsPool.Get(unpackedEntity);
 
@@ -325,6 +340,15 @@ namespace World.Inventory
             }
 
             Destroy(transform.gameObject);
+        }
+
+        private static void ResetFastItemView(FastItemView ft)
+        {
+            ft.ItemIdx = default;
+            ft.itemObject = null;
+            ft.itemImage.sprite = null;
+            ft.itemName.text = "";
+            ft.itemCount.text = "";
         }
 
         private bool IsItemOutInventory(Vector3 position, RectTransform view)

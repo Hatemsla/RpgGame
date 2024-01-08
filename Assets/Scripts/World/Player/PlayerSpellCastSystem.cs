@@ -1,7 +1,6 @@
 ﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
-using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Utils;

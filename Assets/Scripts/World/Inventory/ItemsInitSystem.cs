@@ -25,6 +25,7 @@ namespace World.Inventory
         private readonly EcsCustomInject<Configuration> _cf = default;
         
         private readonly EcsWorldInject _world = default;
+        private readonly EcsWorldInject _eventWorld = Idents.Worlds.Events;
         
         [EcsUguiNamed(Idents.UI.PlayerInventoryView)]
         private readonly RectTransform _playerInventoryView = default;
@@ -88,7 +89,7 @@ namespace World.Inventory
                     it.ItemView.ItemName = itemData.itemName;
                     it.ItemView.ItemDescription = itemData.itemDescription;
                     it.ItemView.ItemCount = itemData.itemCount.ToString();
-                    it.ItemView.SetWorld(_world.Value, entity, _sd.Value);
+                    it.ItemView.SetWorld(_world.Value, _eventWorld.Value, entity, _sd.Value);
 
                     it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView, _deleteFormView, _crosshairView);
                     
@@ -140,16 +141,16 @@ namespace World.Inventory
                 // Weapons
                 case SwordWeaponItemData data:
                     value = new ItemSwordWeapon();
-                    ((ItemSwordWeapon) value).damage = data.damage;
+                    ((ItemSwordWeapon) value).Damage = data.damage;
                     break;
                 case ShieldWeaponItemData data:
                     value = new ItemShieldWeapon();
-                    ((ItemShieldWeapon) value).damageAbsorption = data.damageAbsorption;
+                    ((ItemShieldWeapon) value).DamageAbsorption = data.damageAbsorption;
                     break;
                 case BowWeaponItemData data:
                     value = new ItemBowWeapon();
-                    ((ItemBowWeapon) value).damage = data.damage;
-                    ((ItemBowWeapon) value).distance = data.distance;
+                    ((ItemBowWeapon) value).Damage = data.damage;
+                    ((ItemBowWeapon) value).Distance = data.distance;
                     break;
                 // Tools
                 case ToolItemData data:

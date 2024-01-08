@@ -27,6 +27,7 @@ namespace World.Inventory
         {
             if (eventData.button == PointerEventData.InputButton.Right)
             {
+                ItemIdx = default;
                 itemObject = null;
                 itemImage.sprite = null;
                 itemName.text = "";

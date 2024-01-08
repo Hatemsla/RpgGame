@@ -16,6 +16,7 @@ namespace World.Inventory.Chest
         private readonly EcsPoolInject<InventoryComp> _inventoryPool = default;
 
         private readonly EcsWorldInject _itemsWorld = default;
+        private readonly EcsWorldInject _eventWorld = Idents.Worlds.Events;
 
         private readonly EcsCustomInject<SceneData> _sd = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
@@ -37,14 +38,12 @@ namespace World.Inventory.Chest
         
         [EcsUguiNamed(Idents.UI.CrosshairView)]
         private readonly RectTransform _crosshairView = default;
-        
+
         public void Init(IEcsSystems systems)
         {
-            var world = _itemsWorld.Value;
-            
             foreach (var chest in _sd.Value.chests)
             {
-                var entity = world.NewEntity();
+                var entity = _itemsWorld.Value.NewEntity();
                 ref var chestComp = ref _chestPool.Value.Add(entity);
                 ref var inventoryComp = ref _inventoryPool.Value.Add(entity);
                 ref var hasItemsComp = ref _hasItemsPool.Value.Add(entity);
@@ -52,12 +51,12 @@ namespace World.Inventory.Chest
                 chestComp.ChestObject = chest;
                 chestComp.ChestObject.SetView(_chestInventoryView);
                 chestComp.ChestObject.chestInventoryWeightText = _chestInventoryWeightText.GetComponent<InventoryWeightView>().inventoryWeightText;
-                chestComp.ChestObject.SetWorld(world, entity);
+                chestComp.ChestObject.SetWorld(_itemsWorld.Value, entity);
 
                 foreach (var itemData in chest.items)
                 {
-                    var itemEntity = world.NewEntity();
-                    var itemPackedEntity = world.PackEntity(itemEntity);
+                    var itemEntity = _itemsWorld.Value.NewEntity();
+                    var itemPackedEntity = _itemsWorld.Value.PackEntity(itemEntity);
                     ref var it = ref _itemPool.Value.Add(itemEntity);
                     
                     it.ItemName = itemData.itemName;
@@ -88,7 +87,7 @@ namespace World.Inventory.Chest
                     it.ItemView.ItemName = itemData.itemName;
                     it.ItemView.ItemDescription = itemData.itemDescription;
                     it.ItemView.ItemCount = itemData.itemCount.ToString();
-                    it.ItemView.SetWorld(world, entity, _sd.Value);
+                    it.ItemView.SetWorld(_itemsWorld.Value, _eventWorld.Value, entity, _sd.Value);
                     it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView, _deleteFormView, _crosshairView);
 
                     hasItemsComp.Entities.Add(itemPackedEntity);

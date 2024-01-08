@@ -2,7 +2,7 @@
 {
     public class ItemBowWeapon : ItemWeapon
     {
-        public float damage;
-        public float distance;
+        public float Damage;
+        public float Distance;
     }
 }

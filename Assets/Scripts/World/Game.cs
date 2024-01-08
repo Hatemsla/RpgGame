@@ -18,12 +18,18 @@ namespace World
 {
     public sealed class Game : MonoBehaviour
     {
+        public Game(EcsWorldInject ecsWorldInject)
+        {
+            _ecsWorldInject = ecsWorldInject;
+        }
+
         [SerializeField] private SceneData sceneData;
         [SerializeField] private Configuration configuration;
         [SerializeField] private EcsUguiEmitter uguiEmitter;
         private EcsSystems _systemsUpdate;
         private EcsSystems _systemsFixedUpdate;
         private EcsSystems _systemsLateUpdate;
+        private EcsWorldInject _ecsWorldInject;
 
         private void Start()
         {
@@ -37,6 +43,8 @@ namespace World
             var mainInput = new MainInput();
 
             _systemsUpdate
+                .AddWorld(new EcsWorld(), Idents.Worlds.Events)
+                    
                 //Init systems
                 .Add(new PlayerInitSystem())
                 .Add(new ItemsInitSystem())
@@ -62,20 +70,20 @@ namespace World
                 .Add(new PlayerManaSystem())
                 .Add(new PlayerSpellCastSystem())
                 .Add(new PlayerGetItemSystem())
-                .Add(new PlayerLevelSystem())
                 .Add(new ChestUpdateSystem())
+                .Add(new PassiveGetExperienceSystem())
+                .Add(new PlayerLevelSystem())
                 
-                .DelHere<DeleteEvent>()
-                .DelHere<LevelChangedEvent>()
+                .DelHere<DeleteEvent>(Idents.Worlds.Events)
+                .DelHere<LevelChangedEvent>(Idents.Worlds.Events)
                 .Add(new DeleteFormSystem())
+                
                 
                 .Add(new EnemyPatrolSystem())
                 .Add(new EnemyChaseSystem())
                 .Add(new EnemyAttackSystem())
                 .Add(new EnemyRecoverySystem())
                 .Add(new EnemyRespawnSystem())
-                
-                .AddWorld(new EcsWorld(), Idents.Worlds.Events)
 #if UNITY_EDITOR
                 .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
                 .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem(Idents.Worlds.Events))

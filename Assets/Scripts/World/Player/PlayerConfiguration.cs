@@ -78,9 +78,14 @@ namespace World.Player
         [Tooltip("Start level")]
         public int startLevel = 1;
         [Tooltip("Start experience")]
-        public int startExperience;
+        public float startExperience;
+        [Tooltip("Increase passive experience delay")]
+        public float experienceIncreaseDelay = 5;
+        [Tooltip("Increase passive experience")]
+        public float experiencePassiveIncrease = 10;
         [Tooltip("Experience needed to reach next level")]
-        public List<int> experienceToNextLevel;
+        public List<float> experienceToNextLevel;
+        
         
         [Header("Other settings")]
         [Tooltip("What layers the character uses as ground")]

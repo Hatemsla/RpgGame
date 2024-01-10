@@ -1,5 +1,6 @@
 ﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 using World.Configurations;
 using World.RPG;
 
@@ -18,23 +19,28 @@ namespace World.Player
         {
             foreach (var entity in _player.Value)
             {
-                ref var player = ref _player.Pools.Inc1.Get(entity);
+                ref var playerComp = ref _player.Pools.Inc1.Get(entity);
                 ref var rpg = ref _player.Pools.Inc2.Get(entity);
 
-                if (!player.Grounded)
+                if (!playerComp.Grounded)
                 {
-                    if (player.VerticalVelocity < _cf.Value.playerConfiguration.minDamageHeight)
+                    if (Physics.Raycast(playerComp.Position, Vector3.down, out var hit, Mathf.Infinity))
                     {
-                        _isLargeHeight = true;
-                        if (_fellDamage > player.VerticalVelocity)
-                            _fellDamage = player.VerticalVelocity;
+                        var currentHeight = hit.distance;
+
+                        if (currentHeight > _cf.Value.playerConfiguration.minDamageHeight)
+                        {
+                            _isLargeHeight = true;
+                            if (_fellDamage < currentHeight)
+                                _fellDamage = currentHeight;
+                        }
                     }
                 }
                 else
                 {
                     if (_isLargeHeight)
                     {
-                        rpg.Health += (_fellDamage - _cf.Value.playerConfiguration.minDamageHeight) * _cf.Value.playerConfiguration.fallDamage;
+                        rpg.Health -= (_fellDamage - _cf.Value.playerConfiguration.minDamageHeight) * _cf.Value.playerConfiguration.fallDamage;
                         _isLargeHeight = false;
                     }
                 }

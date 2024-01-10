@@ -29,8 +29,8 @@ MonoBehaviour:
   maxZoomDistance: 15
   jumpHeight: 1.2
   gravity: -15
-  groundedOffset: 1
-  groundedRadius: 0.28
+  groundedOffset: 0.7
+  groundedRadius: 0.5
   health: 100
   stamina: 100
   mana: 100
@@ -39,7 +39,7 @@ MonoBehaviour:
   jumpEndurance: 10
   staminaRecovery: 3
   fallDamage: 3
-  minDamageHeight: -10
+  minDamageHeight: 5
   healthRecovery: 2
   manaRecovery: 5
   startLevel: 1

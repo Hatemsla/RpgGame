@@ -9,6 +9,8 @@ namespace World.Player
     public enum MoveState
     {
         RunBackward,
+        RunBackwardLeft,
+        RunBackwardRight,
         Idle,
         Walk,
         RunForward,
@@ -30,13 +32,18 @@ namespace World.Player
         private float _previousTargetRotation;
         private float _targetSpeed;
 
-        private float _currentMoveSpeed; // Текущее значение MoveSpeed
-        private float _targetMoveSpeed; // Целевое значение MoveSpeed
+        private float _currentMoveX;
+        private float _targetMoveX;
+        
+        private float _currentMoveY;
+        private float _targetMoveY;
+        
         private const float SpeedChangeRate = 5f;
 
         private MoveState _moveState = MoveState.Idle;
 
-        private static readonly int MoveSpeed = Animator.StringToHash("MoveSpeed");
+        private static readonly int MoveX = Animator.StringToHash("MoveX");
+        private static readonly int MoveY = Animator.StringToHash("MoveY");
 
         public void Run(IEcsSystems systems)
         {
@@ -130,7 +137,13 @@ namespace World.Player
                         moveRotation = _targetRotation;
                     }
 
-                    Debug.Log(moveRotation);
+                    if (_moveState == MoveState.RunBackward)
+                        _moveState = inputComp.Move.x switch
+                        {
+                            < 0 => MoveState.RunBackwardLeft,
+                            > 0 => MoveState.RunBackwardRight,
+                            _ => _moveState
+                        };
 
                     var rotation = Mathf.SmoothDampAngle(playerComp.Transform.eulerAngles.y, moveRotation,
                         ref _rotationVelocity,
@@ -156,28 +169,40 @@ namespace World.Player
         {
             switch (_moveState)
             {
+                case MoveState.RunBackwardLeft:
+                    SetTargetMoves(-1, -0.5f);
+                    break;
+                case MoveState.RunBackwardRight:
+                    SetTargetMoves(-1, 0.5f);
+                    break;
                 case MoveState.RunBackward:
-                    _targetMoveSpeed = -0.75f;
+                    SetTargetMoves(-1, 0);
                     break;
                 case MoveState.Idle:
-                    _targetMoveSpeed = 0.0f;
+                    SetTargetMoves(0, 0);
                     break;
                 case MoveState.Walk:
-                    _targetMoveSpeed = 0.25f;
+                    SetTargetMoves(1, 0);
                     break;
                 case MoveState.RunForward:
-                    _targetMoveSpeed = 0.75f;
+                    SetTargetMoves(1, 0.5f);
                     break;
                 case MoveState.Sprint:
-                    _targetMoveSpeed = 1.0f;
+                    SetTargetMoves(1, -0.5f);
                     break;
             }
 
-            // Используем линейную интерполяцию для плавного изменения MoveSpeed
-            _currentMoveSpeed = Mathf.Lerp(_currentMoveSpeed, _targetMoveSpeed, Time.deltaTime * SpeedChangeRate);
+            _currentMoveX = Mathf.Lerp(_currentMoveX, _targetMoveX, Time.deltaTime * SpeedChangeRate);
+            _currentMoveY = Mathf.Lerp(_currentMoveY, _targetMoveY, Time.deltaTime * SpeedChangeRate);
 
-            // Устанавливаем значение MoveSpeed в аниматоре
-            animationComp.Animator.SetFloat(MoveSpeed, _currentMoveSpeed);
+            animationComp.Animator.SetFloat(MoveX, _currentMoveX);
+            animationComp.Animator.SetFloat(MoveY, _currentMoveY);
+        }
+
+        private void SetTargetMoves(float targetMoveX, float targetMoveY)
+        {
+            _targetMoveX = targetMoveX;
+            _targetMoveY = targetMoveY;
         }
     }
 }

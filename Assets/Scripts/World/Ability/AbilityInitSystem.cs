@@ -76,7 +76,7 @@ namespace World.Ability
                             playerComp.Transform.position + playerComp.Transform.forward,
                             abilityData.abilityObjectPrefab.transform.rotation);
                         abilityObject.transform.SetParent(playerComp.Transform);
-                        //abilityObject.gameObject.SetActive(false);
+                        abilityObject.gameObject.SetActive(false);
 
                         abilityComp.abilityView.abilityObject = abilityObject;
                         abilityComp.abilityView.abilityObject.AbilityIdx = abilityPackedEntity;

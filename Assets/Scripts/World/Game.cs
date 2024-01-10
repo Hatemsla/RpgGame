@@ -48,6 +48,7 @@ namespace World
                 //Init systems
                 .Add(new PlayerInitSystem())
                 .Add(new ItemsInitSystem())
+                .Add(new AbilityInitSystem())
                 .Add(new AbilityObjectsInitSystem())
                 .Add(new ChestInitSystem())
                 .Add(new ZoneInitSystem())

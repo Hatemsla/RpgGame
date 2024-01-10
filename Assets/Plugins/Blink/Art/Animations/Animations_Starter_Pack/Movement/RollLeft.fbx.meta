@@ -78,8 +78,8 @@ ModelImporter:
       name: RollLeft
       takeName: human_male_roll_left_01
       internalID: 0
-      firstFrame: 2
-      lastFrame: 46
+      firstFrame: 10
+      lastFrame: 36
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -102,7 +102,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 2
     isReadable: 0
   meshes:
     lODScreenPercentages: []

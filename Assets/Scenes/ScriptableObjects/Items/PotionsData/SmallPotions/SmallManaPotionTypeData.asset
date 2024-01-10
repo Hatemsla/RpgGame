@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 524312e68178eca4db20e0ba1e8f99f5, type: 3}
-  m_Name: AbilityConfiguration
+  m_Script: {fileID: 11500000, guid: 981ca6e5bc2e4c2695005bae239759de, type: 3}
+  m_Name: SmallManaPotionTypeData
   m_EditorClassIdentifier: 
-  abilityDatas:
-  - {fileID: 11400000, guid: 3d06f211d4c2b93408b86d63368cd17b, type: 2}
+  manaPercent: 0.15

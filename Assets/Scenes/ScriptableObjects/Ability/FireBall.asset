@@ -15,6 +15,7 @@ MonoBehaviour:
   abilityName: Fire Ball
   abilityDescription: 123
   costPoint: 20
+  abilityTypeData: {fileID: 11400000, guid: 555c30a0d4b2bac41a43330dfdafe77a, type: 2}
   abilitySprite: {fileID: 21300000, guid: bd71bc6f4b1c75d479ced34de7dd8375, type: 3}
   abilityViewPrefab: {fileID: 1646631971105012691, guid: cf0e188a3fa020848959af9d644d6017,
     type: 3}

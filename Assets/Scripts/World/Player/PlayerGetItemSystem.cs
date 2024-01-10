@@ -93,11 +93,15 @@ namespace World.Player
                         // Potions
                         case ItemHealthPotion type:
                             if (unpackedEntity == itemIdx)
-                                rpg.Health += _cf.Value.playerConfiguration.health * type.healthPercent;
+                                rpg.Health += _cf.Value.playerConfiguration.health * type.HealthPercent;
                             break;
                         case ItemManaPotion type:
                             if (unpackedEntity == itemIdx)
-                                rpg.Mana += _cf.Value.playerConfiguration.mana * type.manaPercent;
+                                rpg.Mana += _cf.Value.playerConfiguration.mana * type.ManaPercent;
+                            break;
+                        case ItemStaminaPotion type:
+                            if (unpackedEntity == itemIdx)
+                                rpg.Stamina += _cf.Value.playerConfiguration.stamina * type.StaminaPercent;
                             break;
                         // Weapons
                         case ItemShieldWeapon:

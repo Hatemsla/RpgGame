@@ -2,6 +2,6 @@
 {
     public class ItemTool : ItemType
     {
-        public float durability;
+        public float Durability;
     }
 }

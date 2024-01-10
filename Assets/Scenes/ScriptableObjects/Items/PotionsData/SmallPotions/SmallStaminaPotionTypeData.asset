@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 524312e68178eca4db20e0ba1e8f99f5, type: 3}
-  m_Name: AbilityConfiguration
+  m_Script: {fileID: 11500000, guid: e65af6a6e4f34a7a9d5e6d8c906b2f3f, type: 3}
+  m_Name: SmallStaminaPotionTypeData
   m_EditorClassIdentifier: 
-  abilityDatas:
-  - {fileID: 11400000, guid: 3d06f211d4c2b93408b86d63368cd17b, type: 2}
+  staminaPercent: 0.15

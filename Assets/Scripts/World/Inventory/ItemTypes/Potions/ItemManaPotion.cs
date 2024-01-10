@@ -2,6 +2,6 @@
 {
     public class ItemManaPotion : ItemPotion
     {
-        public int manaPercent;
+        public float ManaPercent;
     }
 }

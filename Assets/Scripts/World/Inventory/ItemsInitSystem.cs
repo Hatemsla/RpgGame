@@ -132,11 +132,15 @@ namespace World.Inventory
                 // Potions
                 case HealthPotionItemData data:
                     value = new ItemHealthPotion();
-                    ((ItemHealthPotion) value).healthPercent = data.healthPercent;
+                    ((ItemHealthPotion) value).HealthPercent = data.healthPercent;
                     break;
                 case ManaPotionItemData data:
                     value = new ItemManaPotion();
-                    ((ItemManaPotion) value).manaPercent = data.manaPercent;
+                    ((ItemManaPotion) value).ManaPercent = data.manaPercent;
+                    break;
+                case StaminaPotionItemData data:
+                    value = new ItemStaminaPotion();
+                    ((ItemStaminaPotion)value).StaminaPercent = data.staminaPercent;
                     break;
                 // Weapons
                 case SwordWeaponItemData data:
@@ -155,7 +159,7 @@ namespace World.Inventory
                 // Tools
                 case ToolItemData data:
                     value = new ItemTool();
-                    ((ItemTool)value).durability = data.durability;
+                    ((ItemTool)value).Durability = data.durability;
                     break;
             }
             return value;

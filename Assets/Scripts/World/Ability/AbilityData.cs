@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
-using World.Ability;
 using World.Ability.AbilitiesData;
 using World.Ability.AbilitiesObjects;
 using World.Ability.AbilitiesPostEffects;
 using World.Ability.UI;
 
-namespace World
+namespace World.Ability
 {
-    [CreateAssetMenu(fileName = "AbilityData", menuName = "Data/Ability Data", order = 4)]
+    [CreateAssetMenu(fileName = "AbilityData", menuName = "Data/Ability Data")]
     public class AbilityData : ScriptableObject
     {
         [Header("Ability")]

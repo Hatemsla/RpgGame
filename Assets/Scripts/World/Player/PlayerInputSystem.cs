@@ -39,6 +39,7 @@ namespace World.Player
                 inputComp.AutoRun = input.AutoRun.WasPerformedThisFrame();
                 inputComp.FreeCursor = input.FreeCursor.IsPressed();
                 inputComp.ActiveAction = input.ActiveAction.WasPerformedThisFrame();
+                inputComp.SkillList = input.SkillList.WasPerformedThisFrame();
                 inputComp.Skill1 = input.Skill1.WasPerformedThisFrame();
                 inputComp.Skill2 = input.Skill2.WasPerformedThisFrame();
                 inputComp.Skill3 = input.Skill3.WasPerformedThisFrame();

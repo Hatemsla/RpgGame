@@ -170,6 +170,7 @@ namespace World.Ability.UI
                 {
                     fs.abilityObject = abilityObject;
                     fs.abilityObject.AbilityIdx = AbilityIdx;
+                    fs.AbilityIdx = AbilityIdx;
                     fs.abilityImage.sprite = abilityImage.sprite;
                     fs.abilityName.text = AbilityName;
                     return;

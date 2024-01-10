@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63562d50b2ed4c3fb5ed6542a006c2cd, type: 3}
-  m_Name: Small health potion 1
+  m_Script: {fileID: 11500000, guid: ffb64ab3dbdf416b84a2d69649b6a9fb, type: 3}
+  m_Name: FireBallTypeData
   m_EditorClassIdentifier: 
-  healthPercent: 0.15
+  damage: 0
+  distance: 0
+  speed: 0

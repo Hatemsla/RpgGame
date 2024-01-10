@@ -22,6 +22,7 @@ namespace World.Player
         public bool AutoRun;
         public bool FreeCursor;
         public bool ActiveAction;
+        public bool SkillList;
         public bool Skill1;
         public bool Skill2;
         public bool Skill3;

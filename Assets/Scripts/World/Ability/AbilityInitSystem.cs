@@ -40,6 +40,8 @@ namespace World.Ability
                 ref var hasAbilities = ref _hasAbilitiesPool.Value.Add(entity);
                 var abilities = _cf.Value.abilityConfiguration.abilityDatas;
                 
+                _playerAbilityView.gameObject.SetActive(false);
+                
                 var playerAbilityViewContent = _playerAbilityView.GetComponentInChildren<ContentView>();
                 playerAbilityViewContent.currentEntity = entity;
                 
@@ -76,12 +78,13 @@ namespace World.Ability
                             playerComp.Transform.position + playerComp.Transform.forward,
                             abilityData.abilityObjectPrefab.transform.rotation);
                         abilityObject.transform.SetParent(playerComp.Transform);
-                        //abilityObject.gameObject.SetActive(false);
+                        abilityObject.gameObject.SetActive(false);
 
                         abilityComp.abilityView.abilityObject = abilityObject;
                         abilityComp.abilityView.abilityObject.AbilityIdx = abilityPackedEntity;
                         _sd.Value.fastSkillViews[i].abilityObject = abilityObject;
                         _sd.Value.fastSkillViews[i].abilityObject.AbilityIdx = abilityPackedEntity;
+                        _sd.Value.fastSkillViews[i].AbilityIdx = abilityPackedEntity;
                         _sd.Value.fastSkillViews[i].abilityImage.sprite = abilityData.abilitySprite;
                         _sd.Value.fastSkillViews[i].abilityName.text = abilityData.abilityName;
 
@@ -103,9 +106,9 @@ namespace World.Ability
                     {
                         case BallAbilityData data:
                             value = new BallAbility();
-                            ((BallAbility)value).damage = data.damage;
-                            ((BallAbility)value).distance = data.distance;
-                            ((BallAbility)value).speed = data.speed;
+                            ((BallAbility)value).Damage = data.damage;
+                            ((BallAbility)value).Distance = data.distance;
+                            ((BallAbility)value).Speed = data.speed;
                             break;
                     }
                     break;

@@ -29,8 +29,8 @@ namespace World.Player
         
         private readonly EcsWorldInject _world = default;
         
-        //private readonly EcsCustomInject<Configuration> _cf = default;
-
+        [EcsUguiNamed(Idents.UI.PlayerAbilityView)]
+        private readonly GameObject _abilityView = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -41,7 +41,10 @@ namespace World.Player
 
                 if (rpg.IsDead || input.FreeCursor || _cs.Value.CursorVisible) return;
 
-                //if (EventSystem.current.IsPointerOverGameObject()) return;
+                if (input.SkillList)
+                {
+                    _abilityView.SetActive(!_abilityView.activeSelf);
+                }
 
                 if (input.Skill1)
                 {
@@ -78,17 +81,13 @@ namespace World.Player
                         if (rpg.Mana >= ability.costPoint)
                         {
                             rpg.Mana -= ability.costPoint;
+                            Debug.Log(ability.abilityType);
                             switch (ability.abilityType)
                             {
-                                // Directional Ability
-                                case DirectionalAbility directionalType:
-                                    switch (directionalType)
-                                    {
-                                        // Balls
-                                        case BallAbility type:
-                                            InitializeBallAbility(ability, entity);
-                                            break;
-                                    }
+                                // Balls
+                                case BallAbility type:
+                                    Debug.Log("Каст");
+                                    InitializeBallAbility(ability, entity);
                                     break;
                             }
                         }
@@ -109,10 +108,10 @@ namespace World.Player
             var ray = _sd.Value.mainCamera.OutputCamera.ScreenPointToRay(centerOfScreen);
             Vector3 abilityDirection;
 
-            if (Physics.Raycast(ray, out var hitInfo, ((BallAbility)ability.abilityType).distance))
+            if (Physics.Raycast(ray, out var hitInfo, ((BallAbility)ability.abilityType).Distance))
                 abilityDirection = hitInfo.point;
             else
-                abilityDirection = ray.GetPoint(((BallAbility)ability.abilityType).distance);
+                abilityDirection = ray.GetPoint(((BallAbility)ability.abilityType).Distance);
 
             var journeyLenght = Vector3.Distance(player.Transform.position + player.Transform.forward,
                 abilityDirection);
@@ -133,12 +132,12 @@ namespace World.Player
             abilityObject.PoolService = _ps.Value;
             ((BallAbilityObject)abilityObject).TimeService = _ts.Value;
 
-            ((BallAbilityObject)abilityObject).damage = ((BallAbility)ability.abilityType).damage;
+            ((BallAbilityObject)abilityObject).damage = ((BallAbility)ability.abilityType).Damage;
             ((BallAbilityObject)abilityObject).startTime = startTime;
             ((BallAbilityObject)abilityObject).startDirection = player.Transform.position + player.Transform.forward;  
             ((BallAbilityObject)abilityObject).direction = journeyLenght;
             ((BallAbilityObject)abilityObject).endDirection = abilityDirection;  
-            ((BallAbilityObject)abilityObject).speed = ((BallAbility)ability.abilityType).speed;
+            ((BallAbilityObject)abilityObject).speed = ((BallAbility)ability.abilityType).Speed;
 
             abilityObject.AbilityIdx = abilityPackedEntity;
             abilityObject.SetWorld(_world.Value, entity);

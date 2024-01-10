@@ -2,6 +2,6 @@
 {
     public class BallAbility : DirectionalAbility
     {
-        public float speed;
+        public float Speed;
     }
 }

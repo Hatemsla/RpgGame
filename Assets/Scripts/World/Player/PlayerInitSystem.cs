@@ -1,11 +1,8 @@
 ﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
-using Utils;
-using World.Inventory;
-using World.Ability;
 using World.Configurations;
+using World.Inventory;
 using World.RPG;
 
 namespace World.Player
@@ -17,6 +14,7 @@ namespace World.Player
         private readonly EcsPoolInject<RpgComp> _rpgPool = default;
         private readonly EcsPoolInject<InventoryComp> _inventoryPool = default;
         private readonly EcsPoolInject<LevelComp> _levelPool = default;
+        private readonly EcsPoolInject<AnimationComp> _animationPool = default;
 
         private readonly EcsWorldInject _world = default;
 
@@ -31,6 +29,7 @@ namespace World.Player
             ref var player = ref _playerPool.Value.Add(playerEntity);
             ref var rpg = ref _rpgPool.Value.Add(playerEntity);
             ref var level = ref _levelPool.Value.Add(playerEntity);
+            ref var animation = ref _animationPool.Value.Add(playerEntity);
             _inventoryPool.Value.Add(playerEntity);
             _playerInputPool.Value.Add(playerEntity);
 
@@ -48,6 +47,8 @@ namespace World.Player
             player.PlayerCameraRoot = playerObject.GetComponentInChildren<PlayerCameraRootView>().transform;
             player.Grounded = true;
             player.PlayerCamera = playerFollowCameraView;
+
+            animation.Animator = playerObject.GetComponentInChildren<Animator>();
 
             var playerView = player.Transform.GetComponentInChildren<PlayerView>();
             playerView.PlayerPacked = playerPacked;

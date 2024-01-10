@@ -8,7 +8,7 @@ namespace World.Player
 {
     public sealed class PlayerJumpAndGravitySystem : IEcsRunSystem, IEcsInitSystem
     {
-        private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp, RpgComp>> _playerMove = default;
+        private readonly EcsFilterInject<Inc<PlayerComp, PlayerInputComp, RpgComp, AnimationComp>> _playerMove = default;
 
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<TimeService> _ts = default;
@@ -16,6 +16,9 @@ namespace World.Player
         private float _fallTimeoutDelta;
         private float _jumpTimeoutDelta;
         private float _terminalVelocity = 53.0f;
+        
+        private static readonly int IsJump = Animator.StringToHash("Jump");
+        private static readonly int IsInAir = Animator.StringToHash("IsInAir");
 
         public void Init(IEcsSystems systems)
         {
@@ -26,31 +29,34 @@ namespace World.Player
         {
             foreach (var entity in _playerMove.Value)
             {
-                ref var player = ref _playerMove.Pools.Inc1.Get(entity);
-                ref var input = ref _playerMove.Pools.Inc2.Get(entity);
-                ref var rpg = ref _playerMove.Pools.Inc3.Get(entity);
+                ref var playerComp = ref _playerMove.Pools.Inc1.Get(entity);
+                ref var inputComp = ref _playerMove.Pools.Inc2.Get(entity);
+                ref var rpgComp = ref _playerMove.Pools.Inc3.Get(entity);
+                ref var animationComp = ref _playerMove.Pools.Inc4.Get(entity);
                 
-                if(rpg.IsDead) return;
+                if(rpgComp.IsDead) return;
                 
-                var jumpEndurance = rpg.Stamina - _cf.Value.playerConfiguration.jumpEndurance;
-                rpg.CanJump = jumpEndurance > 0;
+                var jumpEndurance = rpgComp.Stamina - _cf.Value.playerConfiguration.jumpEndurance;
+                rpgComp.CanJump = jumpEndurance > 0;
                 
-                if (player.Grounded)
+                if (playerComp.Grounded)
                 {
+                    animationComp.Animator.SetBool(IsInAir, false);
                     _fallTimeoutDelta = _cf.Value.playerConfiguration.fallTimeout;
 
-                    if (player.VerticalVelocity < 0.0f)
+                    if (playerComp.VerticalVelocity < 0.0f)
                     {
-                        player.VerticalVelocity = -2f;
+                        playerComp.VerticalVelocity = -2f;
                     }
                     
-                    if (input.Jump && _jumpTimeoutDelta <= 0f)
+                    if (inputComp.Jump && _jumpTimeoutDelta <= 0f)
                     {
-                        if (rpg.CanJump)
+                        if (rpgComp.CanJump)
                         {
-                            rpg.Stamina = jumpEndurance;
-                            player.VerticalVelocity = Mathf.Sqrt(_cf.Value.playerConfiguration.jumpHeight * -2f *
+                            rpgComp.Stamina = jumpEndurance;
+                            playerComp.VerticalVelocity = Mathf.Sqrt(_cf.Value.playerConfiguration.jumpHeight * -2f *
                                                                  _cf.Value.playerConfiguration.gravity);
+                            animationComp.Animator.SetTrigger(IsJump);
                         }
                     }
 
@@ -62,6 +68,7 @@ namespace World.Player
                 else
                 {
                     _jumpTimeoutDelta = _cf.Value.playerConfiguration.jumpTimeout;
+                    animationComp.Animator.SetBool(IsInAir, true);
 
                     if (_fallTimeoutDelta >= 0f)
                     {
@@ -73,9 +80,9 @@ namespace World.Player
                     }
                 }
 
-                if (player.VerticalVelocity < _terminalVelocity)
+                if (playerComp.VerticalVelocity < _terminalVelocity)
                 {
-                    player.VerticalVelocity += _cf.Value.playerConfiguration.gravity * _ts.Value.DeltaTime;
+                    playerComp.VerticalVelocity += _cf.Value.playerConfiguration.gravity * _ts.Value.DeltaTime;
                 }
             }
         }

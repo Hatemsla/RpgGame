@@ -41,7 +41,7 @@ namespace World.Player
 
                 if (rpg.IsDead || input.FreeCursor || _cs.Value.CursorVisible) return;
 
-                if (EventSystem.current.IsPointerOverGameObject()) return;
+                //if (EventSystem.current.IsPointerOverGameObject()) return;
 
                 if (input.Skill1)
                 {
@@ -73,30 +73,29 @@ namespace World.Player
                 if (abilityPacked.Unpack(_world.Value, out var unpackedEntity))
                 {
                     ref var ability = ref _abilityPool.Value.Get(unpackedEntity);
-
-                    if (rpg.Mana >= ability.costPoint)
+                    if (unpackedEntity == skillIdx)
                     {
-                        rpg.Mana -= ability.costPoint;
-                        switch (ability.abilityType)
+                        if (rpg.Mana >= ability.costPoint)
                         {
-                            // Directional Ability
-                            case DirectionalAbility directionalType:
-                                switch (directionalType)
-                                {
-                                    // Balls
-                                    case BallAbility type:
-                                        if (unpackedEntity == skillIdx)
-                                        {
+                            rpg.Mana -= ability.costPoint;
+                            switch (ability.abilityType)
+                            {
+                                // Directional Ability
+                                case DirectionalAbility directionalType:
+                                    switch (directionalType)
+                                    {
+                                        // Balls
+                                        case BallAbility type:
                                             InitializeBallAbility(ability, entity);
-                                        }
-                                        break;
-                                }
-                                break;
+                                            break;
+                                    }
+                                    break;
+                            }
                         }
-                    }
-                    else
-                    {
-                        return;
+                        else
+                        {
+                            return;
+                        }
                     }
                 }
             }
@@ -119,6 +118,8 @@ namespace World.Player
                 abilityDirection);
             var startTime = _ts.Value.Time;
 
+            //          //          //          //          //
+            
             var abilityObject = _ps.Value.SpellPool.Get();
             abilityObject.transform.position = player.Transform.position + player.Transform.forward;
 

@@ -26,6 +26,8 @@ namespace World.Ability
         {
             if (eventData.button == PointerEventData.InputButton.Right)
             {
+                AbilityIdx = default;
+                abilityObject = null;
                 abilityImage.sprite = null;
                 abilityName.text = "";
             }

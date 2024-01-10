@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: FireBall
   m_EditorClassIdentifier: 
   abilityName: Fire Ball
-  abilityDescription: 
+  abilityDescription: 123
   costPoint: 20
-  abilitySprite: {fileID: 0}
-  abilityViewPrefab: {fileID: 0}
+  abilitySprite: {fileID: 21300000, guid: bd71bc6f4b1c75d479ced34de7dd8375, type: 3}
+  abilityViewPrefab: {fileID: 1646631971105012691, guid: cf0e188a3fa020848959af9d644d6017,
+    type: 3}
   abilityObjectPrefab: {fileID: 6066561387642604712, guid: 5e9f8e8cb2ca82445bba42bccaaa6b45,
     type: 3}
   abilityDelay: 0

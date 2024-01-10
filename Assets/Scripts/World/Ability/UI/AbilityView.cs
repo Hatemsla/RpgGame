@@ -22,8 +22,6 @@ namespace World.Ability.UI
         [SerializeField] private TMP_Text abilityDescription;
         [SerializeField] private TMP_Text abilityParams;
 
-        //private ContentView _playerSkillViewContent;
-        
         private Transform _parentBeforeDrag;
         private SceneData _sd;
         
@@ -53,7 +51,7 @@ namespace World.Ability.UI
         private EcsPool<PlayerComp> _playerPool;
         
         private ContentView _playerAbilityViewContent;
-        
+
         private RectTransform _crosshairView;
         private RectTransform _playerAbilityView;
         private RectTransform _fastSkillsView;

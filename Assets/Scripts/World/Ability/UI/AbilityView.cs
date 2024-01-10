@@ -132,6 +132,8 @@ namespace World.Ability.UI
         {
             if (eventData.button != PointerEventData.InputButton.Left)
                 return;
+            
+            Debug.Log(IsSkillOutList(transform.position, _playerAbilityView));
             if (IsSkillOutList(transform.position, _playerAbilityView))
             {
                 if (IsSkillInsideList(transform.position, _fastSkillsView))
@@ -152,7 +154,7 @@ namespace World.Ability.UI
                             playerComp.Transform.localPosition + playerComp.Transform.forward;
                     }
                 }
-                else if (IsSkillInsideList(transform.position, _playerAbilityView))
+                else
                 {
                     MoveSkillTo(_playerAbilityViewContent.currentEntity, _playerAbilityViewContent.transform);
                 }

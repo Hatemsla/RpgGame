@@ -39,12 +39,12 @@ namespace World.Player
                 ref var input = ref _player.Pools.Inc2.Get(playerEntity);
                 ref var rpg = ref _player.Pools.Inc3.Get(playerEntity);
 
-                if (rpg.IsDead || input.FreeCursor || _cs.Value.CursorVisible) return;
-
                 if (input.SkillList)
                 {
                     _abilityView.SetActive(!_abilityView.activeSelf);
                 }
+                
+                if (rpg.IsDead || input.FreeCursor || _cs.Value.CursorVisible) return;
 
                 if (input.Skill1)
                 {

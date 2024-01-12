@@ -38,17 +38,22 @@ namespace World.Player
                 _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
                 _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, _cf.Value.playerConfiguration.bottomClamp,
                     _cf.Value.playerConfiguration.topClamp);
-
+                
                 player.PlayerCameraRoot.transform.rotation = Quaternion.Euler(
                     _cinemachineTargetPitch + _cf.Value.playerConfiguration.cameraAngleOverride,
                     _cinemachineTargetYaw, 0f);
 
-                if (!input.FreeLook && !_cs.Value.CursorVisible && !rpg.IsDead)
+                if (!input.FreeLook && !_cs.Value.CursorVisible && !rpg.IsDead && input.Move == Vector2.zero)
                 {
                     var desiredYRotation = player.PlayerCameraRoot.eulerAngles.y;
                     var currentYRotation = player.Transform.rotation.eulerAngles.y;
+                    
+                    Debug.Log($"Desired rotation: {desiredYRotation} Current rotation: {currentYRotation}");
+                    
                     var newYRotation = Mathf.LerpAngle(
                         currentYRotation, desiredYRotation,  _ts.Value.DeltaTime * _cf.Value.playerConfiguration.rotationSpeed);
+                    
+                    Debug.Log($"New rotation: {newYRotation}");
                     player.Transform.rotation = Quaternion.Euler(0f, newYRotation, 0f);
                 }
             }

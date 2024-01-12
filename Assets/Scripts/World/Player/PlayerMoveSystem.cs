@@ -188,7 +188,7 @@ namespace World.Player
                     SetTargetMoves(1, 0.5f);
                     break;
                 case MoveState.Sprint:
-                    SetTargetMoves(1, -0.5f);
+                    SetTargetMoves(1, 1);
                     break;
             }
 

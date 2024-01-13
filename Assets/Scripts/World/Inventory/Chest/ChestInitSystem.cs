@@ -63,13 +63,7 @@ namespace World.Inventory.Chest
                     it.ItemDescription = itemData.itemDescription;
                     it.Cost = itemData.cost;
                     it.Weight = itemData.itemWeight;
-                    
-                    var itemObject = Object.Instantiate(itemData.itemObjectPrefab,
-                        Vector3.zero,
-                        itemData.itemObjectPrefab.transform.rotation);
-                    itemObject.transform.SetParent(chest.transform);
-                    itemObject.gameObject.SetActive(false);
-                    
+
                     var itemView = Object.Instantiate(itemData.itemViewPrefab, Vector3.zero, Quaternion.identity);
                     itemView.transform.SetParent(chest.transform);
                 
@@ -81,14 +75,23 @@ namespace World.Inventory.Chest
                     
                     chest.itemViews.Add(itemView);
                     it.ItemView = itemView;
-                    it.ItemView.itemObject = itemObject;
-                    it.ItemView.itemObject.ItemIdx = itemPackedEntity;
                     it.ItemView.ItemIdx = itemPackedEntity;
                     it.ItemView.ItemName = itemData.itemName;
                     it.ItemView.ItemDescription = itemData.itemDescription;
                     it.ItemView.ItemCount = itemData.itemCount.ToString();
                     it.ItemView.SetWorld(_itemsWorld.Value, _eventWorld.Value, entity, _sd.Value);
                     it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView, _deleteFormView, _crosshairView);
+                    
+                    if (itemData.itemObjectPrefab)
+                    {
+                        var itemObject = Object.Instantiate(itemData.itemObjectPrefab,
+                            Vector3.zero,
+                            itemData.itemObjectPrefab.transform.rotation);
+                        itemObject.transform.SetParent(chest.transform);
+                        itemObject.gameObject.SetActive(false);
+                        it.ItemView.itemObject = itemObject;
+                        it.ItemView.itemObject.ItemIdx = itemPackedEntity;
+                    }
 
                     hasItemsComp.Entities.Add(itemPackedEntity);
                 }

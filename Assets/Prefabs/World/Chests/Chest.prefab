@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &6317020595886276252
 Transform:
@@ -35,7 +35,7 @@ Transform:
   - {fileID: 6844245811988604717}
   - {fileID: 8824635212689565451}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1628532576197877236
 MonoBehaviour:
@@ -49,7 +49,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e33a4987a3d64f978f468a6678f5b9b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items: []
+  items:
+  - {fileID: 11400000, guid: 966b27dd97e2fb94eb0ab6e448460ed3, type: 2}
+  itemViews: []
+  chestInventoryView: {fileID: 0}
+  chestInventoryWeightText: {fileID: 0}
+  isOpen: 0
 --- !u!65 &4933999168341896161
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -87,7 +92,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &6844245811988604717
 Transform:
@@ -169,7 +174,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &8824635212689565451
 Transform:
@@ -223,7 +228,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &2834574675740042849
 Transform:
@@ -306,7 +311,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &4744852911006377332
 Transform:

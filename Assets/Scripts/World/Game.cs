@@ -62,7 +62,6 @@ namespace World
                 .Add(new PlayerJumpAndGravitySystem())
                 .Add(new PlayerGroundedSystem())
                 .Add(new PlayerMoveSystem())
-                .Add(new PlayerCameraRotateSystem())
                 .Add(new PlayerDashSystem())
                 .Add(new CameraZoomSystem())
                 .Add(new PlayerFallSystem())
@@ -97,7 +96,8 @@ namespace World
                 .Init();
 
             _systemsLateUpdate
-                .Inject(ts, configuration, sceneData, mainInput)
+                .Add(new PlayerCameraRotateSystem())
+                .Inject(ts, ps, cs, configuration, sceneData, mainInput)
                 .Init();
         }
 

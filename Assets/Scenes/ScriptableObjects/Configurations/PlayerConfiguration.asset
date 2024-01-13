@@ -18,7 +18,7 @@ MonoBehaviour:
   dashSpeed: 30
   speedChangeRate: 10
   rotationSmoothTime: 0.12
-  rotationSpeed: 2
+  rotationSpeed: 3
   topClamp: 70
   bottomClamp: -30
   cameraAngleOverride: 0

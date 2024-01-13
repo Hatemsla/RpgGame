@@ -81,12 +81,10 @@ namespace World.Player
                         if (rpg.Mana >= ability.costPoint)
                         {
                             rpg.Mana -= ability.costPoint;
-                            Debug.Log(ability.abilityType);
                             switch (ability.abilityType)
                             {
                                 // Balls
                                 case BallAbility type:
-                                    Debug.Log("Каст");
                                     InitializeBallAbility(ability, entity);
                                     break;
                             }

@@ -115,8 +115,6 @@ namespace World.Player
                 abilityDirection);
             var startTime = _ts.Value.Time;
 
-            //          //          //          //          //
-            
             var abilityObject = _ps.Value.SpellPool.Get();
             abilityObject.transform.position = player.Transform.position + player.Transform.forward;
 

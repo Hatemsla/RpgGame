@@ -64,5 +64,46 @@ namespace World.Ability.AbilitiesObjects
                 _releasedAbilityPool.Del(unpackedEntity);
             }
         }
+
+        public override void Cast()
+        {
+            var player = _player.Pools.Inc1.Get(entity);
+
+            var centerOfScreen = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+            var ray = _sd.Value.mainCamera.OutputCamera.ScreenPointToRay(centerOfScreen);
+            Vector3 abilityDirection;
+
+            if (Physics.Raycast(ray, out var hitInfo, ((BallAbility)ability.abilityType).Distance))
+                abilityDirection = hitInfo.point;
+            else
+                abilityDirection = ray.GetPoint(((BallAbility)ability.abilityType).Distance);
+
+            var journeyLenght = Vector3.Distance(player.Transform.position + player.Transform.forward,
+                abilityDirection);
+            var startTime = _ts.Value.Time;
+
+            var abilityObject = _ps.Value.SpellPool.Get();
+            abilityObject.transform.position = player.Transform.position + player.Transform.forward;
+
+            var abilityEntity = _world.Value.NewEntity();
+            var abilityPackedEntity = _world.Value.PackEntity(abilityEntity);
+            ref var releasedAbility = ref _spell.Value.Add(abilityEntity);
+
+            releasedAbility.abilityObject = abilityObject;
+            releasedAbility.spellOwner = entity;
+
+            abilityObject.PoolService = _ps.Value;
+            ((BallAbilityObject)abilityObject).TimeService = _ts.Value;
+
+            ((BallAbilityObject)abilityObject).damage = ((BallAbility)ability.abilityType).Damage;
+            ((BallAbilityObject)abilityObject).startTime = startTime;
+            ((BallAbilityObject)abilityObject).startDirection = player.Transform.position + player.Transform.forward;  
+            ((BallAbilityObject)abilityObject).direction = journeyLenght;
+            ((BallAbilityObject)abilityObject).endDirection = abilityDirection;  
+            ((BallAbilityObject)abilityObject).speed = ((BallAbility)ability.abilityType).Speed;
+
+            abilityObject.AbilityIdx = abilityPackedEntity;
+            abilityObject.SetWorld(_world.Value, entity);
+        }
     }
 }

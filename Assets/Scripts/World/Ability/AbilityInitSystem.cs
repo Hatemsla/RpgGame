@@ -58,6 +58,7 @@ namespace World.Ability
                         abilityComp.description = abilityData.abilityDescription;
                         abilityComp.costPoint = abilityData.costPoint;
                         abilityComp.ownerEntity = entity;
+                        abilityComp.abilityDelay = abilityData.abilityDelay;
                         abilityComp.abilityType = DefineAbilityType(abilityData.abilityTypeData);
 
                         var abilityView = Object.Instantiate(abilityData.abilityViewPrefab, Vector3.zero,

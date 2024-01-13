@@ -9,6 +9,7 @@ namespace World.Ability
         public string description;
         public float costPoint;
         public float ownerEntity;
+        public float abilityDelay;
         public AbilityView abilityView;
         public AbilityType abilityType;
     }

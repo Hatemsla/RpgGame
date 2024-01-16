@@ -75,8 +75,8 @@ namespace World.AI
                     
                     var enemyPackedEntity = _world.Value.PackEntity(enemyEntity);
 
-                    enemyView.EnemyPacked = enemyPackedEntity;
-                    enemyView.ZonePacked = zonePackedEntity;
+                    enemyView.EnemyPackedIdx = enemyPackedEntity;
+                    enemyView.ZonePackedIdx = zonePackedEntity;
                     enemyView.SetWorld(_world.Value, enemyEntity);
                     _sd.Value.StartCoroutine(enemyView.Respawn(randomEnemyType.respawnDelay));
                     

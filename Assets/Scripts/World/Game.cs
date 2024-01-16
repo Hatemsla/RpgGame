@@ -12,6 +12,7 @@ using World.Configurations;
 using World.Inventory;
 using World.Inventory.Chest;
 using World.Player;
+using World.Player.Events;
 using World.RPG;
 
 namespace World
@@ -73,9 +74,11 @@ namespace World
                 .Add(new ChestUpdateSystem())
                 .Add(new PassiveGetExperienceSystem())
                 .Add(new PlayerLevelSystem())
+                .Add(new PlayerWaitForEndDeathAnimationSystem())
                 
                 .DelHere<DeleteEvent>(Idents.Worlds.Events)
                 .DelHere<LevelChangedEvent>(Idents.Worlds.Events)
+                .DelHere<DeathAnimationEvent>(Idents.Worlds.Events)
                 .Add(new DeleteFormSystem())
                 
                 

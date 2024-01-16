@@ -47,13 +47,10 @@ namespace World.Player
                 {
                     var desiredYRotation = player.PlayerCameraRoot.eulerAngles.y;
                     var currentYRotation = player.Transform.rotation.eulerAngles.y;
-                    
-                    Debug.Log($"Desired rotation: {desiredYRotation} Current rotation: {currentYRotation}");
-                    
+                   
                     var newYRotation = Mathf.LerpAngle(
                         currentYRotation, desiredYRotation,  _ts.Value.DeltaTime * _cf.Value.playerConfiguration.rotationSpeed);
                     
-                    Debug.Log($"New rotation: {newYRotation}");
                     player.Transform.rotation = Quaternion.Euler(0f, newYRotation, 0f);
                 }
             }

@@ -54,19 +54,19 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _Depth: 0.367
-    - _DepthStrength: 0.969
+    - _Depth: 0.721
+    - _DepthStrength: 0.136
     - _EnvironmentReflections: 1
     - _Float1: 0.1
     - _Float3: 1
     - _Float4: 10000
-    - _FoamAmount: 0.35
+    - _FoamAmount: 1.14
     - _FoamNoiseScale: 597
     - _FoamPower: 2.82
     - _FoamSpeed: 0.5
     - _GlossyReflections: 1
     - _Mettalic: 0.755
-    - _NormalMapWavesSpeed: 0.223
+    - _NormalMapWavesSpeed: 0.128
     - _NormalMapsWavesSize: 6.14
     - _QueueControl: -1
     - _QueueOffset: 0
@@ -76,7 +76,7 @@ Material:
     - _SmallWavesSize1: 3
     - _SmallWavesSpeed: 0.5
     - _Smoothness: 0.702
-    - _Smootness: 0.837
+    - _Smootness: 0.912
     - _SpecularHighlights: 1
     - _Strenght: 0.5
     - _TRANSPARENCY: 0.73

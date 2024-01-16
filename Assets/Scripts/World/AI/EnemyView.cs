@@ -9,8 +9,8 @@ namespace World.AI
 {
     public sealed class EnemyView : MonoBehaviour
     {
-        public EcsPackedEntity ZonePacked;
-        public EcsPackedEntity EnemyPacked;
+        public EcsPackedEntity ZonePackedIdx;
+        public EcsPackedEntity EnemyPackedIdx;
 
         public float currentAttackDelay;
 

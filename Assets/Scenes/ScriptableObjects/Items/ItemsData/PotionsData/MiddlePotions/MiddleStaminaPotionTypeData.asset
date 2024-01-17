@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e65af6a6e4f34a7a9d5e6d8c906b2f3f, type: 3}
   m_Name: MiddleStaminaPotionTypeData
   m_EditorClassIdentifier: 
-  staminaPercent: 0
+  staminaPercent: 0.45

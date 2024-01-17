@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7020320206a544588272ffbc31d8d7d4, type: 3}
   m_Name: BigManaPotion
   m_EditorClassIdentifier: 
-  itemName: 
-  itemDescription: 
-  itemCount: 0
-  itemWeight: 0
-  itemTypeData: {fileID: 0}
-  itemSprite: {fileID: 0}
-  itemViewPrefab: {fileID: 0}
+  itemName: Big Mana Potion
+  itemDescription: "\u0411\u043E\u043B\u044C\u0448\u043E\u0435 \u0437\u0435\u043B\u044C\u0435
+    \u043C\u0430\u043D\u044B"
+  itemCount: 1
+  itemWeight: 0.8
+  itemTypeData: {fileID: 11400000, guid: 7d7c8c041f353ab42a144b110e34ff0b, type: 2}
+  itemSprite: {fileID: 21300000, guid: 20c2e6e4b8985de4d8838176bb236feb, type: 3}
+  itemViewPrefab: {fileID: 5094765688295937399, guid: 3a4b49cd2c162634e903351b9fbe686a,
+    type: 3}
   itemObjectPrefab: {fileID: 0}
-  cost: 0
+  cost: 80

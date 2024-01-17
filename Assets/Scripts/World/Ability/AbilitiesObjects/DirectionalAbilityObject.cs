@@ -9,6 +9,6 @@ namespace World.Ability.AbilitiesObjects
         [HideInInspector] public Vector3 startDirection;
         [HideInInspector] public Vector3 endDirection;
         
-        public abstract override void Cast();
+        //public abstract override void Cast();
     }
 }

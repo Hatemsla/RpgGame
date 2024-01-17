@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63562d50b2ed4c3fb5ed6542a006c2cd, type: 3}
   m_Name: BigHealthPotionTypeData
   m_EditorClassIdentifier: 
-  healthPercent: 0
+  healthPercent: 0.85

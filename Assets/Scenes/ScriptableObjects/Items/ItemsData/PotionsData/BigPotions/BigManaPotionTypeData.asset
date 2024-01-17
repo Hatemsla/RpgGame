@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981ca6e5bc2e4c2695005bae239759de, type: 3}
   m_Name: BigManaPotionTypeData
   m_EditorClassIdentifier: 
-  manaPercent: 0
+  manaPercent: 0.85

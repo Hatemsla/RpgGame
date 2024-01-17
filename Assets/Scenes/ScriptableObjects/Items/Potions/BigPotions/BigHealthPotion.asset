@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7020320206a544588272ffbc31d8d7d4, type: 3}
   m_Name: BigHealthPotion
   m_EditorClassIdentifier: 
-  itemName: 
-  itemDescription: 
-  itemCount: 0
-  itemWeight: 0
-  itemTypeData: {fileID: 0}
-  itemSprite: {fileID: 0}
-  itemViewPrefab: {fileID: 0}
+  itemName: Big Health Potion
+  itemDescription: "\u0411\u043E\u043B\u044C\u0448\u043E\u0435 \u0437\u0435\u043B\u044C\u0435
+    \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F"
+  itemCount: 1
+  itemWeight: 0.8
+  itemTypeData: {fileID: 11400000, guid: c7946f1ba3650a24e861f5401fe7ff54, type: 2}
+  itemSprite: {fileID: 21300000, guid: 3f663fa15aab77f4ca1f0b93bfcbc394, type: 3}
+  itemViewPrefab: {fileID: 5094765688295937399, guid: 3a4b49cd2c162634e903351b9fbe686a,
+    type: 3}
   itemObjectPrefab: {fileID: 0}
-  cost: 0
+  cost: 80

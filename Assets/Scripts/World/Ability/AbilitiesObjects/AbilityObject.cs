@@ -6,7 +6,7 @@ using World.Player;
 
 namespace World.Ability.AbilitiesObjects
 {
-    public abstract class AbilityObject : MonoBehaviour
+    public abstract class AbilityObject : MonoBehaviour //, ICastAbility
     {
         public EcsPackedEntity AbilityIdx;
         public PoolService PoolService;
@@ -22,5 +22,7 @@ namespace World.Ability.AbilitiesObjects
             _playerEntity = entity;
             _releasedAbilityPool = _world.GetPool<ReleasedAbilityComp>();
         }
+
+        //public abstract void Cast();
     }
 }

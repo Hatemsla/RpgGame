@@ -88,5 +88,9 @@ namespace World.Ability.AbilitiesObjects
                 _releasedAbilityPool.Del(unpackedEntity);
             }
         }
+
+        /*public override void Cast()
+        {
+        }*/
     }
 }

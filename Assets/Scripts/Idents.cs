@@ -36,6 +36,31 @@
             public const string DeleteFormView = "DeleteFormView";
             public const string YesDeleteBtn = "YesDelete";
             public const string NoDeleteBtn = "NoDelete";
+            
+            public const string AddStrengthBtn = "AddStrength";
+            public const string AddDexterityBtn = "AddDexterity";
+            public const string AddConstitutionBtn = "AddConstitution";
+            public const string AddIntelligenceBtn = "AddIntelligence";
+            public const string AddCharismaBtn = "AddCharisma";
+            public const string AddLuckBtn = "AddLuck";
+            
+            public const string RemoveStrengthBtn = "RemoveStrength";
+            public const string RemoveDexterityBtn = "RemoveDexterity";
+            public const string RemoveConstitutionBtn = "RemoveConstitution";
+            public const string RemoveIntelligenceBtn = "RemoveIntelligence";
+            public const string RemoveCharismaBtn = "RemoveCharisma";
+            public const string RemoveLuckBtn = "RemoveLuck";
+
+            public const string StatsLevelCanvas = "LevelCanvas";
+            public const string CurrentLevelStats = "CurrentLevelStats";
+
+            public const string CancelStatsBtn = "CancelStatsBtn";
+            public const string ConfirmStatsBtn = "ConfirmStatsBtn";
+            public const string CloseStatsBtn = "CloseStatsBtn";
+            public const string YesConfirmToExitFromStatsBtn = "YesConfirmToExitFromStatsBtn";
+            public const string NoConfirmToExitFromStatsBtn = "NoConfirmToExitFromStatsBtn";
+            public const string ConfirmToCancelStatsForm = "ConfirmToCancelStatsForm";
+
         }
 
         public static class Abilities

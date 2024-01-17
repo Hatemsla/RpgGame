@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using Leopotam.EcsLite;
+﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 using Utils;
-using World.Player;
 using World.Player.Events;
 using World.RPG;
 

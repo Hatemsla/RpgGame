@@ -43,6 +43,7 @@ namespace World.Player
                 inputComp.Skill1 = input.Skill1.WasPerformedThisFrame();
                 inputComp.Skill2 = input.Skill2.WasPerformedThisFrame();
                 inputComp.Skill3 = input.Skill3.WasPerformedThisFrame();
+                inputComp.Stats = input.Stats.WasPerformedThisFrame();
             }
         }
     }

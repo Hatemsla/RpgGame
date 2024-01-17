@@ -28,8 +28,7 @@ namespace World.Player
 
             if (!_isDeathAnimationDelayed)
             {
-                _currentDeathAnimationDelay -= _ts.Value.DeltaTime; 
-                Debug.Log(_currentDeathAnimationDelay);
+                _currentDeathAnimationDelay -= _ts.Value.DeltaTime;
                 if (_currentDeathAnimationDelay <= 0)
                 {
                     foreach (var entity in _playerFilter.Value)

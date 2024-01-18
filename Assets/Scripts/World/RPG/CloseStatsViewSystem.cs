@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Scripting;
 using Utils;
 using World.Player;
+using World.Player.Events;
 using World.RPG.UI;
 
 namespace World.RPG
@@ -12,8 +13,11 @@ namespace World.RPG
     public class CloseStatsViewSystem : EcsUguiCallbackSystem
     {
         private readonly EcsFilterInject<Inc<PlayerComp, LevelComp>> _filter = default;
+        private readonly EcsPoolInject<TransitionCameraEvent> _transitionCameraPool = Idents.Worlds.Events;
         
         private readonly EcsCustomInject<SceneData> _sd = default;
+        
+        private readonly EcsWorldInject _eventWorld = Idents.Worlds.Events;
         
         [EcsUguiNamed(Idents.UI.ConfirmToCancelStatsForm)]
         private readonly GameObject _confirmToCancelStatsForm = default;
@@ -30,6 +34,7 @@ namespace World.RPG
         {
             foreach (var entity in _filter.Value)
             {
+                ref var playerComp = ref _filter.Pools.Inc1.Get(entity);
                 ref var levelComp = ref _filter.Pools.Inc2.Get(entity);
 
                 var remainLevelScores = levelComp.Strength + levelComp.Dexterity + levelComp.Constitution +
@@ -73,10 +78,15 @@ namespace World.RPG
                             break;
                     }
                 }
+                
+                _confirmToCancelStatsForm.SetActive(false);   
+                _statsLevelCanvas.SetActive(false);
+                playerComp.PlayerCameraRoot.Priority = 2;
+                playerComp.PlayerCameraStats.Priority = 1;
+                playerComp.CanMove = false;
+                ref var transitionCameraEvent = ref _transitionCameraPool.Value.Add(_eventWorld.Value.NewEntity());
+                transitionCameraEvent.TimeToWait = 1;
             }
-            
-            _confirmToCancelStatsForm.SetActive(false);   
-            _statsLevelCanvas.SetActive(false);
         }
         
         [Preserve]

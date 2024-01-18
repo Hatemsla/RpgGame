@@ -27,6 +27,8 @@ namespace World.Player
                 ref var input = ref _unitsMove.Pools.Inc2.Get(entity);
                 ref var rpg = ref _unitsMove.Pools.Inc3.Get(entity);
                 
+                if(!player.CanMove) return;
+                
                 if (input.Look.sqrMagnitude >= Threshold)
                 {
                     var deltaTimeMultiplier = 1f;
@@ -39,13 +41,13 @@ namespace World.Player
                 _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, _cf.Value.playerConfiguration.bottomClamp,
                     _cf.Value.playerConfiguration.topClamp);
                 
-                player.PlayerCameraRoot.transform.rotation = Quaternion.Euler(
+                player.PlayerCameraRootTransform.transform.rotation = Quaternion.Euler(
                     _cinemachineTargetPitch + _cf.Value.playerConfiguration.cameraAngleOverride,
                     _cinemachineTargetYaw, 0f);
 
                 if (!input.FreeLook && !_cs.Value.CursorVisible && !rpg.IsDead && input.Move == Vector2.zero)
                 {
-                    var desiredYRotation = player.PlayerCameraRoot.eulerAngles.y;
+                    var desiredYRotation = player.PlayerCameraRootTransform.eulerAngles.y;
                     var currentYRotation = player.Transform.rotation.eulerAngles.y;
                    
                     var newYRotation = Mathf.LerpAngle(

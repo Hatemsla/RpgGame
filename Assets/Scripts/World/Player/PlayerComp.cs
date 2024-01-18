@@ -9,11 +9,13 @@ namespace World.Player
         public Vector3 Position;
         public Quaternion Rotation;
         public CharacterController CharacterController;
-        public Transform PlayerCameraRoot;
-        public CinemachineVirtualCamera PlayerCamera;
+        public Transform PlayerCameraRootTransform;
+        public Transform PlayerCameraStatsTransform;
+        public CinemachineVirtualCamera PlayerCameraRoot;
+        public CinemachineVirtualCamera PlayerCameraStats;
         public bool Grounded;
         public float VerticalVelocity;
         public bool IsWalking;
-        public bool IsAutoRun;
+        public bool CanMove;
     }
 }

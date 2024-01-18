@@ -79,12 +79,14 @@ namespace World
                 .Add(new PlayerStatsSystem())
                 .Add(new HandleStatsButtonsSystem())
                 .Add(new CloseStatsViewSystem())
+                .Add(new PlayerCameraTransitionSystem())
                 
                 .DelHere<DeleteEvent>(Idents.Worlds.Events)
                 .DelHere<LevelChangedEvent>(Idents.Worlds.Events)
                 .DelHere<DeathAnimationEvent>(Idents.Worlds.Events)
                 .DelHere<StatsEvent>(Idents.Worlds.Events)
                 .DelHere<CloseStatsEvent>(Idents.Worlds.Events)
+                .DelHere<TransitionCameraEvent>(Idents.Worlds.Events)
                 .Add(new DeleteFormSystem())
                 
                 .Add(new EnemyPatrolSystem())

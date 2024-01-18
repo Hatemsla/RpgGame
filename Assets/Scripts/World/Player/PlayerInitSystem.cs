@@ -1,4 +1,5 @@
-﻿using Leopotam.EcsLite;
+﻿using Cinemachine;
+using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 using World.Configurations;
@@ -44,16 +45,19 @@ namespace World.Player
             player.Position = playerStartPosition;
             player.Rotation = Quaternion.identity;
             player.CharacterController = playerObject.GetComponent<CharacterController>();
-            player.PlayerCameraRoot = playerObject.GetComponentInChildren<PlayerCameraRootView>().transform;
+            player.PlayerCameraRootTransform = playerObject.GetComponentInChildren<PlayerCameraRootView>().transform;
+            player.PlayerCameraStatsTransform = playerObject.GetComponentInChildren<PlayerCameraStatsView>().transform;
             player.Grounded = true;
-            player.PlayerCamera = playerFollowCameraView;
+            player.PlayerCameraRoot = playerFollowCameraView;
+            player.PlayerCameraStats = player.PlayerCameraStatsTransform.GetComponent<CinemachineVirtualCamera>();
+            player.CanMove = true;
 
             animation.Animator = playerObject.GetComponentInChildren<Animator>();
 
             var playerView = player.Transform.GetComponentInChildren<PlayerView>();
             playerView.PlayerPacked = playerPacked;
 
-            playerFollowCameraView.Follow = player.PlayerCameraRoot;
+            playerFollowCameraView.Follow = player.PlayerCameraRootTransform;
 
             rpg.Health = _cf.Value.playerConfiguration.health;
             rpg.Stamina = _cf.Value.playerConfiguration.stamina;

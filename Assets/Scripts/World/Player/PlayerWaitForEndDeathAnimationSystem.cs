@@ -10,7 +10,7 @@ namespace World.Player
     public class PlayerWaitForEndDeathAnimationSystem : IEcsRunSystem, IEcsInitSystem
     {
         private readonly EcsFilterInject<Inc<RpgComp, PlayerComp>> _playerFilter = default;
-        private readonly EcsFilterInject<Inc<DeathAnimationEvent>> _deathAnimationFlter = Idents.Worlds.Events;
+        private readonly EcsFilterInject<Inc<DeathAnimationEvent>> _deathAnimationFilter = Idents.Worlds.Events;
 
         private readonly EcsCustomInject<TimeService> _ts = default;
         
@@ -20,7 +20,7 @@ namespace World.Player
         private bool _isDeathAnimationDelayed = true;
         public void Run(IEcsSystems systems)
         {
-            foreach (var entity in _deathAnimationFlter.Value)
+            foreach (var entity in _deathAnimationFilter.Value)
             {
                 _isDeathAnimationDelayed = false;
                 _currentDeathAnimationDelay = _deathAnimationDelay;

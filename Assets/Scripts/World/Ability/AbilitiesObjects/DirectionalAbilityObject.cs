@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Leopotam.EcsLite;
+using UnityEngine;
+using Utils.ObjectsPool;
 
 namespace World.Ability.AbilitiesObjects
 {
@@ -9,6 +11,6 @@ namespace World.Ability.AbilitiesObjects
         [HideInInspector] public Vector3 startDirection;
         [HideInInspector] public Vector3 endDirection;
         
-        //public abstract override void Cast();
+        public abstract override void Cast(AbilityComp comp, int entity);
     }
 }

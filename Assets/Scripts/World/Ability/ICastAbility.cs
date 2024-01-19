@@ -2,6 +2,6 @@
 {
     public interface ICastAbility
     {
-        void Cast();
+        void Cast(AbilityComp comp, int entity);
     }
 }

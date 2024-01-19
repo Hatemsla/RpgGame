@@ -17,6 +17,9 @@ namespace World.Player
         [EcsUguiNamed(Idents.UI.ChestInventoryView)]
         private readonly GameObject _chestInventoryView = default;
         
+        [EcsUguiNamed(Idents.UI.StatsLevelCanvas)]
+        private readonly GameObject _statsLevelView = default;
+        
         public void Init(IEcsSystems systems)
         {
             _cs.Value.CursorVisible = false;
@@ -28,7 +31,7 @@ namespace World.Player
             {
                 ref var input = ref _inputs.Pools.Inc1.Get(entity);
 
-                _cs.Value.CursorVisible = _chestInventoryView.activeSelf || _playerInventoryView.activeSelf || input.FreeCursor;
+                _cs.Value.CursorVisible = _chestInventoryView.activeSelf || _playerInventoryView.activeSelf || _statsLevelView.activeSelf || input.FreeCursor;
 
                 Cursor.visible = _cs.Value.CursorVisible;
             }

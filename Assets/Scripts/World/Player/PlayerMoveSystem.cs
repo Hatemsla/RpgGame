@@ -54,7 +54,7 @@ namespace World.Player
                 ref var rpgComp = ref _playerMove.Pools.Inc3.Get(entity);
                 ref var animationComp = ref _playerMove.Pools.Inc4.Get(entity);
 
-                if (rpgComp.IsDead) return;
+                if (rpgComp.IsDead || !playerComp.CanMove) return;
 
                 _targetSpeed = _cf.Value.playerConfiguration.moveSpeed;
                 _moveState = MoveState.RunForward;
@@ -158,6 +158,9 @@ namespace World.Player
                 playerComp.CharacterController.Move(targetDirection.normalized * (_speed * _ts.Value.DeltaTime) +
                                                     new Vector3(0.0f, playerComp.VerticalVelocity, 0.0f) *
                                                     _ts.Value.DeltaTime);
+                Debug.Log(targetDirection.normalized * (_speed * _ts.Value.DeltaTime) +
+                          new Vector3(0.0f, playerComp.VerticalVelocity, 0.0f) *
+                          _ts.Value.DeltaTime);
 
                 HandleAnimationSpeed(animationComp);
 

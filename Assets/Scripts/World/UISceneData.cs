@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using World.RPG.UI;
 
 namespace World
@@ -7,5 +8,8 @@ namespace World
     {
         [Tooltip("Experience slider view")]
         public ExperienceSliderView experienceSliderView;
+        
+        [Tooltip("Stats views")]
+        public List<StatView> statsViews;
     }
 }

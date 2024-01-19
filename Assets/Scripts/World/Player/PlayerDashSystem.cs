@@ -44,8 +44,6 @@ namespace World.Player
                             rpg.Stamina = dashEndurance;
                         }
 
-                        Debug.Log(dashDirection);
-
                         if (dashDirection.y > 0)
                             animationComp.Animator.SetTrigger(RollForward);
                         else if (dashDirection.y < 0)

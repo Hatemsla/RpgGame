@@ -1,10 +1,13 @@
 ﻿using System;
 using Leopotam.EcsLite;
 using UnityEditor.PackageManager.Requests;
+﻿using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using UnityEngine;
 using Utils.ObjectsPool;
 using World.Ability.AbilitiesTypes;
 using World.AI;
+using World.AI.Navigation;
 using World.Player;
 using World.RPG;
 
@@ -45,6 +48,11 @@ namespace World.Ability.AbilitiesObjects
                 {
                     var enemyPool = world.GetPool<EnemyComp>();
                     var enemyRpgPool = world.GetPool<RpgComp>();
+                if (enemyView.EnemyPackedIdx.Unpack(_world, out var unpackedEnemyEntity))
+                {
+                    var enemyPool = _world.GetPool<EnemyComp>();
+                    var enemyRpgPool = _world.GetPool<RpgComp>();
+                    var hasEnemiesPool = _world.GetPool<HasEnemies>();
                     
                     ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
@@ -57,6 +65,31 @@ namespace World.Ability.AbilitiesObjects
                         
                         enemyPool.Del(unpackedEnemyEntity);
                         enemyRpgPool.Del(unpackedEnemyEntity);
+                        PoolService.EnemyPool.Return(enemyComp.EnemyView);
+
+                        if (enemyView.ZonePackedIdx.Unpack(_world, out var unpackedZoneEntity))
+                        {
+                            ref var hasEnemyComp = ref hasEnemiesPool.Get(unpackedZoneEntity);
+                            Debug.Log(hasEnemyComp.Entities.Count);
+
+                            for (var index = 0; index < hasEnemyComp.Entities.Count; index++)
+                            {
+                                var hasEnemyEntityPacked = hasEnemyComp.Entities[index];
+                                if (hasEnemyEntityPacked.Unpack(_world, out var unpackedHasEnemyEntity))
+                                {
+                                    if (unpackedHasEnemyEntity == unpackedEnemyEntity)
+                                    {
+                                        // hasEnemyComp.Entities[index] = default;
+                                        // hasEnemyComp.Entities.Remove(hasEnemyEntityPacked);
+                                        hasEnemyComp.Entities.RemoveAll(entityPacked => entityPacked.Unpack(_world, out var entity) && entity == unpackedEnemyEntity);
+                                        Debug.Log("Removed");
+                                    }
+                                }
+                            }
+
+                            enemyPool.Del(unpackedEnemyEntity);
+                            enemyRpgPool.Del(unpackedEnemyEntity);
+                        }
                     }
                     
                     DestroySpell();

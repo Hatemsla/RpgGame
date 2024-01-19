@@ -20,7 +20,7 @@ namespace World.Player
             {
                 ref var player = ref _unitsMove.Pools.Inc1.Get(entity);
 
-                _camera3rdPerson = player.PlayerCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+                _camera3rdPerson = player.PlayerCameraRoot.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
             }
         }
             

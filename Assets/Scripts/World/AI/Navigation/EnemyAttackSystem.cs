@@ -15,7 +15,7 @@ namespace World.AI.Navigation
         private readonly EcsPoolInject<EnemyComp> _enemyPool = default;
 
         private readonly EcsWorldInject _world = default;
-        
+
         public void Run(IEcsSystems systems)
         {
             foreach (var zoneEntity in _zoneFilter.Value)
@@ -24,7 +24,6 @@ namespace World.AI.Navigation
                 ref var hasEnemiesComp = ref _zoneFilter.Pools.Inc2.Get(zoneEntity);
 
                 foreach (var packedEnemy in hasEnemiesComp.Entities)
-                {
                     if (packedEnemy.Unpack(_world.Value, out var unpackedEnemy))
                     {
                         ref var enemyComp = ref _enemyPool.Value.Get(unpackedEnemy);
@@ -44,29 +43,25 @@ namespace World.AI.Navigation
                                 enemyComp.Agent.transform.position);
 
                             if (Math.Abs(distanceToPlayer) < 3f && enemyComp.EnemyState != EnemyState.Attack)
-                            {
                                 enemyComp.EnemyState = EnemyState.Attack;
-                            }
                             else if (enemyComp.EnemyState == EnemyState.Attack && Math.Abs(distanceToPlayer) >= 3f)
-                            {
                                 enemyComp.EnemyState = EnemyState.Chase;
-                            }
 
                             if (enemyComp.EnemyState == EnemyState.Attack)
                             {
-                                enemyComp.Agent.SetDestination(playerComp.Transform.position);
+                                if (enemyComp.Agent.isActiveAndEnabled)
+                                    enemyComp.Agent.SetDestination(playerComp.Transform.position);
 
                                 if (enemyComp.EnemyView.currentAttackDelay >= enemyComp.AttackDelay)
-                                {
-                                    Debug.Log("Attack");
-                                    rpgComp.Health -= Random.Range(enemyComp.MinDamage, enemyComp.MaxDamage);
-                                    enemyComp.EnemyView.StartCoroutine(
-                                        enemyComp.EnemyView.AttackDelay(enemyComp.AttackDelay));
-                                }
+                                    if (enemyComp.EnemyView.isActiveAndEnabled)
+                                    {
+                                        rpgComp.Health -= Random.Range(enemyComp.MinDamage, enemyComp.MaxDamage);
+                                        enemyComp.EnemyView.StartCoroutine(
+                                            enemyComp.EnemyView.AttackDelay(enemyComp.AttackDelay));
+                                    }
                             }
                         }
                     }
-                }
             }
         }
     }

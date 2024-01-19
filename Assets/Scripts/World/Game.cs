@@ -12,6 +12,7 @@ using World.Configurations;
 using World.Inventory;
 using World.Inventory.Chest;
 using World.Player;
+using World.Player.Events;
 using World.RPG;
 
 namespace World
@@ -53,6 +54,7 @@ namespace World
                 .Add(new ChestInitSystem())
                 .Add(new ZoneInitSystem())
                 .Add(new EnemyInitSystem())
+                .Add(new PlayerStatsInitSystem())
                 
                 //Run systems
                 .Add(new TimeSystem())
@@ -73,11 +75,19 @@ namespace World
                 .Add(new ChestUpdateSystem())
                 .Add(new PassiveGetExperienceSystem())
                 .Add(new PlayerLevelSystem())
+                .Add(new PlayerWaitForEndDeathAnimationSystem())
+                .Add(new PlayerStatsSystem())
+                .Add(new HandleStatsButtonsSystem())
+                .Add(new CloseStatsViewSystem())
+                .Add(new PlayerCameraTransitionSystem())
                 
                 .DelHere<DeleteEvent>(Idents.Worlds.Events)
                 .DelHere<LevelChangedEvent>(Idents.Worlds.Events)
+                .DelHere<DeathAnimationEvent>(Idents.Worlds.Events)
+                .DelHere<StatsEvent>(Idents.Worlds.Events)
+                .DelHere<CloseStatsEvent>(Idents.Worlds.Events)
+                .DelHere<TransitionCameraEvent>(Idents.Worlds.Events)
                 .Add(new DeleteFormSystem())
-                
                 
                 .Add(new EnemyPatrolSystem())
                 .Add(new EnemyChaseSystem())

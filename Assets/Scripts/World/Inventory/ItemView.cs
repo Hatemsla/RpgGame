@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using World.Inventory.Canvases;
 using World.Inventory.Chest;
 using World.Player;
 
@@ -63,6 +64,8 @@ namespace World.Inventory
         private RectTransform _chestInventoryView;
         private RectTransform _fastItemsView;
 
+        private Transform _mainCanvas;
+
         private float _lastClickTime;
         private readonly float _doubleClickThreshold = 0.3f;
 
@@ -83,6 +86,7 @@ namespace World.Inventory
         private void Start()
         {
             _parentBeforeDrag = transform.parent;
+            _mainCanvas = _sd.uiSceneData.mainCanvas.transform;
         }
 
         private void Update()
@@ -163,7 +167,7 @@ namespace World.Inventory
             if (eventData.button == PointerEventData.InputButton.Left)
             {
                 _parentBeforeDrag = transform.parent;
-                transform.SetParent(transform.root);
+                transform.SetParent(_mainCanvas);
                 transform.SetAsLastSibling();
             }
         }

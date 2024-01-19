@@ -31,45 +31,45 @@ namespace World.Player
         {
             foreach (var entity in _player.Value)
             {
-                ref var input = ref _player.Pools.Inc1.Get(entity);
-                ref var player = ref _player.Pools.Inc2.Get(entity);
+                ref var inputComp = ref _player.Pools.Inc1.Get(entity);
+                ref var playerComp = ref _player.Pools.Inc2.Get(entity);
 
-                if (input.Inventory)
+                if (inputComp.Inventory)
                 {
                     _inventoryView.SetActive(!_inventoryView.activeSelf);
                 }
 
-                if (input.Alpha1)
+                if (inputComp.Alpha1)
                 {
                     if (_sd.Value.fastItemViews[0].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
 
-                if (input.Alpha2)
+                if (inputComp.Alpha2)
                 {
                     if (_sd.Value.fastItemViews[1].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
 
-                if (input.Alpha3)
+                if (inputComp.Alpha3)
                 {
                     if (_sd.Value.fastItemViews[2].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
 
-                if (input.Alpha4)
+                if (inputComp.Alpha4)
                 {
                     if (_sd.Value.fastItemViews[3].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
 
-                if (input.Alpha5)
+                if (inputComp.Alpha5)
                 {
                     if (_sd.Value.fastItemViews[4].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);
                 }
 
-                if (input.Alpha6)
+                if (inputComp.Alpha6)
                 {
                     if (_sd.Value.fastItemViews[5].ItemIdx.Unpack(_world.Value, out var unpackedItem))
                         TryGetItem(unpackedItem, entity);

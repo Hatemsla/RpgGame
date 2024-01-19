@@ -25,7 +25,6 @@ namespace World.Ability.UI
         private Transform _parentBeforeDrag;
         private SceneData _sd;
         
-        
         public string AbilityName
         {
             get => abilityName.text;
@@ -56,6 +55,8 @@ namespace World.Ability.UI
         private RectTransform _playerAbilityView;
         private RectTransform _fastSkillsView;
 
+        private Transform _mainCanvas;
+
         private float _lastClickTime;
         private readonly float _doubleClickThreshold = 0.3f;
         
@@ -72,6 +73,7 @@ namespace World.Ability.UI
         private void Start()
         {
             _parentBeforeDrag = transform.parent;
+            _mainCanvas = _sd.uiSceneData.mainCanvas.transform;
         }
 
         public void SetViews(RectTransform playerAbilityView, RectTransform fastSkillsView, RectTransform crosshairView)
@@ -117,7 +119,7 @@ namespace World.Ability.UI
             if (eventData.button == PointerEventData.InputButton.Left)
             {
                 _parentBeforeDrag = transform.parent;
-                transform.SetParent(transform.root);
+                transform.SetParent(_mainCanvas);
                 transform.SetAsLastSibling();
             }
         }

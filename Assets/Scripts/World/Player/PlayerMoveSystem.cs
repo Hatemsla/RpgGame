@@ -158,9 +158,6 @@ namespace World.Player
                 playerComp.CharacterController.Move(targetDirection.normalized * (_speed * _ts.Value.DeltaTime) +
                                                     new Vector3(0.0f, playerComp.VerticalVelocity, 0.0f) *
                                                     _ts.Value.DeltaTime);
-                Debug.Log(targetDirection.normalized * (_speed * _ts.Value.DeltaTime) +
-                          new Vector3(0.0f, playerComp.VerticalVelocity, 0.0f) *
-                          _ts.Value.DeltaTime);
 
                 HandleAnimationSpeed(animationComp);
 

@@ -11,6 +11,7 @@ using World.Inventory.ItemTypesData;
 using World.Inventory.ItemTypesData.PotionsData;
 using World.Inventory.ItemTypesData.WeaponsData;
 using World.Player;
+using World.Player.WeaponViews;
 
 namespace World.Inventory
 {
@@ -95,10 +96,13 @@ namespace World.Inventory
                     
                     if (itemData.itemObjectPrefab)
                     {
+                        var rightArm = playerComp.Transform.GetComponentInChildren<RightArmView>().transform;
                         var itemObject = Object.Instantiate(itemData.itemObjectPrefab,
-                            playerComp.Transform.position + playerComp.Transform.forward,
-                            itemData.itemObjectPrefab.transform.rotation);
-                        itemObject.transform.SetParent(playerComp.Transform);
+                            rightArm.position,
+                            Quaternion.identity);
+                        itemObject.transform.SetParent(rightArm);
+                        itemObject.transform.localPosition = itemData.itemObjectPrefab.transform.position;
+                        itemObject.transform.localRotation = itemData.itemObjectPrefab.transform.rotation;
                         itemObject.gameObject.SetActive(false);
                         
                         it.ItemView.itemObject = itemObject;

@@ -19,18 +19,12 @@ namespace World
 {
     public sealed class Game : MonoBehaviour
     {
-        public Game(EcsWorldInject ecsWorldInject)
-        {
-            _ecsWorldInject = ecsWorldInject;
-        }
-
         [SerializeField] private SceneData sceneData;
         [SerializeField] private Configuration configuration;
         [SerializeField] private EcsUguiEmitter uguiEmitter;
         private EcsSystems _systemsUpdate;
         private EcsSystems _systemsFixedUpdate;
         private EcsSystems _systemsLateUpdate;
-        private EcsWorldInject _ecsWorldInject;
 
         private void Start()
         {

@@ -18,13 +18,13 @@ namespace World.Ability.AbilitiesObjects
         [HideInInspector] public float speed;
         [HideInInspector] public float startTime;
         
-        [HideInInspector] private EcsWorld world;
-        [HideInInspector] private EcsPool<PlayerComp> player;
-        [HideInInspector] private EcsPool<ReleasedAbilityComp> releasedAbilityPool;
+        private EcsWorld world;
+        private EcsPool<PlayerComp> player;
+        private EcsPool<ReleasedAbilityComp> releasedAbilityPool;
         
-        [HideInInspector] private SceneData sd;
-        [HideInInspector] private TimeService ts;
-        [HideInInspector] private PoolService ps;
+        private SceneData sd;
+        private TimeService ts;
+        private PoolService ps;
 
         private void Update()
         {
@@ -44,15 +44,11 @@ namespace World.Ability.AbilitiesObjects
 
             if (enemyView)
             {
-                if (enemyView.EnemyPacked.Unpack(world, out var unpackedEnemyEntity))
+                if (enemyView.EnemyPackedIdx.Unpack(world, out var unpackedEnemyEntity))
                 {
                     var enemyPool = world.GetPool<EnemyComp>();
                     var enemyRpgPool = world.GetPool<RpgComp>();
-                if (enemyView.EnemyPackedIdx.Unpack(_world, out var unpackedEnemyEntity))
-                {
-                    var enemyPool = _world.GetPool<EnemyComp>();
-                    var enemyRpgPool = _world.GetPool<RpgComp>();
-                    var hasEnemiesPool = _world.GetPool<HasEnemies>();
+                    var hasEnemiesPool = world.GetPool<HasEnemies>();
                     
                     ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
@@ -65,9 +61,9 @@ namespace World.Ability.AbilitiesObjects
                         
                         enemyPool.Del(unpackedEnemyEntity);
                         enemyRpgPool.Del(unpackedEnemyEntity);
-                        PoolService.EnemyPool.Return(enemyComp.EnemyView);
+                        ps.EnemyPool.Return(enemyComp.EnemyView);
 
-                        if (enemyView.ZonePackedIdx.Unpack(_world, out var unpackedZoneEntity))
+                        if (enemyView.ZonePackedIdx.Unpack(world, out var unpackedZoneEntity))
                         {
                             ref var hasEnemyComp = ref hasEnemiesPool.Get(unpackedZoneEntity);
                             Debug.Log(hasEnemyComp.Entities.Count);
@@ -75,13 +71,13 @@ namespace World.Ability.AbilitiesObjects
                             for (var index = 0; index < hasEnemyComp.Entities.Count; index++)
                             {
                                 var hasEnemyEntityPacked = hasEnemyComp.Entities[index];
-                                if (hasEnemyEntityPacked.Unpack(_world, out var unpackedHasEnemyEntity))
+                                if (hasEnemyEntityPacked.Unpack(world, out var unpackedHasEnemyEntity))
                                 {
                                     if (unpackedHasEnemyEntity == unpackedEnemyEntity)
                                     {
                                         // hasEnemyComp.Entities[index] = default;
                                         // hasEnemyComp.Entities.Remove(hasEnemyEntityPacked);
-                                        hasEnemyComp.Entities.RemoveAll(entityPacked => entityPacked.Unpack(_world, out var entity) && entity == unpackedEnemyEntity);
+                                        hasEnemyComp.Entities.RemoveAll(entityPacked => entityPacked.Unpack(world, out var entity) && entity == unpackedEnemyEntity);
                                         Debug.Log("Removed");
                                     }
                                 }

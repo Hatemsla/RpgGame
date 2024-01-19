@@ -1,4 +1,4 @@
-﻿namespace World.Ability.AbilitiesObjects
+﻿namespace World.Ability
 {
     public interface ICastAbility
     {

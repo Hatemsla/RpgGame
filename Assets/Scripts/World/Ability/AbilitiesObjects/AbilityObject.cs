@@ -20,8 +20,6 @@ namespace World.Ability.AbilitiesObjects
         private protected PoolService _ps;
 
         private protected int _playerEntity;
-        private protected bool _isCast;
-
 
         public void SetWorld(EcsWorld world, int entity, SceneData sd, TimeService ts, PoolService ps)
         {

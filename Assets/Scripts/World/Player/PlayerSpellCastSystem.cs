@@ -23,6 +23,7 @@ namespace World.Player
         private readonly EcsPoolInject<ReleasedAbilityComp> _spell = default;
         
         private readonly EcsCustomInject<CursorService> _cs = default;
+        private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<SceneData> _sd = default;
         private readonly EcsCustomInject<TimeService> _ts = default;
         private readonly EcsCustomInject<PoolService> _ps = default;
@@ -78,22 +79,27 @@ namespace World.Player
                     ref var ability = ref _abilityPool.Value.Get(unpackedEntity);
                     if (unpackedEntity == skillIdx)
                     {
-                        if (rpg.Mana >= ability.costPoint)
+                        if (ability.currentDelay <= 0 && rpg.CastDelay <= 0)
                         {
-                            rpg.Mana -= ability.costPoint;
-                            switch (ability.abilityType)
+                            if (rpg.Mana >= ability.costPoint)
                             {
-                                // Balls
-                                case BallAbility type:
-                                    ((BallAbilityObject)ability.abilityView.abilityObject).SetWorld(_world.Value,
-                                        entity, _sd.Value, _ts.Value, _ps.Value);
-                                    ((BallAbilityObject) ability.abilityView.abilityObject).Cast(ability, entity);
-                                    break;
+                                rpg.Mana -= ability.costPoint;
+                                switch (ability.abilityType)
+                                {
+                                    // Balls
+                                    case BallAbility type:
+                                        ((BallAbilityObject)ability.abilityView.abilityObject).SetWorld(_world.Value,
+                                            entity, _sd.Value, _ts.Value, _ps.Value);
+                                        ability.currentDelay = ability.abilityDelay;
+                                        rpg.CastDelay = _cf.Value.abilityConfiguration.totalAbilityDelay;
+                                        ((BallAbilityObject) ability.abilityView.abilityObject).Cast(ability, entity);
+                                        break;
+                                }
                             }
-                        }
-                        else
-                        {
-                            return;
+                            else
+                            {
+                                return;
+                            }
                         }
                     }
                 }

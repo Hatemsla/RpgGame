@@ -65,6 +65,7 @@ namespace World
                 .Add(new PlayerStaminaSystem())
                 .Add(new PlayerManaSystem())
                 .Add(new PlayerSpellCastSystem())
+                .Add(new AbilityDelaySystem())
                 .Add(new PlayerGetItemSystem())
                 .Add(new ChestUpdateSystem())
                 .Add(new PassiveGetExperienceSystem())

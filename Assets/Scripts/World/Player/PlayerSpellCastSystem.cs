@@ -2,11 +2,9 @@
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Utils;
 using Utils.ObjectsPool;
 using World.Ability;
-using World.Ability.AbilitiesData;
 using World.Ability.AbilitiesObjects;
 using World.Ability.AbilitiesTypes;
 using World.Configurations;
@@ -84,14 +82,20 @@ namespace World.Player
                             if (rpg.Mana >= ability.costPoint)
                             {
                                 rpg.Mana -= ability.costPoint;
+                                ability.currentDelay = ability.abilityDelay;
+                                rpg.CastDelay = _cf.Value.abilityConfiguration.totalAbilityDelay;
+                                
+                                foreach (var delayAbility in _sd.Value.uiSceneData.delayAbilityViews)
+                                {
+                                    delayAbility.delayImage.fillAmount = 1;
+                                }
+                                
                                 switch (ability.abilityType)
                                 {
                                     // Balls
                                     case BallAbility type:
                                         ((BallAbilityObject)ability.abilityView.abilityObject).SetWorld(_world.Value,
                                             entity, _sd.Value, _ts.Value, _ps.Value);
-                                        ability.currentDelay = ability.abilityDelay;
-                                        rpg.CastDelay = _cf.Value.abilityConfiguration.totalAbilityDelay;
                                         ((BallAbilityObject) ability.abilityView.abilityObject).Cast(ability, entity);
                                         break;
                                 }

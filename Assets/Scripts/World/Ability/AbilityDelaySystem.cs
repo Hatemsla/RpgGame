@@ -18,6 +18,7 @@ namespace World.Ability
 
         private readonly EcsCustomInject<TimeService> _ts = default;
         private readonly EcsCustomInject<PoolService> _ps = default;
+        private readonly EcsCustomInject<SceneData> _sd = default;
 
         private readonly EcsWorldInject _world = default;
 
@@ -40,11 +41,30 @@ namespace World.Ability
                         if (ability.currentDelay > 0)
                         {
                             ability.currentDelay -= _ts.Value.DeltaTime;
-                        }
+                            ActiveAbilityDelayView(unpackedEntity, ability.abilityDelay);
 
-                        if (rpg.CastDelay > 0)
+                        }
+                        else if (rpg.CastDelay > 0)
                         {
                             rpg.CastDelay -= _ts.Value.DeltaTime;
+                            ActiveAbilityDelayView(unpackedEntity, rpg.CastDelay);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void ActiveAbilityDelayView(int unpackedEntity, float delayTime)
+        {
+            foreach (var delayAbility in _sd.Value.uiSceneData.delayAbilityViews)
+            {
+                if (delayAbility.delayImage.fillAmount > 0)
+                {
+                    if (delayAbility.AbilityIdx.Unpack(_world.Value, out var delayUnpackedEntity))
+                    {
+                        if (delayUnpackedEntity == unpackedEntity)
+                        {
+                            delayAbility.delayImage.fillAmount -= (_ts.Value.DeltaTime / delayTime);
                         }
                     }
                 }

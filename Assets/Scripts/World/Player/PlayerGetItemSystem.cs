@@ -33,6 +33,7 @@ namespace World.Player
             {
                 ref var inputComp = ref _player.Pools.Inc1.Get(entity);
                 ref var playerComp = ref _player.Pools.Inc2.Get(entity);
+                ref var rpgComp = ref _player.Pools.Inc3.Get(entity);
 
                 if (inputComp.Inventory)
                 {
@@ -87,8 +88,8 @@ namespace World.Player
             {
                 if (itemPacked.Unpack(_world.Value, out var unpackedEntity))
                 {
-                    ref var item = ref _itemsPool.Value.Get(unpackedEntity);
-                    switch (item.ItemType)
+                    ref var itemComp = ref _itemsPool.Value.Get(unpackedEntity);
+                    switch (itemComp.ItemType)
                     {
                         // Potions
                         case ItemHealthPotion type:
@@ -105,24 +106,24 @@ namespace World.Player
                             break;
                         // Weapons
                         case ItemShieldWeapon:
-                            ToggleItemView(item, getItem, unpackedEntity, itemIdx);
+                            ToggleItemObject(itemComp, getItem, unpackedEntity, itemIdx);
                             break;
                         case ItemSwordWeapon:
-                            ToggleItemView(item, getItem, unpackedEntity, itemIdx);
+                            ToggleItemObject(itemComp, getItem, unpackedEntity, itemIdx);
                             break;
                         case ItemBowWeapon:
-                            ToggleItemView(item, getItem, unpackedEntity, itemIdx);
+                            ToggleItemObject(itemComp, getItem, unpackedEntity, itemIdx);
                             break;
                         // Tools
                         case ItemTool:
-                            ToggleItemView(item, getItem, unpackedEntity, itemIdx);
+                            ToggleItemObject(itemComp, getItem, unpackedEntity, itemIdx);
                             break;
                     }
                 }
             }
         }
 
-        private void ToggleItemView(ItemComp item, ItemComp getItem, int unpackedEntity, int itemIdx)
+        private void ToggleItemObject(ItemComp item, ItemComp getItem, int unpackedEntity, int itemIdx)
         {
             if (unpackedEntity == itemIdx)
                 item.ItemView.itemObject.gameObject.SetActive(!item.ItemView.itemObject.gameObject.activeSelf);

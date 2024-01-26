@@ -16,8 +16,8 @@ namespace World.Player
         
         private float _deathAnimationDelay = 2f;
         private float _currentDeathAnimationDelay;
-        
         private bool _isDeathAnimationDelayed = true;
+        
         public void Run(IEcsSystems systems)
         {
             foreach (var entity in _deathAnimationFilter.Value)

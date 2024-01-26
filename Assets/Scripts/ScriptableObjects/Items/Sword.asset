@@ -21,6 +21,6 @@ MonoBehaviour:
   itemSprite: {fileID: 21300000, guid: c0ea4b6e528e7fe4aa6cdc94d38691a1, type: 3}
   itemViewPrefab: {fileID: 5094765688295937399, guid: 3a4b49cd2c162634e903351b9fbe686a,
     type: 3}
-  itemObjectPrefab: {fileID: 3257634266983887740, guid: 3fb11fde8746cd64eaa6402f9a36607a,
+  itemObjectPrefab: {fileID: 7186738335981563209, guid: 3fb11fde8746cd64eaa6402f9a36607a,
     type: 3}
   cost: 5

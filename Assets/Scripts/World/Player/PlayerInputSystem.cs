@@ -44,6 +44,7 @@ namespace World.Player
                 inputComp.Skill2 = input.Skill2.WasPerformedThisFrame();
                 inputComp.Skill3 = input.Skill3.WasPerformedThisFrame();
                 inputComp.Stats = input.Stats.WasPerformedThisFrame();
+                inputComp.Attack = input.Attack.WasPerformedThisFrame();
             }
         }
     }

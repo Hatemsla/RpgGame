@@ -242,6 +242,15 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""32f9fca5-b711-4982-9321-1d93ed675fb3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -552,6 +561,17 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""action"": ""Stats"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f0e6e662-6cef-4a3a-9024-37cbdcef3f6f"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -584,6 +604,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         m_Player_Skill2 = m_Player.FindAction("Skill 2", throwIfNotFound: true);
         m_Player_Skill3 = m_Player.FindAction("Skill 3", throwIfNotFound: true);
         m_Player_Stats = m_Player.FindAction("Stats", throwIfNotFound: true);
+        m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -669,6 +690,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Skill2;
     private readonly InputAction m_Player_Skill3;
     private readonly InputAction m_Player_Stats;
+    private readonly InputAction m_Player_Attack;
     public struct PlayerActions
     {
         private @MainInput m_Wrapper;
@@ -697,6 +719,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         public InputAction @Skill2 => m_Wrapper.m_Player_Skill2;
         public InputAction @Skill3 => m_Wrapper.m_Player_Skill3;
         public InputAction @Stats => m_Wrapper.m_Player_Stats;
+        public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -778,6 +801,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @Stats.started += instance.OnStats;
             @Stats.performed += instance.OnStats;
             @Stats.canceled += instance.OnStats;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -854,6 +880,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @Stats.started -= instance.OnStats;
             @Stats.performed -= instance.OnStats;
             @Stats.canceled -= instance.OnStats;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -897,5 +926,6 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         void OnSkill2(InputAction.CallbackContext context);
         void OnSkill3(InputAction.CallbackContext context);
         void OnStats(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

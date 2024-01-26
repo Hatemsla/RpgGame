@@ -1,8 +1,4 @@
-﻿using System;
-using Leopotam.EcsLite;
-using UnityEditor.PackageManager.Requests;
 ﻿using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using UnityEngine;
 using Utils.ObjectsPool;
 using World.Ability.AbilitiesTypes;
@@ -58,15 +54,10 @@ namespace World.Ability.AbilitiesObjects
                     if (enemyRpgComp.Health <= 0)
                     {
                         ps.EnemyPool.Return(enemyComp.EnemyView);
-                        
-                        enemyPool.Del(unpackedEnemyEntity);
-                        enemyRpgPool.Del(unpackedEnemyEntity);
-                        ps.EnemyPool.Return(enemyComp.EnemyView);
 
                         if (enemyView.ZonePackedIdx.Unpack(world, out var unpackedZoneEntity))
                         {
                             ref var hasEnemyComp = ref hasEnemiesPool.Get(unpackedZoneEntity);
-                            Debug.Log(hasEnemyComp.Entities.Count);
 
                             for (var index = 0; index < hasEnemyComp.Entities.Count; index++)
                             {
@@ -75,10 +66,7 @@ namespace World.Ability.AbilitiesObjects
                                 {
                                     if (unpackedHasEnemyEntity == unpackedEnemyEntity)
                                     {
-                                        // hasEnemyComp.Entities[index] = default;
-                                        // hasEnemyComp.Entities.Remove(hasEnemyEntityPacked);
                                         hasEnemyComp.Entities.RemoveAll(entityPacked => entityPacked.Unpack(world, out var entity) && entity == unpackedEnemyEntity);
-                                        Debug.Log("Removed");
                                     }
                                 }
                             }

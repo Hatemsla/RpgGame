@@ -10,6 +10,7 @@ namespace World.Ability
         public float costPoint;
         public float ownerEntity;
         public float abilityDelay;
+        public float currentDelay;
         public AbilityView abilityView;
         public AbilityType abilityType;
     }

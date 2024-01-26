@@ -8,6 +8,7 @@ using World.Ability.AbilitiesTypes;
 using World.Configurations;
 using World.Inventory;
 using World.Player;
+using World.RPG.UI;
 
 namespace World.Ability
 {
@@ -88,6 +89,8 @@ namespace World.Ability
                         _sd.Value.fastSkillViews[i].AbilityIdx = abilityPackedEntity;
                         _sd.Value.fastSkillViews[i].abilityImage.sprite = abilityData.abilitySprite;
                         _sd.Value.fastSkillViews[i].abilityName.text = abilityData.abilityName;
+                        _sd.Value.fastSkillViews[i].GetComponentInChildren<DelayAbilityView>().AbilityIdx =
+                            abilityPackedEntity;
 
                         hasAbilities.Entities.Add(abilityPackedEntity);
                     }

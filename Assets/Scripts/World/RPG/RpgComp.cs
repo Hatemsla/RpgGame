@@ -11,5 +11,6 @@
         public bool CanJump;
         
         public bool IsDead;
+        public float CastDelay;
     }
 }

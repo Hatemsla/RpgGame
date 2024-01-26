@@ -15,5 +15,8 @@ namespace World
         
         [Tooltip("Stats views")]
         public List<StatView> statsViews;
+
+        [Tooltip("Delay image")]
+        public List<DelayAbilityView> delayAbilityViews;
     }
 }

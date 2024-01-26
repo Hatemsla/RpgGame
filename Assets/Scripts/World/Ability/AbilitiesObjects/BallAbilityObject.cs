@@ -121,7 +121,7 @@ namespace World.Ability.AbilitiesObjects
 
             ((BallAbilityObject)abilityObject).damage = ((BallAbility)ability.abilityType).Damage;
             ((BallAbilityObject)abilityObject).startTime = startTime;
-            ((BallAbilityObject)abilityObject).startDirection = player.Transform.position + player.Transform.forward;  
+            ((BallAbilityObject)abilityObject).startDirection = player.Transform.position + player.Transform.forward;
             ((BallAbilityObject)abilityObject).direction = journeyLenght;
             ((BallAbilityObject)abilityObject).endDirection = abilityDirection;  
             ((BallAbilityObject)abilityObject).speed = ((BallAbility)ability.abilityType).Speed;

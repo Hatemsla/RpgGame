@@ -25,8 +25,8 @@ namespace World.Ability
             }
         }
 
-        private Func<AbilityObject> Preload(int index) => () => Object.Instantiate(_cf.Value.abilityConfiguration.abilityDatas[index].abilityObjectPrefab, 
-            Vector3.zero, Quaternion.identity);
+        private Func<AbilityObject> Preload(int index) => () => Object.Instantiate(_cf.Value.abilityConfiguration
+                .abilityDatas[index].abilityObjectPrefab, Vector3.zero, Quaternion.identity);
 
         private void GetAction(AbilityObject abilityObject) => abilityObject.gameObject.SetActive(true);
         private void ReturnAction(AbilityObject abilityObject) => abilityObject.gameObject.SetActive(false);

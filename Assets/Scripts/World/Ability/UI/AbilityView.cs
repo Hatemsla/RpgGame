@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using World.Ability.AbilitiesObjects;
 using World.Inventory;
 using World.Player;
+using World.RPG.UI;
 
 namespace World.Ability.UI
 {
@@ -177,6 +178,8 @@ namespace World.Ability.UI
                     fs.AbilityIdx = AbilityIdx;
                     fs.abilityImage.sprite = abilityImage.sprite;
                     fs.abilityName.text = AbilityName;
+                    fs.GetComponentInChildren<DelayAbilityView>().AbilityIdx = AbilityIdx;
+                    fs.GetComponentInChildren<DelayAbilityView>().delayImage.fillAmount = 0;
                     return;
                 }
         }

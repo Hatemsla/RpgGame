@@ -27,5 +27,6 @@ namespace World.Player
         public bool Skill2;
         public bool Skill3;
         public bool Stats;
+        public bool Attack;
     }
 }

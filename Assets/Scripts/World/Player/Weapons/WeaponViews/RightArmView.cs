@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace World.Player.WeaponViews
+namespace World.Player.Weapons.WeaponViews
 {
     public class RightArmView : MonoBehaviour
     {

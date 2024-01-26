@@ -15,7 +15,7 @@ MonoBehaviour:
   inventoryWeight: 100
   items:
   - {fileID: 11400000, guid: fe62f6193aadcdb4293e2fa1784f5b61, type: 2}
-  - {fileID: 11400000, guid: 0b933af95ee3e374cae8cc69e0cd36e6, type: 2}
   - {fileID: 11400000, guid: bf0e2b7f0ea90b446a766e5d9a33f9f9, type: 2}
   - {fileID: 11400000, guid: e1370c1f7d3589940ab28b428551918b, type: 2}
   - {fileID: 11400000, guid: bf03ffb8ffa16c240bddef648407453c, type: 2}
+  - {fileID: 11400000, guid: 966b27dd97e2fb94eb0ab6e448460ed3, type: 2}

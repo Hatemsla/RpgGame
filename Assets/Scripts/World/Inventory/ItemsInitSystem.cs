@@ -1,8 +1,10 @@
-﻿using Leopotam.EcsLite;
+﻿using System.Security.Cryptography;
+using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
 using Utils;
+using Utils.ObjectsPool;
 using World.Configurations;
 using World.Inventory.ItemTypes;
 using World.Inventory.ItemTypes.Potions;
@@ -10,19 +12,22 @@ using World.Inventory.ItemTypes.Weapons;
 using World.Inventory.ItemTypesData;
 using World.Inventory.ItemTypesData.PotionsData;
 using World.Inventory.ItemTypesData.WeaponsData;
+using World.Inventory.WeaponObject;
 using World.Player;
-using World.Player.WeaponViews;
+using World.Player.Weapons.WeaponViews;
 
 namespace World.Inventory
 {
     public class ItemsInitSystem : IEcsInitSystem
     {
-        private readonly EcsFilterInject<Inc<PlayerComp, InventoryComp>> _playerFilter = default;
+        private readonly EcsFilterInject<Inc<PlayerComp, InventoryComp, AnimationComp>> _playerFilter = default;
         
         private readonly EcsPoolInject<HasItems> _hasItemsPool = default;
         private readonly EcsPoolInject<ItemComp> _itemsPool = default;
         
         private readonly EcsCustomInject<SceneData> _sd = default;
+        private readonly EcsCustomInject<PoolService> _ps = default;
+        private readonly EcsCustomInject<TimeService> _ts = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
         
         private readonly EcsWorldInject _world = default;
@@ -54,6 +59,7 @@ namespace World.Inventory
             {
                 ref var playerComp = ref _playerFilter.Pools.Inc1.Get(entity);
                 ref var inventoryComp = ref _playerFilter.Pools.Inc2.Get(entity);
+                ref var animationComp = ref _playerFilter.Pools.Inc3.Get(entity);
                 
                 inventoryComp.MaxWeight = _cf.Value.inventoryConfiguration.inventoryWeight;
                 inventoryComp.CurrentWeight = 0f;
@@ -100,9 +106,24 @@ namespace World.Inventory
                         var itemObject = Object.Instantiate(itemData.itemObjectPrefab,
                             rightArm.position,
                             Quaternion.identity);
+
+                        itemObject.World = _world.Value;
+                        itemObject.PlayerComp = playerComp;
+                        itemObject.AnimationComp = animationComp;
+                        itemObject.Ps = _ps.Value;
+                        itemObject.Ts = _ts.Value;
+                        
                         itemObject.transform.SetParent(rightArm);
                         itemObject.transform.localPosition = itemData.itemObjectPrefab.transform.position;
                         itemObject.transform.localRotation = itemData.itemObjectPrefab.transform.rotation;
+                        
+                        switch (itemObject)
+                        {
+                            case Sword sword:
+                                sword.damage = ((ItemSwordWeapon)it.ItemType).Damage;
+                                break;
+                        }
+                        
                         itemObject.gameObject.SetActive(false);
                         
                         it.ItemView.itemObject = itemObject;

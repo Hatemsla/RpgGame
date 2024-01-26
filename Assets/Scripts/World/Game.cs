@@ -13,6 +13,7 @@ using World.Inventory;
 using World.Inventory.Chest;
 using World.Player;
 using World.Player.Events;
+using World.Player.Weapons;
 using World.RPG;
 
 namespace World
@@ -75,6 +76,8 @@ namespace World
                 .Add(new HandleStatsButtonsSystem())
                 .Add(new CloseStatsViewSystem())
                 .Add(new PlayerCameraTransitionSystem())
+                .Add(new PlayerAttackSystem())
+                // .Add(new OneMeleeAttackDelaySystem())
                 
                 .DelHere<DeleteEvent>(Idents.Worlds.Events)
                 .DelHere<LevelChangedEvent>(Idents.Worlds.Events)
@@ -82,6 +85,7 @@ namespace World
                 .DelHere<StatsEvent>(Idents.Worlds.Events)
                 .DelHere<CloseStatsEvent>(Idents.Worlds.Events)
                 .DelHere<TransitionCameraEvent>(Idents.Worlds.Events)
+                .DelHere<OneHandedMeleeAttackEvent>(Idents.Worlds.Events)
                 .Add(new DeleteFormSystem())
                 
                 .Add(new EnemyPatrolSystem())

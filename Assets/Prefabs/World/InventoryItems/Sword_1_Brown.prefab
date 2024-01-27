@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2818702166525949666}
   - component: {fileID: 9059974227991363838}
   - component: {fileID: 4101064475958671471}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sword_1_Brown_Part_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 3153394297255344058}
   - component: {fileID: 6993183988649047937}
   - component: {fileID: 9055545260206961738}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sword_1_Brown_Part_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 7186738335981563209}
   - component: {fileID: 3123794753567047157}
   - component: {fileID: 4132725812909485655}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sword_1_Brown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +238,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 866cb51fbf9d4b049f8b9ff01fb8be41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sd: {fileID: 0}
   damage: 0
 --- !u!65 &3123794753567047157
 BoxCollider:
@@ -300,7 +299,7 @@ GameObject:
   - component: {fileID: 8620861121540712865}
   - component: {fileID: 1250971590598647606}
   - component: {fileID: 5384154336435090635}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sword_1_Brown_Part_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

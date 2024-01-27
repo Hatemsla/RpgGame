@@ -77,6 +77,7 @@ namespace World
                 .Add(new CloseStatsViewSystem())
                 .Add(new PlayerCameraTransitionSystem())
                 .Add(new PlayerAttackSystem())
+                .Add(new PlayerPosesSystem())
                 // .Add(new OneMeleeAttackDelaySystem())
                 
                 .DelHere<DeleteEvent>(Idents.Worlds.Events)

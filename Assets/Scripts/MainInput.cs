@@ -251,6 +251,33 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pose0"",
+                    ""type"": ""Button"",
+                    ""id"": ""6713b11e-1221-4040-b641-bcce60278a3f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pose1"",
+                    ""type"": ""Button"",
+                    ""id"": ""22cee51c-c374-47ef-88e2-93c9a1092e26"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pose2"",
+                    ""type"": ""Button"",
+                    ""id"": ""3b61dfaa-823d-4def-99b6-0cba6eb4f753"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -572,6 +599,105 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""d61071ea-580a-4e18-9a74-6a011b33541a"",
+                    ""path"": ""OneModifier(overrideModifiersNeedToBePressedFirst=true)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pose0"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""9cfddf62-d897-417e-97bf-3d186a6a5596"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pose0"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""812ce5e3-9827-4f5e-a0cd-240f0ff9c537"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pose0"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""969e3edc-d245-4bac-8783-ba64a91abc2a"",
+                    ""path"": ""OneModifier(overrideModifiersNeedToBePressedFirst=true)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pose1"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""4bdc9a56-3773-4fc5-aa6b-21f3a4f9d53e"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pose1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""864569dc-af1a-4fed-9dda-289c674efb5b"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pose1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""4d01a3a8-1b3f-4891-8f4c-184b3122c978"",
+                    ""path"": ""OneModifier(overrideModifiersNeedToBePressedFirst=true)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pose2"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""99675835-fd3b-4971-a7bf-deb5f634bcd3"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pose2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""366a994d-2a5d-4030-a5fd-475ba5c901db"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pose2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -605,6 +731,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         m_Player_Skill3 = m_Player.FindAction("Skill 3", throwIfNotFound: true);
         m_Player_Stats = m_Player.FindAction("Stats", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+        m_Player_Pose0 = m_Player.FindAction("Pose0", throwIfNotFound: true);
+        m_Player_Pose1 = m_Player.FindAction("Pose1", throwIfNotFound: true);
+        m_Player_Pose2 = m_Player.FindAction("Pose2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -691,6 +820,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Skill3;
     private readonly InputAction m_Player_Stats;
     private readonly InputAction m_Player_Attack;
+    private readonly InputAction m_Player_Pose0;
+    private readonly InputAction m_Player_Pose1;
+    private readonly InputAction m_Player_Pose2;
     public struct PlayerActions
     {
         private @MainInput m_Wrapper;
@@ -720,6 +852,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         public InputAction @Skill3 => m_Wrapper.m_Player_Skill3;
         public InputAction @Stats => m_Wrapper.m_Player_Stats;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
+        public InputAction @Pose0 => m_Wrapper.m_Player_Pose0;
+        public InputAction @Pose1 => m_Wrapper.m_Player_Pose1;
+        public InputAction @Pose2 => m_Wrapper.m_Player_Pose2;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -804,6 +939,15 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @Pose0.started += instance.OnPose0;
+            @Pose0.performed += instance.OnPose0;
+            @Pose0.canceled += instance.OnPose0;
+            @Pose1.started += instance.OnPose1;
+            @Pose1.performed += instance.OnPose1;
+            @Pose1.canceled += instance.OnPose1;
+            @Pose2.started += instance.OnPose2;
+            @Pose2.performed += instance.OnPose2;
+            @Pose2.canceled += instance.OnPose2;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -883,6 +1027,15 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @Pose0.started -= instance.OnPose0;
+            @Pose0.performed -= instance.OnPose0;
+            @Pose0.canceled -= instance.OnPose0;
+            @Pose1.started -= instance.OnPose1;
+            @Pose1.performed -= instance.OnPose1;
+            @Pose1.canceled -= instance.OnPose1;
+            @Pose2.started -= instance.OnPose2;
+            @Pose2.performed -= instance.OnPose2;
+            @Pose2.canceled -= instance.OnPose2;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -927,5 +1080,8 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         void OnSkill3(InputAction.CallbackContext context);
         void OnStats(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnPose0(InputAction.CallbackContext context);
+        void OnPose1(InputAction.CallbackContext context);
+        void OnPose2(InputAction.CallbackContext context);
     }
 }

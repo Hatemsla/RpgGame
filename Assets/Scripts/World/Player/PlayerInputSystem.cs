@@ -25,7 +25,7 @@ namespace World.Player
                 inputComp.Look = input.Look.ReadValue<Vector2>();
                 inputComp.Jump = input.Jump.WasPerformedThisFrame();
                 inputComp.Sprint = input.Sprint.IsPressed();
-                inputComp.Zoom = input.Zoom.ReadValue<Vector2>().y; // вращение колесика по y
+                inputComp.Zoom = input.Zoom.ReadValue<Vector2>().y;
                 inputComp.Walk = input.Walk.WasPerformedThisFrame();
                 inputComp.Dash = input.Dash.WasPerformedThisFrame();
                 inputComp.FreeLook = input.FreeLook.IsPressed();
@@ -45,6 +45,9 @@ namespace World.Player
                 inputComp.Skill3 = input.Skill3.WasPerformedThisFrame();
                 inputComp.Stats = input.Stats.WasPerformedThisFrame();
                 inputComp.Attack = input.Attack.WasPerformedThisFrame();
+                inputComp.Pose0 = input.Pose0.WasPerformedThisFrame();
+                inputComp.Pose1 = input.Pose1.WasPerformedThisFrame();
+                inputComp.Pose2 = input.Pose2.WasPerformedThisFrame();
             }
         }
     }

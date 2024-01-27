@@ -16,6 +16,8 @@ namespace World.Player
         public bool Grounded;
         public float VerticalVelocity;
         public bool IsWalking;
+        
         public bool CanMove;
+        public bool IsPose;
     }
 }

@@ -54,7 +54,7 @@ namespace World.Player
                 ref var rpgComp = ref _playerMove.Pools.Inc3.Get(entity);
                 ref var animationComp = ref _playerMove.Pools.Inc4.Get(entity);
 
-                if (rpgComp.IsDead || !playerComp.CanMove) return;
+                if (rpgComp.IsDead || !playerComp.CanMove || playerComp.IsPose) return;
 
                 _targetSpeed = _cf.Value.playerConfiguration.moveSpeed;
                 _moveState = MoveState.RunForward;

@@ -2,8 +2,12 @@
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Utils;
 using World.Ability.AbilitiesData;
+using World.Ability.AbilitiesPostEffects;
+using World.Ability.AbilitiesPostEffects.AbilityPostEffectComp;
+using World.Ability.AbilitiesPostEffects.AbilityPostEffectData;
 using World.Ability.AbilitiesTypes;
 using World.Configurations;
 using World.Inventory;
@@ -61,6 +65,7 @@ namespace World.Ability
                         abilityComp.ownerEntity = entity;
                         abilityComp.abilityDelay = abilityData.abilityDelay;
                         abilityComp.abilityType = DefineAbilityType(abilityData.abilityTypeData);
+                        abilityComp.abilityPostEffectType = DefinePostEffectType(abilityData.postEffectTypeData); 
 
                         var abilityView = Object.Instantiate(abilityData.abilityViewPrefab, Vector3.zero,
                             Quaternion.identity);
@@ -115,6 +120,20 @@ namespace World.Ability
                             ((BallAbility)value).Speed = data.speed;
                             break;
                     }
+                    break;
+            }
+            return value;
+        }
+
+        private PostEffectType DefinePostEffectType(PostEffectTypeData postEffectData)
+        {
+            PostEffectType value = null;
+            switch (postEffectData)
+            {
+                // Explosions
+                case ExplosionPostEffectData data:
+                    value = new ExplosionPostEffect();
+                    ((ExplosionPostEffect)value).Damage = data.damage; 
                     break;
             }
             return value;

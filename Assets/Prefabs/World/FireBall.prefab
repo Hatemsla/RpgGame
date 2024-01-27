@@ -165,26 +165,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireBall3
       objectReference: {fileID: 0}
-    - target: {fileID: 400004, guid: 0ffc584583b8c1541b3c2100725f6ab5, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400004, guid: 0ffc584583b8c1541b3c2100725f6ab5, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400006, guid: 0ffc584583b8c1541b3c2100725f6ab5, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 400006, guid: 0ffc584583b8c1541b3c2100725f6ab5, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 400006, guid: 0ffc584583b8c1541b3c2100725f6ab5, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 0ffc584583b8c1541b3c2100725f6ab5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -225,26 +205,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400006, guid: 0ffc584583b8c1541b3c2100725f6ab5, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 19800000, guid: 0ffc584583b8c1541b3c2100725f6ab5, type: 3}
-      propertyPath: playOnAwake
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 19800002, guid: 0ffc584583b8c1541b3c2100725f6ab5, type: 3}
-      propertyPath: playOnAwake
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 19800004, guid: 0ffc584583b8c1541b3c2100725f6ab5, type: 3}
-      propertyPath: playOnAwake
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114000014263995076, guid: 0ffc584583b8c1541b3c2100725f6ab5, type: 3}
-    - {fileID: 11400002, guid: 0ffc584583b8c1541b3c2100725f6ab5, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedComponents: []
+    m_RemovedGameObjects:
+    - {fileID: 4806668707425621341, guid: 0ffc584583b8c1541b3c2100725f6ab5, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ffc584583b8c1541b3c2100725f6ab5, type: 3}

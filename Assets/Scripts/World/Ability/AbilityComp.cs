@@ -1,4 +1,7 @@
-﻿using World.Ability.AbilitiesTypes;
+﻿using World.Ability.AbilitiesPostEffects;
+using World.Ability.AbilitiesPostEffects.AbilityPostEffectComp;
+using World.Ability.AbilitiesPostEffects.AbilityPostEffectData;
+using World.Ability.AbilitiesTypes;
 using World.Ability.UI;
 
 namespace World.Ability
@@ -13,5 +16,6 @@ namespace World.Ability
         public float currentDelay;
         public AbilityView abilityView;
         public AbilityType abilityType;
+        public PostEffectType abilityPostEffectType;
     }
 }

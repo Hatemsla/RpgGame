@@ -87,7 +87,10 @@ namespace World.Player
                                 
                                 foreach (var delayAbility in _sd.Value.uiSceneData.delayAbilityViews)
                                 {
-                                    delayAbility.delayImage.fillAmount = 1;
+                                    if (delayAbility.delayImage.fillAmount <= 0)
+                                    {
+                                        delayAbility.delayImage.fillAmount = 1;
+                                    }
                                 }
                                 
                                 switch (ability.abilityType)

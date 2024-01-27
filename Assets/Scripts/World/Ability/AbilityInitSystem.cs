@@ -82,10 +82,6 @@ namespace World.Ability
                         abilityObject.transform.SetParent(playerComp.Transform);
                         abilityObject.gameObject.SetActive(false);
 
-                        abilityComp.abilityView.abilityObject = abilityObject;
-                        abilityComp.abilityView.abilityObject.AbilityIdx = abilityPackedEntity;
-                        _sd.Value.fastSkillViews[i].abilityObject = abilityObject;
-                        _sd.Value.fastSkillViews[i].abilityObject.AbilityIdx = abilityPackedEntity;
                         _sd.Value.fastSkillViews[i].AbilityIdx = abilityPackedEntity;
                         _sd.Value.fastSkillViews[i].abilityImage.sprite = abilityData.abilitySprite;
                         _sd.Value.fastSkillViews[i].abilityName.text = abilityData.abilityName;

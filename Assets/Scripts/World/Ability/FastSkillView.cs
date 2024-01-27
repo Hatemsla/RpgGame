@@ -12,7 +12,6 @@ namespace World.Ability
     {
         public EcsPackedEntity AbilityIdx;
         public InputActionReference actionReference;
-        public AbilityObject abilityObject;
         public Image abilityImage;
         public TMP_Text abilityName;
         public TMP_Text abilityBinding;
@@ -27,7 +26,6 @@ namespace World.Ability
             if (eventData.button == PointerEventData.InputButton.Right)
             {
                 AbilityIdx = default;
-                abilityObject = null;
                 abilityImage.sprite = null;
                 abilityName.text = "";
             }

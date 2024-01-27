@@ -83,9 +83,23 @@ namespace World.Player
         public float experienceIncreaseDelay = 5;
         [Tooltip("Increase passive experience")]
         public float experiencePassiveIncrease = 10;
+
+        [Header("Stats settings")]
+        [Tooltip("Start PAtk")] 
+        public float startPAtk;
+        [Tooltip("Start MAtk")] 
+        public float startMAtk;
+        [Tooltip("Start Spd")] 
+        public float startSpd;
+        [Tooltip("Start MaxHp")] 
+        public float startMaxHp;
+        [Tooltip("Start MaxSt")] 
+        public float startMaxSt;
+        [Tooltip("Start MaxSp")] 
+        public float startMaxSp;
+        
         [Tooltip("Experience needed to reach next level")]
         public List<float> experienceToNextLevel;
-        
         
         [Header("Other settings")]
         [Tooltip("What layers the character uses as ground")]

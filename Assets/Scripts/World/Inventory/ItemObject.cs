@@ -2,6 +2,7 @@
 using UnityEngine;
 using Utils.ObjectsPool;
 using World.Player;
+using World.RPG;
 
 namespace World.Inventory
 {
@@ -10,8 +11,7 @@ namespace World.Inventory
         public EcsPackedEntity ItemIdx;
         
         public EcsWorld World;
-        public PlayerComp PlayerComp;
-        public AnimationComp AnimationComp;
+        public int playerEntity;
         public PoolService Ps;
         public TimeService Ts;
     }

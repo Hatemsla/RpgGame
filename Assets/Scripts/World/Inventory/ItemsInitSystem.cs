@@ -15,12 +15,13 @@ using World.Inventory.ItemTypesData.WeaponsData;
 using World.Inventory.WeaponObject;
 using World.Player;
 using World.Player.Weapons.WeaponViews;
+using World.RPG;
 
 namespace World.Inventory
 {
     public class ItemsInitSystem : IEcsInitSystem
     {
-        private readonly EcsFilterInject<Inc<PlayerComp, InventoryComp, AnimationComp>> _playerFilter = default;
+        private readonly EcsFilterInject<Inc<PlayerComp, InventoryComp, AnimationComp, LevelComp>> _playerFilter = default;
         
         private readonly EcsPoolInject<HasItems> _hasItemsPool = default;
         private readonly EcsPoolInject<ItemComp> _itemsPool = default;
@@ -55,21 +56,22 @@ namespace World.Inventory
         {
             _deleteFormView.gameObject.SetActive(false);
             
-            foreach (var entity in _playerFilter.Value)
+            foreach (var playerEntity in _playerFilter.Value)
             {
-                ref var playerComp = ref _playerFilter.Pools.Inc1.Get(entity);
-                ref var inventoryComp = ref _playerFilter.Pools.Inc2.Get(entity);
-                ref var animationComp = ref _playerFilter.Pools.Inc3.Get(entity);
+                ref var playerComp = ref _playerFilter.Pools.Inc1.Get(playerEntity);
+                ref var inventoryComp = ref _playerFilter.Pools.Inc2.Get(playerEntity);
+                ref var animationComp = ref _playerFilter.Pools.Inc3.Get(playerEntity);
+                ref var levelComp = ref _playerFilter.Pools.Inc4.Get(playerEntity);
                 
                 inventoryComp.MaxWeight = _cf.Value.inventoryConfiguration.inventoryWeight;
                 inventoryComp.CurrentWeight = 0f;
             
                 _playerInventoryView.gameObject.SetActive(false);
                 
-                ref var hasItems = ref _hasItemsPool.Value.Add(entity);
+                ref var hasItems = ref _hasItemsPool.Value.Add(playerEntity);
                 var items = _cf.Value.inventoryConfiguration.items;
                 var playerInventoryViewContent = _playerInventoryView.GetComponentInChildren<ContentView>();
-                playerInventoryViewContent.currentEntity = entity;
+                playerInventoryViewContent.currentEntity = playerEntity;
 
                 var weight = 0f;
                 for (var i = 0; i < items.Count; i++)
@@ -96,7 +98,7 @@ namespace World.Inventory
                     it.ItemView.ItemName = itemData.itemName;
                     it.ItemView.ItemDescription = itemData.itemDescription;
                     it.ItemView.ItemCount = itemData.itemCount.ToString();
-                    it.ItemView.SetWorld(_world.Value, _eventWorld.Value, entity, _sd.Value);
+                    it.ItemView.SetWorld(_world.Value, _eventWorld.Value, playerEntity, _sd.Value);
 
                     it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView, _deleteFormView, _crosshairView);
                     
@@ -108,8 +110,7 @@ namespace World.Inventory
                             Quaternion.identity);
 
                         itemObject.World = _world.Value;
-                        itemObject.PlayerComp = playerComp;
-                        itemObject.AnimationComp = animationComp;
+                        itemObject.playerEntity = playerEntity;
                         itemObject.Ps = _ps.Value;
                         itemObject.Ts = _ts.Value;
                         
@@ -145,7 +146,7 @@ namespace World.Inventory
                 inventoryComp.CurrentWeight = weight;
 
                 inventoryComp.InventoryWeightView = _playerInventoryWeightText.GetComponent<InventoryWeightView>();
-                inventoryComp.InventoryWeightView.inventoryWeightText.text = $"Вес: {inventoryComp.CurrentWeight}/{inventoryComp.MaxWeight}";
+                inventoryComp.InventoryWeightView.inventoryWeightText.text = $"Вес: {inventoryComp.CurrentWeight:f1}/{inventoryComp.MaxWeight}";
             }
         }
 

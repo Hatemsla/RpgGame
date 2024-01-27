@@ -46,6 +46,12 @@ MonoBehaviour:
   startExperience: 0
   experienceIncreaseDelay: 5
   experiencePassiveIncrease: 10
+  startPAtk: 1
+  startMAtk: 1
+  startSpd: 1
+  startMaxHp: 1
+  startMaxSt: 1
+  startMaxSp: 1
   experienceToNextLevel:
   - 100
   - 150

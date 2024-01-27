@@ -15,6 +15,8 @@ namespace World.Player.Weapons
         private readonly EcsPoolInject<HasItems> _hasItemsPool = default;
         private readonly EcsPoolInject<OneHandedMeleeAttackEvent> _oneHandedMeleeAttackPool = Idents.Worlds.Events;
 
+        private readonly EcsCustomInject<CursorService> _cf = default;
+
         private readonly EcsWorldInject _eventsWorld = Idents.Worlds.Events;
         private readonly EcsWorldInject _defaultWorld = default;
         
@@ -22,6 +24,8 @@ namespace World.Player.Weapons
 
         public void Run(IEcsSystems systems)
         {
+            if (_cf.Value.CursorVisible) return;
+            
             foreach (var entity in _playerFilter.Value)
             {
                 ref var inputComp = ref _playerFilter.Pools.Inc2.Get(entity);

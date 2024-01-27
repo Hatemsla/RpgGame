@@ -61,6 +61,13 @@ namespace World.RPG
                         levelComp.PreviousIntelligence = levelComp.Intelligence;
                         levelComp.PreviousCharisma = levelComp.Charisma;
                         levelComp.PreviousLuck = levelComp.Luck;
+                        
+                        levelComp.PreviousPAtk = levelComp.PAtk;
+                        levelComp.PreviousMAtk = levelComp.MAtk;
+                        levelComp.PreviousSpd = levelComp.Spd;
+                        levelComp.PreviousMaxHp = levelComp.MaxHp;
+                        levelComp.PreviousMaxSt = levelComp.MaxSt;
+                        levelComp.PreviousMaxSp = levelComp.MaxSp;
                     }
                 }
             }

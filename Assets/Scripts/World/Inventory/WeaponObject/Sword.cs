@@ -3,6 +3,7 @@ using Leopotam.EcsLite;
 using UnityEngine;
 using World.AI;
 using World.AI.Navigation;
+using World.Player;
 using World.RPG;
 
 namespace World.Inventory.WeaponObject
@@ -13,7 +14,8 @@ namespace World.Inventory.WeaponObject
 
         private void Update()
         {
-            _isAttacking = AnimationComp.Animator.GetCurrentAnimatorStateInfo(0).IsName("MeleeAttack_OneHanded");
+            ref var animationComp = ref World.GetPool<AnimationComp>().Get(playerEntity);
+            _isAttacking = animationComp.Animator.GetCurrentAnimatorStateInfo(0).IsName("MeleeAttack_OneHanded");
         }
 
         private void OnTriggerEnter(Collider other)
@@ -29,11 +31,13 @@ namespace World.Inventory.WeaponObject
                     var enemyPool = World.GetPool<EnemyComp>();
                     var enemyRpgPool = World.GetPool<RpgComp>();
                     var hasEnemiesPool = World.GetPool<HasEnemies>();
+                    var levelPool = World.GetPool<LevelComp>();
                     
                     ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
+                    ref var levelComp = ref levelPool.Get(playerEntity);
                     
-                    enemyRpgComp.Health -= damage;
+                    enemyRpgComp.Health -= damage * (levelComp.PAtk / 100 + 1);
 
                     if (enemyRpgComp.Health <= 0)
                     {
@@ -60,8 +64,6 @@ namespace World.Inventory.WeaponObject
                         }
                     }
                 }
-                
-                // _isAttacking = false;
             }
         }
 

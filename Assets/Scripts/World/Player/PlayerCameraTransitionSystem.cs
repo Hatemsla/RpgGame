@@ -30,17 +30,14 @@ namespace World.Player
             if (!_isCameraTransited)
             {
                 _currentWaitTime -= _ts.Value.DeltaTime;
-                Debug.Log(_currentWaitTime);
                 if (_currentWaitTime <= 0)
                 {
-                    Debug.Log(_currentWaitTime <= 0);
                     foreach (var entity in _playerFilter.Value)
                     {
                         ref var playerComp = ref _playerFilter.Pools.Inc1.Get(entity);
 
                         playerComp.CanMove = true;
                         _isCameraTransited = true;
-                        Debug.Log("_isCameraTransited");
                     }
                 }
             }

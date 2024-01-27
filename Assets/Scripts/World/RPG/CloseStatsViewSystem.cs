@@ -1,4 +1,5 @@
-﻿using Leopotam.EcsLite.Di;
+﻿using System.Globalization;
+using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
 using TMPro;
 using UnityEngine;
@@ -53,28 +54,60 @@ namespace World.RPG
                 levelComp.Intelligence = levelComp.PreviousIntelligence;
                 levelComp.Charisma = levelComp.PreviousCharisma;
                 levelComp.Luck = levelComp.PreviousLuck;
+                
+                levelComp.PAtk = levelComp.PreviousPAtk;
+                levelComp.MAtk = levelComp.PreviousMAtk;
+                levelComp.Spd = levelComp.PreviousSpd;
+                levelComp.MaxHp = levelComp.PreviousMaxHp;
+                levelComp.MaxSt = levelComp.PreviousMaxSt;
+                levelComp.MaxSp = levelComp.PreviousMaxSp;
 
+                foreach (var levelStatView in _sd.Value.uiSceneData.levelStatsViews)
+                {
+                    switch (levelStatView.levelStatType)
+                    {
+                        case LevelStatType.Str:
+                            levelStatView.valueText.text = levelComp.Strength.ToString();
+                            break;
+                        case LevelStatType.Dex:
+                            levelStatView.valueText.text = levelComp.Dexterity.ToString();
+                            break;
+                        case LevelStatType.Con:
+                            levelStatView.valueText.text = levelComp.Constitution.ToString();
+                            break;
+                        case LevelStatType.Int:
+                            levelStatView.valueText.text = levelComp.Intelligence.ToString();
+                            break;
+                        case LevelStatType.Cha:
+                            levelStatView.valueText.text = levelComp.Charisma.ToString();
+                            break;
+                        case LevelStatType.Luck:
+                            levelStatView.valueText.text = levelComp.Luck.ToString();
+                            break;
+                    }
+                }
+                
                 foreach (var statView in _sd.Value.uiSceneData.statsViews)
                 {
                     switch (statView.statType)
                     {
-                        case StatType.Str:
-                            statView.valueText.text = levelComp.Strength.ToString();
+                        case StatType.PAtk:
+                            statView.valueText.text = levelComp.PAtk.ToString("F1", CultureInfo.InvariantCulture);
                             break;
-                        case StatType.Dex:
-                            statView.valueText.text = levelComp.Dexterity.ToString();
+                        case StatType.MAtk:
+                            statView.valueText.text = levelComp.MAtk.ToString("F1", CultureInfo.InvariantCulture);
                             break;
-                        case StatType.Con:
-                            statView.valueText.text = levelComp.Constitution.ToString();
+                        case StatType.Spd:
+                            statView.valueText.text = levelComp.Spd.ToString("F1", CultureInfo.InvariantCulture);
                             break;
-                        case StatType.Int:
-                            statView.valueText.text = levelComp.Intelligence.ToString();
+                        case StatType.MaxHp:
+                            statView.valueText.text = levelComp.MaxHp.ToString("F1", CultureInfo.InvariantCulture);
                             break;
-                        case StatType.Cha:
-                            statView.valueText.text = levelComp.Charisma.ToString();
+                        case StatType.MaxSt:
+                            statView.valueText.text = levelComp.MaxSt.ToString("F1", CultureInfo.InvariantCulture);
                             break;
-                        case StatType.Luck:
-                            statView.valueText.text = levelComp.Luck.ToString();
+                        case StatType.MaxSp:
+                            statView.valueText.text = levelComp.MaxSp.ToString("F1", CultureInfo.InvariantCulture);
                             break;
                     }
                 }

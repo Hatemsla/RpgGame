@@ -2,11 +2,11 @@
 {
     public enum StatType
     {
-        Str,
-        Dex,
-        Con,
-        Int,
-        Cha,
-        Luck
+        PAtk,
+        MAtk,
+        Spd,
+        MaxHp,
+        MaxSt,
+        MaxSp
     }
 }

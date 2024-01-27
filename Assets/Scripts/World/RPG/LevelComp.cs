@@ -22,5 +22,19 @@
         public int PreviousIntelligence;
         public int PreviousCharisma;
         public int PreviousLuck;
+
+        public float PAtk;
+        public float MAtk;
+        public float Spd;
+        public float MaxHp;
+        public float MaxSt;
+        public float MaxSp;
+        
+        public float PreviousPAtk;
+        public float PreviousMAtk;
+        public float PreviousSpd;
+        public float PreviousMaxHp;
+        public float PreviousMaxSt;
+        public float PreviousMaxSp;
     }
 }

@@ -41,9 +41,7 @@ namespace World.Ability.AbilitiesObjects
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
                     ref var levelComp = ref levelPool.Get(PlayerEntity);
 
-                    var targetDamage = damage * (levelComp.MAtk / 100 + 1);
-                    
-                    enemyRpgComp.Health -= targetDamage;
+                    var targetDamage = DamageEnemy(levelComp, ref enemyRpgComp);
                     
                     ShowPopupDamage(popupDamageTextPool, targetDamage, enemyComp);
 
@@ -86,6 +84,23 @@ namespace World.Ability.AbilitiesObjects
             popupDamageText.currentTime = 0;
             popupDamageTextComp.PopupDamageText = popupDamageText;
             popupDamageTextComp.IsVisible = true;
+        }
+        
+        private float DamageEnemy(LevelComp levelComp, ref RpgComp enemyRpgComp)
+        {
+            var crit = Random.Range(-10, 1) + levelComp.Luck;
+
+            var defaultDamageCrit = crit switch
+            {
+                > 0 => 1.5f,
+                < 0 => 1,
+                _ => 2.5f
+            };
+
+            var targetDamage = damage * (levelComp.PAtk / 100 + 1) * defaultDamageCrit;
+
+            enemyRpgComp.Health -= targetDamage;
+            return targetDamage;
         }
 
         private void DestroySpell()

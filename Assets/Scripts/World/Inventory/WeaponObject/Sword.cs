@@ -8,6 +8,7 @@ using World.AI.Navigation;
 using World.Player;
 using World.RPG;
 using World.UI.PopupText;
+using Random = UnityEngine.Random;
 
 namespace World.Inventory.WeaponObject
 {
@@ -52,10 +53,8 @@ namespace World.Inventory.WeaponObject
                     ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
                     ref var levelComp = ref levelPool.Get(playerEntity);
-                    
-                    var targetDamage = damage * (levelComp.PAtk / 100 + 1);
-                    
-                    enemyRpgComp.Health -= targetDamage;
+
+                    var targetDamage = DamageEnemy(levelComp, ref enemyRpgComp);
 
                     ShowPopupDamage(popupDamageTextPool, targetDamage, enemyComp);
 
@@ -85,6 +84,23 @@ namespace World.Inventory.WeaponObject
                     }
                 }
             }
+        }
+
+        private float DamageEnemy(LevelComp levelComp, ref RpgComp enemyRpgComp)
+        {
+            var crit = Random.Range(-10, 1) + levelComp.Luck;
+
+            var defaultDamageCrit = crit switch
+            {
+                > 0 => 2,
+                < 0 => 1,
+                _ => 4
+            };
+
+            var targetDamage = damage * (levelComp.PAtk / 100 + 1) * defaultDamageCrit;
+
+            enemyRpgComp.Health -= targetDamage;
+            return targetDamage;
         }
 
         private void ShowPopupDamage(EcsPool<PopupDamageTextComp> popupDamageTextPool, float targetDamage, EnemyComp enemyComp)

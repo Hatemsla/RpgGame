@@ -12,5 +12,7 @@ namespace World.Ability.StatusEffects
         public StatusEffectObject statusEffectObject1Prefab;
         [Tooltip("Status Effect type data")] 
         public StatusEffectTypeData statusEffectTypeData;
+        [Tooltip("Status life time")] 
+        public float statusEffectLifeTime;
     }
 }

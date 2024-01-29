@@ -2,7 +2,7 @@
 
 namespace World.Ability.StatusEffects.AbilityStatusEffectData
 {
-    [CreateAssetMenu(fileName = "ExplosionPostEffect", menuName = "Data/Ability Data/Post Effect Data/Explosion")]
+    [CreateAssetMenu(fileName = "FireStatusEffect", menuName = "Data/Ability Data/Status Effect Data/FireStatus")]
     public class FireStatusEffectData : StatusEffectTypeData
     {
         public float damage;

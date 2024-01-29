@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using World.Ability;
+using World.Ability.StatusEffects;
 using World.Inventory;
 using World.Player;
 
@@ -11,6 +12,7 @@ namespace World.Configurations
         public PlayerConfiguration playerConfiguration; 
         public UiConfiguration uiConfiguration;
         public AbilityConfiguration abilityConfiguration;
+        public StatusEffectConfiguration statusEffectConfiguration;
         public InventoryConfiguration inventoryConfiguration;
         public ChestConfiguration chestConfiguration;
         public EnemyConfiguration enemyConfiguration;

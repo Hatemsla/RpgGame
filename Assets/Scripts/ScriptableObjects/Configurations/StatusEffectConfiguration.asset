@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6b4dfd72b94171b655ef1f4d6e1ee7, type: 3}
   m_Name: StatusEffectConfiguration
   m_EditorClassIdentifier: 
-  statusEffectDatas: []
+  statusEffectDatas:
+  - {fileID: 11400000, guid: eac902c7ea6e0ad4e929c749830f2f0f, type: 2}

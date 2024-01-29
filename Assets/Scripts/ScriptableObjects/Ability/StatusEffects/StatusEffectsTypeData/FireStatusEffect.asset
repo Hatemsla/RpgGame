@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855dbbd413864c8f8fcdade9b7552131, type: 3}
   m_Name: FireStatusEffect
   m_EditorClassIdentifier: 
-  damage: 0
+  damage: 5

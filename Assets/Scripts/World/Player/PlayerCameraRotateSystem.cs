@@ -23,37 +23,37 @@ namespace World.Player
         {
             foreach (var entity in _unitsMove.Value)
             {
-                ref var player = ref _unitsMove.Pools.Inc1.Get(entity);
-                ref var input = ref _unitsMove.Pools.Inc2.Get(entity);
-                ref var rpg = ref _unitsMove.Pools.Inc3.Get(entity);
+                ref var playerComp = ref _unitsMove.Pools.Inc1.Get(entity);
+                ref var inputComp = ref _unitsMove.Pools.Inc2.Get(entity);
+                ref var rpgComp = ref _unitsMove.Pools.Inc3.Get(entity);
                 
-                if(!player.CanMove) return;
+                if(!playerComp.CanMove) return;
                 
-                if (input.Look.sqrMagnitude >= Threshold)
+                if (inputComp.Look.sqrMagnitude >= Threshold)
                 {
                     var deltaTimeMultiplier = 1f;
 
-                    _cinemachineTargetYaw += input.Look.x * deltaTimeMultiplier;
-                    _cinemachineTargetPitch += input.Look.y * deltaTimeMultiplier;
+                    _cinemachineTargetYaw += inputComp.Look.x * deltaTimeMultiplier;
+                    _cinemachineTargetPitch += inputComp.Look.y * deltaTimeMultiplier;
                 }
 
                 _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
                 _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, _cf.Value.playerConfiguration.bottomClamp,
                     _cf.Value.playerConfiguration.topClamp);
                 
-                player.PlayerCameraRootTransform.transform.rotation = Quaternion.Euler(
+                playerComp.PlayerCameraRootTransform.transform.rotation = Quaternion.Euler(
                     _cinemachineTargetPitch + _cf.Value.playerConfiguration.cameraAngleOverride,
                     _cinemachineTargetYaw, 0f);
 
-                if (!input.FreeLook && !_cs.Value.CursorVisible && !rpg.IsDead && input.Move == Vector2.zero)
+                if (!inputComp.FreeLook && !_cs.Value.CursorVisible && !rpgComp.IsDead && inputComp.Move == Vector2.zero && !playerComp.IsPose)
                 {
-                    var desiredYRotation = player.PlayerCameraRootTransform.eulerAngles.y;
-                    var currentYRotation = player.Transform.rotation.eulerAngles.y;
+                    var desiredYRotation = playerComp.PlayerCameraRootTransform.eulerAngles.y;
+                    var currentYRotation = playerComp.Transform.rotation.eulerAngles.y;
                    
                     var newYRotation = Mathf.LerpAngle(
                         currentYRotation, desiredYRotation,  _ts.Value.DeltaTime * _cf.Value.playerConfiguration.rotationSpeed);
                     
-                    player.Transform.rotation = Quaternion.Euler(0f, newYRotation, 0f);
+                    playerComp.Transform.rotation = Quaternion.Euler(0f, newYRotation, 0f);
                 }
             }
         }

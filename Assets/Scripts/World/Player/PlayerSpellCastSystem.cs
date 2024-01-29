@@ -5,7 +5,6 @@ using UnityEngine;
 using Utils;
 using Utils.ObjectsPool;
 using World.Ability;
-using World.Ability.AbilitiesObjects;
 using World.Ability.AbilitiesTypes;
 using World.Configurations;
 using World.RPG;
@@ -18,7 +17,7 @@ namespace World.Player
         
         private readonly EcsPoolInject<AbilityComp> _abilityPool = default;
         private readonly EcsPoolInject<HasAbilities> _hasAbilities = default;
-        private readonly EcsPoolInject<ReleasedAbilityComp> _spell = default;
+        private readonly EcsPoolInject<ReleasedAbilityComp> _releasedAbilityPool = default;
         
         private readonly EcsCustomInject<CursorService> _cs = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
@@ -85,6 +84,13 @@ namespace World.Player
                                 ability.CurrentDelay = ability.AbilityDelay;
                                 rpg.CastDelay = _cf.Value.abilityConfiguration.totalAbilityDelay;
                                 
+                                var abilityObject = _ps.Value.SpellPool.Get();
+                                var abilityEntity = _world.Value.NewEntity();
+                                ref var releasedAbility = ref _releasedAbilityPool.Value.Add(abilityEntity);
+
+                                releasedAbility.abilityObject = abilityObject;
+                                releasedAbility.spellOwner = entity;
+                                
                                 foreach (var delayAbility in _sd.Value.uiSceneData.delayAbilityViews)
                                 {
                                     if (delayAbility.delayImage.fillAmount <= 0)
@@ -97,9 +103,8 @@ namespace World.Player
                                 {
                                     // Balls
                                     case BallAbility type:
-                                        ((BallAbilityObject)ability.AbilityView.abilityObject).SetWorld(_world.Value,
-                                            entity, _sd.Value, _ts.Value, _ps.Value);
-                                        ((BallAbilityObject) ability.AbilityView.abilityObject).Cast(ability, entity);
+                                        abilityObject.SetWorld(_world.Value, entity, abilityEntity, _sd.Value, _ts.Value, _ps.Value, _cf.Value);
+                                        abilityObject.Cast(ability, entity);
                                         break;
                                 }
                             }

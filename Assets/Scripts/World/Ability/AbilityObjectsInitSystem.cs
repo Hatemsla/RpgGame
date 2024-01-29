@@ -5,7 +5,6 @@ using UnityEngine;
 using Utils.ObjectsPool;
 using World.Ability.AbilitiesObjects;
 using World.Configurations;
-using World.Player;
 using Object = UnityEngine.Object;
 
 namespace World.Ability
@@ -19,7 +18,7 @@ namespace World.Ability
 
         public void Init(IEcsSystems systems)
         {
-            for (int index = 0; index < _cf.Value.abilityConfiguration.abilityDatas.Count; index++)
+            for (var index = 0; index < _cf.Value.abilityConfiguration.abilityDatas.Count; index++)
             {
                 _ps.Value.SpellPool = new PoolBase<AbilityObject>(Preload(index), GetAction, ReturnAction, SpellPreloadCount);
             }

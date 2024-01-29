@@ -296,9 +296,9 @@ namespace World.Inventory
             otherInventory.CurrentWeight += item.Weight;
 
             ownerInventory.InventoryWeightView.inventoryWeightText.text =
-                $"Вес: {ownerInventory.CurrentWeight}/{ownerInventory.MaxWeight}";
+                $"Вес: {ownerInventory.CurrentWeight:f1}/{ownerInventory.MaxWeight}";
             otherInventory.InventoryWeightView.inventoryWeightText.text =
-                $"Вес: {otherInventory.CurrentWeight}/{otherInventory.MaxWeight}";
+                $"Вес: {otherInventory.CurrentWeight:f1}/{otherInventory.MaxWeight}";
 
             hasItemsOther.Entities.Add(ItemIdx);
             hasItemsOwner.Entities.Remove(ItemIdx);
@@ -336,7 +336,7 @@ namespace World.Inventory
                 ref var inventory = ref _inventoryPool.Get(_ownerEntity);
                 inventory.CurrentWeight -= item.Weight;
                 inventory.InventoryWeightView.inventoryWeightText.text =
-                    $"Вес: {inventory.CurrentWeight}/{inventory.MaxWeight}";
+                    $"Вес: {inventory.CurrentWeight:f1}/{inventory.MaxWeight}";
 
                 Destroy(itemObject != null ? itemObject.gameObject : null);
 

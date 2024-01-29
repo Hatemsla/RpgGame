@@ -15,6 +15,8 @@ using World.Player;
 using World.Player.Events;
 using World.Player.Weapons;
 using World.RPG;
+using World.UI;
+using World.UI.PopupText;
 
 namespace World
 {
@@ -50,6 +52,8 @@ namespace World
                 .Add(new ZoneInitSystem())
                 .Add(new EnemyInitSystem())
                 .Add(new PlayerStatsInitSystem())
+                .Add(new PopupDamageTextInitSystem())
+                .Add(new UIBillboardingSystem())
                 
                 //Run systems
                 .Add(new TimeSystem())
@@ -77,6 +81,9 @@ namespace World
                 .Add(new CloseStatsViewSystem())
                 .Add(new PlayerCameraTransitionSystem())
                 .Add(new PlayerAttackSystem())
+                .Add(new PlayerPosesSystem())
+                
+                .Add(new AnimatePopupDamageTextSystem())
                 // .Add(new OneMeleeAttackDelaySystem())
                 
                 .DelHere<DeleteEvent>(Idents.Worlds.Events)

@@ -17,7 +17,6 @@ namespace World.Ability.UI
     {
         public EcsPackedEntity AbilityIdx;
         public Image abilityImage;
-        public AbilityObject abilityObject;
         
         [SerializeField] private TMP_Text abilityName;
         [SerializeField] private TMP_Text abilityDescription;
@@ -95,24 +94,6 @@ namespace World.Ability.UI
 
                 _lastClickTime = Time.time;
             }
-            else if (eventData.button == PointerEventData.InputButton.Right)
-            {
-                if (!abilityObject)
-                    return;
-
-                ref var hasAbilities = ref _hasAbilities.Get(_ownerEntity);
-
-                AbilityIdx.Unpack(_world, out var currentEntity);
-
-                foreach (var abilityPacked in hasAbilities.Entities)
-                    if (abilityPacked.Unpack(_world, out var unpackedEntity))
-                    {
-                        if (currentEntity == unpackedEntity)
-                            abilityObject.gameObject.SetActive(!abilityObject.gameObject.activeSelf);
-                        else
-                            abilityObject.gameObject.SetActive(false);
-                    }
-            }
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -136,7 +117,6 @@ namespace World.Ability.UI
             if (eventData.button != PointerEventData.InputButton.Left)
                 return;
             
-            Debug.Log(IsSkillOutList(transform.position, _playerAbilityView));
             if (IsSkillOutList(transform.position, _playerAbilityView))
             {
                 if (IsSkillInsideList(transform.position, _fastSkillsView))
@@ -149,12 +129,6 @@ namespace World.Ability.UI
                     else
                     {
                         MoveSkillTo(_playerAbilityViewContent.currentEntity, _playerAbilityViewContent.transform);
-                        var playerComp = _playerPool.Get(_playerAbilityViewContent.currentEntity);
-                        var rot = abilityObject.transform.localRotation;
-                        abilityObject.transform.SetParent(playerComp.Transform);
-                        abilityObject.transform.localRotation = rot;
-                        abilityObject.transform.position =
-                            playerComp.Transform.localPosition + playerComp.Transform.forward;
                     }
                 }
                 else
@@ -173,8 +147,6 @@ namespace World.Ability.UI
             foreach (var fs in _sd.fastSkillViews)
                 if (IsCursorOver(fs))
                 {
-                    fs.abilityObject = abilityObject;
-                    fs.abilityObject.AbilityIdx = AbilityIdx;
                     fs.AbilityIdx = AbilityIdx;
                     fs.abilityImage.sprite = abilityImage.sprite;
                     fs.abilityName.text = AbilityName;
@@ -189,10 +161,10 @@ namespace World.Ability.UI
             return IsPointerOverUIElement(GetEventSystemRaycastResults(), fs);
         }
         
-        private FastSkillView IsPointerOverUIElement(List<RaycastResult> eventSystemRaysastResults, FastSkillView fs)
+        private FastSkillView IsPointerOverUIElement(List<RaycastResult> eventSystemRaycastResults, FastSkillView fs)
         {
-            return eventSystemRaysastResults
-                .Select(curRaysastResult => curRaysastResult.gameObject.GetComponentInParent<FastSkillView>())
+            return eventSystemRaycastResults
+                .Select(curRaycastResult => curRaycastResult.gameObject.GetComponentInParent<FastSkillView>())
                 .FirstOrDefault(targetComp => targetComp && targetComp == fs);
         }
         
@@ -200,9 +172,9 @@ namespace World.Ability.UI
         {
             var eventData = new PointerEventData(EventSystem.current);
             eventData.position = Input.mousePosition;
-            var raysastResults = new List<RaycastResult>();
-            EventSystem.current.RaycastAll(eventData, raysastResults);
-            return raysastResults;
+            var raycastResults = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventData, raycastResults);
+            return raycastResults;
         }
         
         private void MoveSkillTo(int otherEntity, Transform newParent)

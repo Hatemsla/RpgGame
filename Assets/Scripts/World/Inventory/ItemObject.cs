@@ -1,7 +1,9 @@
 ﻿using Leopotam.EcsLite;
 using UnityEngine;
 using Utils.ObjectsPool;
+using World.Configurations;
 using World.Player;
+using World.RPG;
 
 namespace World.Inventory
 {
@@ -9,10 +11,10 @@ namespace World.Inventory
     {
         public EcsPackedEntity ItemIdx;
         
-        public EcsWorld World;
-        public PlayerComp PlayerComp;
-        public AnimationComp AnimationComp;
+        public EcsWorld DefaultWorld;
+        public int playerEntity;
         public PoolService Ps;
         public TimeService Ts;
+        public Configuration cf;
     }
 }

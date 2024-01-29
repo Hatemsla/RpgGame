@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: UIConfiguration
   m_EditorClassIdentifier: 
   hsmBarsChangeRate: 5
+  popupDamageTextPrefab: {fileID: 3276757946941163151, guid: 10a0fe0dc85409f4e8bf7d60aef4775d,
+    type: 3}

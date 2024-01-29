@@ -13,6 +13,9 @@ namespace World
         [Tooltip("Main canvas")] 
         public MainCanvas mainCanvas;
         
+        [Tooltip("Level stats views")]
+        public List<LevelStatView> levelStatsViews;
+        
         [Tooltip("Stats views")]
         public List<StatView> statsViews;
 

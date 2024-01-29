@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
 using TMPro;
@@ -6,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Scripting;
 using Utils;
 using World.Player;
+using World.Player.Events;
 using World.RPG.UI;
 
 namespace World.RPG
@@ -14,10 +16,11 @@ namespace World.RPG
     {
         private readonly EcsFilterInject<Inc<PlayerComp, LevelComp>> _filter = default;
         
-        private readonly EcsPoolInject<CloseStatsEvent> _closeStatsPool = Idents.Worlds.Events;
-        private readonly EcsPoolInject<StatsEvent> _statsEventPool = Idents.Worlds.Events;
+        private readonly EcsPoolInject<TransitionCameraEvent> _transitionCameraPool = Idents.Worlds.Events;
 
         private readonly EcsCustomInject<SceneData> _sd = default;
+        
+        private readonly EcsWorldInject _eventWorld = Idents.Worlds.Events;
         
         [EcsUguiNamed(Idents.UI.StatsLevelCanvas)]
         private readonly GameObject _statsLevelCanvas = default;
@@ -32,10 +35,9 @@ namespace World.RPG
         [EcsUguiClickEvent(Idents.UI.CancelStatsBtn, Idents.Worlds.Events)]
         private void OnClickCancelStats(in EcsUguiClickEvent e)
         {
-            _statsLevelCanvas.SetActive(false);
-
             foreach (var entity in _filter.Value)
             {
+                ref var playerComp = ref _filter.Pools.Inc1.Get(entity);
                 ref var levelComp = ref _filter.Pools.Inc2.Get(entity);
 
                 var remainLevelScores = levelComp.Strength + levelComp.Dexterity + levelComp.Constitution +
@@ -46,6 +48,7 @@ namespace World.RPG
                                         levelComp.PreviousCharisma - levelComp.PreviousLuck;
 
                 levelComp.LevelScore += remainLevelScores;
+                _currentStatsScore.text = $"Количество очков: {levelComp.LevelScore}";
 
                 levelComp.Strength = levelComp.PreviousStrength;
                 levelComp.Dexterity = levelComp.PreviousDexterity;
@@ -53,31 +56,71 @@ namespace World.RPG
                 levelComp.Intelligence = levelComp.PreviousIntelligence;
                 levelComp.Charisma = levelComp.PreviousCharisma;
                 levelComp.Luck = levelComp.PreviousLuck;
+                
+                levelComp.PAtk = levelComp.PreviousPAtk;
+                levelComp.MAtk = levelComp.PreviousMAtk;
+                levelComp.Spd = levelComp.PreviousSpd;
+                levelComp.MaxHp = levelComp.PreviousMaxHp;
+                levelComp.MaxSt = levelComp.PreviousMaxSt;
+                levelComp.MaxSp = levelComp.PreviousMaxSp;
 
+                foreach (var levelStatView in _sd.Value.uiSceneData.levelStatsViews)
+                {
+                    switch (levelStatView.levelStatType)
+                    {
+                        case LevelStatType.Str:
+                            levelStatView.valueText.text = levelComp.Strength.ToString();
+                            break;
+                        case LevelStatType.Dex:
+                            levelStatView.valueText.text = levelComp.Dexterity.ToString();
+                            break;
+                        case LevelStatType.Con:
+                            levelStatView.valueText.text = levelComp.Constitution.ToString();
+                            break;
+                        case LevelStatType.Int:
+                            levelStatView.valueText.text = levelComp.Intelligence.ToString();
+                            break;
+                        case LevelStatType.Cha:
+                            levelStatView.valueText.text = levelComp.Charisma.ToString();
+                            break;
+                        case LevelStatType.Luck:
+                            levelStatView.valueText.text = levelComp.Luck.ToString();
+                            break;
+                    }
+                }
+                
                 foreach (var statView in _sd.Value.uiSceneData.statsViews)
                 {
                     switch (statView.statType)
                     {
-                        case StatType.Str:
-                            statView.valueText.text = levelComp.Strength.ToString();
+                        case StatType.PAtk:
+                            statView.valueText.text = levelComp.PAtk.ToString("F1", CultureInfo.InvariantCulture);
                             break;
-                        case StatType.Dex:
-                            statView.valueText.text = levelComp.Dexterity.ToString();
+                        case StatType.MAtk:
+                            statView.valueText.text = levelComp.MAtk.ToString("F1", CultureInfo.InvariantCulture);
                             break;
-                        case StatType.Con:
-                            statView.valueText.text = levelComp.Constitution.ToString();
+                        case StatType.Spd:
+                            statView.valueText.text = levelComp.Spd.ToString("F1", CultureInfo.InvariantCulture);
                             break;
-                        case StatType.Int:
-                            statView.valueText.text = levelComp.Intelligence.ToString();
+                        case StatType.MaxHp:
+                            statView.valueText.text = levelComp.MaxHp.ToString("F1", CultureInfo.InvariantCulture);
                             break;
-                        case StatType.Cha:
-                            statView.valueText.text = levelComp.Charisma.ToString();
+                        case StatType.MaxSt:
+                            statView.valueText.text = levelComp.MaxSt.ToString("F1", CultureInfo.InvariantCulture);
                             break;
-                        case StatType.Luck:
-                            statView.valueText.text = levelComp.Luck.ToString();
+                        case StatType.MaxSp:
+                            statView.valueText.text = levelComp.MaxSp.ToString("F1", CultureInfo.InvariantCulture);
                             break;
                     }
                 }
+                
+                _confirmToCancelStatsForm.SetActive(false);   
+                _statsLevelCanvas.SetActive(false);
+                playerComp.PlayerCameraRoot.Priority = 2;
+                playerComp.PlayerCameraStats.Priority = 1;
+                playerComp.CanMove = false;
+                ref var transitionCameraEvent = ref _transitionCameraPool.Value.Add(_eventWorld.Value.NewEntity());
+                transitionCameraEvent.TimeToWait = 1;
             }
         }
         
@@ -85,7 +128,17 @@ namespace World.RPG
         [EcsUguiClickEvent(Idents.UI.ConfirmStatsBtn, Idents.Worlds.Events)]
         private void OnClickConfirmStats(in EcsUguiClickEvent e)
         {
-            _statsLevelCanvas.SetActive(false);
+            foreach (var entity in _filter.Value)
+            {
+                ref var playerComp = ref _filter.Pools.Inc1.Get(entity);
+                
+                _statsLevelCanvas.SetActive(false);
+                playerComp.PlayerCameraRoot.Priority = 2;
+                playerComp.PlayerCameraStats.Priority = 1;
+                playerComp.CanMove = false;
+                ref var transitionCameraEvent = ref _transitionCameraPool.Value.Add(_eventWorld.Value.NewEntity());
+                transitionCameraEvent.TimeToWait = 1;   
+            }
         }
         
         [Preserve]
@@ -99,7 +152,16 @@ namespace World.RPG
                 if(levelComp.SpentLevelScore > 0)
                     _confirmToCancelStatsForm.SetActive(true);
                 else
+                {
+                    ref var playerComp = ref _filter.Pools.Inc1.Get(entity);
+                
                     _statsLevelCanvas.SetActive(false);
+                    playerComp.PlayerCameraRoot.Priority = 2;
+                    playerComp.PlayerCameraStats.Priority = 1;
+                    playerComp.CanMove = false;
+                    ref var transitionCameraEvent = ref _transitionCameraPool.Value.Add(_eventWorld.Value.NewEntity());
+                    transitionCameraEvent.TimeToWait = 1;   
+                }
             }
         }
         
@@ -116,12 +178,28 @@ namespace World.RPG
                     levelComp.LevelScore--;
                     levelComp.SpentLevelScore++;
                     levelComp.Strength++;
+                    levelComp.PAtk++;
+                    levelComp.MaxHp++;
                     _currentStatsScore.text = $"Количество очков: {levelComp.LevelScore}";
-                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    foreach (var statView in _sd.Value.uiSceneData.levelStatsViews)
                     {
-                        if (statView.statType == StatType.Str)
+                        if (statView.levelStatType == LevelStatType.Str)
                         {
                             statView.valueText.text = levelComp.Strength.ToString();
+                            break;
+                        }
+                    }
+                    
+                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    {
+                        if (statView.statType == StatType.PAtk)
+                        {
+                            statView.valueText.text = levelComp.PAtk.ToString(CultureInfo.InvariantCulture);
+                            break;
+                        }
+                        if (statView.statType == StatType.MaxHp)
+                        {
+                            statView.valueText.text = levelComp.MaxHp.ToString(CultureInfo.InvariantCulture);
                             break;
                         }
                     }
@@ -142,12 +220,22 @@ namespace World.RPG
                     levelComp.LevelScore--;
                     levelComp.SpentLevelScore++;
                     levelComp.Dexterity++;
+                    levelComp.Spd++;
                     _currentStatsScore.text = $"Количество очков: {levelComp.LevelScore}";
+                    foreach (var levelStatView in _sd.Value.uiSceneData.levelStatsViews)
+                    {
+                        if (levelStatView.levelStatType == LevelStatType.Dex)
+                        {
+                            levelStatView.valueText.text = levelComp.Dexterity.ToString();
+                            break;
+                        }
+                    }
+
                     foreach (var statView in _sd.Value.uiSceneData.statsViews)
                     {
-                        if (statView.statType == StatType.Dex)
+                        if (statView.statType == StatType.Spd)
                         {
-                            statView.valueText.text = levelComp.Dexterity.ToString();
+                            statView.valueText.text = levelComp.Spd.ToString(CultureInfo.InvariantCulture);
                             break;
                         }
                     }
@@ -168,12 +256,22 @@ namespace World.RPG
                     levelComp.LevelScore--;
                     levelComp.SpentLevelScore++;
                     levelComp.Constitution++;
+                    levelComp.MaxSt++;
                     _currentStatsScore.text = $"Количество очков: {levelComp.LevelScore}";
-                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    foreach (var statView in _sd.Value.uiSceneData.levelStatsViews)
                     {
-                        if (statView.statType == StatType.Con)
+                        if (statView.levelStatType == LevelStatType.Con)
                         {
                             statView.valueText.text = levelComp.Constitution.ToString();
+                            break;
+                        }
+                    }
+                    
+                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    {
+                        if (statView.statType == StatType.MaxSt)
+                        {
+                            statView.valueText.text = levelComp.MaxSt.ToString(CultureInfo.InvariantCulture);
                             break;
                         }
                     }
@@ -194,12 +292,28 @@ namespace World.RPG
                     levelComp.LevelScore--;
                     levelComp.SpentLevelScore++;
                     levelComp.Intelligence++;
+                    levelComp.MaxSp++;
+                    levelComp.MAtk++;
                     _currentStatsScore.text = $"Количество очков: {levelComp.LevelScore}";
-                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    foreach (var statView in _sd.Value.uiSceneData.levelStatsViews)
                     {
-                        if (statView.statType == StatType.Int)
+                        if (statView.levelStatType == LevelStatType.Int)
                         {
                             statView.valueText.text = levelComp.Intelligence.ToString();
+                            break;
+                        }
+                    }
+                    
+                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    {
+                        if (statView.statType == StatType.MaxSp)
+                        {
+                            statView.valueText.text = levelComp.MaxSp.ToString(CultureInfo.InvariantCulture);
+                            break;
+                        }
+                        if (statView.statType == StatType.MAtk)
+                        {
+                            statView.valueText.text = levelComp.MAtk.ToString(CultureInfo.InvariantCulture);
                             break;
                         }
                     }
@@ -221,14 +335,16 @@ namespace World.RPG
                     levelComp.SpentLevelScore++;
                     levelComp.Charisma++;
                     _currentStatsScore.text = $"Количество очков: {levelComp.LevelScore}";
-                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    foreach (var statView in _sd.Value.uiSceneData.levelStatsViews)
                     {
-                        if (statView.statType == StatType.Cha)
+                        if (statView.levelStatType == LevelStatType.Cha)
                         {
                             statView.valueText.text = levelComp.Charisma.ToString();
                             break;
                         }
                     }
+                    
+                    //TODO Хуй знает что делает харизма?
                 }
             }
         }
@@ -246,13 +362,46 @@ namespace World.RPG
                     levelComp.LevelScore--;
                     levelComp.SpentLevelScore++;
                     levelComp.Luck++;
+
+                    levelComp.PAtk += 0.2f;
+                    levelComp.MAtk += 0.2f;
+                    levelComp.Spd += 0.2f;
+                    levelComp.MaxHp += 0.2f;
+                    levelComp.MaxSt += 0.2f;
+                    levelComp.MaxSp += 0.2f;
+                    
                     _currentStatsScore.text = $"Количество очков: {levelComp.LevelScore}";
-                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    foreach (var statView in _sd.Value.uiSceneData.levelStatsViews)
                     {
-                        if (statView.statType == StatType.Luck)
+                        if (statView.levelStatType == LevelStatType.Luck)
                         {
                             statView.valueText.text = levelComp.Luck.ToString();
                             break;
+                        }
+                    }
+                    
+                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    {
+                        switch (statView.statType)
+                        {
+                            case StatType.PAtk:
+                                statView.valueText.text = levelComp.PAtk.ToString(CultureInfo.InvariantCulture);
+                                break;
+                            case StatType.MAtk:
+                                statView.valueText.text = levelComp.MAtk.ToString(CultureInfo.InvariantCulture);
+                                break;
+                            case StatType.Spd:
+                                statView.valueText.text = levelComp.Spd.ToString(CultureInfo.InvariantCulture);
+                                break;
+                            case StatType.MaxHp:
+                                statView.valueText.text = levelComp.MaxHp.ToString(CultureInfo.InvariantCulture);
+                                break;
+                            case StatType.MaxSp:
+                                statView.valueText.text = levelComp.MaxSp.ToString(CultureInfo.InvariantCulture);
+                                break;
+                            case StatType.MaxSt:
+                                statView.valueText.text = levelComp.MaxSt.ToString(CultureInfo.InvariantCulture);
+                                break;
                         }
                     }
                 }
@@ -272,12 +421,28 @@ namespace World.RPG
                     levelComp.LevelScore++;
                     levelComp.SpentLevelScore--;
                     levelComp.Strength--;
+                    levelComp.PAtk--;
+                    levelComp.MaxHp--;
                     _currentStatsScore.text = $"Количество очков: {levelComp.LevelScore}";
-                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    foreach (var statView in _sd.Value.uiSceneData.levelStatsViews)
                     {
-                        if (statView.statType == StatType.Str)
+                        if (statView.levelStatType == LevelStatType.Str)
                         {
                             statView.valueText.text = levelComp.Strength.ToString();
+                            break;
+                        }
+                    }
+                    
+                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    {
+                        if (statView.statType == StatType.PAtk)
+                        {
+                            statView.valueText.text = levelComp.PAtk.ToString(CultureInfo.InvariantCulture);
+                            break;
+                        }
+                        if (statView.statType == StatType.MaxHp)
+                        {
+                            statView.valueText.text = levelComp.MaxHp.ToString(CultureInfo.InvariantCulture);
                             break;
                         }
                     }
@@ -298,12 +463,22 @@ namespace World.RPG
                     levelComp.LevelScore++;
                     levelComp.SpentLevelScore--;
                     levelComp.Dexterity--;
+                    levelComp.Spd--;
                     _currentStatsScore.text = $"Количество очков: {levelComp.LevelScore}";
-                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    foreach (var statView in _sd.Value.uiSceneData.levelStatsViews)
                     {
-                        if (statView.statType == StatType.Dex)
+                        if (statView.levelStatType == LevelStatType.Dex)
                         {
                             statView.valueText.text = levelComp.Dexterity.ToString();
+                            break;
+                        }
+                    }
+                    
+                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    {
+                        if (statView.statType == StatType.Spd)
+                        {
+                            statView.valueText.text = levelComp.Spd.ToString(CultureInfo.InvariantCulture);
                             break;
                         }
                     }
@@ -324,12 +499,22 @@ namespace World.RPG
                     levelComp.LevelScore++;
                     levelComp.SpentLevelScore--;
                     levelComp.Constitution--;
+                    levelComp.MaxSt--;
                     _currentStatsScore.text = $"Количество очков: {levelComp.LevelScore}";
-                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    foreach (var statView in _sd.Value.uiSceneData.levelStatsViews)
                     {
-                        if (statView.statType == StatType.Con)
+                        if (statView.levelStatType == LevelStatType.Con)
                         {
                             statView.valueText.text = levelComp.Constitution.ToString();
+                            break;
+                        }
+                    }
+                    
+                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    {
+                        if (statView.statType == StatType.MaxSt)
+                        {
+                            statView.valueText.text = levelComp.MaxSt.ToString(CultureInfo.InvariantCulture);
                             break;
                         }
                     }
@@ -350,12 +535,28 @@ namespace World.RPG
                     levelComp.LevelScore++;
                     levelComp.SpentLevelScore--;
                     levelComp.Intelligence--;
+                    levelComp.MAtk--;
+                    levelComp.MaxSp--;
                     _currentStatsScore.text = $"Количество очков: {levelComp.LevelScore}";
-                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    foreach (var statView in _sd.Value.uiSceneData.levelStatsViews)
                     {
-                        if (statView.statType == StatType.Int)
+                        if (statView.levelStatType == LevelStatType.Int)
                         {
                             statView.valueText.text = levelComp.Intelligence.ToString();
+                            break;
+                        }
+                    }
+                    
+                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    {
+                        if (statView.statType == StatType.MaxSp)
+                        {
+                            statView.valueText.text = levelComp.MaxSp.ToString(CultureInfo.InvariantCulture);
+                            break;
+                        }
+                        if (statView.statType == StatType.MAtk)
+                        {
+                            statView.valueText.text = levelComp.MAtk.ToString(CultureInfo.InvariantCulture);
                             break;
                         }
                     }
@@ -377,14 +578,16 @@ namespace World.RPG
                     levelComp.SpentLevelScore--;
                     levelComp.Charisma--;
                     _currentStatsScore.text = $"Количество очков: {levelComp.LevelScore}";
-                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    foreach (var statView in _sd.Value.uiSceneData.levelStatsViews)
                     {
-                        if (statView.statType == StatType.Cha)
+                        if (statView.levelStatType == LevelStatType.Cha)
                         {
                             statView.valueText.text = levelComp.Charisma.ToString();
                             break;
                         }
                     }
+                    
+                    // TODO Хуй знает что оно убирает?
                 }
             }
         }
@@ -402,13 +605,46 @@ namespace World.RPG
                     levelComp.LevelScore++;
                     levelComp.SpentLevelScore--;
                     levelComp.Luck--;
+                    
+                    levelComp.PAtk -= 0.2f;
+                    levelComp.MAtk -= 0.2f;
+                    levelComp.Spd -= 0.2f;
+                    levelComp.MaxHp -= 0.2f;
+                    levelComp.MaxSt -= 0.2f;
+                    levelComp.MaxSp -= 0.2f;
+                    
                     _currentStatsScore.text = $"Количество очков: {levelComp.LevelScore}";
-                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    foreach (var statView in _sd.Value.uiSceneData.levelStatsViews)
                     {
-                        if (statView.statType == StatType.Luck)
+                        if (statView.levelStatType == LevelStatType.Luck)
                         {
                             statView.valueText.text = levelComp.Luck.ToString();
                             break;
+                        }
+                    }
+                    
+                    foreach (var statView in _sd.Value.uiSceneData.statsViews)
+                    {
+                        switch (statView.statType)
+                        {
+                            case StatType.PAtk:
+                                statView.valueText.text = levelComp.PAtk.ToString(CultureInfo.InvariantCulture);
+                                break;
+                            case StatType.MAtk:
+                                statView.valueText.text = levelComp.MAtk.ToString(CultureInfo.InvariantCulture);
+                                break;
+                            case StatType.Spd:
+                                statView.valueText.text = levelComp.Spd.ToString(CultureInfo.InvariantCulture);
+                                break;
+                            case StatType.MaxHp:
+                                statView.valueText.text = levelComp.MaxHp.ToString(CultureInfo.InvariantCulture);
+                                break;
+                            case StatType.MaxSp:
+                                statView.valueText.text = levelComp.MaxSp.ToString(CultureInfo.InvariantCulture);
+                                break;
+                            case StatType.MaxSt:
+                                statView.valueText.text = levelComp.MaxSt.ToString(CultureInfo.InvariantCulture);
+                                break;
                         }
                     }
                 }

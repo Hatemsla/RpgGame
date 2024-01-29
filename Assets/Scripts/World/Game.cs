@@ -16,6 +16,7 @@ using World.Player.Events;
 using World.Player.Weapons;
 using World.RPG;
 using World.UI;
+using World.UI.LookOnObject;
 using World.UI.PopupText;
 
 namespace World
@@ -82,6 +83,7 @@ namespace World
                 .Add(new PlayerCameraTransitionSystem())
                 .Add(new PlayerAttackSystem())
                 .Add(new PlayerPosesSystem())
+                .Add(new LookOnObjectSystem())
                 
                 .Add(new AnimatePopupDamageTextSystem())
                 // .Add(new OneMeleeAttackDelaySystem())

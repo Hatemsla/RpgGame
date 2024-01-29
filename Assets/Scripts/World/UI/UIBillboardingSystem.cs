@@ -16,8 +16,7 @@ namespace World.UI
         public void Init(IEcsSystems systems)
         {
             _billboardingViews = Resources.FindObjectsOfTypeAll<UIBillboardingView>().ToList();
-            _billboardingViews.RemoveAll(obj => !IsInScene(obj.gameObject));
-            Debug.Log(_billboardingViews.Count);
+            _billboardingViews.RemoveAll(obj => !Utils.Utils.IsInScene(obj.gameObject));
         }
 
         public void Run(IEcsSystems systems)
@@ -31,11 +30,6 @@ namespace World.UI
                     billboardingView.transform.forward = playerComp.PlayerCameraRootTransform.forward;
                 }
             }
-        }
-        
-        private bool IsInScene(GameObject obj)
-        {
-            return obj.scene.name != null && !obj.scene.name.Equals("");
         }
     }
 }

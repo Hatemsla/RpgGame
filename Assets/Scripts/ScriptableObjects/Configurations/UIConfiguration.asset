@@ -15,3 +15,7 @@ MonoBehaviour:
   hsmBarsChangeRate: 5
   popupDamageTextPrefab: {fileID: 3276757946941163151, guid: 10a0fe0dc85409f4e8bf7d60aef4775d,
     type: 3}
+  popupDamageLifeTime: 1
+  lookObjectMask:
+    serializedVersion: 2
+    m_Bits: 4096

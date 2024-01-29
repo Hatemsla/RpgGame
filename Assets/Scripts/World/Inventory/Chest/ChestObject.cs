@@ -3,10 +3,11 @@ using Leopotam.EcsLite;
 using TMPro;
 using UnityEngine;
 using World.Player;
+using World.UI.LookOnObject;
 
 namespace World.Inventory.Chest
 {
-    public sealed class ChestObject : MonoBehaviour
+    public sealed class ChestObject : LookOnObject
     {
         public List<ItemData> items;
         public List<ItemView> itemViews;
@@ -38,79 +39,67 @@ namespace World.Inventory.Chest
             this.chestInventoryView = chestInventoryView;
             _chestInventoryViewContent = chestInventoryView.GetComponentInChildren<ContentView>();
         }
-        
-        private void OnTriggerEnter(Collider other)
-        {
-            _player = other.GetComponentInParent<PlayerView>();
-        }
 
-        private void Update()
+        public override void StartInteract()
         {
-            if (isOpen && _player)
+            if (chestInventoryView.gameObject.activeInHierarchy)
             {
-                if (chestInventoryView.gameObject.activeInHierarchy)
-                {
-                    chestInventoryView.gameObject.SetActive(false);
-
-                    ref var hasItems = ref _hasItems.Get(_chestEntity);
-                    
-                    var validItems = new List<ItemView>();
-                    
-                    foreach (var item in itemViews)
-                    {
-                        if (item)
-                        {
-                            if (hasItems.Entities.Contains(item.ItemIdx))
-                            {
-                                item.transform.SetParent(transform);
-                                validItems.Add(item);
-                            }
-                        }
-                    }
-                    
-                    itemViews = new List<ItemView>(validItems);
-                }
-                else
-                {
-                    chestInventoryView.gameObject.SetActive(true);
-                    _chestInventoryViewContent.currentEntity = _chestEntity;
-                    
-                    ref var inventory = ref _inventoryPool.Get(_chestEntity);
-                    chestInventoryWeightText.text = $"Вес: {inventory.CurrentWeight}/{inventory.MaxWeight}";
-                    
-                    foreach (var item in itemViews)
-                    {
-                        if (item)
-                        {
-                            item.transform.SetParent(_chestInventoryViewContent.transform);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.gameObject.GetComponentInParent<PlayerView>())
-            {
-                _player = null;
                 chestInventoryView.gameObject.SetActive(false);
 
                 ref var hasItems = ref _hasItems.Get(_chestEntity);
-                
+                    
                 var validItems = new List<ItemView>();
-                
+                    
                 foreach (var item in itemViews)
                 {
-                    if (item && hasItems.Entities.Contains(item.ItemIdx))
+                    if (item)
                     {
-                        item.transform.SetParent(transform);
-                        validItems.Add(item);
+                        if (hasItems.Entities.Contains(item.ItemIdx))
+                        {
+                            item.transform.SetParent(transform);
+                            validItems.Add(item);
+                        }
                     }
                 }
-
+                    
                 itemViews = new List<ItemView>(validItems);
             }
+            else
+            {
+                chestInventoryView.gameObject.SetActive(true);
+                _chestInventoryViewContent.currentEntity = _chestEntity;
+                    
+                ref var inventory = ref _inventoryPool.Get(_chestEntity);
+                chestInventoryWeightText.text = $"Вес: {inventory.CurrentWeight}/{inventory.MaxWeight}";
+                    
+                foreach (var item in itemViews)
+                {
+                    if (item)
+                    {
+                        item.transform.SetParent(_chestInventoryViewContent.transform);
+                    }
+                }
+            }
+        }
+
+        public override void StopInteract()
+        {
+            chestInventoryView.gameObject.SetActive(false);
+
+            ref var hasItems = ref _hasItems.Get(_chestEntity);
+                
+            var validItems = new List<ItemView>();
+                
+            foreach (var item in itemViews)
+            {
+                if (item && hasItems.Entities.Contains(item.ItemIdx))
+                {
+                    item.transform.SetParent(transform);
+                    validItems.Add(item);
+                }
+            }
+
+            itemViews = new List<ItemView>(validItems);
         }
     }
 }

@@ -15,5 +15,8 @@ namespace World.Configurations
         
         [Tooltip("Popup damage life time")]
         public float popupDamageLifeTime = 1f;
+
+        [Tooltip("Look on object layer mask")] 
+        public LayerMask lookObjectMask;
     }
 }

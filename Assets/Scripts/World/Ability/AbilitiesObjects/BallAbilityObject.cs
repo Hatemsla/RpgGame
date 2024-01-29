@@ -111,7 +111,7 @@ namespace World.Ability.AbilitiesObjects
 
                 ref var releasedAbilityComp = ref releasedAbilityPool.Get(unpackedEntity);
 
-                Ps.SpellPool.Return(releasedAbilityComp.abilityObject);
+                Ps.SpellPool.Return(releasedAbilityComp.AbilityObject);
                 releasedAbilityPool.Del(unpackedEntity);
             }
         }
@@ -136,12 +136,12 @@ namespace World.Ability.AbilitiesObjects
 
             transform.position = playerComp.Transform.position + playerComp.Transform.forward;
 
-            damage = ((BallAbility)ability.abilityType).Damage;
+            damage = ((BallAbility)ability.AbilityType).Damage;
             startTime = Ts.Time;
             startDirection = playerComp.Transform.position + playerComp.Transform.forward;
             direction = journeyLenght;
             endDirection = abilityDirection;
-            speed = ((BallAbility)ability.abilityType).Speed;
+            speed = ((BallAbility)ability.AbilityType).Speed;
         }
     }
 }

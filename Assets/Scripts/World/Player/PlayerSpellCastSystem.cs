@@ -88,8 +88,8 @@ namespace World.Player
                                 var abilityEntity = _world.Value.NewEntity();
                                 ref var releasedAbility = ref _releasedAbilityPool.Value.Add(abilityEntity);
 
-                                releasedAbility.abilityObject = abilityObject;
-                                releasedAbility.spellOwner = entity;
+                                releasedAbility.AbilityObject = abilityObject;
+                                releasedAbility.SpellOwner = entity;
                                 
                                 foreach (var delayAbility in _sd.Value.uiSceneData.delayAbilityViews)
                                 {

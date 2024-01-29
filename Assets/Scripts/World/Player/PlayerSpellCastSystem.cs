@@ -77,12 +77,12 @@ namespace World.Player
                     ref var ability = ref _abilityPool.Value.Get(unpackedEntity);
                     if (unpackedEntity == skillIdx)
                     {
-                        if (ability.currentDelay <= 0 && rpg.CastDelay <= 0)
+                        if (ability.CurrentDelay <= 0 && rpg.CastDelay <= 0)
                         {
-                            if (rpg.Mana >= ability.costPoint)
+                            if (rpg.Mana >= ability.CostPoint)
                             {
-                                rpg.Mana -= ability.costPoint;
-                                ability.currentDelay = ability.abilityDelay;
+                                rpg.Mana -= ability.CostPoint;
+                                ability.CurrentDelay = ability.AbilityDelay;
                                 rpg.CastDelay = _cf.Value.abilityConfiguration.totalAbilityDelay;
                                 
                                 foreach (var delayAbility in _sd.Value.uiSceneData.delayAbilityViews)
@@ -93,13 +93,13 @@ namespace World.Player
                                     }
                                 }
                                 
-                                switch (ability.abilityType)
+                                switch (ability.AbilityType)
                                 {
                                     // Balls
                                     case BallAbility type:
-                                        ((BallAbilityObject)ability.abilityView.abilityObject).SetWorld(_world.Value,
+                                        ((BallAbilityObject)ability.AbilityView.abilityObject).SetWorld(_world.Value,
                                             entity, _sd.Value, _ts.Value, _ps.Value);
-                                        ((BallAbilityObject) ability.abilityView.abilityObject).Cast(ability, entity);
+                                        ((BallAbilityObject) ability.AbilityView.abilityObject).Cast(ability, entity);
                                         break;
                                 }
                             }

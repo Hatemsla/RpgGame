@@ -87,7 +87,7 @@ namespace World.Ability.AbilitiesObjects
             {
                 ref var spell = ref releasedAbilityPool.Get(unpackedEntity);
                 
-                ps.SpellPool.Return(spell.abilityObject);
+                ps.SpellPool.Return(spell.AbilityObject);
                 releasedAbilityPool.Del(unpackedEntity);
             }
         }
@@ -100,10 +100,10 @@ namespace World.Ability.AbilitiesObjects
             var ray = _sd.mainCamera.OutputCamera.ScreenPointToRay(centerOfScreen);
             Vector3 abilityDirection;
 
-            if (Physics.Raycast(ray, out var hitInfo, ((BallAbility)ability.abilityType).Distance))
+            if (Physics.Raycast(ray, out var hitInfo, ((BallAbility)ability.AbilityType).Distance))
                 abilityDirection = hitInfo.point;
             else
-                abilityDirection = ray.GetPoint(((BallAbility)ability.abilityType).Distance);
+                abilityDirection = ray.GetPoint(((BallAbility)ability.AbilityType).Distance);
 
             var journeyLenght = Vector3.Distance(player.Transform.position + player.Transform.forward,
                 abilityDirection);
@@ -116,15 +116,15 @@ namespace World.Ability.AbilitiesObjects
             var abilityPackedEntity = _world.PackEntity(abilityEntity);
             ref var releasedAbility = ref _releasedAbilityPool.Add(abilityEntity);
 
-            releasedAbility.abilityObject = abilityObject;
-            releasedAbility.spellOwner = entity;
+            releasedAbility.AbilityObject = abilityObject;
+            releasedAbility.SpellOwner = entity;
 
-            ((BallAbilityObject)abilityObject).damage = ((BallAbility)ability.abilityType).Damage;
+            ((BallAbilityObject)abilityObject).damage = ((BallAbility)ability.AbilityType).Damage;
             ((BallAbilityObject)abilityObject).startTime = startTime;
             ((BallAbilityObject)abilityObject).startDirection = player.Transform.position + player.Transform.forward;
             ((BallAbilityObject)abilityObject).direction = journeyLenght;
             ((BallAbilityObject)abilityObject).endDirection = abilityDirection;  
-            ((BallAbilityObject)abilityObject).speed = ((BallAbility)ability.abilityType).Speed;
+            ((BallAbilityObject)abilityObject).speed = ((BallAbility)ability.AbilityType).Speed;
 
             ((BallAbilityObject)abilityObject).world = _world;
             ((BallAbilityObject)abilityObject).ts = _ts;

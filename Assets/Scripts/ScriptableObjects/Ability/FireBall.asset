@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: FireBall
   m_EditorClassIdentifier: 
   abilityName: Fire Ball
-  abilityDescription: 123
+  abilityDescription: "\u042F\u043D \u041A\u0430\u043B\u0430\u0448\u043D\u0438\u043A\u043E\u0432
+    \u043B\u0443\u0447\u0448\u0438\u0439 \u0440\u0430\u0431\u043E\u0442\u043D\u0438\u043A"
   costPoint: 20
   abilityTypeData: {fileID: 11400000, guid: 555c30a0d4b2bac41a43330dfdafe77a, type: 2}
   abilitySprite: {fileID: 21300000, guid: bd71bc6f4b1c75d479ced34de7dd8375, type: 3}
@@ -21,4 +22,5 @@ MonoBehaviour:
     type: 3}
   abilityObjectPrefab: {fileID: 6066561387642604712, guid: 5e9f8e8cb2ca82445bba42bccaaa6b45,
     type: 3}
+  postEffectData: {fileID: 11400000, guid: d3893266d7d49cf4fb8764e69acea0b8, type: 2}
   abilityDelay: 2

@@ -41,11 +41,11 @@ namespace World.Ability
                     {
                         ref var ability = ref _abilityPool.Value.Get(unpackedEntity);
 
-                        if (ability.currentDelay > 0)
+                        if (ability.CurrentDelay > 0)
                         {
-                            ability.currentDelay -= _ts.Value.DeltaTime;
-                            ActiveAbilityDelayView(unpackedEntity, ability.abilityDelay, 
-                                ability.currentDelay);
+                            ability.CurrentDelay -= _ts.Value.DeltaTime;
+                            ActiveAbilityDelayView(unpackedEntity, ability.AbilityDelay, 
+                                ability.CurrentDelay);
                         }
                         else if (rpg.CastDelay > 0)
                         {

@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using World.Ability.AbilitiesData;
 using World.Ability.AbilitiesObjects;
-using World.Ability.AbilitiesPostEffects;
-using World.Ability.AbilitiesPostEffects.AbilityPostEffectData;
+using World.Ability.StatusEffects;
 using World.Ability.UI;
 
 namespace World.Ability
 {
-    [CreateAssetMenu(fileName = "AbilityData", menuName = "Data/Ability Data")]
+    [CreateAssetMenu(fileName = "AbilityData", menuName = "Data/Ability Data/AbilityData")]
     public class AbilityData : ScriptableObject
     {
         [Header("Ability")]
@@ -25,8 +24,10 @@ namespace World.Ability
         public AbilityView abilityViewPrefab;
         [Tooltip("Ability object prefab")]
         public AbilityObject abilityObjectPrefab;
-        [Tooltip("Abilities post effect data")]
-        public PostEffectTypeData postEffectTypeData;
+        [Tooltip("Status effect data")]
+        public StatusEffectData statusEffect;
+        /*[Tooltip("Ability result data")]
+        public*/ 
         [Tooltip("Ability delay")]
         public float abilityDelay;
     }

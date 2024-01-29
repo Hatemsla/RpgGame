@@ -5,9 +5,6 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using Utils;
 using World.Ability.AbilitiesData;
-using World.Ability.AbilitiesPostEffects;
-using World.Ability.AbilitiesPostEffects.AbilityPostEffectComp;
-using World.Ability.AbilitiesPostEffects.AbilityPostEffectData;
 using World.Ability.AbilitiesTypes;
 using World.Configurations;
 using World.Inventory;
@@ -59,27 +56,28 @@ namespace World.Ability
                         var abilityPackedEntity = _world.Value.PackEntity(abilityEntity);
                         ref var abilityComp = ref _abilitiesPool.Value.Add(abilityEntity);
                         
-                        abilityComp.name = abilityData.abilityName;
-                        abilityComp.description = abilityData.abilityDescription;
-                        abilityComp.costPoint = abilityData.costPoint;
-                        abilityComp.ownerEntity = entity;
-                        abilityComp.abilityDelay = abilityData.abilityDelay;
-                        abilityComp.abilityType = DefineAbilityType(abilityData.abilityTypeData);
-                        abilityComp.abilityPostEffectType = DefinePostEffectType(abilityData.postEffectTypeData); 
+                        abilityComp.Name = abilityData.abilityName;
+                        abilityComp.Description = abilityData.abilityDescription;
+                        abilityComp.CostPoint = abilityData.costPoint;
+                        abilityComp.OwnerEntity = entity;
+                        abilityComp.AbilityDelay = abilityData.abilityDelay;
+                        abilityComp.AbilityType = DefineAbilityType(abilityData.abilityTypeData);
+                        //abilityComp.abilityPostEffect =
+                        //DefineAbilityType(abilityData.postEffectData.postEffectTypeData);
 
                         var abilityView = Object.Instantiate(abilityData.abilityViewPrefab, Vector3.zero,
                             Quaternion.identity);
                         abilityView.transform.SetParent(playerAbilityViewContent.transform);
-                        abilityComp.abilityView = abilityView;
+                        abilityComp.AbilityView = abilityView;
                         
-                        abilityComp.abilityView.abilityImage.sprite = abilityData.abilityViewPrefab.abilityImage.sprite;
-                        abilityComp.abilityView.AbilityIdx = abilityPackedEntity;
-                        abilityComp.abilityView.AbilityName = abilityData.abilityName;
-                        abilityComp.abilityView.AbilityDescription = abilityData.abilityDescription;
-                        abilityComp.abilityView.AbilityParams = abilityData.costPoint.ToString();
-                        abilityComp.abilityView.SetWorld(_world.Value, entity, _sd.Value);
+                        abilityComp.AbilityView.abilityImage.sprite = abilityData.abilityViewPrefab.abilityImage.sprite;
+                        abilityComp.AbilityView.AbilityIdx = abilityPackedEntity;
+                        abilityComp.AbilityView.AbilityName = abilityData.abilityName;
+                        abilityComp.AbilityView.AbilityDescription = abilityData.abilityDescription;
+                        abilityComp.AbilityView.AbilityParams = abilityData.costPoint.ToString();
+                        abilityComp.AbilityView.SetWorld(_world.Value, entity, _sd.Value);
                         
-                        abilityComp.abilityView.SetViews(_playerAbilityView, _fastSkillView, _crosshairView);
+                        abilityComp.AbilityView.SetViews(_playerAbilityView, _fastSkillView, _crosshairView);
 
                         var abilityObject = Object.Instantiate(abilityData.abilityObjectPrefab,
                             playerComp.Transform.position + playerComp.Transform.forward,
@@ -87,8 +85,8 @@ namespace World.Ability
                         abilityObject.transform.SetParent(playerComp.Transform);
                         abilityObject.gameObject.SetActive(false);
 
-                        abilityComp.abilityView.abilityObject = abilityObject;
-                        abilityComp.abilityView.abilityObject.AbilityIdx = abilityPackedEntity;
+                        abilityComp.AbilityView.abilityObject = abilityObject;
+                        abilityComp.AbilityView.abilityObject.AbilityIdx = abilityPackedEntity;
                         _sd.Value.fastSkillViews[i].abilityObject = abilityObject;
                         _sd.Value.fastSkillViews[i].abilityObject.AbilityIdx = abilityPackedEntity;
                         _sd.Value.fastSkillViews[i].AbilityIdx = abilityPackedEntity;
@@ -125,18 +123,18 @@ namespace World.Ability
             return value;
         }
 
-        private PostEffectType DefinePostEffectType(PostEffectTypeData postEffectData)
+        /*private StatusEffectType1 DefinePostEffectType(StatusEffectTypeData1 statusEffectData1)
         {
-            PostEffectType value = null;
-            switch (postEffectData)
+            StatusEffectType1 value = null;
+            switch (statusEffectData1)
             {
                 // Explosions
-                case ExplosionPostEffectData data:
-                    value = new ExplosionPostEffect();
-                    ((ExplosionPostEffect)value).Damage = data.damage; 
+                case FireStatusEffectData1 data:
+                    value = new FireStatusEffect1();
+                    ((FireStatusEffect1)value).Damage = data.damage; 
                     break;
             }
             return value;
-        }
+        }*/
     }
 }

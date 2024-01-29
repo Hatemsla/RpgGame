@@ -5,7 +5,7 @@ namespace World.Ability
 {
     public struct ReleasedAbilityComp
     {
-        public float spellOwner;
-        public AbilityObject abilityObject;
+        public float SpellOwner;
+        public AbilityObject AbilityObject;
     }
 }

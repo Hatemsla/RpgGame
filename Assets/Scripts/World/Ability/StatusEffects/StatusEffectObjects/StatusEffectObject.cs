@@ -2,9 +2,9 @@
 using UnityEngine;
 using Utils.ObjectsPool;
 
-namespace World.Ability.AbilitiesPostEffects.PostEffectsObjects
+namespace World.Ability.StatusEffects.StatusEffectObjects
 {
-    public abstract class PostEffectObject : MonoBehaviour, IPostEffectEvent
+    public class StatusEffectObject : MonoBehaviour
     {
         public EcsPackedEntity PostEffectIdx;
 
@@ -25,7 +25,5 @@ namespace World.Ability.AbilitiesPostEffects.PostEffectsObjects
             _ts = ts;
             _ps = ps;
         }
-
-        public abstract void PostEffectEvent();
     }
 }

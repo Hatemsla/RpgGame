@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-using World.Ability;
-using World.Ability.AbilitiesObjects;
+﻿using World.Ability.AbilitiesObjects;
 using World.AI;
-using World.Inventory;
+using World.UI.PopupText;
 
 namespace Utils.ObjectsPool
 {
@@ -10,5 +8,6 @@ namespace Utils.ObjectsPool
     {
         public PoolBase<AbilityObject> SpellPool;
         public PoolBase<EnemyView> EnemyPool;
+        public PoolBase<PopupDamageText> PopupDamageTextPool;
     }
 }

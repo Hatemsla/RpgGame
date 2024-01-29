@@ -109,10 +109,11 @@ namespace World.Inventory
                             rightArm.position,
                             Quaternion.identity);
 
-                        itemObject.World = _world.Value;
+                        itemObject.DefaultWorld = _world.Value;
                         itemObject.playerEntity = playerEntity;
                         itemObject.Ps = _ps.Value;
                         itemObject.Ts = _ts.Value;
+                        itemObject.cf = _cf.Value;
                         
                         itemObject.transform.SetParent(rightArm);
                         itemObject.transform.localPosition = itemData.itemObjectPrefab.transform.position;

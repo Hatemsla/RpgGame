@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using Leopotam.EcsLite;
 using UnityEngine;
 using World.AI;
 using World.AI.Navigation;
 using World.Player;
 using World.RPG;
+using World.UI.PopupText;
 
 namespace World.Inventory.WeaponObject
 {
@@ -12,49 +15,66 @@ namespace World.Inventory.WeaponObject
     {
         private bool _isAttacking;
 
+        private readonly List<EnemyView> _attackedEnemies = new();
+        
         private void Update()
         {
-            ref var animationComp = ref World.GetPool<AnimationComp>().Get(playerEntity);
+            ref var animationComp = ref DefaultWorld.GetPool<AnimationComp>().Get(playerEntity);
             _isAttacking = animationComp.Animator.GetCurrentAnimatorStateInfo(0).IsName("MeleeAttack_OneHanded");
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!_isAttacking) return;
+            if (!_isAttacking)
+            {
+                if(_attackedEnemies.Count != 0)
+                    _attackedEnemies.Clear();
+                return;
+            }
             
             var enemyView = other.gameObject.GetComponent<EnemyView>();
             
             if (enemyView)
             {
-                if (enemyView.EnemyPackedIdx.Unpack(World, out var unpackedEnemyEntity))
+                if(_attackedEnemies.Contains(enemyView))
+                    return;
+                
+                _attackedEnemies.Add(enemyView);
+
+                if (enemyView.EnemyPackedIdx.Unpack(DefaultWorld, out var unpackedEnemyEntity))
                 {
-                    var enemyPool = World.GetPool<EnemyComp>();
-                    var enemyRpgPool = World.GetPool<RpgComp>();
-                    var hasEnemiesPool = World.GetPool<HasEnemies>();
-                    var levelPool = World.GetPool<LevelComp>();
+                    var enemyPool = DefaultWorld.GetPool<EnemyComp>();
+                    var enemyRpgPool = DefaultWorld.GetPool<RpgComp>();
+                    var hasEnemiesPool = DefaultWorld.GetPool<HasEnemies>();
+                    var levelPool = DefaultWorld.GetPool<LevelComp>();
+                    var popupDamageTextPool = DefaultWorld.GetPool<PopupDamageTextComp>();
                     
                     ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
                     ref var levelComp = ref levelPool.Get(playerEntity);
                     
-                    enemyRpgComp.Health -= damage * (levelComp.PAtk / 100 + 1);
+                    var targetDamage = damage * (levelComp.PAtk / 100 + 1);
+                    
+                    enemyRpgComp.Health -= targetDamage;
+
+                    ShowPopupDamage(popupDamageTextPool, targetDamage, enemyComp);
 
                     if (enemyRpgComp.Health <= 0)
                     {
                         Ps.EnemyPool.Return(enemyComp.EnemyView);
                         
-                        if (enemyView.ZonePackedIdx.Unpack(World, out var unpackedZoneEntity))
+                        if (enemyView.ZonePackedIdx.Unpack(DefaultWorld, out var unpackedZoneEntity))
                         {
                             ref var hasEnemyComp = ref hasEnemiesPool.Get(unpackedZoneEntity);
 
                             for (var index = 0; index < hasEnemyComp.Entities.Count; index++)
                             {
                                 var hasEnemyEntityPacked = hasEnemyComp.Entities[index];
-                                if (hasEnemyEntityPacked.Unpack(World, out var unpackedHasEnemyEntity))
+                                if (hasEnemyEntityPacked.Unpack(DefaultWorld, out var unpackedHasEnemyEntity))
                                 {
                                     if (unpackedHasEnemyEntity == unpackedEnemyEntity)
                                     {
-                                        hasEnemyComp.Entities.RemoveAll(entityPacked => entityPacked.Unpack(World, out var entity) && entity == unpackedEnemyEntity);
+                                        hasEnemyComp.Entities.RemoveAll(entityPacked => entityPacked.Unpack(DefaultWorld, out var entity) && entity == unpackedEnemyEntity);
                                     }
                                 }
                             }
@@ -65,6 +85,20 @@ namespace World.Inventory.WeaponObject
                     }
                 }
             }
+        }
+
+        private void ShowPopupDamage(EcsPool<PopupDamageTextComp> popupDamageTextPool, float targetDamage, EnemyComp enemyComp)
+        {
+            ref var popupDamageTextComp = ref popupDamageTextPool.Add(DefaultWorld.NewEntity());
+            popupDamageTextComp.LifeTime = cf.uiConfiguration.popupDamageLifeTime;
+            popupDamageTextComp.Damage = targetDamage;
+            popupDamageTextComp.Position = enemyComp.EnemyView.transform.position;
+            var popupDamageText = Ps.PopupDamageTextPool.Get();
+            popupDamageText.damageText.text = popupDamageTextComp.Damage.ToString(CultureInfo.InvariantCulture);
+            popupDamageText.transform.position = popupDamageTextComp.Position;
+            popupDamageText.currentTime = 0;
+            popupDamageTextComp.PopupDamageText = popupDamageText;
+            popupDamageTextComp.IsVisible = true;
         }
 
         public override void Attack()

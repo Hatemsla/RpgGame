@@ -103,7 +103,7 @@ namespace World.Player
                                 {
                                     // Balls
                                     case BallAbility type:
-                                        abilityObject.SetWorld(_world.Value, entity, abilityEntity, _sd.Value, _ts.Value, _ps.Value);
+                                        abilityObject.SetWorld(_world.Value, entity, abilityEntity, _sd.Value, _ts.Value, _ps.Value, _cf.Value);
                                         abilityObject.Cast(ability, entity);
                                         break;
                                 }

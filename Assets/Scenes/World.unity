@@ -4469,7 +4469,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: X
+  m_text: "\u0427"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5565,7 +5565,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Z
+  m_text: "\u042F"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -20464,7 +20464,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionReference: {fileID: 5342575111215690163, guid: 5256bb1d37a505145a33290e04728497,
     type: 3}
-  abilityObject: {fileID: 0}
   abilityImage: {fileID: 958913198}
   abilityName: {fileID: 238224583}
   abilityBinding: {fileID: 1006724181}
@@ -22592,7 +22591,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionReference: {fileID: 3122969402598759179, guid: 5256bb1d37a505145a33290e04728497,
     type: 3}
-  abilityObject: {fileID: 0}
   abilityImage: {fileID: 68118582}
   abilityName: {fileID: 770897249}
   abilityBinding: {fileID: 158598171}
@@ -32264,7 +32262,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Q
+  m_text: "\u0419"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -59653,7 +59651,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionReference: {fileID: -3188758813110765555, guid: 5256bb1d37a505145a33290e04728497,
     type: 3}
-  abilityObject: {fileID: 0}
   abilityImage: {fileID: 1449369181}
   abilityName: {fileID: 1099535054}
   abilityBinding: {fileID: 192119265}

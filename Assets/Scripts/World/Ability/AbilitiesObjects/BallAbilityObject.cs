@@ -1,10 +1,12 @@
-﻿using Leopotam.EcsLite;
+﻿using System.Globalization;
+using Leopotam.EcsLite;
 using UnityEngine;
 using World.Ability.AbilitiesTypes;
 using World.AI;
 using World.AI.Navigation;
 using World.Player;
 using World.RPG;
+using World.UI.PopupText;
 
 namespace World.Ability.AbilitiesObjects
 {
@@ -33,12 +35,17 @@ namespace World.Ability.AbilitiesObjects
                     var enemyRpgPool = World.GetPool<RpgComp>();
                     var hasEnemiesPool = World.GetPool<HasEnemies>();
                     var levelPool = World.GetPool<LevelComp>();
+                    var popupDamageTextPool = World.GetPool<PopupDamageTextComp>();
 
                     ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
                     ref var levelComp = ref levelPool.Get(PlayerEntity);
 
-                    enemyRpgComp.Health -= damage * (levelComp.MAtk / 100 + 1);
+                    var targetDamage = damage * (levelComp.MAtk / 100 + 1);
+                    
+                    enemyRpgComp.Health -= targetDamage;
+                    
+                    ShowPopupDamage(popupDamageTextPool, targetDamage, enemyComp);
 
                     if (enemyRpgComp.Health <= 0)
                     {
@@ -65,6 +72,20 @@ namespace World.Ability.AbilitiesObjects
 
                     DestroySpell();
                 }
+        }
+        
+        private void ShowPopupDamage(EcsPool<PopupDamageTextComp> popupDamageTextPool, float targetDamage, EnemyComp enemyComp)
+        {
+            ref var popupDamageTextComp = ref popupDamageTextPool.Add(World.NewEntity());
+            popupDamageTextComp.LifeTime = Cf.uiConfiguration.popupDamageLifeTime;
+            popupDamageTextComp.Damage = targetDamage;
+            popupDamageTextComp.Position = enemyComp.EnemyView.transform.position;
+            var popupDamageText = Ps.PopupDamageTextPool.Get();
+            popupDamageText.damageText.text = popupDamageTextComp.Damage.ToString(CultureInfo.InvariantCulture);
+            popupDamageText.transform.position = popupDamageTextComp.Position;
+            popupDamageText.currentTime = 0;
+            popupDamageTextComp.PopupDamageText = popupDamageText;
+            popupDamageTextComp.IsVisible = true;
         }
 
         private void DestroySpell()

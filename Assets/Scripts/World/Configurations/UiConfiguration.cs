@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using World.RPG.UI;
+using World.UI.PopupText;
 
 namespace World.Configurations
 {
@@ -8,5 +9,11 @@ namespace World.Configurations
     {
         [Tooltip("How fast changes hsm bars")]
         public float hsmBarsChangeRate = 1f;
+        
+        [Tooltip("Popup damage text prefab")]
+        public PopupDamageText popupDamageTextPrefab;
+        
+        [Tooltip("Popup damage life time")]
+        public float popupDamageLifeTime = 1f;
     }
 }

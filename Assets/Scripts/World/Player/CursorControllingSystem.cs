@@ -34,7 +34,8 @@ namespace World.Player
                 _cs.Value.CursorVisible = _chestInventoryView.activeSelf || _playerInventoryView.activeSelf || _statsLevelView.activeSelf || input.FreeCursor;
 
                 Cursor.visible = _cs.Value.CursorVisible;
-                Cursor.lockState = CursorLockMode.Locked;
+
+                Cursor.lockState = !_cs.Value.CursorVisible ? CursorLockMode.Locked : CursorLockMode.Confined;
             }
         }
     }

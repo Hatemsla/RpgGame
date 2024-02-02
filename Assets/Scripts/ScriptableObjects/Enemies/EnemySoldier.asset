@@ -23,6 +23,9 @@ MonoBehaviour:
   manaRecovery: 1
   minDamage: 5
   maxDamage: 15
+  chaseDistance: 15
+  chaseTime: 10
+  unChaseTime: 3
   attackDelay: 2
   respawnDelay: 3
   startLevel: 1

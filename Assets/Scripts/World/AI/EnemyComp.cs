@@ -16,7 +16,12 @@ namespace World.AI
         public float MinDamage;
         public float MaxDamage;
         public float AttackDelay;
-        
+        public float ChaseDistance;
+        public float ChaseTime;
+        public float UnChaseTime;
+        public float CurrentChaseTime;
+        public float CurrentUnChaseTime;
+
         public EnemyState EnemyState;
     }
 }

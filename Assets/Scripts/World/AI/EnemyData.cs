@@ -32,6 +32,13 @@ namespace World.AI
         [Tooltip("Max damage")]
         public float maxDamage;
 
+        [Tooltip("Chase distance for player")] 
+        public float chaseDistance;
+        [Tooltip("Chase time")]
+        public float chaseTime;
+        [Tooltip("Un Chase time")]
+        public float unChaseTime;
+
         [Tooltip("Attack delay")] 
         public float attackDelay;
 

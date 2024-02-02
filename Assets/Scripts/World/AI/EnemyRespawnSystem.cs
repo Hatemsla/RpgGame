@@ -54,6 +54,10 @@ namespace World.AI
                     enemy.EnemyName = randomEnemyType.enemyName;
                     enemy.Transform = enemyView.transform;
                     enemy.EnemyView = enemyView;
+                    enemy.ChaseDistance = randomEnemyType.chaseDistance;
+                    enemy.ChaseTime = randomEnemyType.chaseTime;
+                    enemy.UnChaseTime = randomEnemyType.unChaseTime;
+                    enemy.CurrentChaseTime = 0;
                     enemy.Agent = enemyView.GetComponent<NavMeshAgent>();
                     enemy.TargetIndex = Random.Range(0, zoneComp.ZoneView.targets.Count);
                     enemy.Transform.SetParent(zoneComp.ZoneView.transform);

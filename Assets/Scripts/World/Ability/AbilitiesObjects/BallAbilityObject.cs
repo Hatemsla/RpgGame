@@ -31,6 +31,7 @@ namespace World.Ability.AbilitiesObjects
             if (enemyView)
                 if (enemyView.EnemyPackedIdx.Unpack(World, out var unpackedEnemyEntity))
                 {
+                    var playerPool = World.GetPool<PlayerComp>();
                     var enemyPool = World.GetPool<EnemyComp>();
                     var enemyRpgPool = World.GetPool<RpgComp>();
                     var hasEnemiesPool = World.GetPool<HasEnemies>();
@@ -40,6 +41,11 @@ namespace World.Ability.AbilitiesObjects
                     ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
                     ref var levelComp = ref levelPool.Get(PlayerEntity);
+                    ref var playerComp = ref playerPool.Get(PlayerEntity);
+
+                    enemyComp.EnemyState = EnemyState.Chase;
+                    enemyComp.Agent.SetDestination(playerComp.Transform.position);
+                    enemyComp.CurrentChaseTime += Ts.DeltaTime;
 
                     var targetDamage = DamageEnemy(levelComp, ref enemyRpgComp);
                     

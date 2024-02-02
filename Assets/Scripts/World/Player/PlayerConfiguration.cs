@@ -97,6 +97,11 @@ namespace World.Player
         public float startMaxSt;
         [Tooltip("Start MaxSp")] 
         public float startMaxSp;
+
+        [Tooltip("Max distance to look on object view")]
+        public float lookOnObjectView;
+        [Tooltip("Max distance to look on object activate")]
+        public float lookOnObjectActivate;
         
         [Tooltip("Experience needed to reach next level")]
         public List<float> experienceToNextLevel;

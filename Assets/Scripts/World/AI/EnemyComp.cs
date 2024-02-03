@@ -22,6 +22,11 @@ namespace World.AI
         public float CurrentChaseTime;
         public float CurrentUnChaseTime;
 
+        public float WalkSpeed;
+        public float RunSpeed;
+        public float AngularWalkSpeed;
+        public float AngularRunSpeed;
+
         public float MinDistanceToPlayer;
 
         public EnemyState EnemyState;

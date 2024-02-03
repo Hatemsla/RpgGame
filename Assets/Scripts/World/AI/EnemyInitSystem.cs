@@ -62,6 +62,14 @@ namespace World.AI
                     enemyComp.CurrentChaseTime = 0;
                     enemyComp.MinDistanceToPlayer = randomEnemyType.minDistanceToPlayer;
                     enemyComp.Agent = enemyView.GetComponent<NavMeshAgent>();
+
+                    enemyComp.WalkSpeed = randomEnemyType.walkSpeed;
+                    enemyComp.RunSpeed = randomEnemyType.runSpeed;
+                    enemyComp.AngularWalkSpeed = randomEnemyType.angularWalkSpeed;
+                    enemyComp.AngularRunSpeed = randomEnemyType.angularRunSpeed;
+                    
+                    enemyComp.Agent.speed = randomEnemyType.walkSpeed;
+                    enemyComp.Agent.angularSpeed = randomEnemyType.angularWalkSpeed;
                     enemyComp.TargetIndex = Random.Range(0, zoneComp.ZoneView.targets.Count);
                     enemyComp.Transform.SetParent(zoneComp.ZoneView.transform);
                     enemyComp.Transform.localPosition = zoneComp.ZoneView

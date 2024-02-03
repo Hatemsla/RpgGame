@@ -46,6 +46,8 @@ namespace World.AI.Navigation
                         if (enemyComp.EnemyView.gameObject.activeInHierarchy)
                         {
                             enemyComp.Agent.isStopped = false;
+                            enemyComp.Agent.speed = enemyComp.WalkSpeed;
+                            enemyComp.Agent.angularSpeed = enemyComp.AngularWalkSpeed;
                             animationComp.Animator.SetFloat(MoveX, 0.5f);
                             enemyComp.Agent.SetDestination(zoneComp.ZoneView.targets[enemyComp.TargetIndex].transform
                                 .position);

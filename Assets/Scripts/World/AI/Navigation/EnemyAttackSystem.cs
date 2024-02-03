@@ -57,6 +57,8 @@ namespace World.AI.Navigation
                                     distanceToPlayer > enemyComp.MinDistanceToPlayer)
                                 {
                                     enemyComp.Agent.isStopped = false;
+                                    enemyComp.Agent.speed = enemyComp.WalkSpeed;
+                                    enemyComp.Agent.angularSpeed = enemyComp.AngularWalkSpeed;
                                     animationComp.Animator.SetFloat(MoveX, 0.5f);
                                     enemyComp.Agent.SetDestination(playerComp.Transform.position);
                                 }

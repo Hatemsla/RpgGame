@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9088557646318937667}
   - component: {fileID: 2284756762542675833}
   m_Layer: 7
-  m_Name: EnemySkeletonWarrior
+  m_Name: EnemySkeletonWarrior1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 140
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1

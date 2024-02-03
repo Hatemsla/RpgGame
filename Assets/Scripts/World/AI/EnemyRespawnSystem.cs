@@ -39,8 +39,8 @@ namespace World.AI
                 {
                     var enemyEntity = _world.Value.NewEntity();
                     
-                    ref var enemy = ref _enemyPool.Value.Add(enemyEntity);
-                    ref var rpg = ref _rpgPool.Value.Add(enemyEntity);
+                    ref var enemyComp = ref _enemyPool.Value.Add(enemyEntity);
+                    ref var rpgComp = ref _rpgPool.Value.Add(enemyEntity);
                     
                     var randomEnemy = Random.Range(0, zoneComp.ZoneView.enemiesType.Count - 1);
                     var randomEnemyType = zoneComp.ZoneView.enemiesType[randomEnemy];
@@ -50,34 +50,42 @@ namespace World.AI
                     
                     var enemyIndex = _cf.Value.enemyConfiguration.enemiesData.IndexOf(randomEnemyType);
                     
-                    enemy.EnemyIndex = enemyIndex;
-                    enemy.EnemyName = randomEnemyType.enemyName;
-                    enemy.Transform = enemyView.transform;
-                    enemy.EnemyView = enemyView;
-                    enemy.ChaseDistance = randomEnemyType.chaseDistance;
-                    enemy.ChaseTime = randomEnemyType.chaseTime;
-                    enemy.UnChaseTime = randomEnemyType.unChaseTime;
-                    enemy.CurrentChaseTime = 0;
-                    enemy.MinDistanceToPlayer = randomEnemyType.minDistanceToPlayer;
-                    enemy.Agent = enemyView.GetComponent<NavMeshAgent>();
-                    enemy.Agent.isStopped = false;
-                    enemy.TargetIndex = Random.Range(0, zoneComp.ZoneView.targets.Count);
-                    enemy.Transform.SetParent(zoneComp.ZoneView.transform);
-                    enemy.Transform.localPosition = zoneComp.ZoneView
-                        .targets[Random.Range(0, zoneComp.ZoneView.targets.Count - 1)].transform.localPosition;
-                    enemy.EnemyState = EnemyState.Patrol;
-                    enemy.Agent.enabled = true;
-                    enemy.MinDamage = randomEnemyType.minDamage;
-                    enemy.MaxDamage = randomEnemyType.maxDamage;
-                    enemy.AttackDelay = randomEnemyType.attackDelay;
-                    enemy.EnemyView.currentAttackDelay = enemy.AttackDelay;
+                    enemyComp.EnemyIndex = enemyIndex;
+                    enemyComp.EnemyName = randomEnemyType.enemyName;
+                    enemyComp.Transform = enemyView.transform;
+                    enemyComp.EnemyView = enemyView;
+                    enemyComp.ChaseDistance = randomEnemyType.chaseDistance;
+                    enemyComp.ChaseTime = randomEnemyType.chaseTime;
+                    enemyComp.UnChaseTime = randomEnemyType.unChaseTime;
+                    enemyComp.CurrentChaseTime = 0;
+                    enemyComp.MinDistanceToPlayer = randomEnemyType.minDistanceToPlayer;
+                    enemyComp.Agent = enemyView.GetComponent<NavMeshAgent>();
+                    enemyComp.Agent.isStopped = false;
                     
-                    rpg.Health = randomEnemyType.health;
-                    rpg.Stamina = randomEnemyType.stamina;
-                    rpg.Mana = randomEnemyType.mana;
-                    rpg.CanDash = true;
-                    rpg.CanJump = true;
-                    rpg.CanRun = true;
+                    enemyComp.WalkSpeed = randomEnemyType.walkSpeed;
+                    enemyComp.RunSpeed = randomEnemyType.runSpeed;
+                    enemyComp.AngularWalkSpeed = randomEnemyType.angularWalkSpeed;
+                    enemyComp.AngularRunSpeed = randomEnemyType.angularRunSpeed;
+                    
+                    enemyComp.Agent.speed = randomEnemyType.walkSpeed;
+                    enemyComp.Agent.angularSpeed = randomEnemyType.angularWalkSpeed;
+                    enemyComp.TargetIndex = Random.Range(0, zoneComp.ZoneView.targets.Count);
+                    enemyComp.Transform.SetParent(zoneComp.ZoneView.transform);
+                    enemyComp.Transform.localPosition = zoneComp.ZoneView
+                        .targets[Random.Range(0, zoneComp.ZoneView.targets.Count - 1)].transform.localPosition;
+                    enemyComp.EnemyState = EnemyState.Patrol;
+                    enemyComp.Agent.enabled = true;
+                    enemyComp.MinDamage = randomEnemyType.minDamage;
+                    enemyComp.MaxDamage = randomEnemyType.maxDamage;
+                    enemyComp.AttackDelay = randomEnemyType.attackDelay;
+                    enemyComp.EnemyView.currentAttackDelay = enemyComp.AttackDelay;
+                    
+                    rpgComp.Health = randomEnemyType.health;
+                    rpgComp.Stamina = randomEnemyType.stamina;
+                    rpgComp.Mana = randomEnemyType.mana;
+                    rpgComp.CanDash = true;
+                    rpgComp.CanJump = true;
+                    rpgComp.CanRun = true;
                     
                     var enemyPackedEntity = _world.Value.PackEntity(enemyEntity);
 

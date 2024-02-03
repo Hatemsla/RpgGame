@@ -29,6 +29,10 @@ MonoBehaviour:
   attackDelay: 2
   respawnDelay: 3
   minDistanceToPlayer: 2
+  walkSpeed: 3.5
+  runSpeed: 7
+  angularWalkSpeed: 150
+  angularRunSpeed: 300
   startLevel: 1
   startExperience: 0
   experienceToNextLevel: 960000002c01000058020000e8030000

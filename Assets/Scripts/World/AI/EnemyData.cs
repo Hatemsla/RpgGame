@@ -41,12 +41,19 @@ namespace World.AI
 
         [Tooltip("Attack delay")] 
         public float attackDelay;
-
         [Tooltip("Respawn delay")] 
         public float respawnDelay;
 
         [Tooltip("Min distance to enemy")] 
         public float minDistanceToPlayer;
+        [Tooltip("Walk speed")] 
+        public float walkSpeed;
+        [Tooltip("Run speed")] 
+        public float runSpeed;
+        [Tooltip("Angular walk speed")] 
+        public float angularWalkSpeed;
+        [Tooltip("Angular run speed")] 
+        public float angularRunSpeed;
         
         [Tooltip("Start level")]
         public int startLevel = 1;

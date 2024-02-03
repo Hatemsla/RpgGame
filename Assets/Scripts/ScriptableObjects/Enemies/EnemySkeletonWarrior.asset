@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 640ed4212f754dbaa0a6b2c46b937e8c, type: 3}
+  m_Name: EnemySkeletonWarrior
+  m_EditorClassIdentifier: 
+  enemyName: "\u0421\u043E\u043B\u0434\u0430\u0442"
+  enemyView: {fileID: 8720683154005386000, guid: 945c812d5b0394d49844f24a238baa2d,
+    type: 3}
+  health: 150
+  stamina: 200
+  mana: 70
+  healthRecovery: 3
+  staminaRecovery: 2
+  manaRecovery: 1
+  minDamage: 5
+  maxDamage: 15
+  chaseDistance: 15
+  chaseTime: 10
+  unChaseTime: 3
+  attackDelay: 2
+  respawnDelay: 3
+  minDistanceToPlayer: 2
+  startLevel: 1
+  startExperience: 0
+  experienceToNextLevel: 960000002c01000058020000e8030000

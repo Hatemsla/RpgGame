@@ -14,6 +14,7 @@ namespace World.Ability.AbilitiesObjects
     {
         [HideInInspector] public float speed;
         [HideInInspector] public float startTime;
+        private static readonly int MoveX = Animator.StringToHash("MoveX");
 
         private void Update()
         {
@@ -33,6 +34,7 @@ namespace World.Ability.AbilitiesObjects
                 {
                     var playerPool = World.GetPool<PlayerComp>();
                     var enemyPool = World.GetPool<EnemyComp>();
+                    var animationPool = World.GetPool<AnimationComp>();
                     var enemyRpgPool = World.GetPool<RpgComp>();
                     var hasEnemiesPool = World.GetPool<HasEnemies>();
                     var levelPool = World.GetPool<LevelComp>();
@@ -40,6 +42,7 @@ namespace World.Ability.AbilitiesObjects
 
                     ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
+                    ref var animationComp = ref animationPool.Get(unpackedEnemyEntity);
                     ref var levelComp = ref levelPool.Get(PlayerEntity);
                     ref var playerComp = ref playerPool.Get(PlayerEntity);
 

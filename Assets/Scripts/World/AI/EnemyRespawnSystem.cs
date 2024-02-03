@@ -58,7 +58,9 @@ namespace World.AI
                     enemy.ChaseTime = randomEnemyType.chaseTime;
                     enemy.UnChaseTime = randomEnemyType.unChaseTime;
                     enemy.CurrentChaseTime = 0;
+                    enemy.MinDistanceToPlayer = randomEnemyType.minDistanceToPlayer;
                     enemy.Agent = enemyView.GetComponent<NavMeshAgent>();
+                    enemy.Agent.isStopped = false;
                     enemy.TargetIndex = Random.Range(0, zoneComp.ZoneView.targets.Count);
                     enemy.Transform.SetParent(zoneComp.ZoneView.transform);
                     enemy.Transform.localPosition = zoneComp.ZoneView

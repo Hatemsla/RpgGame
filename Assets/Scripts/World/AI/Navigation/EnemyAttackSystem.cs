@@ -13,8 +13,11 @@ namespace World.AI.Navigation
         private readonly EcsFilterInject<Inc<ZoneComp, HasEnemies>> _zoneFilter = default;
         private readonly EcsFilterInject<Inc<PlayerComp, RpgComp>> _playerFilter = default;
         private readonly EcsPoolInject<EnemyComp> _enemyPool = default;
+        private readonly EcsPoolInject<AnimationComp> _animationPool = default;
 
         private readonly EcsWorldInject _world = default;
+        private static readonly int MoveX = Animator.StringToHash("MoveX");
+        private static readonly int IsMeleeAttack = Animator.StringToHash("IsMeleeAttack");
 
         public void Run(IEcsSystems systems)
         {
@@ -27,6 +30,7 @@ namespace World.AI.Navigation
                     if (packedEnemy.Unpack(_world.Value, out var unpackedEnemy))
                     {
                         ref var enemyComp = ref _enemyPool.Value.Get(unpackedEnemy);
+                        ref var animationComp = ref _animationPool.Value.Get(unpackedEnemy);
 
                         foreach (var playerEntity in _playerFilter.Value)
                         {
@@ -49,8 +53,18 @@ namespace World.AI.Navigation
 
                             if (enemyComp.EnemyState == EnemyState.Attack)
                             {
-                                if (enemyComp.Agent.isActiveAndEnabled)
+                                if (enemyComp.Agent.isActiveAndEnabled &&
+                                    distanceToPlayer > enemyComp.MinDistanceToPlayer)
+                                {
+                                    enemyComp.Agent.isStopped = false;
+                                    animationComp.Animator.SetFloat(MoveX, 0.5f);
                                     enemyComp.Agent.SetDestination(playerComp.Transform.position);
+                                }
+                                else
+                                {
+                                    enemyComp.Agent.isStopped = true;
+                                    animationComp.Animator.SetFloat(MoveX, 0f);
+                                }
 
                                 if (enemyComp.EnemyView.currentAttackDelay >= enemyComp.AttackDelay)
                                     if (enemyComp.EnemyView.isActiveAndEnabled)
@@ -58,6 +72,7 @@ namespace World.AI.Navigation
                                         rpgComp.Health -= Random.Range(enemyComp.MinDamage, enemyComp.MaxDamage);
                                         enemyComp.EnemyView.StartCoroutine(
                                             enemyComp.EnemyView.AttackDelay(enemyComp.AttackDelay));
+                                        animationComp.Animator.SetTrigger(IsMeleeAttack);
                                     }
                             }
                         }

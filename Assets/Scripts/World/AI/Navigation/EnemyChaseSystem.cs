@@ -12,11 +12,13 @@ namespace World.AI.Navigation
         private readonly EcsFilterInject<Inc<ZoneComp, HasEnemies>> _zoneFilter = default;
         private readonly EcsFilterInject<Inc<PlayerComp, RpgComp>> _playerFilter = default;
         private readonly EcsPoolInject<EnemyComp> _enemyPool = default;
+        private readonly EcsPoolInject<AnimationComp> _animationPool = default;
 
         private readonly EcsCustomInject<TimeService> _ts = default;
 
         private readonly EcsWorldInject _world = default;
-        
+        private static readonly int MoveX = Animator.StringToHash("MoveX");
+
         public void Run(IEcsSystems systems)
         {
             foreach (var zoneEntity in _zoneFilter.Value)
@@ -29,6 +31,7 @@ namespace World.AI.Navigation
                     if (packedEnemy.Unpack(_world.Value, out var unpackedEnemy))
                     {
                         ref var enemyComp = ref _enemyPool.Value.Get(unpackedEnemy);
+                        ref var animationComp = ref _animationPool.Value.Get(unpackedEnemy);
 
                         if (enemyComp.EnemyState == EnemyState.Attack) continue;
 
@@ -71,8 +74,18 @@ namespace World.AI.Navigation
                             if (enemyComp.EnemyState == EnemyState.Chase &&
                                 enemyComp.EnemyView.gameObject.activeInHierarchy)
                             {
-                                enemyComp.Agent.SetDestination(playerComp.Transform.position);
-                                
+                                if (distanceToPlayer > enemyComp.MinDistanceToPlayer)
+                                {
+                                    enemyComp.Agent.isStopped = false;
+                                    animationComp.Animator.SetFloat(MoveX, 1f);
+                                    enemyComp.Agent.SetDestination(playerComp.Transform.position);
+                                }
+                                else
+                                {
+                                    enemyComp.Agent.isStopped = true;
+                                    animationComp.Animator.SetFloat(MoveX, 0f);
+                                }
+
                                 if (enemyComp.CurrentChaseTime <= enemyComp.ChaseTime)
                                 {
                                     enemyComp.CurrentChaseTime += _ts.Value.DeltaTime;

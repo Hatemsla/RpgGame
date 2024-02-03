@@ -44,6 +44,9 @@ namespace World.AI
 
         [Tooltip("Respawn delay")] 
         public float respawnDelay;
+
+        [Tooltip("Min distance to enemy")] 
+        public float minDistanceToPlayer;
         
         [Tooltip("Start level")]
         public int startLevel = 1;

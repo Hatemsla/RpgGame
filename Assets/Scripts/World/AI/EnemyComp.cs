@@ -22,6 +22,8 @@ namespace World.AI
         public float CurrentChaseTime;
         public float CurrentUnChaseTime;
 
+        public float MinDistanceToPlayer;
+
         public EnemyState EnemyState;
     }
 }

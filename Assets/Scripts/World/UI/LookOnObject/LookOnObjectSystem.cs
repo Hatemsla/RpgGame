@@ -21,21 +21,27 @@ namespace World.UI.LookOnObject
         {
             foreach (var entity in _filter.Value)
             {
+                ref var playerComp = ref _filter.Pools.Inc1.Get(entity);
                 ref var inputComp = ref _filter.Pools.Inc2.Get(entity);
                 
                 var centerOfScreen = new Vector3(Screen.width / 2, Screen.height / 2, 0);
                 var ray = _sd.Value.mainCamera.OutputCamera.ScreenPointToRay(centerOfScreen);
             
-                if (Physics.Raycast(ray, out var hit, 10f, _cf.Value.uiConfiguration.lookObjectMask, QueryTriggerInteraction.Collide))
+                if (Physics.Raycast(ray, out var hit, 100f, _cf.Value.uiConfiguration.lookObjectMask, QueryTriggerInteraction.Collide))
                 {
                     var hitLookOnObject = hit.transform.GetComponent<LookOnObject>();
+                    
+                    var distanceToPlayer = Vector3.Distance(playerComp.Transform.position, hit.point);
+                    
+                    if (distanceToPlayer > _cf.Value.playerConfiguration.lookOnObjectView) return;
+                    
                     if (hitLookOnObject)
                     {
                         foreach (var lookOnObject in _lookOnObjects)
                         {
                             lookOnObject.canvasGroup.alpha = hitLookOnObject == lookOnObject ? 1 : 0;
 
-                            if (hit.distance <= 5)
+                            if (distanceToPlayer <= _cf.Value.playerConfiguration.lookOnObjectActivate)
                             {
                                 lookOnObject.lookText.color = Color.yellow;
 

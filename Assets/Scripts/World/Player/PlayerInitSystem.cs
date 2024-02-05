@@ -58,6 +58,8 @@ namespace World.Player
             playerView.PlayerPacked = playerPacked;
 
             playerFollowCameraView.Follow = player.PlayerCameraRootTransform;
+            playerFollowCameraView.GetCinemachineComponent<Cinemachine3rdPersonFollow>().CameraDistance =
+                _cf.Value.playerConfiguration.minZoomDistance;
 
             rpg.Health = _cf.Value.playerConfiguration.health;
             rpg.Stamina = _cf.Value.playerConfiguration.stamina;

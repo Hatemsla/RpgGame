@@ -50,6 +50,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 7475891338472229830}
   lookText: {fileID: 4961486302732520701}
   defaultTextColor: {r: 1, g: 1, b: 1, a: 1}
+  isInteracting: 0
   items:
   - {fileID: 11400000, guid: 966b27dd97e2fb94eb0ab6e448460ed3, type: 2}
   itemViews: []
@@ -272,8 +273,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: F
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7fd2ddf0a5e398341999b994fdfbd770, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 7fd2ddf0a5e398341999b994fdfbd770, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

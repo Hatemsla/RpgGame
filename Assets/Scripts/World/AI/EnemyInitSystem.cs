@@ -18,6 +18,7 @@ namespace World.AI
         private readonly EcsPoolInject<RpgComp> _rpgPool = default;
         private readonly EcsPoolInject<HasEnemies> _hasEnemiesPool = default;
         private readonly EcsPoolInject<LevelComp> _levelPool = default;
+        private readonly EcsPoolInject<AnimationComp> _animationPool = default;
 
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<PoolService> _ps = default;
@@ -38,9 +39,10 @@ namespace World.AI
                 {
                     var enemyEntity = _world.Value.NewEntity();
 
-                    ref var enemy = ref _enemyPool.Value.Add(enemyEntity);
-                    ref var rpg = ref _rpgPool.Value.Add(enemyEntity);
-                    ref var level = ref _levelPool.Value.Add(enemyEntity);
+                    ref var enemyComp = ref _enemyPool.Value.Add(enemyEntity);
+                    ref var rpgComp = ref _rpgPool.Value.Add(enemyEntity);
+                    ref var levelComp = ref _levelPool.Value.Add(enemyEntity);
+                    ref var animationComp = ref _animationPool.Value.Add(enemyEntity);
 
                     var randomEnemy = Random.Range(0, zoneComp.ZoneView.enemiesType.Count - 1);
                     var randomEnemyType = zoneComp.ZoneView.enemiesType[randomEnemy];
@@ -51,32 +53,53 @@ namespace World.AI
 
                     var enemyIndex = _cf.Value.enemyConfiguration.enemiesData.IndexOf(randomEnemyType);
                     
-                    enemy.EnemyIndex = enemyIndex;
-                    enemy.EnemyName = randomEnemyType.enemyName;
-                    enemy.Transform = enemyView.transform;
-                    enemy.EnemyView = enemyView;
-                    enemy.Agent = enemyView.GetComponent<NavMeshAgent>();
-                    enemy.TargetIndex = Random.Range(0, zoneComp.ZoneView.targets.Count);
-                    enemy.Transform.SetParent(zoneComp.ZoneView.transform);
-                    enemy.Transform.localPosition = zoneComp.ZoneView
+                    enemyComp.EnemyIndex = enemyIndex;
+                    enemyComp.EnemyName = randomEnemyType.enemyName;
+                    enemyComp.Transform = enemyView.transform;
+                    enemyComp.EnemyView = enemyView;
+                    enemyComp.ChaseDistance = randomEnemyType.chaseDistance;
+                    enemyComp.ChaseTime = randomEnemyType.chaseTime;
+                    enemyComp.UnChaseTime = randomEnemyType.unChaseTime;
+                    enemyComp.CurrentChaseTime = 0;
+                    enemyComp.MinDistanceToPlayer = randomEnemyType.minDistanceToPlayer;
+                    enemyComp.Agent = enemyView.GetComponent<NavMeshAgent>();
+
+                    enemyComp.WalkSpeed = randomEnemyType.walkSpeed;
+                    enemyComp.RunSpeed = randomEnemyType.runSpeed;
+                    enemyComp.AngularWalkSpeed = randomEnemyType.angularWalkSpeed;
+                    enemyComp.AngularRunSpeed = randomEnemyType.angularRunSpeed;
+                    
+                    enemyComp.Agent.speed = randomEnemyType.walkSpeed;
+                    enemyComp.Agent.angularSpeed = randomEnemyType.angularWalkSpeed;
+                    enemyComp.TargetIndex = Random.Range(0, zoneComp.ZoneView.targets.Count);
+                    enemyComp.Transform.SetParent(zoneComp.ZoneView.transform);
+                    enemyComp.Transform.localPosition = zoneComp.ZoneView
                         .targets[Random.Range(0, zoneComp.ZoneView.targets.Count - 1)].transform.localPosition;
-                    enemy.EnemyState = EnemyState.Patrol;
-                    enemy.Agent.enabled = true;
-                    enemy.MinDamage = randomEnemyType.minDamage;
-                    enemy.MaxDamage = randomEnemyType.maxDamage;
-                    enemy.AttackDelay = randomEnemyType.attackDelay;
-                    enemy.EnemyView.currentAttackDelay = enemy.AttackDelay;
+                    enemyComp.EnemyState = EnemyState.Patrol;
+                    enemyComp.Agent.enabled = true;
+                    enemyComp.MinDamage = randomEnemyType.minDamage;
+                    enemyComp.MaxDamage = randomEnemyType.maxDamage;
+                    enemyComp.AttackDelay = randomEnemyType.attackDelay;
+                    enemyComp.EnemyView.currentAttackDelay = enemyComp.AttackDelay;
+
+                    var enemyWeapons = enemyComp.EnemyView.GetComponentsInChildren<EnemyWeapon>();
+                    var randomIndex = Random.Range(0, enemyWeapons.Length);
+
+                    for (var j = 0; j < enemyWeapons.Length; j++)
+                        enemyWeapons[j].gameObject.SetActive(j == randomIndex);
+
+                    rpgComp.Health = randomEnemyType.health;
+                    rpgComp.Stamina = randomEnemyType.stamina;
+                    rpgComp.Mana = randomEnemyType.mana;
+                    rpgComp.CanDash = true;
+                    rpgComp.CanJump = true;
+                    rpgComp.CanRun = true;
+
+                    animationComp.Animator = enemyComp.EnemyView.GetComponentInChildren<Animator>();
                     
-                    rpg.Health = randomEnemyType.health;
-                    rpg.Stamina = randomEnemyType.stamina;
-                    rpg.Mana = randomEnemyType.mana;
-                    rpg.CanDash = true;
-                    rpg.CanJump = true;
-                    rpg.CanRun = true;
-                    
-                    level.Level = Random.Range(zoneComp.ZoneView.minEnemyLevel, zoneComp.ZoneView.maxEnemyLevel + 1);
-                    level.Experience = _cf.Value.enemyConfiguration.enemiesData[enemyIndex].startExperience;
-                    level.ExperienceToNextLevel = _cf.Value.enemyConfiguration.enemiesData[enemyIndex].experienceToNextLevel[level.Level - 1];
+                    levelComp.Level = Random.Range(zoneComp.ZoneView.minEnemyLevel, zoneComp.ZoneView.maxEnemyLevel + 1);
+                    levelComp.Experience = _cf.Value.enemyConfiguration.enemiesData[enemyIndex].startExperience;
+                    levelComp.ExperienceToNextLevel = _cf.Value.enemyConfiguration.enemiesData[enemyIndex].experienceToNextLevel[levelComp.Level - 1];
                     
                     var enemyPackedEntity = _world.Value.PackEntity(enemyEntity);
 

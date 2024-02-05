@@ -18432,7 +18432,6 @@ GameObject:
   - component: {fileID: 622143153}
   - component: {fileID: 622143152}
   - component: {fileID: 622143155}
-  - component: {fileID: 622143156}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -18528,7 +18527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1372625422
   m_CollectObjects: 0
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
@@ -18543,22 +18542,10 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.1
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: a26ec69110bea3c4a81ff7eafac4a2fc, type: 2}
   m_BuildHeightMesh: 0
---- !u!114 &622143156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 622143151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4acf4a76524803b46ae80c45e58d5d2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &622419422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20253,6 +20240,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0b933af95ee3e374cae8cc69e0cd36e6,
         type: 2}
+    - target: {fileID: 2299830140982193382, guid: d67ec10685933f94282f9a91fcc87ea8,
+        type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 2952889942367510584, guid: d67ec10685933f94282f9a91fcc87ea8,
         type: 3}
       propertyPath: m_Name
@@ -28989,7 +28981,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.63654613, z: -0, w: 0.7712387}
   m_LocalPosition: {x: 644.7, y: 5.4, z: 1227.2}
-  m_LocalScale: {x: 385.35944, y: 27.764723, z: 376.5907}
+  m_LocalScale: {x: 385.35944, y: 109.76505, z: 376.5907}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 622143154}
@@ -33423,7 +33415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -35556,7 +35548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ee4699534d94b0c9fad781006675b4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemiesCount: 2
+  enemiesCount: 1
   minEnemyLevel: 1
   maxEnemyLevel: 3
   enemiesType:
@@ -59190,6 +59182,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: fe62f6193aadcdb4293e2fa1784f5b61,
         type: 2}
+    - target: {fileID: 2299830140982193382, guid: d67ec10685933f94282f9a91fcc87ea8,
+        type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 2952889942367510584, guid: d67ec10685933f94282f9a91fcc87ea8,
         type: 3}
       propertyPath: m_Name
@@ -73843,11 +73840,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Chest
-      objectReference: {fileID: 0}
-    - target: {fileID: 6317020595886276252, guid: d67ec10685933f94282f9a91fcc87ea8,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6317020595886276252, guid: d67ec10685933f94282f9a91fcc87ea8,
         type: 3}

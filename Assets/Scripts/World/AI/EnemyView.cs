@@ -20,6 +20,7 @@ namespace World.AI
         private EcsPool<EnemyComp> _enemyPool;
         private EcsPool<RpgComp> _rpgPool;
         private EcsPool<ZoneComp> _zonePool;
+        private EcsPool<AnimationComp> _animationPool;
 
         public void SetWorld(EcsWorld world, int entity)
         {
@@ -29,6 +30,7 @@ namespace World.AI
             _enemyPool = _world.GetPool<EnemyComp>();
             _rpgPool = _world.GetPool<RpgComp>();
             _zonePool = _world.GetPool<ZoneComp>();
+            _animationPool = _world.GetPool<AnimationComp>();
         }
 
         public IEnumerator AttackDelay(float targetAttackDelay)

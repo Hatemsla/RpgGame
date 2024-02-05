@@ -32,11 +32,28 @@ namespace World.AI
         [Tooltip("Max damage")]
         public float maxDamage;
 
+        [Tooltip("Chase distance for player")] 
+        public float chaseDistance;
+        [Tooltip("Chase time")]
+        public float chaseTime;
+        [Tooltip("Un Chase time")]
+        public float unChaseTime;
+
         [Tooltip("Attack delay")] 
         public float attackDelay;
-
         [Tooltip("Respawn delay")] 
         public float respawnDelay;
+
+        [Tooltip("Min distance to enemy")] 
+        public float minDistanceToPlayer;
+        [Tooltip("Walk speed")] 
+        public float walkSpeed;
+        [Tooltip("Run speed")] 
+        public float runSpeed;
+        [Tooltip("Angular walk speed")] 
+        public float angularWalkSpeed;
+        [Tooltip("Angular run speed")] 
+        public float angularRunSpeed;
         
         [Tooltip("Start level")]
         public int startLevel = 1;

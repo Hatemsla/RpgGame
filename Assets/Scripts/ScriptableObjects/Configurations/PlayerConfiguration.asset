@@ -52,6 +52,8 @@ MonoBehaviour:
   startMaxHp: 1
   startMaxSt: 1
   startMaxSp: 1
+  lookOnObjectView: 5
+  lookOnObjectActivate: 3
   experienceToNextLevel:
   - 100
   - 150
@@ -65,7 +67,7 @@ MonoBehaviour:
   - 5000
   groundLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 4097
   playerPrefab: {fileID: 623604660586739625, guid: 61f0f1c853bcfb44994a049f2fb9bfd3,
     type: 3}
   playerFollowCameraPrefab: {fileID: 4023971248361414438, guid: 0a57f7e45dd20654492220e1e448d0eb,

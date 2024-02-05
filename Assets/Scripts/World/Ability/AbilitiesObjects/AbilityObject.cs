@@ -1,12 +1,7 @@
 ﻿using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using ObjectsPool;
 using UnityEngine;
-using Utils.ObjectsPool;
-using World.Ability.StatusEffects;
-using World.AI;
 using World.Configurations;
-using World.Player;
 
 namespace World.Ability.AbilitiesObjects
 {

@@ -14,8 +14,8 @@ namespace World.Ability.AbilitiesObjects
 {
     public class BallAbilityObject : DirectionalAbilityObject
     {
-        [HideInInspector] public float speed;
-        [HideInInspector] public float startTime;
+        public float speed;
+        public float startTime;
         private static readonly int MoveX = Animator.StringToHash("MoveX");
 
         private void Update()
@@ -41,47 +41,48 @@ namespace World.Ability.AbilitiesObjects
                     var hasEnemiesPool = World.GetPool<HasEnemies>();
                     var levelPool = World.GetPool<LevelComp>();
                     var popupDamageTextPool = World.GetPool<PopupDamageTextComp>();
+                    var hasAbilities = World.GetPool<HasAbilities>();
+                    var abilityPool = World.GetPool<AbilityComp>();
 
                     ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
                     ref var animationComp = ref animationPool.Get(unpackedEnemyEntity);
                     ref var levelComp = ref levelPool.Get(PlayerEntity);
                     ref var playerComp = ref playerPool.Get(PlayerEntity);
+                    ref var abilities = ref hasAbilities.Get(PlayerEntity);
 
                     enemyComp.EnemyState = EnemyState.Chase;
                     enemyComp.Agent.SetDestination(playerComp.Transform.position);
                     enemyComp.CurrentChaseTime += Ts.DeltaTime;
-
+                    
                     var targetDamage = DamageEnemy(levelComp, ref enemyRpgComp);
 
-                    var hasAbilities = World.GetPool<HasAbilities>();
-                    ref var hasAbility = ref hasAbilities.Get(PlayerEntity);
-
-                    foreach (var abilityPacked in hasAbility.Entities)
+                    foreach (var abilityPacked in abilities.Entities)
                     {
                         if (abilityPacked.Unpack(World, out var unpackedAbilityEntity))
                         {
                             if (unpackedAbilityEntity == SkillIdx)
                             {
-                                var abilityPool = World.GetPool<AbilityComp>();
                                 var releasedEffectPool = World.GetPool<ReleasedStatusEffectComp>();
-                        
                                 ref var abilityComp = ref abilityPool.Get(unpackedAbilityEntity);
+                                
+                                var effectObject = Ps.StatusEffectPool.Get();
                                 var effectEntity = World.NewEntity();
                                 ref var releasedEffect = ref releasedEffectPool.Add(effectEntity);
-                                var effectObject = Ps.StatusEffectPool.Get();
 
-                                switch (abilityComp.StatusEffect.statusEffectType)
-                                {
-                                    case FireStatusEffect fire:
-                                        effectObject.SetWorld(World, PlayerEntity, effectEntity, Sd, Ts, Ps, Cf);
-                                        effectObject.transform.parent = other.gameObject.transform;
-                                        effectObject.Applying(enemyView, abilityComp.StatusEffect);
-                                        break;
-                                }
-                        
                                 releasedEffect.StatusOwner = PlayerEntity;
                                 releasedEffect.statusEffectObject = effectObject;
+                                
+                                effectObject.SetWorld(World, PlayerEntity, effectEntity, Sd, Ts, Ps, Cf);
+                                effectObject.Applying(enemyView, abilityComp.StatusEffect);
+
+                                /*switch (abilityComp.StatusEffect.statusEffectType)
+                                {
+                                    case FireStatusEffect type:
+                                        effectObject.SetWorld(World, PlayerEntity, effectEntity, Sd, Ts, Ps, Cf);
+                                        effectObject.Applying(enemyView, abilityComp.StatusEffect);
+                                        break;
+                                }*/
                             }
                         }
                     }

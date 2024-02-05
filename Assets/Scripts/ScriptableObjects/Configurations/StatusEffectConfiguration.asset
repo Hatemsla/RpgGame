@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statusEffectDatas:
   - {fileID: 11400000, guid: eac902c7ea6e0ad4e929c749830f2f0f, type: 2}
+  - {fileID: 11400000, guid: eac902c7ea6e0ad4e929c749830f2f0f, type: 2}

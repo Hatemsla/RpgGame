@@ -1,5 +1,6 @@
 ﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using ObjectsPool;
 using UnityEngine;
 using UnityEngine.AI;
 using Utils.ObjectsPool;

@@ -59,7 +59,6 @@ namespace World.Ability
                     abilityComp.OwnerEntity = entity;
                     abilityComp.AbilityDelay = abilityData.abilityDelay;
                     abilityComp.AbilityType = DefineAbilityType(abilityData.abilityTypeData);
-                    //abilityComp.StatusEffect = 
 
                     var abilityView = Object.Instantiate(abilityData.abilityViewPrefab, Vector3.zero,
                         Quaternion.identity);

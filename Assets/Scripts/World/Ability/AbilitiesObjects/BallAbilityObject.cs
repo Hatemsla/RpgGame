@@ -2,6 +2,8 @@
 using Leopotam.EcsLite;
 using UnityEngine;
 using World.Ability.AbilitiesTypes;
+using World.Ability.StatusEffects;
+using World.Ability.StatusEffects.AbilityStatusEffectComp;
 using World.AI;
 using World.AI.Navigation;
 using World.Player;
@@ -42,7 +44,39 @@ namespace World.Ability.AbilitiesObjects
                     ref var levelComp = ref levelPool.Get(PlayerEntity);
 
                     var targetDamage = DamageEnemy(levelComp, ref enemyRpgComp);
-                    
+
+                    var hasAbilities = World.GetPool<HasAbilities>();
+                    ref var hasAbility = ref hasAbilities.Get(PlayerEntity);
+
+                    foreach (var abilityPacked in hasAbility.Entities)
+                    {
+                        if (abilityPacked.Unpack(World, out var unpackedAbilityEntity))
+                        {
+                            if (unpackedAbilityEntity == SkillIdx)
+                            {
+                                var abilityPool = World.GetPool<AbilityComp>();
+                                var releasedEffectPool = World.GetPool<ReleasedStatusEffectComp>();
+                        
+                                ref var abilityComp = ref abilityPool.Get(unpackedAbilityEntity);
+                                var effectEntity = World.NewEntity();
+                                ref var releasedEffect = ref releasedEffectPool.Add(effectEntity);
+                                var effectObject = Ps.StatusEffectPool.Get();
+
+                                switch (abilityComp.StatusEffect.statusEffectType)
+                                {
+                                    case FireStatusEffect fire:
+                                        effectObject.SetWorld(World, PlayerEntity, effectEntity, Sd, Ts, Ps, Cf);
+                                        effectObject.transform.parent = other.gameObject.transform;
+                                        effectObject.Applying(enemyView, abilityComp.StatusEffect);
+                                        break;
+                                }
+                        
+                                releasedEffect.StatusOwner = PlayerEntity;
+                                releasedEffect.statusEffectObject = effectObject;
+                            }
+                        }
+                    }
+
                     ShowPopupDamage(popupDamageTextPool, targetDamage, enemyComp);
 
                     if (enemyRpgComp.Health <= 0)
@@ -135,7 +169,7 @@ namespace World.Ability.AbilitiesObjects
                 abilityDirection);
 
             transform.position = playerComp.Transform.position + playerComp.Transform.forward;
-
+            
             damage = ((BallAbility)ability.AbilityType).Damage;
             startTime = Ts.Time;
             startDirection = playerComp.Transform.position + playerComp.Transform.forward;

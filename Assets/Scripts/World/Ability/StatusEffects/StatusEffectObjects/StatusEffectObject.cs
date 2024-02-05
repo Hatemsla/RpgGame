@@ -1,29 +1,36 @@
 ﻿using Leopotam.EcsLite;
+using ObjectsPool;
 using UnityEngine;
 using Utils.ObjectsPool;
+using World.AI;
+using World.Configurations;
+using World.RPG;
 
 namespace World.Ability.StatusEffects.StatusEffectObjects
 {
-    public class StatusEffectObject : MonoBehaviour
+    public abstract class StatusEffectObject : MonoBehaviour, IApplyingEffect
     {
-        public EcsPackedEntity PostEffectIdx;
+        public EcsPackedEntity EffectIdx;
+        private protected EcsWorld World;
+        private protected SceneData Sd;
+        private protected TimeService Ts;
+        private protected PoolService Ps;
+        private protected Configuration Cf;
+        private protected int PlayerEntity;
 
-        private protected EcsWorld _world;
-
-        private protected SceneData _sd;
-        private protected TimeService _ts;
-        private protected PoolService _ps;
-
-        private protected int _playerEntity;
-
-        public void SetWorld(EcsWorld world, int entity, SceneData sd, TimeService ts, PoolService ps)
+        public void SetWorld(EcsWorld world, int entity, int statusEffectEntity, SceneData sd,
+            TimeService ts, PoolService ps, Configuration cf)
         {
-            _world = world;
-            _playerEntity = entity;
-
-            _sd = sd;
-            _ts = ts;
-            _ps = ps;
+            World = world;
+            PlayerEntity = entity;
+            EffectIdx = world.PackEntity(statusEffectEntity);
+            
+            Sd = sd;
+            Ts = ts;
+            Ps = ps;
+            Cf = cf;
         }
+
+        public abstract void Applying(EnemyView enemyView, StatusEffectComp effect);
     }
 }

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f87893de20c42bc8063d25b800fa69f, type: 3}
   m_Name: StatusEffectData
   m_EditorClassIdentifier: 
-  statusEffectObject1Prefab: {fileID: -4998037323865843663, guid: 812aa07d769178d47abcba372d810075,
+  statusEffectObjectPrefab: {fileID: -4998037323865843663, guid: 812aa07d769178d47abcba372d810075,
     type: 3}
   statusEffectTypeData: {fileID: 11400000, guid: 79fe7c7fe51bcb649a1b38e33217a97e,
     type: 2}
-  statusEffectLifeTime: 0
+  statusEffectLifeTime: 5

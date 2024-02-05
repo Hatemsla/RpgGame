@@ -17,6 +17,8 @@ MonoBehaviour:
   uiConfiguration: {fileID: 11400000, guid: 1f2ae600818eca34dbb19ee7bac95476, type: 2}
   abilityConfiguration: {fileID: 11400000, guid: bf9e24a615ad9ed46be1da1eedb683f6,
     type: 2}
+  statusEffectConfiguration: {fileID: 11400000, guid: 99442e753b2afc84bba8931631deb8fa,
+    type: 2}
   inventoryConfiguration: {fileID: 11400000, guid: bd65c09f65f3b5d42902e64c2cdc900d,
     type: 2}
   chestConfiguration: {fileID: 11400000, guid: 1d02bd63be68f97409a7c198f1dff305, type: 2}

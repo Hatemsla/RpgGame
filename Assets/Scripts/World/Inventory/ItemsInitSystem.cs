@@ -110,6 +110,7 @@ namespace World.Inventory
                             Quaternion.identity);
 
                         itemObject.DefaultWorld = _world.Value;
+                        itemObject.EventWorld = _eventWorld.Value;
                         itemObject.playerEntity = playerEntity;
                         itemObject.Ps = _ps.Value;
                         itemObject.Ts = _ts.Value;
@@ -123,6 +124,7 @@ namespace World.Inventory
                         {
                             case Sword sword:
                                 sword.damage = ((ItemSwordWeapon)it.ItemType).Damage;
+                                sword.wasteStamina = ((ItemSwordWeapon)it.ItemType).WasteStamina;
                                 break;
                         }
                         
@@ -159,11 +161,11 @@ namespace World.Inventory
                 // Potions
                 case HealthPotionItemData data:
                     value = new ItemHealthPotion();
-                    ((ItemHealthPotion) value).HealthPercent = data.healthPercent;
+                    ((ItemHealthPotion)value).HealthPercent = data.healthPercent;
                     break;
                 case ManaPotionItemData data:
                     value = new ItemManaPotion();
-                    ((ItemManaPotion) value).ManaPercent = data.manaPercent;
+                    ((ItemManaPotion)value).ManaPercent = data.manaPercent;
                     break;
                 case StaminaPotionItemData data:
                     value = new ItemStaminaPotion();
@@ -172,16 +174,17 @@ namespace World.Inventory
                 // Weapons
                 case SwordWeaponItemData data:
                     value = new ItemSwordWeapon();
-                    ((ItemSwordWeapon) value).Damage = data.damage;
+                    ((ItemSwordWeapon)value).Damage = data.damage;
+                    ((ItemSwordWeapon)value).WasteStamina = data.wasteStamina;
                     break;
                 case ShieldWeaponItemData data:
                     value = new ItemShieldWeapon();
-                    ((ItemShieldWeapon) value).DamageAbsorption = data.damageAbsorption;
+                    ((ItemShieldWeapon)value).DamageAbsorption = data.damageAbsorption;
                     break;
                 case BowWeaponItemData data:
                     value = new ItemBowWeapon();
-                    ((ItemBowWeapon) value).Damage = data.damage;
-                    ((ItemBowWeapon) value).Distance = data.distance;
+                    ((ItemBowWeapon)value).Damage = data.damage;
+                    ((ItemBowWeapon)value).Distance = data.distance;
                     break;
                 // Tools
                 case ToolItemData data:
@@ -189,6 +192,7 @@ namespace World.Inventory
                     ((ItemTool)value).Durability = data.durability;
                     break;
             }
+
             return value;
         }
     }

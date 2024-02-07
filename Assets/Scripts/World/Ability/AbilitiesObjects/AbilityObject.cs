@@ -12,15 +12,17 @@ namespace World.Ability.AbilitiesObjects
     {
         protected EcsPackedEntity AbilityIdx;
         protected EcsWorld World;
+        protected EcsWorld EventWorld;
         protected SceneData Sd;
         protected TimeService Ts;
         protected PoolService Ps;
         protected Configuration Cf;
         protected int PlayerEntity;
 
-        public void SetWorld(EcsWorld world, int playerEntity, int abilityEntity, SceneData sd, TimeService ts, PoolService ps, Configuration cf)
+        public void SetWorld(EcsWorld world, EcsWorld eventWorld, int playerEntity, int abilityEntity, SceneData sd, TimeService ts, PoolService ps, Configuration cf)
         {
             World = world;
+            EventWorld = eventWorld;
             PlayerEntity = playerEntity;
             AbilityIdx = world.PackEntity(abilityEntity);
 

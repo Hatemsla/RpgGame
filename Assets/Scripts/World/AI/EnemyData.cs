@@ -59,6 +59,9 @@ namespace World.AI
         public int startLevel = 1;
         [Tooltip("Start experience")]
         public int startExperience;
+
+        [Tooltip("Award experience div")] 
+        public float awardExperienceDiv;
         [Tooltip("Experience needed to reach next level")]
         public List<int> experienceToNextLevel;
     }

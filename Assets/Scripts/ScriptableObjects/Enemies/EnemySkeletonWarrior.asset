@@ -35,4 +35,5 @@ MonoBehaviour:
   angularRunSpeed: 300
   startLevel: 1
   startExperience: 0
+  awardExperienceDiv: 10
   experienceToNextLevel: 960000002c01000058020000e8030000

@@ -15,8 +15,6 @@ namespace World.Inventory.Chest
         public RectTransform chestInventoryView;
         public TMP_Text chestInventoryWeightText;
 
-        public bool isOpen;
-
         private PlayerView _player;
         
         private EcsWorld _world;

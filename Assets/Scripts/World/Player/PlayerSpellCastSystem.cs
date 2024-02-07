@@ -26,6 +26,7 @@ namespace World.Player
         private readonly EcsCustomInject<PoolService> _ps = default;
         
         private readonly EcsWorldInject _world = default;
+        private readonly EcsWorldInject _eventWorld = Idents.Worlds.Events;
         
         [EcsUguiNamed(Idents.UI.PlayerAbilityView)]
         private readonly GameObject _abilityView = default;
@@ -103,7 +104,7 @@ namespace World.Player
                                 {
                                     // Balls
                                     case BallAbility type:
-                                        abilityObject.SetWorld(_world.Value, entity, abilityEntity, _sd.Value, _ts.Value, _ps.Value, _cf.Value);
+                                        abilityObject.SetWorld(_world.Value, _eventWorld.Value, entity, abilityEntity, _sd.Value, _ts.Value, _ps.Value, _cf.Value);
                                         abilityObject.Cast(ability, entity);
                                         break;
                                 }

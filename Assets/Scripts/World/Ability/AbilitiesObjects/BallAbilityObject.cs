@@ -34,30 +34,30 @@ namespace World.Ability.AbilitiesObjects
                 {
                     var playerPool = World.GetPool<PlayerComp>();
                     var enemyPool = World.GetPool<EnemyComp>();
-                    var animationPool = World.GetPool<AnimationComp>();
                     var enemyRpgPool = World.GetPool<RpgComp>();
                     var hasEnemiesPool = World.GetPool<HasEnemies>();
                     var levelPool = World.GetPool<LevelComp>();
                     var popupDamageTextPool = World.GetPool<PopupDamageTextComp>();
+                    var levelChangedPool = EventWorld.GetPool<LevelChangedEvent>();
 
                     ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
-                    ref var animationComp = ref animationPool.Get(unpackedEnemyEntity);
-                    ref var levelComp = ref levelPool.Get(PlayerEntity);
+                    ref var playerLevelComp = ref levelPool.Get(PlayerEntity);
+                    ref var enemyLevelComp = ref levelPool.Get(unpackedEnemyEntity);
                     ref var playerComp = ref playerPool.Get(PlayerEntity);
 
                     enemyComp.EnemyState = EnemyState.Chase;
                     enemyComp.Agent.SetDestination(playerComp.Transform.position);
                     enemyComp.CurrentChaseTime += Ts.DeltaTime;
 
-                    var targetDamage = DamageEnemy(levelComp, ref enemyRpgComp);
+                    var targetDamage = DamageEnemy(playerLevelComp, ref enemyRpgComp);
                     
                     ShowPopupDamage(popupDamageTextPool, targetDamage, enemyComp);
 
                     if (enemyRpgComp.Health <= 0)
                     {
                         Ps.EnemyPool.Return(enemyComp.EnemyView);
-
+                        
                         if (enemyView.ZonePackedIdx.Unpack(World, out var unpackedZoneEntity))
                         {
                             ref var hasEnemyComp = ref hasEnemiesPool.Get(unpackedZoneEntity);
@@ -71,6 +71,9 @@ namespace World.Ability.AbilitiesObjects
                                             entityPacked.Unpack(World, out var entity) &&
                                             entity == unpackedEnemyEntity);
                             }
+                            
+                            ref var levelChangedComp = ref levelChangedPool.Add(EventWorld.NewEntity());
+                            levelChangedComp.NewExperience = enemyLevelComp.ExperienceToNextLevel / enemyLevelComp.AwardExperienceDiv;
 
                             enemyPool.Del(unpackedEnemyEntity);
                             enemyRpgPool.Del(unpackedEnemyEntity);

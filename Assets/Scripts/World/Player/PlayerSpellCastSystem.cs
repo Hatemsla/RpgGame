@@ -32,6 +32,7 @@ namespace World.Player
         private readonly EcsCustomInject<PoolService> _ps = default;
         
         private readonly EcsWorldInject _world = default;
+        private readonly EcsWorldInject _eventWorld = Idents.Worlds.Events;
         
         [EcsUguiNamed(Idents.UI.PlayerAbilityView)]
         private readonly GameObject _abilityView = default;

@@ -13,6 +13,7 @@ namespace World.Inventory
         public EcsPackedEntity ItemIdx;
         
         public EcsWorld DefaultWorld;
+        public EcsWorld EventWorld;
         public int playerEntity;
         public PoolService Ps;
         public TimeService Ts;

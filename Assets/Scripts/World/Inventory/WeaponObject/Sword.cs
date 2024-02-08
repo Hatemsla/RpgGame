@@ -17,7 +17,7 @@ namespace World.Inventory.WeaponObject
         private bool _isAttacking;
 
         private readonly List<EnemyView> _attackedEnemies = new();
-        
+
         private void Update()
         {
             ref var animationComp = ref DefaultWorld.GetPool<AnimationComp>().Get(playerEntity);
@@ -48,13 +48,17 @@ namespace World.Inventory.WeaponObject
                     var enemyRpgPool = DefaultWorld.GetPool<RpgComp>();
                     var hasEnemiesPool = DefaultWorld.GetPool<HasEnemies>();
                     var levelPool = DefaultWorld.GetPool<LevelComp>();
+                    var playerPool = DefaultWorld.GetPool<PlayerComp>();
                     var popupDamageTextPool = DefaultWorld.GetPool<PopupDamageTextComp>();
+                    var levelChangedPool = EventWorld.GetPool<LevelChangedEvent>();
                     
                     ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
-                    ref var levelComp = ref levelPool.Get(playerEntity);
+                    ref var enemyLevelComp = ref levelPool.Get(unpackedEnemyEntity);
+                    ref var playerLevelComp = ref levelPool.Get(playerEntity);
+                    ref var playerComp = ref playerPool.Get(playerEntity);
 
-                    var targetDamage = DamageEnemy(levelComp, ref enemyRpgComp);
+                    var targetDamage = DamageEnemy(playerLevelComp, ref enemyRpgComp);
 
                     ShowPopupDamage(popupDamageTextPool, targetDamage, enemyComp);
 
@@ -78,6 +82,11 @@ namespace World.Inventory.WeaponObject
                                     }
                                 }
                             }
+                            
+                            playerComp.GoldAmount += Random.Range(enemyComp.MinCoinsAward, enemyComp.MaxCoinsAward + 1);
+                            
+                            ref var levelChangedComp = ref levelChangedPool.Add(EventWorld.NewEntity());
+                            levelChangedComp.NewExperience = enemyLevelComp.ExperienceToNextLevel / enemyLevelComp.AwardExperienceDiv;
 
                             enemyPool.Del(unpackedEnemyEntity);
                             enemyRpgPool.Del(unpackedEnemyEntity);
@@ -120,10 +129,12 @@ namespace World.Inventory.WeaponObject
 
         public override void Attack()
         {
-            // _isAttacking = true;
-            // Debug.Log(AnimationComp.Animator.GetCurrentAnimatorStateInfo(0).IsName("MeleeAttack_OneHanded"));
-            // if (!AnimationComp.Animator.GetCurrentAnimatorStateInfo(0).IsName("MeleeAttack_OneHanded"))
-            //     _isAttacking = true;
+            if (!_isAttacking)
+            {
+                var rpgPool = DefaultWorld.GetPool<RpgComp>();
+                ref var rpgComp = ref rpgPool.Get(playerEntity);
+                rpgComp.Stamina -= wasteStamina;
+            }
         }
     }
 }

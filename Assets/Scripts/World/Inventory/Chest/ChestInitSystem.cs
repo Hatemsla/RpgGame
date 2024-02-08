@@ -15,7 +15,7 @@ namespace World.Inventory.Chest
         private readonly EcsPoolInject<HasItems> _hasItemsPool = default;
         private readonly EcsPoolInject<InventoryComp> _inventoryPool = default;
 
-        private readonly EcsWorldInject _itemsWorld = default;
+        private readonly EcsWorldInject _defaultWorld = default;
         private readonly EcsWorldInject _eventWorld = Idents.Worlds.Events;
 
         private readonly EcsCustomInject<SceneData> _sd = default;
@@ -43,7 +43,7 @@ namespace World.Inventory.Chest
         {
             foreach (var chest in _sd.Value.chests)
             {
-                var entity = _itemsWorld.Value.NewEntity();
+                var entity = _defaultWorld.Value.NewEntity();
                 ref var chestComp = ref _chestPool.Value.Add(entity);
                 ref var inventoryComp = ref _inventoryPool.Value.Add(entity);
                 ref var hasItemsComp = ref _hasItemsPool.Value.Add(entity);
@@ -51,12 +51,12 @@ namespace World.Inventory.Chest
                 chestComp.ChestObject = chest;
                 chestComp.ChestObject.SetView(_chestInventoryView);
                 chestComp.ChestObject.chestInventoryWeightText = _chestInventoryWeightText.GetComponent<InventoryWeightView>().inventoryWeightText;
-                chestComp.ChestObject.SetWorld(_itemsWorld.Value, entity);
+                chestComp.ChestObject.SetWorld(_defaultWorld.Value, entity);
 
                 foreach (var itemData in chest.items)
                 {
-                    var itemEntity = _itemsWorld.Value.NewEntity();
-                    var itemPackedEntity = _itemsWorld.Value.PackEntity(itemEntity);
+                    var itemEntity = _defaultWorld.Value.NewEntity();
+                    var itemPackedEntity = _defaultWorld.Value.PackEntity(itemEntity);
                     ref var it = ref _itemPool.Value.Add(itemEntity);
                     
                     it.ItemName = itemData.itemName;
@@ -79,7 +79,7 @@ namespace World.Inventory.Chest
                     it.ItemView.ItemName = itemData.itemName;
                     it.ItemView.ItemDescription = itemData.itemDescription;
                     it.ItemView.ItemCount = itemData.itemCount.ToString();
-                    it.ItemView.SetWorld(_itemsWorld.Value, _eventWorld.Value, entity, _sd.Value);
+                    it.ItemView.SetWorld(_defaultWorld.Value, _eventWorld.Value, entity, _sd.Value);
                     it.ItemView.SetViews(_playerInventoryView, _chestInventoryView, _fastItemsView, _deleteFormView, _crosshairView);
                     
                     if (itemData.itemObjectPrefab)

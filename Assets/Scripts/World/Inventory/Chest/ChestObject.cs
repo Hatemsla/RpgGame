@@ -15,8 +15,6 @@ namespace World.Inventory.Chest
         public RectTransform chestInventoryView;
         public TMP_Text chestInventoryWeightText;
 
-        public bool isOpen;
-
         private PlayerView _player;
         
         private EcsWorld _world;
@@ -68,6 +66,7 @@ namespace World.Inventory.Chest
             {
                 chestInventoryView.gameObject.SetActive(true);
                 _chestInventoryViewContent.currentEntity = _chestEntity;
+                Debug.Log("Open chest");
                     
                 ref var inventory = ref _inventoryPool.Get(_chestEntity);
                 chestInventoryWeightText.text = $"Вес: {inventory.CurrentWeight}/{inventory.MaxWeight}";

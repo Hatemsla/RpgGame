@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using World.Inventory;
 using World.Inventory.Canvases;
+using World.Player.UI;
 using World.RPG.UI;
+using World.Trader.UI;
 
 namespace World
 {
@@ -12,6 +15,18 @@ namespace World
 
         [Tooltip("Main canvas")] 
         public MainCanvas mainCanvas;
+
+        [Tooltip("Trader shop")] 
+        public TraderShopView traderShopView;
+
+        public PlayerInventoryGoldAmount playerInventoryGoldAmount;
+
+        public RectTransform playerInventoryView;
+        public RectTransform chestInventoryView;
+        public RectTransform fastItemsView;
+        public RectTransform deleteFormView;
+        public RectTransform crosshairView;
+        public InventoryWeightView playerInventoryWeightText;
         
         [Tooltip("Level stats views")]
         public List<LevelStatView> levelStatsViews;

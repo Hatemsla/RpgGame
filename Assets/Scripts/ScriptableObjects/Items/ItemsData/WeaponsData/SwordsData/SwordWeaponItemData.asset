@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: SwordWeaponItemData
   m_EditorClassIdentifier: 
   damage: 10
+  wasteStamina: 5

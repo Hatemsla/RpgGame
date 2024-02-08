@@ -3,5 +3,6 @@
     public class ItemSwordWeapon : ItemWeapon
     {
         public float Damage;
+        public float WasteStamina;
     }
 }

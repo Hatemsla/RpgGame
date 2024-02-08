@@ -27,10 +27,10 @@ namespace World.Player
             var playerEntity = _world.Value.NewEntity();
             var playerPacked = _world.Value.PackEntity(playerEntity);
 
-            ref var player = ref _playerPool.Value.Add(playerEntity);
-            ref var rpg = ref _rpgPool.Value.Add(playerEntity);
-            ref var level = ref _levelPool.Value.Add(playerEntity);
-            ref var animation = ref _animationPool.Value.Add(playerEntity);
+            ref var playerComp = ref _playerPool.Value.Add(playerEntity);
+            ref var rpgComp = ref _rpgPool.Value.Add(playerEntity);
+            ref var levelComp = ref _levelPool.Value.Add(playerEntity);
+            ref var animationComp = ref _animationPool.Value.Add(playerEntity);
             _inventoryPool.Value.Add(playerEntity);
             _playerInputPool.Value.Add(playerEntity);
 
@@ -41,36 +41,42 @@ namespace World.Player
             var playerFollowCameraView =
                 Object.Instantiate(playerFollowCameraPrefab, Vector3.zero, Quaternion.identity);
 
-            player.Transform = playerObject.transform;
-            player.Position = playerStartPosition;
-            player.Rotation = Quaternion.identity;
-            player.CharacterController = playerObject.GetComponent<CharacterController>();
-            player.PlayerCameraRootTransform = playerObject.GetComponentInChildren<PlayerCameraRootView>().transform;
-            player.PlayerCameraStatsTransform = playerObject.GetComponentInChildren<PlayerCameraStatsView>().transform;
-            player.Grounded = true;
-            player.PlayerCameraRoot = playerFollowCameraView;
-            player.PlayerCameraStats = player.PlayerCameraStatsTransform.GetComponent<CinemachineVirtualCamera>();
-            player.CanMove = true;
+            playerComp.Transform = playerObject.transform;
+            playerComp.Position = playerStartPosition;
+            playerComp.Rotation = Quaternion.identity;
+            playerComp.CharacterController = playerObject.GetComponent<CharacterController>();
+            playerComp.PlayerCameraRootTransform = playerObject.GetComponentInChildren<PlayerCameraRootView>().transform;
+            playerComp.PlayerCameraStatsTransform = playerObject.GetComponentInChildren<PlayerCameraStatsView>().transform;
+            playerComp.Grounded = true;
+            playerComp.PlayerCameraRoot = playerFollowCameraView;
+            playerComp.PlayerCameraStats = playerComp.PlayerCameraStatsTransform.GetComponent<CinemachineVirtualCamera>();
+            playerComp.CanMove = true;
+            playerComp.CameraSense = _cf.Value.playerConfiguration.deltaTimeMultiplier;
+            playerComp.GoldAmount = _cf.Value.playerConfiguration.startPlayerGold;
+            
+            var coinsAmount = playerComp.GoldAmount.ToString();
+            _sd.Value.uiSceneData.playerInventoryGoldAmount.goldAmount.text = coinsAmount;
+            _sd.Value.uiSceneData.traderShopView.playerCoins.text = "Мои монеты: " + coinsAmount;
 
-            animation.Animator = playerObject.GetComponentInChildren<Animator>();
+            animationComp.Animator = playerObject.GetComponentInChildren<Animator>();
 
-            var playerView = player.Transform.GetComponentInChildren<PlayerView>();
+            var playerView = playerComp.Transform.GetComponentInChildren<PlayerView>();
             playerView.PlayerPacked = playerPacked;
 
-            playerFollowCameraView.Follow = player.PlayerCameraRootTransform;
+            playerFollowCameraView.Follow = playerComp.PlayerCameraRootTransform;
             playerFollowCameraView.GetCinemachineComponent<Cinemachine3rdPersonFollow>().CameraDistance =
                 _cf.Value.playerConfiguration.minZoomDistance;
 
-            rpg.Health = _cf.Value.playerConfiguration.health;
-            rpg.Stamina = _cf.Value.playerConfiguration.stamina;
-            rpg.Mana = _cf.Value.playerConfiguration.mana;
-            rpg.CanRun = true;
-            rpg.CanDash = true;
-            rpg.CanJump = true;
+            rpgComp.Health = _cf.Value.playerConfiguration.health;
+            rpgComp.Stamina = _cf.Value.playerConfiguration.stamina;
+            rpgComp.Mana = _cf.Value.playerConfiguration.mana;
+            rpgComp.CanRun = true;
+            rpgComp.CanDash = true;
+            rpgComp.CanJump = true;
 
-            level.Level = _cf.Value.playerConfiguration.startLevel;
-            level.Experience = _cf.Value.playerConfiguration.startExperience;
-            level.ExperienceToNextLevel = _cf.Value.playerConfiguration.experienceToNextLevel[0];
+            levelComp.Level = _cf.Value.playerConfiguration.startLevel;
+            levelComp.Experience = _cf.Value.playerConfiguration.startExperience;
+            levelComp.ExperienceToNextLevel = _cf.Value.playerConfiguration.experienceToNextLevel[0];
         }
     }
 }

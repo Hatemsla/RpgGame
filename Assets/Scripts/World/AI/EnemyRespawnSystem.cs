@@ -14,6 +14,8 @@ namespace World.AI
         private readonly EcsFilterInject<Inc<ZoneComp, HasEnemies>> _zoneFilter = default;
         private readonly EcsPoolInject<EnemyComp> _enemyPool = default;
         private readonly EcsPoolInject<RpgComp> _rpgPool = default;
+        private readonly EcsPoolInject<LevelComp> _levelPool = default;
+        private readonly EcsPoolInject<AnimationComp> _animationPool = default;
 
         private readonly EcsCustomInject<PoolService> _ps = default;
         private readonly EcsCustomInject<Configuration> _cf = default;
@@ -40,6 +42,8 @@ namespace World.AI
                     
                     ref var enemyComp = ref _enemyPool.Value.Add(enemyEntity);
                     ref var rpgComp = ref _rpgPool.Value.Add(enemyEntity);
+                    ref var levelComp = ref _levelPool.Value.Add(enemyEntity);
+                    ref var animationComp = ref _animationPool.Value.Add(enemyEntity);
                     
                     var randomEnemy = Random.Range(0, zoneComp.ZoneView.enemiesType.Count - 1);
                     var randomEnemyType = zoneComp.ZoneView.enemiesType[randomEnemy];
@@ -59,6 +63,7 @@ namespace World.AI
                     enemyComp.CurrentChaseTime = 0;
                     enemyComp.MinDistanceToPlayer = randomEnemyType.minDistanceToPlayer;
                     enemyComp.Agent = enemyView.GetComponent<NavMeshAgent>();
+                    enemyComp.Agent.enabled = true;
                     enemyComp.Agent.isStopped = false;
                     
                     enemyComp.WalkSpeed = randomEnemyType.walkSpeed;
@@ -73,11 +78,13 @@ namespace World.AI
                     enemyComp.Transform.localPosition = zoneComp.ZoneView
                         .targets[Random.Range(0, zoneComp.ZoneView.targets.Count - 1)].transform.localPosition;
                     enemyComp.EnemyState = EnemyState.Patrol;
-                    enemyComp.Agent.enabled = true;
                     enemyComp.MinDamage = randomEnemyType.minDamage;
                     enemyComp.MaxDamage = randomEnemyType.maxDamage;
                     enemyComp.AttackDelay = randomEnemyType.attackDelay;
                     enemyComp.EnemyView.currentAttackDelay = enemyComp.AttackDelay;
+                    
+                    enemyComp.MinCoinsAward = randomEnemyType.minCoinsAward;
+                    enemyComp.MaxCoinsAward = randomEnemyType.maxCoinsAward;
                     
                     rpgComp.Health = randomEnemyType.health;
                     rpgComp.Stamina = randomEnemyType.stamina;
@@ -85,6 +92,13 @@ namespace World.AI
                     rpgComp.CanDash = true;
                     rpgComp.CanJump = true;
                     rpgComp.CanRun = true;
+                    
+                    animationComp.Animator = enemyComp.EnemyView.GetComponentInChildren<Animator>();
+
+                    levelComp.AwardExperienceDiv = randomEnemyType.awardExperienceDiv;
+                    levelComp.Level = Random.Range(zoneComp.ZoneView.minEnemyLevel, zoneComp.ZoneView.maxEnemyLevel + 1);
+                    levelComp.Experience = _cf.Value.enemyConfiguration.enemiesData[enemyIndex].startExperience;
+                    levelComp.ExperienceToNextLevel = _cf.Value.enemyConfiguration.enemiesData[enemyIndex].experienceToNextLevel[levelComp.Level - 1];
                     
                     var enemyPackedEntity = _world.Value.PackEntity(enemyEntity);
 

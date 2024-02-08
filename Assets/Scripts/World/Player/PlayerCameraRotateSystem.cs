@@ -17,8 +17,6 @@ namespace World.Player
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
 
-        private const float Threshold = 0.01f;
-
         public void Run(IEcsSystems systems)
         {
             foreach (var entity in _unitsMove.Value)
@@ -29,12 +27,10 @@ namespace World.Player
                 
                 if(!playerComp.CanMove) return;
                 
-                if (inputComp.Look.sqrMagnitude >= Threshold)
+                if (inputComp.Look.sqrMagnitude >= _cf.Value.playerConfiguration.threshold)
                 {
-                    var deltaTimeMultiplier = 1f;
-
-                    _cinemachineTargetYaw += inputComp.Look.x * deltaTimeMultiplier;
-                    _cinemachineTargetPitch += inputComp.Look.y * deltaTimeMultiplier;
+                    _cinemachineTargetYaw += inputComp.Look.x * playerComp.CameraSense;
+                    _cinemachineTargetPitch += inputComp.Look.y * playerComp.CameraSense;
                 }
 
                 _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
@@ -51,7 +47,7 @@ namespace World.Player
                     var currentYRotation = playerComp.Transform.rotation.eulerAngles.y;
                    
                     var newYRotation = Mathf.LerpAngle(
-                        currentYRotation, desiredYRotation,  _ts.Value.DeltaTime * _cf.Value.playerConfiguration.rotationSpeed);
+                        currentYRotation, desiredYRotation, _ts.Value.DeltaTime * _cf.Value.playerConfiguration.rotationSpeed);
                     
                     playerComp.Transform.rotation = Quaternion.Euler(0f, newYRotation, 0f);
                 }

@@ -15,6 +15,10 @@ MonoBehaviour:
   hsmBarsChangeRate: 5
   popupDamageTextPrefab: {fileID: 3276757946941163151, guid: 10a0fe0dc85409f4e8bf7d60aef4775d,
     type: 3}
+  buyPanelViewPrefab: {fileID: 6691555234183144145, guid: 595ffc64fe211144fa0a0443dce88b5e,
+    type: 3}
+  sellPanelViewPrefab: {fileID: 2666157189668008925, guid: 01f4302ef088b914598cfb03ac2caee6,
+    type: 3}
   popupDamageLifeTime: 1
   lookObjectMask:
     serializedVersion: 2

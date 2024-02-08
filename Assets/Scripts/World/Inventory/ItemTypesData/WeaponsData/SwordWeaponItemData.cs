@@ -6,5 +6,6 @@ namespace World.Inventory.ItemTypesData.WeaponsData
     public class SwordWeaponItemData : WeaponItemData
     {
         public float damage;
+        public float wasteStamina;
     }
 }

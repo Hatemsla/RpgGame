@@ -81,6 +81,8 @@ namespace World.AI
                     enemyComp.MaxDamage = randomEnemyType.maxDamage;
                     enemyComp.AttackDelay = randomEnemyType.attackDelay;
                     enemyComp.EnemyView.currentAttackDelay = enemyComp.AttackDelay;
+                    enemyComp.MinCoinsAward = randomEnemyType.minCoinsAward;
+                    enemyComp.MaxCoinsAward = randomEnemyType.maxCoinsAward;
 
                     var enemyWeapons = enemyComp.EnemyView.GetComponentsInChildren<EnemyWeapon>();
                     var randomIndex = Random.Range(0, enemyWeapons.Length);
@@ -96,7 +98,8 @@ namespace World.AI
                     rpgComp.CanRun = true;
 
                     animationComp.Animator = enemyComp.EnemyView.GetComponentInChildren<Animator>();
-                    
+
+                    levelComp.AwardExperienceDiv = randomEnemyType.awardExperienceDiv;
                     levelComp.Level = Random.Range(zoneComp.ZoneView.minEnemyLevel, zoneComp.ZoneView.maxEnemyLevel + 1);
                     levelComp.Experience = _cf.Value.enemyConfiguration.enemiesData[enemyIndex].startExperience;
                     levelComp.ExperienceToNextLevel = _cf.Value.enemyConfiguration.enemiesData[enemyIndex].experienceToNextLevel[levelComp.Level - 1];

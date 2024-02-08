@@ -9,6 +9,7 @@ namespace World.Ability.AbilitiesObjects
     {
         public EcsPackedEntity AbilityIdx;
         protected EcsWorld World;
+        protected EcsWorld EventWorld;
         protected SceneData Sd;
         protected TimeService Ts;
         protected PoolService Ps;
@@ -20,6 +21,7 @@ namespace World.Ability.AbilitiesObjects
             SceneData sd, TimeService ts,PoolService ps, Configuration cf)
         {
             World = world;
+            EventWorld = eventWorld;
             PlayerEntity = playerEntity;
             AbilityIdx = world.PackEntity(abilityEntity);
             SkillIdx = skillIdx;

@@ -28,6 +28,8 @@ MonoBehaviour:
   unChaseTime: 3
   attackDelay: 2
   respawnDelay: 3
+  minCoinsAward: 5
+  maxCoinsAward: 20
   minDistanceToPlayer: 2
   walkSpeed: 3.5
   runSpeed: 7
@@ -35,4 +37,5 @@ MonoBehaviour:
   angularRunSpeed: 300
   startLevel: 1
   startExperience: 0
+  awardExperienceDiv: 10
   experienceToNextLevel: 960000002c01000058020000e8030000

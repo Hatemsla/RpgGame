@@ -47,6 +47,9 @@ namespace World.Player
         public float groundedOffset = -0.14f;
         [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
         public float groundedRadius = 0.28f;
+        
+        public float threshold = 0.01f;
+        public float deltaTimeMultiplier = 1f;
 
         [Header("Rpg settings")] 
         [Tooltip("Start player health points")]
@@ -55,6 +58,9 @@ namespace World.Player
         public float stamina = 100;
         [Tooltip("Start player mana points")]
         public float mana = 100;
+
+        [Tooltip("Start player gold")]
+        public int startPlayerGold = 100;
         
         [Tooltip("Endurance consumption for Sprint")]
         public float sprintEndurance;
@@ -79,7 +85,7 @@ namespace World.Player
         public int startLevel = 1;
         [Tooltip("Start experience")]
         public float startExperience;
-        [Tooltip("Increase passive experience delay")]
+        [Tooltip("Increase passive experience delay is sec")]
         public float experienceIncreaseDelay = 5;
         [Tooltip("Increase passive experience")]
         public float experiencePassiveIncrease = 10;
@@ -103,6 +109,8 @@ namespace World.Player
         [Tooltip("Max distance to look on object activate")]
         public float lookOnObjectActivate;
         
+        [Tooltip("Experience enemy award")] 
+        public float enemyExperienceAward;
         [Tooltip("Experience needed to reach next level")]
         public List<float> experienceToNextLevel;
         

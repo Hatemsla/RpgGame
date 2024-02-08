@@ -5,6 +5,7 @@
         public int Level;
         public float Experience;
         public float ExperienceToNextLevel;
+        public float AwardExperienceDiv;
 
         public int LevelScore;
         public int SpentLevelScore;

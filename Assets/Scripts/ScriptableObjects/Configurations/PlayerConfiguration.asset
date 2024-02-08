@@ -31,6 +31,8 @@ MonoBehaviour:
   gravity: -15
   groundedOffset: 1
   groundedRadius: 0.3
+  threshold: 0.01
+  deltaTimeMultiplier: 1
   health: 100
   stamina: 100
   mana: 100
@@ -44,7 +46,7 @@ MonoBehaviour:
   manaRecovery: 5
   startLevel: 1
   startExperience: 0
-  experienceIncreaseDelay: 5
+  experienceIncreaseDelay: 300
   experiencePassiveIncrease: 10
   startPAtk: 1
   startMAtk: 1
@@ -54,6 +56,7 @@ MonoBehaviour:
   startMaxSp: 1
   lookOnObjectView: 5
   lookOnObjectActivate: 3
+  enemyExperienceAward: 100
   experienceToNextLevel:
   - 100
   - 150

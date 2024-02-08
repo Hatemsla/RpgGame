@@ -12,6 +12,7 @@ using World.AI.Navigation;
 using World.Configurations;
 using World.Inventory;
 using World.Inventory.Chest;
+using World.LoadGame;
 using World.Player;
 using World.Player.Events;
 using World.Player.Weapons;
@@ -48,6 +49,7 @@ namespace World
                 .AddWorld(new EcsWorld(), Idents.Worlds.Events)
                     
                 //Init systems
+                .Add(new LoadDataSystem())
                 .Add(new PlayerInitSystem())
                 .Add(new ItemsInitSystem())
                 .Add(new AbilityInitSystem())
@@ -103,6 +105,7 @@ namespace World
                 .DelHere<TransitionCameraEvent>(Idents.Worlds.Events)
                 .DelHere<OneHandedMeleeAttackEvent>(Idents.Worlds.Events)
                 .DelHere<SaveEventComp>(Idents.Worlds.Events)
+                .DelHere<LoadDataEventComp>(Idents.Worlds.Events)
                 .Add(new DeleteFormSystem())
                 .Add(new ExitMenuHandleSystem())
                 

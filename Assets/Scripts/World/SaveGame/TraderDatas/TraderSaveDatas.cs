@@ -4,6 +4,6 @@ namespace World.SaveGame
 {
     public class TraderSaveDatas
     {
-        public List<TraderSaveData> Traders = new List<TraderSaveData>();
+        public readonly List<TraderSaveData> Traders = new List<TraderSaveData>();
     }
 }

@@ -29,6 +29,7 @@ namespace World
         public RectTransform deleteFormView;
         public RectTransform crosshairView;
         public InventoryWeightView playerInventoryWeightText;
+        public InventoryWeightView chestInventoryWeightText;
         
         [Tooltip("Level stats views")]
         public List<LevelStatView> levelStatsViews;

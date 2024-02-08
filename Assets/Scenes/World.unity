@@ -69422,6 +69422,7 @@ MonoBehaviour:
   deleteFormView: {fileID: 391242159}
   crosshairView: {fileID: 1758782206}
   playerInventoryWeightText: {fileID: 1852694684}
+  chestInventoryWeightText: {fileID: 2136977431}
   levelStatsViews:
   - {fileID: 645861174}
   - {fileID: 1598856969}

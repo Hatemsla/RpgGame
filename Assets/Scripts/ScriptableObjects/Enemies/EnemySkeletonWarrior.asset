@@ -28,6 +28,8 @@ MonoBehaviour:
   unChaseTime: 3
   attackDelay: 2
   respawnDelay: 3
+  minCoinsAward: 5
+  maxCoinsAward: 20
   minDistanceToPlayer: 2
   walkSpeed: 3.5
   runSpeed: 7

@@ -44,6 +44,11 @@ namespace World.AI
         [Tooltip("Respawn delay")] 
         public float respawnDelay;
 
+        [Tooltip("Min coins award")] 
+        public int minCoinsAward;
+        [Tooltip("Max coins award")]
+        public int maxCoinsAward;
+
         [Tooltip("Min distance to enemy")] 
         public float minDistanceToPlayer;
         [Tooltip("Walk speed")] 
@@ -52,7 +57,7 @@ namespace World.AI
         public float runSpeed;
         [Tooltip("Angular walk speed")] 
         public float angularWalkSpeed;
-        [Tooltip("Angular run speed")] 
+        [Tooltip("Angular run speed")]
         public float angularRunSpeed;
         
         [Tooltip("Start level")]

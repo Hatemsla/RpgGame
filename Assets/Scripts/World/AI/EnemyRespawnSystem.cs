@@ -84,6 +84,9 @@ namespace World.AI
                     enemyComp.AttackDelay = randomEnemyType.attackDelay;
                     enemyComp.EnemyView.currentAttackDelay = enemyComp.AttackDelay;
                     
+                    enemyComp.MinCoinsAward = randomEnemyType.minCoinsAward;
+                    enemyComp.MaxCoinsAward = randomEnemyType.maxCoinsAward;
+                    
                     rpgComp.Health = randomEnemyType.health;
                     rpgComp.Stamina = randomEnemyType.stamina;
                     rpgComp.Mana = randomEnemyType.mana;

@@ -21,6 +21,9 @@ namespace World.AI
         public float UnChaseTime;
         public float CurrentChaseTime;
         public float CurrentUnChaseTime;
+        
+        public int MinCoinsAward;
+        public int MaxCoinsAward;
 
         public float WalkSpeed;
         public float RunSpeed;

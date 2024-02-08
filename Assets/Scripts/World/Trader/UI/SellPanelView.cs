@@ -78,9 +78,6 @@ namespace World.Trader.UI
             inventoryComp.CurrentWeight -= itemComp.Weight;
             inventoryComp.InventoryWeightView.inventoryWeightText.text =
                 $"Вес: {inventoryComp.CurrentWeight:f1}/{inventoryComp.MaxWeight}";
-
-            inventoryComp.InventoryWeightView.inventoryWeightText.text =
-                $"Вес: {inventoryComp.CurrentWeight:f1}/{inventoryComp.MaxWeight}";
             
             Destroy(itemComp.ItemView.gameObject);
             transform.gameObject.SetActive(false);

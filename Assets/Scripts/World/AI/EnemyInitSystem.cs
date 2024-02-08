@@ -80,6 +80,8 @@ namespace World.AI
                     enemyComp.MaxDamage = randomEnemyType.maxDamage;
                     enemyComp.AttackDelay = randomEnemyType.attackDelay;
                     enemyComp.EnemyView.currentAttackDelay = enemyComp.AttackDelay;
+                    enemyComp.MinCoinsAward = randomEnemyType.minCoinsAward;
+                    enemyComp.MaxCoinsAward = randomEnemyType.maxCoinsAward;
 
                     var enemyWeapons = enemyComp.EnemyView.GetComponentsInChildren<EnemyWeapon>();
                     var randomIndex = Random.Range(0, enemyWeapons.Length);

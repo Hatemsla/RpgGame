@@ -1,5 +1,6 @@
 ﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 using World.Configurations;
 using World.Inventory;
 using World.Inventory.ItemTypes;
@@ -11,7 +12,7 @@ namespace World.Player
 {
     public class PlayerGetItemSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<PlayerInputComp, PlayerComp, RpgComp>> _player = default;
+        private readonly EcsFilterInject<Inc<PlayerInputComp, PlayerComp, RpgComp, InventoryComp>> _player = default;
 
         private readonly EcsPoolInject<ItemComp> _itemsPool = default;
         private readonly EcsPoolInject<HasItems> _hasItemsPool = default;
@@ -73,7 +74,8 @@ namespace World.Player
         private void TryGetItem(int itemIdx, int entity)
         {
             ref var hasItems = ref _hasItemsPool.Value.Get(entity);
-            ref var rpg = ref _player.Pools.Inc3.Get(entity);
+            ref var rpgComp = ref _player.Pools.Inc3.Get(entity);
+            ref var inventoryComp = ref _player.Pools.Inc4.Get(entity);
             ref var getItem = ref _itemsPool.Value.Get(itemIdx);
 
             foreach (var itemPacked in hasItems.Entities)
@@ -86,15 +88,25 @@ namespace World.Player
                         // Potions
                         case ItemHealthPotion type:
                             if (unpackedEntity == itemIdx)
-                                rpg.Health += _cf.Value.playerConfiguration.health * type.HealthPercent;
+                            {
+                                rpgComp.Health += _cf.Value.playerConfiguration.health * type.HealthPercent;
+                                SpendPotion(itemIdx, inventoryComp, itemComp);
+                            }
+
                             break;
                         case ItemManaPotion type:
                             if (unpackedEntity == itemIdx)
-                                rpg.Mana += _cf.Value.playerConfiguration.mana * type.ManaPercent;
+                            {
+                                rpgComp.Mana += _cf.Value.playerConfiguration.mana * type.ManaPercent;
+                                SpendPotion(itemIdx, inventoryComp, itemComp);
+                            }
                             break;
                         case ItemStaminaPotion type:
                             if (unpackedEntity == itemIdx)
-                                rpg.Stamina += _cf.Value.playerConfiguration.stamina * type.StaminaPercent;
+                            {
+                                rpgComp.Stamina += _cf.Value.playerConfiguration.stamina * type.StaminaPercent;
+                                SpendPotion(itemIdx, inventoryComp, itemComp);
+                            }
                             break;
                         // Weapons
                         case ItemShieldWeapon:
@@ -113,6 +125,29 @@ namespace World.Player
                     }
                 }
             }
+        }
+
+        private void SpendPotion(int itemIdx, InventoryComp inventoryComp, ItemComp itemComp)
+        {
+            foreach (var ft in _sd.Value.fastItemViews)
+            {
+                if (ft.ItemIdx.Unpack(_world.Value, out var ftUnpackedEntity))
+                {
+                    if (ftUnpackedEntity == itemIdx)
+                    {
+                        Utils.Utils.ResetFastItemView(ft);
+                        break;
+                    }
+                }
+            }
+
+            inventoryComp.CurrentWeight -= itemComp.Weight;
+            inventoryComp.InventoryWeightView.inventoryWeightText.text =
+                $"Вес: {inventoryComp.CurrentWeight:f1}/{inventoryComp.MaxWeight}";
+
+            Object.Destroy(itemComp.ItemView.gameObject);
+
+            _itemsPool.Value.Del(itemIdx);
         }
 
         private void ToggleItemObject(ItemComp item, ItemComp getItem, int unpackedEntity, int itemIdx)

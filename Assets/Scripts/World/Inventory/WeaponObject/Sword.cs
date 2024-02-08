@@ -48,6 +48,7 @@ namespace World.Inventory.WeaponObject
                     var enemyRpgPool = DefaultWorld.GetPool<RpgComp>();
                     var hasEnemiesPool = DefaultWorld.GetPool<HasEnemies>();
                     var levelPool = DefaultWorld.GetPool<LevelComp>();
+                    var playerPool = DefaultWorld.GetPool<PlayerComp>();
                     var popupDamageTextPool = DefaultWorld.GetPool<PopupDamageTextComp>();
                     var levelChangedPool = EventWorld.GetPool<LevelChangedEvent>();
                     
@@ -55,6 +56,7 @@ namespace World.Inventory.WeaponObject
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
                     ref var enemyLevelComp = ref levelPool.Get(unpackedEnemyEntity);
                     ref var playerLevelComp = ref levelPool.Get(playerEntity);
+                    ref var playerComp = ref playerPool.Get(playerEntity);
 
                     var targetDamage = DamageEnemy(playerLevelComp, ref enemyRpgComp);
 
@@ -79,6 +81,8 @@ namespace World.Inventory.WeaponObject
                                     }
                                 }
                             }
+                            
+                            playerComp.GoldAmount += Random.Range(enemyComp.MinCoinsAward, enemyComp.MaxCoinsAward + 1);
                             
                             ref var levelChangedComp = ref levelChangedPool.Add(EventWorld.NewEntity());
                             levelChangedComp.NewExperience = enemyLevelComp.ExperienceToNextLevel / enemyLevelComp.AwardExperienceDiv;

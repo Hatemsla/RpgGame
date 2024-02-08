@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using Leopotam.EcsLite;
 using UnityEngine;
+using UnityEngine.Rendering;
 using World.Ability.AbilitiesTypes;
 using World.AI;
 using World.AI.Navigation;
@@ -71,6 +72,8 @@ namespace World.Ability.AbilitiesObjects
                                             entityPacked.Unpack(World, out var entity) &&
                                             entity == unpackedEnemyEntity);
                             }
+                            
+                            playerComp.GoldAmount += Random.Range(enemyComp.MinCoinsAward, enemyComp.MaxCoinsAward + 1);
                             
                             ref var levelChangedComp = ref levelChangedPool.Add(EventWorld.NewEntity());
                             levelChangedComp.NewExperience = enemyLevelComp.ExperienceToNextLevel / enemyLevelComp.AwardExperienceDiv;

@@ -2,10 +2,11 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.ExtendedSystems;
 using Leopotam.EcsLite.Unity.Ugui;
+using ObjectsPool;
 using UnityEngine;
 using Utils;
-using Utils.ObjectsPool;
 using World.Ability;
+using World.Ability.StatusEffects;
 using World.AI;
 using World.AI.Navigation;
 using World.Configurations;
@@ -57,6 +58,8 @@ namespace World
                 .Add(new PlayerStatsInitSystem())
                 .Add(new PopupDamageTextInitSystem())
                 .Add(new UIBillboardingSystem())
+                //.Add(new StatusEffectInitSystem())
+                .Add(new StatusEffectObjectsInitSystem())
                 
                 //Run systems
                 .Add(new TimeSystem())

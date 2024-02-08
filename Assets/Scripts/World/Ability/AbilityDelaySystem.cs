@@ -2,9 +2,9 @@
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
+using ObjectsPool;
 using UnityEngine;
 using Utils;
-using Utils.ObjectsPool;
 using World.Configurations;
 using World.Player;
 using World.RPG;

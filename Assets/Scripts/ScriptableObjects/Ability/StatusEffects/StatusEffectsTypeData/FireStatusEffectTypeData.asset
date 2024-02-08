@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f6b4dfd72b94171b655ef1f4d6e1ee7, type: 3}
-  m_Name: StatusEffectConfiguration
+  m_Script: {fileID: 11500000, guid: 855dbbd413864c8f8fcdade9b7552131, type: 3}
+  m_Name: FireStatusEffectTypeData
   m_EditorClassIdentifier: 
-  statusEffectDatas:
-  - {fileID: 11400000, guid: eac902c7ea6e0ad4e929c749830f2f0f, type: 2}
-  - {fileID: 11400000, guid: eac902c7ea6e0ad4e929c749830f2f0f, type: 2}
+  damage: 5

@@ -3,6 +3,8 @@ using Leopotam.EcsLite;
 using UnityEngine;
 using UnityEngine.Rendering;
 using World.Ability.AbilitiesTypes;
+using World.Ability.StatusEffects;
+using World.Ability.StatusEffects.AbilityStatusEffectComp;
 using World.AI;
 using World.AI.Navigation;
 using World.Player;
@@ -13,8 +15,8 @@ namespace World.Ability.AbilitiesObjects
 {
     public class BallAbilityObject : DirectionalAbilityObject
     {
-        [HideInInspector] public float speed;
-        [HideInInspector] public float startTime;
+        public float speed;
+        public float startTime;
         private static readonly int MoveX = Animator.StringToHash("MoveX");
 
         private void Update()
@@ -40,19 +42,49 @@ namespace World.Ability.AbilitiesObjects
                     var levelPool = World.GetPool<LevelComp>();
                     var popupDamageTextPool = World.GetPool<PopupDamageTextComp>();
                     var levelChangedPool = EventWorld.GetPool<LevelChangedEvent>();
+                    var hasAbilities = World.GetPool<HasAbilities>();
+                    var abilityPool = World.GetPool<AbilityComp>();
 
                     ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
                     ref var playerLevelComp = ref levelPool.Get(PlayerEntity);
                     ref var enemyLevelComp = ref levelPool.Get(unpackedEnemyEntity);
                     ref var playerComp = ref playerPool.Get(PlayerEntity);
+                    ref var abilities = ref hasAbilities.Get(PlayerEntity);
 
                     enemyComp.EnemyState = EnemyState.Chase;
                     enemyComp.Agent.SetDestination(playerComp.Transform.position);
                     enemyComp.CurrentChaseTime += Ts.DeltaTime;
 
                     var targetDamage = DamageEnemy(playerLevelComp, ref enemyRpgComp);
-                    
+
+                    foreach (var abilityPacked in abilities.Entities)
+                    {
+                        if (abilityPacked.Unpack(World, out var unpackedAbilityEntity))
+                        {
+                            if (unpackedAbilityEntity == SkillIdx)
+                            {
+                                var releasedEffectPool = World.GetPool<ReleasedStatusEffectComp>();
+                                ref var abilityComp = ref abilityPool.Get(unpackedAbilityEntity);
+                                
+                                var effectObject = Ps.StatusEffectPool.Get();
+                                var effectEntity = World.NewEntity();
+                                ref var releasedEffect = ref releasedEffectPool.Add(effectEntity);
+
+                                releasedEffect.StatusOwner = PlayerEntity;
+                                releasedEffect.statusEffectObject = effectObject;
+
+                                switch (abilityComp.StatusEffect.statusEffectType)
+                                {
+                                    case FireStatusEffect type:
+                                        effectObject.SetWorld(World, PlayerEntity, effectEntity, Sd, Ts, Ps, Cf);
+                                        effectObject.Applying(enemyView, abilityComp.StatusEffect);
+                                        break;
+                                }
+                            }
+                        }
+                    }
+
                     ShowPopupDamage(popupDamageTextPool, targetDamage, enemyComp);
 
                     if (enemyRpgComp.Health <= 0)
@@ -150,7 +182,7 @@ namespace World.Ability.AbilitiesObjects
                 abilityDirection);
 
             transform.position = playerComp.Transform.position + playerComp.Transform.forward;
-
+            
             damage = ((BallAbility)ability.AbilityType).Damage;
             startTime = Ts.Time;
             startDirection = playerComp.Transform.position + playerComp.Transform.forward;

@@ -9,7 +9,7 @@ using Object = UnityEngine.Object;
 
 namespace World.Ability.StatusEffects
 {
-    public sealed class StatusEffectInitSystem : IEcsInitSystem
+    /*public sealed class StatusEffectInitSystem //: IEcsInitSystem
     {
         private readonly EcsFilterInject<Inc<PlayerComp>> _playerFilter = default;
 
@@ -38,9 +38,9 @@ namespace World.Ability.StatusEffects
                     statusEffectComp.statusEffectLifeTime = statusEffectData.statusEffectLifeTime;
                     statusEffectComp.statusEffectType = DefineStatusEffectType(statusEffectData.statusEffectTypeData);
 
-                    var statusEffectObject = Object.Instantiate(statusEffectData.statusEffectObject1Prefab,
+                    var statusEffectObject = Object.Instantiate(statusEffectData.statusEffectObjectPrefab,
                         playerComp.Transform.position + playerComp.Transform.forward,
-                        statusEffectData.statusEffectObject1Prefab.transform.rotation);
+                        statusEffectData.statusEffectObjectPrefab.transform.rotation);
                     statusEffectObject.transform.SetParent(playerComp.Transform);
                     statusEffectObject.gameObject.SetActive(false);
                     
@@ -54,13 +54,13 @@ namespace World.Ability.StatusEffects
             StatusEffectType value = null;
             switch (statusEffectTypeData)
             {
+                // Fire Status Effect
                 case FireStatusEffectData data:
                     value = new FireStatusEffect();
                     ((FireStatusEffect)value).Damage = data.damage;
                     break;
             }
-
             return value;
         }
-    }
+    }*/
 }

@@ -9,7 +9,7 @@ namespace World.Ability.StatusEffects
     {
         [Header("Status Effect")] 
         [Tooltip("Status Effect object prefab")]
-        public StatusEffectObject statusEffectObject1Prefab;
+        public StatusEffectObject statusEffectObjectPrefab;
         [Tooltip("Status Effect type data")] 
         public StatusEffectTypeData statusEffectTypeData;
         [Tooltip("Status life time")] 

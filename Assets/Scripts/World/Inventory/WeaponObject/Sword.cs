@@ -77,7 +77,8 @@ namespace World.Inventory.WeaponObject
                                 {
                                     if (unpackedHasEnemyEntity == unpackedEnemyEntity)
                                     {
-                                        hasEnemyComp.Entities.RemoveAll(entityPacked => entityPacked.Unpack(DefaultWorld, out var entity) && entity == unpackedEnemyEntity);
+                                        hasEnemyComp.Entities.RemoveAll(entityPacked => entityPacked.
+                                            Unpack(DefaultWorld, out var entity) && entity == unpackedEnemyEntity);
                                     }
                                 }
                             }

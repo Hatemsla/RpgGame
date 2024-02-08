@@ -1,8 +1,8 @@
 ﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using ObjectsPool;
 using UnityEngine;
 using Utils;
-using Utils.ObjectsPool;
 using World.Configurations;
 using World.Inventory.ItemTypes.Weapons;
 using World.Inventory.WeaponObject;

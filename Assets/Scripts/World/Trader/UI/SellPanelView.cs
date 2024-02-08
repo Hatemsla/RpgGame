@@ -1,8 +1,8 @@
 ﻿using Leopotam.EcsLite;
+using ObjectsPool;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils.ObjectsPool;
 using World.Configurations;
 using World.Inventory;
 using World.Player;

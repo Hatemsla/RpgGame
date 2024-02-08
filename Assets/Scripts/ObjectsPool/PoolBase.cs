@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Utils.ObjectsPool
+namespace ObjectsPool
 {
     public class PoolBase<T>
     {

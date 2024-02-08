@@ -5,7 +5,6 @@ using Leopotam.EcsLite.Unity.Ugui;
 using ObjectsPool;
 using UnityEngine;
 using Utils;
-using Utils.ObjectsPool;
 using World.Ability;
 using World.Ability.StatusEffects;
 using World.AI;

@@ -1,7 +1,6 @@
 ﻿using Leopotam.EcsLite;
 using ObjectsPool;
 using UnityEngine;
-using Utils.ObjectsPool;
 using World.Configurations;
 using World.Player;
 using World.RPG;

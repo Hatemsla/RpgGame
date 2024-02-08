@@ -2,8 +2,8 @@
 using System.Globalization;
 using System.Linq;
 using Leopotam.EcsLite;
+using ObjectsPool;
 using UnityEngine;
-using Utils.ObjectsPool;
 using World.Configurations;
 using World.Inventory;
 using World.Inventory.ItemTypes;

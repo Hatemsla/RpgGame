@@ -17,7 +17,7 @@ namespace World.Ability.AbilitiesObjects
         protected int PlayerEntity;
         protected int SkillIdx;
 
-        public void SetWorld(EcsWorld world, int playerEntity, int abilityEntity, int skillIdx, 
+        public void SetWorld(EcsWorld world, EcsWorld eventWorld, int playerEntity, int abilityEntity, int skillIdx, 
             SceneData sd, TimeService ts,PoolService ps, Configuration cf)
         {
             World = world;

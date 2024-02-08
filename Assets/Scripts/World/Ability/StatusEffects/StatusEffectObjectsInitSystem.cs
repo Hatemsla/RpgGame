@@ -3,7 +3,6 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using ObjectsPool;
 using UnityEngine;
-using Utils.ObjectsPool;
 using World.Ability.StatusEffects.StatusEffectObjects;
 using World.Configurations;
 using Object = UnityEngine.Object;

@@ -5,7 +5,6 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using ObjectsPool;
 using UnityEngine;
-using Utils.ObjectsPool;
 using World.Configurations;
 
 namespace World.UI.PopupText

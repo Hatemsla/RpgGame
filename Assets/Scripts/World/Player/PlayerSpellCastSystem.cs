@@ -4,7 +4,6 @@ using Leopotam.EcsLite.Unity.Ugui;
 using ObjectsPool;
 using UnityEngine;
 using Utils;
-using Utils.ObjectsPool;
 using World.Ability;
 using World.Ability.AbilitiesTypes;
 using World.Ability.StatusEffects;
@@ -111,7 +110,7 @@ namespace World.Player
                                 {
                                     // Balls
                                     case BallAbility type:
-                                        abilityObject.SetWorld(_world.Value, entity, abilityEntity, skillIdx,
+                                        abilityObject.SetWorld(_world.Value, _eventWorld.Value,entity, abilityEntity, skillIdx,
                                             _sd.Value, _ts.Value, _ps.Value, _cf.Value);
                                         abilityObject.Cast(ability, entity);
                                         break;

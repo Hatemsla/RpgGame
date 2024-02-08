@@ -1,5 +1,4 @@
-﻿using Utils.ObjectsPool;
-using World.Ability.AbilitiesObjects;
+﻿using World.Ability.AbilitiesObjects;
 using World.Ability.StatusEffects.StatusEffectObjects;
 using World.AI;
 using World.UI.PopupText;

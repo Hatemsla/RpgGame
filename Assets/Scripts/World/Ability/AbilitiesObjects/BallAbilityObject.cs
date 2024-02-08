@@ -57,8 +57,6 @@ namespace World.Ability.AbilitiesObjects
                     enemyComp.CurrentChaseTime += Ts.DeltaTime;
 
                     var targetDamage = DamageEnemy(playerLevelComp, ref enemyRpgComp);
-                    
-                    var targetDamage = DamageEnemy(levelComp, ref enemyRpgComp);
 
                     foreach (var abilityPacked in abilities.Entities)
                     {

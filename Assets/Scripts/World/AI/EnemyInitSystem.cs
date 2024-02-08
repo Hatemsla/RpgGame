@@ -3,7 +3,6 @@ using Leopotam.EcsLite.Di;
 using ObjectsPool;
 using UnityEngine;
 using UnityEngine.AI;
-using Utils.ObjectsPool;
 using World.AI.Navigation;
 using World.Configurations;
 using World.Player;

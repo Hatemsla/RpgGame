@@ -24,19 +24,26 @@ namespace World.LoadGame
             if (load == 1)
             {
                 loadDataEventComp.IsLoadData = true;
-                
-                var playerFilePath = Path.Combine(Application.persistentDataPath, "playerData.json");
-                var playerJsonData = File.ReadAllText(playerFilePath);
-                
-                var chestFilePath = Path.Combine(Application.persistentDataPath, "chestData.json");
-                var chestJsonData = File.ReadAllText(chestFilePath);
-                
-                var traderFilePath = Path.Combine(Application.persistentDataPath, "traderData.json");
-                var traderJsonData = File.ReadAllText(traderFilePath);
-                
-                loadDataEventComp.PlayerSaveData = JsonConvert.DeserializeObject<PlayerSaveData>(playerJsonData);
-                loadDataEventComp.ChestSaveDatas = JsonConvert.DeserializeObject<ChestSaveDatas>(chestJsonData);
-                loadDataEventComp.TraderSaveDatas = JsonConvert.DeserializeObject<TraderSaveDatas>(traderJsonData);
+
+                try
+                {
+                    var playerFilePath = Path.Combine(Application.persistentDataPath, "playerData.json");
+                    var playerJsonData = File.ReadAllText(playerFilePath);
+
+                    var chestFilePath = Path.Combine(Application.persistentDataPath, "chestData.json");
+                    var chestJsonData = File.ReadAllText(chestFilePath);
+
+                    var traderFilePath = Path.Combine(Application.persistentDataPath, "traderData.json");
+                    var traderJsonData = File.ReadAllText(traderFilePath);
+
+                    loadDataEventComp.PlayerSaveData = JsonConvert.DeserializeObject<PlayerSaveData>(playerJsonData);
+                    loadDataEventComp.ChestSaveDatas = JsonConvert.DeserializeObject<ChestSaveDatas>(chestJsonData);
+                    loadDataEventComp.TraderSaveDatas = JsonConvert.DeserializeObject<TraderSaveDatas>(traderJsonData);
+                }
+                catch
+                {
+                    loadDataEventComp.IsLoadData = false;
+                }
             }
             else
             {

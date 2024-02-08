@@ -49,6 +49,8 @@ namespace World.Player
                 inputComp.Pose1 = input.Pose1.WasPerformedThisFrame();
                 inputComp.Pose2 = input.Pose2.WasPerformedThisFrame();
                 inputComp.Exit = input.Exit.WasPerformedThisFrame();
+                inputComp.QuickSave = input.QuickSave.WasPerformedThisFrame();
+                inputComp.QuickLoad = input.QuickLoad.WasPerformedThisFrame();
             }
         }
     }

@@ -91,6 +91,8 @@ namespace World
                 .Add(new PlayerAttackSystem())
                 .Add(new PlayerPosesSystem())
                 .Add(new LookOnObjectSystem())
+                .Add(new QuickSaveSystem())
+                .Add(new QuickLoadSystem())
                 
                 .Add(new AnimatePopupDamageTextSystem())
                 // .Add(new OneMeleeAttackDelaySystem())

@@ -15,6 +15,7 @@ using World.Player;
 using World.Player.Events;
 using World.Player.Weapons;
 using World.RPG;
+using World.Trader;
 using World.UI;
 using World.UI.LookOnObject;
 using World.UI.PopupText;
@@ -50,6 +51,7 @@ namespace World
                 .Add(new AbilityInitSystem())
                 .Add(new AbilityObjectsInitSystem())
                 .Add(new ChestInitSystem())
+                .Add(new TraderInitSystem())
                 .Add(new ZoneInitSystem())
                 .Add(new EnemyInitSystem())
                 .Add(new PlayerStatsInitSystem())

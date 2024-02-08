@@ -41,6 +41,8 @@ namespace World.UI.LookOnObject
                         {
                             lookOnObject.canvasGroup.alpha = hitLookOnObject == lookOnObject ? 1 : 0;
 
+                            if (lookOnObject != hitLookOnObject) continue;
+                            
                             if (distanceToPlayer <= _cf.Value.playerConfiguration.lookOnObjectActivate)
                             {
                                 lookOnObject.lookText.color = Color.yellow;
@@ -48,6 +50,8 @@ namespace World.UI.LookOnObject
                                 if (inputComp.ActiveAction)
                                 {
                                     lookOnObject.StartInteract();
+                                    
+                                    playerComp.CameraSense = 0.01f;
 
                                     lookOnObject.isInteracting = !lookOnObject.isInteracting;
                                 }
@@ -57,9 +61,10 @@ namespace World.UI.LookOnObject
                                 if (lookOnObject.isInteracting)
                                 {
                                     lookOnObject.StopInteract();
+                                    playerComp.CameraSense = _cf.Value.playerConfiguration.deltaTimeMultiplier;
                                     lookOnObject.isInteracting = false;
                                 }
-                                
+
                                 lookOnObject.lookText.color = lookOnObject.defaultTextColor;
                             }
                         }
@@ -67,6 +72,7 @@ namespace World.UI.LookOnObject
                 }
                 else
                 {
+                    playerComp.CameraSense = _cf.Value.playerConfiguration.deltaTimeMultiplier;
                     _lookOnObjects.ForEach(o =>
                     {
                         o.canvasGroup.alpha = 0;

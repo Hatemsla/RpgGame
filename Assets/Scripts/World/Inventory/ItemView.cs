@@ -317,7 +317,7 @@ namespace World.Inventory
                     {
                         if (ftObjectUnpackedEntity == unpackedEntity)
                         {
-                            ResetFastItemView(ft);
+                            Utils.Utils.ResetFastItemView(ft);
                             break;
                         }
                     }
@@ -325,7 +325,7 @@ namespace World.Inventory
                     {
                         if (ftUnpackedEntity == unpackedEntity)
                         {
-                            ResetFastItemView(ft);
+                            Utils.Utils.ResetFastItemView(ft);
                             break;
                         }
                     }
@@ -344,15 +344,6 @@ namespace World.Inventory
             }
 
             Destroy(transform.gameObject);
-        }
-
-        private static void ResetFastItemView(FastItemView ft)
-        {
-            ft.ItemIdx = default;
-            ft.itemObject = null;
-            ft.itemImage.sprite = null;
-            ft.itemName.text = "";
-            ft.itemCount.text = "";
         }
 
         private bool IsItemOutInventory(Vector3 position, RectTransform view)

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using World.RPG.UI;
+using World.Trader.UI;
 using World.UI.PopupText;
 
 namespace World.Configurations
@@ -13,10 +14,16 @@ namespace World.Configurations
         [Tooltip("Popup damage text prefab")]
         public PopupDamageText popupDamageTextPrefab;
         
+        [Tooltip("Buy panel view prefab")]
+        public BuyPanelView buyPanelViewPrefab;
+        
+        [Tooltip("Sell panel view prefab")]
+        public SellPanelView sellPanelViewPrefab;
+        
         [Tooltip("Popup damage life time")]
         public float popupDamageLifeTime = 1f;
 
-        [Tooltip("Look on object layer mask")] 
+        [Tooltip("Look on object layer mask")]
         public LayerMask lookObjectMask;
     }
 }

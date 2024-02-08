@@ -24,6 +24,6 @@ namespace World.Inventory
         [Tooltip("Item object prefab")]
         public ItemObject itemObjectPrefab;
         [Tooltip("Item cost")]
-        public float cost;
+        public int cost;
     }
 }

@@ -17,5 +17,6 @@ namespace World
         public List<FastSkillView> fastSkillViews;
         public List<ChestObject> chests;
         public List<ZoneView> zones;
+        public List<Trader.Trader> traders;
     }
 }

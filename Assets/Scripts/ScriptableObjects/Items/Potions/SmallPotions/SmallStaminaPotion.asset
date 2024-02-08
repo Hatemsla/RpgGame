@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Small Stamina Potion
   itemDescription: "\u041C\u0430\u043B\u0435\u043D\u044C\u043A\u043E\u0435 \u0437\u0435\u043B\u044C\u0435
     \u0432\u044B\u043D\u043E\u0441\u043B\u0438\u0432\u043E\u0441\u0442\u0438"
-  itemCount: 2
+  itemCount: 1
   itemWeight: 0.2
   itemTypeData: {fileID: 11400000, guid: 45145254efda3114cbcd83098b1cab42, type: 2}
   itemSprite: {fileID: 21300000, guid: 6e7cd130b4a2de64e88e4ebc27e389fc, type: 3}

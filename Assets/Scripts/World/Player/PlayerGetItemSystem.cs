@@ -1,9 +1,5 @@
-﻿using System;
-using Leopotam.EcsLite;
+﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using Leopotam.EcsLite.Unity.Ugui;
-using UnityEngine;
-using Utils;
 using World.Configurations;
 using World.Inventory;
 using World.Inventory.ItemTypes;
@@ -24,20 +20,16 @@ namespace World.Player
 
         private readonly EcsWorldInject _world = default;
 
-        [EcsUguiNamed(Idents.UI.PlayerInventoryView)]
-        private readonly GameObject _inventoryView = default;
-
         public void Run(IEcsSystems systems)
         {
             foreach (var entity in _player.Value)
             {
                 ref var inputComp = ref _player.Pools.Inc1.Get(entity);
-                ref var playerComp = ref _player.Pools.Inc2.Get(entity);
-                ref var rpgComp = ref _player.Pools.Inc3.Get(entity);
 
                 if (inputComp.Inventory)
                 {
-                    _inventoryView.SetActive(!_inventoryView.activeSelf);
+                    if(!_sd.Value.uiSceneData.traderShopView.gameObject.activeInHierarchy)
+                        _sd.Value.uiSceneData.playerInventoryView.gameObject.SetActive(!_sd.Value.uiSceneData.playerInventoryView.gameObject.activeInHierarchy);
                 }
 
                 if (inputComp.Alpha1)

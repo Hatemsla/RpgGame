@@ -31,6 +31,8 @@ MonoBehaviour:
   gravity: -15
   groundedOffset: 1
   groundedRadius: 0.3
+  threshold: 0.01
+  deltaTimeMultiplier: 1
   health: 100
   stamina: 100
   mana: 100

@@ -6,7 +6,7 @@ namespace World.Inventory
     {
         public string ItemName;
         public string ItemDescription;
-        public float Cost;
+        public int Cost;
         public float Weight;
         public ItemView ItemView;
         public bool Used;

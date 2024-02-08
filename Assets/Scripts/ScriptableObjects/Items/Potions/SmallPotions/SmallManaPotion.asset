@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Small Mana Potion
   itemDescription: "\u041C\u0430\u043B\u0435\u043D\u044C\u043A\u043E\u0435 \u0437\u0435\u043B\u044C\u0435
     \u043C\u0430\u043D\u044B"
-  itemCount: 2
+  itemCount: 1
   itemWeight: 0.2
   itemTypeData: {fileID: 11400000, guid: d492e4ee277a81f46ad029aa5615ab55, type: 2}
   itemSprite: {fileID: 21300000, guid: 966943ed445e8e343b193181ae218c84, type: 3}

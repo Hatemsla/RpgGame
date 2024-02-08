@@ -19,6 +19,7 @@
             public const string PlayerInventoryView = "PlayerInventoryView";
             public const string PlayerInventoryViewContent = "PlayerInventoryViewContent";
             public const string PlayerInventoryWeight = "PlayerInventoryWeight";
+            public const string PlayerInventoryGoldAmount = "PlayerInventoryGoldAmount";
             public const string PlayerAbilityView = "PlayerAbilityView";
             public const string PlayerAbilityViewContent = "PlayerAbilityViewContent";
             

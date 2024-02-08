@@ -31,5 +31,6 @@ namespace World.Player
         public bool Pose0;
         public bool Pose1;
         public bool Pose2;
+        public bool Exit;
     }
 }

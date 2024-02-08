@@ -35,6 +35,7 @@ namespace World.Player
                 _cs.Value.CursorVisible = _chestInventoryView.activeSelf || _playerInventoryView.activeSelf ||
                                           _statsLevelView.activeSelf ||
                                           _sd.Value.uiSceneData.traderShopView.gameObject.activeInHierarchy ||
+                                          _sd.Value.uiSceneData.exitMenu.gameObject.activeInHierarchy ||
                                           input.FreeCursor;
 
                 Cursor.visible = _cs.Value.CursorVisible;

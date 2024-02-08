@@ -62,6 +62,13 @@
             public const string NoConfirmToExitFromStatsBtn = "NoConfirmToExitFromStatsBtn";
             public const string ConfirmToCancelStatsForm = "ConfirmToCancelStatsForm";
 
+            public const string StartGameBtn = "StartGameBtn";
+            public const string ContinueGameBtn = "ContinueGameBtn";
+            public const string ExitFromGameBtn = "ExitFromGameBtn";
+
+            public const string CloseExitMenuBtn = "CloseExitMenuBtn";
+            public const string SaveExitMenuBtn = "SaveExitMenuBtn";
+            public const string GoToMenuBtn = "GoToMenuBtn";
         }
 
         public static class Abilities

@@ -56,7 +56,6 @@ MonoBehaviour:
   itemViews: []
   chestInventoryView: {fileID: 0}
   chestInventoryWeightText: {fileID: 0}
-  isOpen: 0
 --- !u!65 &4933999168341896161
 BoxCollider:
   m_ObjectHideFlags: 0

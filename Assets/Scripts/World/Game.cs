@@ -97,6 +97,7 @@ namespace World
                 .DelHere<TransitionCameraEvent>(Idents.Worlds.Events)
                 .DelHere<OneHandedMeleeAttackEvent>(Idents.Worlds.Events)
                 .Add(new DeleteFormSystem())
+                .Add(new ExitMenuHandleSystem())
                 
                 .Add(new EnemyPatrolSystem())
                 .Add(new EnemyChaseSystem())

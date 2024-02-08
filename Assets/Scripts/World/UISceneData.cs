@@ -5,6 +5,7 @@ using World.Inventory.Canvases;
 using World.Player.UI;
 using World.RPG.UI;
 using World.Trader.UI;
+using World.UI;
 
 namespace World
 {
@@ -19,8 +20,9 @@ namespace World
         [Tooltip("Trader shop")] 
         public TraderShopView traderShopView;
 
+        public ExitMenu exitMenu;
+        
         public PlayerInventoryGoldAmount playerInventoryGoldAmount;
-
         public RectTransform playerInventoryView;
         public RectTransform chestInventoryView;
         public RectTransform fastItemsView;

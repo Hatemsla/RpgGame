@@ -278,6 +278,15 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""8767b9c1-e838-4b95-ae8c-f3e4cf97f0ed"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -698,6 +707,17 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""action"": ""Pose2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0444b3df-a0f9-4f4e-94b4-b58833c7bb6b"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -734,6 +754,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         m_Player_Pose0 = m_Player.FindAction("Pose0", throwIfNotFound: true);
         m_Player_Pose1 = m_Player.FindAction("Pose1", throwIfNotFound: true);
         m_Player_Pose2 = m_Player.FindAction("Pose2", throwIfNotFound: true);
+        m_Player_Exit = m_Player.FindAction("Exit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -823,6 +844,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Pose0;
     private readonly InputAction m_Player_Pose1;
     private readonly InputAction m_Player_Pose2;
+    private readonly InputAction m_Player_Exit;
     public struct PlayerActions
     {
         private @MainInput m_Wrapper;
@@ -855,6 +877,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         public InputAction @Pose0 => m_Wrapper.m_Player_Pose0;
         public InputAction @Pose1 => m_Wrapper.m_Player_Pose1;
         public InputAction @Pose2 => m_Wrapper.m_Player_Pose2;
+        public InputAction @Exit => m_Wrapper.m_Player_Exit;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -948,6 +971,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @Pose2.started += instance.OnPose2;
             @Pose2.performed += instance.OnPose2;
             @Pose2.canceled += instance.OnPose2;
+            @Exit.started += instance.OnExit;
+            @Exit.performed += instance.OnExit;
+            @Exit.canceled += instance.OnExit;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1036,6 +1062,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @Pose2.started -= instance.OnPose2;
             @Pose2.performed -= instance.OnPose2;
             @Pose2.canceled -= instance.OnPose2;
+            @Exit.started -= instance.OnExit;
+            @Exit.performed -= instance.OnExit;
+            @Exit.canceled -= instance.OnExit;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1083,5 +1112,6 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         void OnPose0(InputAction.CallbackContext context);
         void OnPose1(InputAction.CallbackContext context);
         void OnPose2(InputAction.CallbackContext context);
+        void OnExit(InputAction.CallbackContext context);
     }
 }

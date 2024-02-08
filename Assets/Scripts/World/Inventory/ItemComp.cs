@@ -9,7 +9,6 @@ namespace World.Inventory
         public int Cost;
         public float Weight;
         public ItemView ItemView;
-        public bool Used;
         public ItemType ItemType;
     }
 }

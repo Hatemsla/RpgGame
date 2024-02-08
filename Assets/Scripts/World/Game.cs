@@ -16,6 +16,7 @@ using World.Player;
 using World.Player.Events;
 using World.Player.Weapons;
 using World.RPG;
+using World.SaveGame;
 using World.Trader;
 using World.UI;
 using World.UI.LookOnObject;
@@ -92,6 +93,8 @@ namespace World
                 .Add(new AnimatePopupDamageTextSystem())
                 // .Add(new OneMeleeAttackDelaySystem())
                 
+                .Add(new SaveSystem())
+                
                 .DelHere<DeleteEvent>(Idents.Worlds.Events)
                 .DelHere<LevelChangedEvent>(Idents.Worlds.Events)
                 .DelHere<DeathAnimationEvent>(Idents.Worlds.Events)
@@ -99,6 +102,7 @@ namespace World
                 .DelHere<CloseStatsEvent>(Idents.Worlds.Events)
                 .DelHere<TransitionCameraEvent>(Idents.Worlds.Events)
                 .DelHere<OneHandedMeleeAttackEvent>(Idents.Worlds.Events)
+                .DelHere<SaveEventComp>(Idents.Worlds.Events)
                 .Add(new DeleteFormSystem())
                 .Add(new ExitMenuHandleSystem())
                 

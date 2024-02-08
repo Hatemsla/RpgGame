@@ -5,6 +5,9 @@ using UnityEngine;
 using Utils;
 using World.Ability.AbilitiesData;
 using World.Ability.AbilitiesTypes;
+using World.Ability.StatusEffects;
+using World.Ability.StatusEffects.AbilityStatusEffectComp;
+using World.Ability.StatusEffects.AbilityStatusEffectData;
 using World.Configurations;
 using World.Inventory;
 using World.Player;
@@ -16,6 +19,8 @@ namespace World.Ability
     {
         private readonly EcsFilterInject<Inc<PlayerComp>> _playerFilter = default;
 
+        private readonly EcsPoolInject<HasStatusEffect> _hasStatusEffectPool = default;
+        private readonly EcsPoolInject<StatusEffectComp> _statusEffectPool = default;
         private readonly EcsPoolInject<HasAbilities> _hasAbilitiesPool = default;
         private readonly EcsPoolInject<AbilityComp> _abilitiesPool = default;
 
@@ -39,6 +44,7 @@ namespace World.Ability
             {
                 ref var playerComp = ref _playerFilter.Pools.Inc1.Get(entity);
                 ref var hasAbilities = ref _hasAbilitiesPool.Value.Add(entity);
+                ref var hasStatusEffect = ref _hasStatusEffectPool.Value.Add(entity);
                 var abilities = _cf.Value.abilityConfiguration.abilityDatas;
                 
                 _playerAbilityView.gameObject.SetActive(false);
@@ -59,6 +65,7 @@ namespace World.Ability
                     abilityComp.OwnerEntity = entity;
                     abilityComp.AbilityDelay = abilityData.abilityDelay;
                     abilityComp.AbilityType = DefineAbilityType(abilityData.abilityTypeData);
+                    abilityComp.StatusEffect = DefineStatusEffectComp(abilityData.statusEffect, entity, hasStatusEffect);
 
                     var abilityView = Object.Instantiate(abilityData.abilityViewPrefab, Vector3.zero,
                         Quaternion.identity);
@@ -108,6 +115,42 @@ namespace World.Ability
                             ((BallAbility)value).Speed = data.speed;
                             break;
                     }
+                    break;
+            }
+            return value;
+        }
+
+        private StatusEffectComp DefineStatusEffectComp(StatusEffectData effectData, int entity, HasStatusEffect hasStatusEffect)
+        {
+            ref var playerComp = ref _playerFilter.Pools.Inc1.Get(entity);
+
+            var statusEffectEntity = _world.Value.NewEntity();
+            var statusEffectPackedEntity = _world.Value.PackEntity(statusEffectEntity);
+            ref var statusEffectComp = ref _statusEffectPool.Value.Add(statusEffectEntity);
+
+            statusEffectComp.statusEffectLifeTime = effectData.statusEffectLifeTime;
+            statusEffectComp.statusEffectType = DefineStatusEffectType(effectData.statusEffectTypeData);
+
+            var statusEffectObject = Object.Instantiate(effectData.statusEffectObjectPrefab,
+                playerComp.Transform.position + playerComp.Transform.forward,
+                effectData.statusEffectObjectPrefab.transform.rotation);
+            statusEffectObject.transform.SetParent(playerComp.Transform);
+            statusEffectObject.gameObject.SetActive(false);
+            
+            hasStatusEffect.Entities.Add(statusEffectPackedEntity);
+
+            return statusEffectComp;
+        }
+        
+        private StatusEffectType DefineStatusEffectType(StatusEffectTypeData statusEffectTypeData)
+        {
+            StatusEffectType value = null;
+            switch (statusEffectTypeData)
+            {
+                // Fire Status Effect
+                case FireStatusEffectData data:
+                    value = new FireStatusEffect();
+                    ((FireStatusEffect)value).Damage = data.damage;
                     break;
             }
             return value;

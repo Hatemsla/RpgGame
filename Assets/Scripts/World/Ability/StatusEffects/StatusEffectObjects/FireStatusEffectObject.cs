@@ -80,28 +80,10 @@ namespace World.Ability.StatusEffects.StatusEffectObjects
 
         public override void Applying(EnemyView enemyView, StatusEffectComp effect)
         {
-            //lifeTime = effect.statusEffectLifeTime;
-            lifeTime = 20;
-            //damage = ((FireStatusEffect)effect.statusEffectType).Damage;
-            damage = 15;
+            lifeTime = effect.statusEffectLifeTime;
+            damage = ((FireStatusEffect)effect.statusEffectType).Damage;
             enemyObj = enemyView;
             
-            /*if (enemyView.EnemyPackedIdx.Unpack(World, out var unpackedEnemyEntity))
-            {
-                var enemyPool = World.GetPool<EnemyComp>();
-                var enemyRpgPool = World.GetPool<RpgComp>();
-
-                ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
-                ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
-
-                transform.position = enemyComp.Transform.position;
-
-                //lifeTime = effect.statusEffectLifeTime;
-                lifeTime = 20;
-                //damage = ((FireStatusEffect)effect.statusEffectType).Damage;
-                damage = 15;
-                enemyObj = enemyView;
-            }*/
         }
     }
 }

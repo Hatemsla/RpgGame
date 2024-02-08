@@ -9,7 +9,7 @@ using Object = UnityEngine.Object;
 
 namespace World.Ability.StatusEffects
 {
-    public sealed class StatusEffectInitSystem : IEcsInitSystem
+    /*public sealed class StatusEffectInitSystem //: IEcsInitSystem
     {
         private readonly EcsFilterInject<Inc<PlayerComp>> _playerFilter = default;
 
@@ -62,5 +62,5 @@ namespace World.Ability.StatusEffects
             }
             return value;
         }
-    }
+    }*/
 }

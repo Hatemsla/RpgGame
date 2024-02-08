@@ -72,17 +72,14 @@ namespace World.Ability.AbilitiesObjects
 
                                 releasedEffect.StatusOwner = PlayerEntity;
                                 releasedEffect.statusEffectObject = effectObject;
-                                
-                                effectObject.SetWorld(World, PlayerEntity, effectEntity, Sd, Ts, Ps, Cf);
-                                effectObject.Applying(enemyView, abilityComp.StatusEffect);
 
-                                /*switch (abilityComp.StatusEffect.statusEffectType)
+                                switch (abilityComp.StatusEffect.statusEffectType)
                                 {
                                     case FireStatusEffect type:
                                         effectObject.SetWorld(World, PlayerEntity, effectEntity, Sd, Ts, Ps, Cf);
                                         effectObject.Applying(enemyView, abilityComp.StatusEffect);
                                         break;
-                                }*/
+                                }
                             }
                         }
                     }

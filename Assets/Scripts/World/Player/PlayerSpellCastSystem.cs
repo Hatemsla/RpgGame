@@ -5,7 +5,9 @@ using ObjectsPool;
 using UnityEngine;
 using Utils;
 using World.Ability;
+using World.Ability.AbilitiesObjects;
 using World.Ability.AbilitiesTypes;
+using World.Ability.AbilitiesTypes.BallAbilityTypes;
 using World.Ability.StatusEffects;
 using World.Configurations;
 using World.RPG;
@@ -89,14 +91,6 @@ namespace World.Player
                                 rpg.Mana -= ability.CostPoint;
                                 ability.CurrentDelay = ability.AbilityDelay;
                                 rpg.CastDelay = _cf.Value.abilityConfiguration.totalAbilityDelay;
-
-                                var abilityObject = _ps.Value.SpellPool.Get();
-                                abilityObject.AbilityIdx = abilityPacked;
-                                var abilityEntity = _world.Value.NewEntity();
-                                ref var releasedAbility = ref _releasedAbilityPool.Value.Add(abilityEntity);
-
-                                releasedAbility.AbilityObject = abilityObject;
-                                releasedAbility.SpellOwner = entity;
                                 
                                 foreach (var delayAbility in _sd.Value.uiSceneData.delayAbilityViews)
                                 {
@@ -105,16 +99,30 @@ namespace World.Player
                                         delayAbility.delayImage.fillAmount = 1;
                                     }
                                 }
+
+                                AbilityObject abilityObject = null;
+                                var abilityEntity = _world.Value.NewEntity();
+                                ref var releasedAbility = ref _releasedAbilityPool.Value.Add(abilityEntity);
                                 
                                 switch (ability.AbilityType)
                                 {
                                     // Balls
-                                    case BallAbility type:
-                                        abilityObject.SetWorld(_world.Value, _eventWorld.Value,entity, abilityEntity, skillIdx,
-                                            _sd.Value, _ts.Value, _ps.Value, _cf.Value);
-                                        abilityObject.Cast(ability, entity);
+                                    case FireBall type:
+                                        abilityObject = _ps.Value.FireBallSpellPool.Get();
+                                        abilityObject.AbilityIdx = abilityPacked;
+                                        break;
+                                    case IcePicke type:
+                                        abilityObject = _ps.Value.IcePickeSpellPool.Get();
+                                        abilityObject.AbilityIdx = abilityPacked;
                                         break;
                                 }
+                                
+                                releasedAbility.AbilityObject = abilityObject;
+                                releasedAbility.SpellOwner = entity;
+                                
+                                abilityObject.SetWorld(_world.Value, _eventWorld.Value,entity, abilityEntity, skillIdx,
+                                    _sd.Value, _ts.Value, _ps.Value, _cf.Value);
+                                abilityObject.Cast(ability, entity);
                             }
                             else
                             {

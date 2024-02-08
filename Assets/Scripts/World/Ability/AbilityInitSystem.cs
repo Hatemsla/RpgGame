@@ -4,7 +4,9 @@ using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
 using Utils;
 using World.Ability.AbilitiesData;
+using World.Ability.AbilitiesData.BallAbilityDatas;
 using World.Ability.AbilitiesTypes;
+using World.Ability.AbilitiesTypes.BallAbilityTypes;
 using World.Ability.StatusEffects;
 using World.Ability.StatusEffects.AbilityStatusEffectComp;
 using World.Ability.StatusEffects.AbilityStatusEffectData;
@@ -108,11 +110,18 @@ namespace World.Ability
                 case DirectionalAbilityData directionalData:
                     switch (directionalData)
                     {
-                        case BallAbilityData data:
-                            value = new BallAbility();
-                            ((BallAbility)value).Damage = data.damage;
-                            ((BallAbility)value).Distance = data.distance;
-                            ((BallAbility)value).Speed = data.speed;
+                        // Ball Ablilities
+                        case FireBallData data:
+                            value = new FireBall();
+                            ((FireBall)value).Damage = data.damage;
+                            ((FireBall)value).Distance = data.distance;
+                            ((FireBall)value).Speed = data.speed;
+                            break;
+                        case IcePickeData data:
+                            value = new IcePicke();
+                            ((IcePicke)value).Damage = data.damage;
+                            ((IcePicke)value).Distance = data.distance;
+                            ((IcePicke)value).Speed = data.speed;
                             break;
                     }
                     break;
@@ -152,6 +161,12 @@ namespace World.Ability
                     value = new FireStatusEffect();
                     ((FireStatusEffect)value).Damage = data.damage;
                     break;
+                // Ice Status Effect
+                case IceStatusEffectData data:
+                    value = new IceStatusEffect();
+                    ((IceStatusEffect)value).SlowDown = data.slowDown;
+                    break;
+                    
             }
             return value;
         }

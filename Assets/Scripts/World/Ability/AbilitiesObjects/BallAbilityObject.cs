@@ -5,6 +5,7 @@ using UnityEngine.Rendering;
 using World.Ability.AbilitiesTypes;
 using World.Ability.StatusEffects;
 using World.Ability.StatusEffects.AbilityStatusEffectComp;
+using World.Ability.StatusEffects.StatusEffectObjects;
 using World.AI;
 using World.AI.Navigation;
 using World.Player;
@@ -13,13 +14,13 @@ using World.UI.PopupText;
 
 namespace World.Ability.AbilitiesObjects
 {
-    public class BallAbilityObject : DirectionalAbilityObject
+    public abstract class BallAbilityObject : DirectionalAbilityObject
     {
         public float speed;
         public float startTime;
         private static readonly int MoveX = Animator.StringToHash("MoveX");
 
-        private void Update()
+        public virtual void Update()
         {
             var distanceCovered = (Ts.Time - startTime) * speed;
             var journeyFraction = distanceCovered / direction;
@@ -28,7 +29,7 @@ namespace World.Ability.AbilitiesObjects
             if (journeyFraction >= 1.0f) DestroySpell();
         }
 
-        private void OnCollisionEnter(Collision other)
+        public virtual void OnCollisionEnter(Collision other)
         {
             var enemyView = other.gameObject.GetComponent<EnemyView>();
 
@@ -66,21 +67,26 @@ namespace World.Ability.AbilitiesObjects
                             {
                                 var releasedEffectPool = World.GetPool<ReleasedStatusEffectComp>();
                                 ref var abilityComp = ref abilityPool.Get(unpackedAbilityEntity);
+
+                                StatusEffectObject effectObject = null;
+                                switch (abilityComp.StatusEffect.statusEffectType)
+                                {
+                                    case FireStatusEffect type:
+                                        effectObject = Ps.FireStatusEffectPool.Get();
+                                        break;
+                                    case IceStatusEffect type:
+                                        effectObject = Ps.IceStatusEffectPool.Get();
+                                        break;
+                                }
                                 
-                                var effectObject = Ps.StatusEffectPool.Get();
                                 var effectEntity = World.NewEntity();
                                 ref var releasedEffect = ref releasedEffectPool.Add(effectEntity);
 
                                 releasedEffect.StatusOwner = PlayerEntity;
                                 releasedEffect.statusEffectObject = effectObject;
-
-                                switch (abilityComp.StatusEffect.statusEffectType)
-                                {
-                                    case FireStatusEffect type:
-                                        effectObject.SetWorld(World, PlayerEntity, effectEntity, Sd, Ts, Ps, Cf);
-                                        effectObject.Applying(enemyView, abilityComp.StatusEffect);
-                                        break;
-                                }
+                                
+                                effectObject.SetWorld(World, PlayerEntity, effectEntity, Sd, Ts, Ps, Cf);
+                                effectObject.Applying(enemyView, abilityComp.StatusEffect);
                             }
                         }
                     }
@@ -119,7 +125,7 @@ namespace World.Ability.AbilitiesObjects
                 }
         }
         
-        private void ShowPopupDamage(EcsPool<PopupDamageTextComp> popupDamageTextPool, float targetDamage, EnemyComp enemyComp)
+        protected virtual void ShowPopupDamage(EcsPool<PopupDamageTextComp> popupDamageTextPool, float targetDamage, EnemyComp enemyComp)
         {
             ref var popupDamageTextComp = ref popupDamageTextPool.Add(World.NewEntity());
             popupDamageTextComp.LifeTime = Cf.uiConfiguration.popupDamageLifeTime;
@@ -133,7 +139,7 @@ namespace World.Ability.AbilitiesObjects
             popupDamageTextComp.IsVisible = true;
         }
         
-        private float DamageEnemy(LevelComp levelComp, ref RpgComp enemyRpgComp)
+        protected virtual float DamageEnemy(LevelComp levelComp, ref RpgComp enemyRpgComp)
         {
             var crit = Random.Range(-10, 1) + levelComp.Luck;
 
@@ -150,7 +156,7 @@ namespace World.Ability.AbilitiesObjects
             return targetDamage;
         }
 
-        private void DestroySpell()
+        protected virtual void DestroySpell()
         {
             if (AbilityIdx.Unpack(World, out var unpackedEntity))
             {
@@ -158,7 +164,7 @@ namespace World.Ability.AbilitiesObjects
 
                 ref var releasedAbilityComp = ref releasedAbilityPool.Get(unpackedEntity);
 
-                Ps.SpellPool.Return(releasedAbilityComp.AbilityObject);
+                Ps.FireBallSpellPool.Return(releasedAbilityComp.AbilityObject);
                 releasedAbilityPool.Del(unpackedEntity);
             }
         }

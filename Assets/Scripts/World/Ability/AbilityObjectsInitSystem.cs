@@ -20,7 +20,9 @@ namespace World.Ability
         {
             for (var index = 0; index < _cf.Value.abilityConfiguration.abilityDatas.Count; index++)
             {
-                _ps.Value.SpellPool = new PoolBase<AbilityObject>(Preload(index), GetAction, ReturnAction, 
+                _ps.Value.FireBallSpellPool = new PoolBase<AbilityObject>(Preload(index), GetAction, ReturnAction, 
+                    SpellPreloadCount);
+                _ps.Value.IcePickeSpellPool = new PoolBase<AbilityObject>(Preload(index), GetAction, ReturnAction, 
                     SpellPreloadCount);
             }
         }

@@ -4,7 +4,7 @@ using World.Ability.StatusEffects.StatusEffectObjects;
 
 namespace World.Ability.StatusEffects
 {
-    [CreateAssetMenu(fileName = "StatusEffectData", menuName = "Data/Ability Data/Status Effect Data")]
+    [CreateAssetMenu(fileName = "StatusEffectData", menuName = "Data/Ability Datas/Status Effect Datas/Status Effect Data")]
     public class StatusEffectData : ScriptableObject
     {
         [Header("Status Effect")] 

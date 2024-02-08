@@ -4,7 +4,6 @@ using UnityEngine;
 using World.Ability.StatusEffects.AbilityStatusEffectComp;
 using World.AI;
 using World.AI.Navigation;
-using World.Player;
 using World.RPG;
 
 namespace World.Ability.StatusEffects.StatusEffectObjects
@@ -14,7 +13,12 @@ namespace World.Ability.StatusEffects.StatusEffectObjects
         public float lifeTime;
         public float damage;
         public EnemyView enemyObj;
-        
+
+        private void Start()
+        {
+            InvokeRepeating(nameof(DealingDamage), 0, 1);
+        }
+
         private void Update()
         {
             if (lifeTime > 0)
@@ -31,14 +35,9 @@ namespace World.Ability.StatusEffects.StatusEffectObjects
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
 
                     transform.position = enemyComp.Transform.position;
-                    if (enemyRpgComp.Health > 0)
-                    {
-                        enemyRpgComp.Health -= damage / lifeTime;
-                    }
-                    else
+                    if (enemyRpgComp.Health <= 0)
                     {
                         Ps.EnemyPool.Return(enemyComp.EnemyView);
-
                         if (enemyObj.ZonePackedIdx.Unpack(World, out var unpackedZoneEntity))
                         {
                             ref var hasEnemyComp = ref hasEnemiesPool.Get(unpackedZoneEntity);
@@ -73,8 +72,26 @@ namespace World.Ability.StatusEffects.StatusEffectObjects
 
                 ref var releasedEffectComp = ref releasedEffectPool.Get(unpackedEntity);
                     
-                Ps.StatusEffectPool.Return(releasedEffectComp.statusEffectObject);
+                Ps.FireStatusEffectPool.Return(releasedEffectComp.statusEffectObject);
                 releasedEffectPool.Del(unpackedEntity);
+            }
+        }
+
+        private void DealingDamage()
+        {
+            if (lifeTime > 0)
+            {
+                if (enemyObj.EnemyPackedIdx.Unpack(World, out var unpackedEnemyEntity))
+                {
+                    var enemyRpgPool = World.GetPool<RpgComp>();
+                    ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
+                
+                    enemyRpgComp.Health -= damage;
+                }   
+            }
+            else
+            {
+                CancelInvoke(nameof(DealingDamage));
             }
         }
 

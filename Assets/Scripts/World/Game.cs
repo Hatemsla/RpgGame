@@ -59,7 +59,6 @@ namespace World
                 .Add(new PlayerStatsInitSystem())
                 .Add(new PopupDamageTextInitSystem())
                 .Add(new UIBillboardingSystem())
-                //.Add(new StatusEffectInitSystem())
                 .Add(new StatusEffectObjectsInitSystem())
                 
                 //Run systems

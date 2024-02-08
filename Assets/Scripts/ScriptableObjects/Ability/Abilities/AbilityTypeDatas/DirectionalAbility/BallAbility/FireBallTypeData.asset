@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffb64ab3dbdf416b84a2d69649b6a9fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 71c1fc2a7b6644e1b48800d2576bbf24, type: 3}
   m_Name: FireBallTypeData
   m_EditorClassIdentifier: 
-  damage: 60
-  distance: 300
-  speed: 50
+  damage: 20
+  distance: 200
+  speed: 40

@@ -6,7 +6,7 @@ using World.Ability.UI;
 
 namespace World.Ability
 {
-    [CreateAssetMenu(fileName = "AbilityData", menuName = "Data/Ability Data/AbilityData")]
+    [CreateAssetMenu(fileName = "AbilityData", menuName = "Data/Ability Datas/AbilityData")]
     public class AbilityData : ScriptableObject
     {
         [Header("Ability")]

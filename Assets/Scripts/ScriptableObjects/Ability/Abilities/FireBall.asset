@@ -13,14 +13,19 @@ MonoBehaviour:
   m_Name: FireBall
   m_EditorClassIdentifier: 
   abilityName: Fire Ball
-  abilityDescription: "\u042F\u043D \u041A\u0430\u043B\u0430\u0448\u043D\u0438\u043A\u043E\u0432
-    \u043B\u0443\u0447\u0448\u0438\u0439 \u0440\u0430\u0431\u043E\u0442\u043D\u0438\u043A"
+  abilityDescription: "\u0418\u0433\u0440\u043E\u043A \u0432\u044B\u043F\u0443\u0441\u043A\u0430\u0435\u0442
+    \u043E\u0433\u043D\u0435\u043D\u044B\u0439 \u0448\u0430\u0440, \u043A\u043E\u0442\u043E\u0440\u044B\u0439
+    \u043D\u0430\u043D\u043E\u0441\u0438\u0442 40 \u0435\u0434. \u0443\u0440\u043E\u043D\u0430
+    \u0438 \u043F\u043E\u0434\u0436\u0438\u0433\u0430\u0435\u0442 \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0430
+    (\u0435\u0444\u0444\u0435\u043A\u0442 \u043F\u043E\u0434\u0436\u0438\u0433\u0430\u043D\u0438\u044F
+    \u043D\u0430\u043D\u043E\u0441\u0438\u0442 5 \u0435\u0434. \u0443\u0440\u043E\u043D\u0430
+    \u0437\u0430 \u0446\u0438\u043A\u043B \u0433\u043E\u0440\u0435\u043D\u0438\u044F)"
   costPoint: 20
-  abilityTypeData: {fileID: 11400000, guid: 555c30a0d4b2bac41a43330dfdafe77a, type: 2}
+  abilityTypeData: {fileID: 11400000, guid: 7930372103490084082d381e78cd3f2c, type: 2}
   abilitySprite: {fileID: 21300000, guid: bd71bc6f4b1c75d479ced34de7dd8375, type: 3}
   abilityViewPrefab: {fileID: 1646631971105012691, guid: cf0e188a3fa020848959af9d644d6017,
     type: 3}
-  abilityObjectPrefab: {fileID: 6066561387642604712, guid: 5e9f8e8cb2ca82445bba42bccaaa6b45,
+  abilityObjectPrefab: {fileID: 6503195071908096843, guid: 5e9f8e8cb2ca82445bba42bccaaa6b45,
     type: 3}
   statusEffect: {fileID: 11400000, guid: eac902c7ea6e0ad4e929c749830f2f0f, type: 2}
   abilityDelay: 2

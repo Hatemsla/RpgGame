@@ -44,17 +44,9 @@ namespace World.Ability
                         if (ability.CurrentDelay > 0)
                         {
                             ability.CurrentDelay -= _ts.Value.DeltaTime;
-                            // Debug.Log(ability.Name + " " + ability.CurrentDelay);
                             ActiveAbilityDelayView(unpackedEntity, ability.AbilityDelay, 
                                 ability.CurrentDelay);
                         }
-                        // else if (rpg.CastDelay > 0)
-                        // {
-                        //     rpg.CastDelay -= _ts.Value.DeltaTime;
-                        //     Debug.Log(ability.Name + " " + rpg.CastDelay);
-                        //     ActiveAbilityDelayView(unpackedEntity, 
-                        //         _cf.Value.abilityConfiguration.totalAbilityDelay, rpg.CastDelay);
-                        // }
                     }
                 }
             }

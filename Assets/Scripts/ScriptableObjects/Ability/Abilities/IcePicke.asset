@@ -26,4 +26,4 @@ MonoBehaviour:
   abilityObjectPrefab: {fileID: 4621933705291019079, guid: fa0f810ed3a228d46941e6e0d8310b28,
     type: 3}
   statusEffect: {fileID: 11400000, guid: bea024952ccbe36468854685d4445b51, type: 2}
-  abilityDelay: 5
+  abilityDelay: 3

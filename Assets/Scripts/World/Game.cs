@@ -79,6 +79,7 @@ namespace World
                 .Add(new PlayerManaSystem())
                 .Add(new PlayerSpellCastSystem())
                 .Add(new AbilityDelaySystem())
+                .Add(new AbilityCastDelaySystem())
                 .Add(new PlayerGetItemSystem())
                 .Add(new PassiveGetExperienceSystem())
                 .Add(new PlayerLevelSystem())

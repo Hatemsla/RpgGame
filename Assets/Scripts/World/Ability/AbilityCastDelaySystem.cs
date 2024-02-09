@@ -1,17 +1,13 @@
-﻿using System;
-using Leopotam.EcsLite;
+﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using Leopotam.EcsLite.Unity.Ugui;
 using ObjectsPool;
-using UnityEngine;
-using Utils;
 using World.Configurations;
 using World.Player;
 using World.RPG;
 
 namespace World.Ability
 {
-    public class AbilityDelaySystem : IEcsRunSystem
+    public class AbilityCastDelaySystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<Inc<PlayerComp, RpgComp>> _player = default;
 
@@ -24,10 +20,7 @@ namespace World.Ability
         private readonly EcsCustomInject<Configuration> _cf = default;
 
         private readonly EcsWorldInject _world = default;
-
-        [EcsUguiNamed(Idents.UI.PlayerAbilityView)]
-        private readonly GameObject _abilityView = default;
-
+        
         public void Run(IEcsSystems systems)
         {
             foreach (var playerEntity in _player.Value)
@@ -35,31 +28,27 @@ namespace World.Ability
                 ref var hasAbilities = ref _hasAbilities.Value.Get(playerEntity);
                 ref var rpg = ref _player.Pools.Inc2.Get(playerEntity);
 
-                foreach (var abilityPacked in hasAbilities.Entities)
+                if (rpg.CastDelay > 0)
                 {
-                    if (abilityPacked.Unpack(_world.Value, out var unpackedEntity))
+                    rpg.CastDelay -= _ts.Value.DeltaTime;
+                    
+                    foreach (var abilityPacked in hasAbilities.Entities)
                     {
-                        ref var ability = ref _abilityPool.Value.Get(unpackedEntity);
-
-                        if (ability.CurrentDelay > 0)
+                        if (abilityPacked.Unpack(_world.Value, out var unpackedEntity))
                         {
-                            ability.CurrentDelay -= _ts.Value.DeltaTime;
-                            // Debug.Log(ability.Name + " " + ability.CurrentDelay);
-                            ActiveAbilityDelayView(unpackedEntity, ability.AbilityDelay, 
-                                ability.CurrentDelay);
+                            ref var ability = ref _abilityPool.Value.Get(unpackedEntity);
+                            
+                            if(ability.CurrentDelay > 0)
+                                continue;
+                            
+                            ActiveAbilityDelayView(unpackedEntity,
+                                _cf.Value.abilityConfiguration.totalAbilityDelay, rpg.CastDelay);
                         }
-                        // else if (rpg.CastDelay > 0)
-                        // {
-                        //     rpg.CastDelay -= _ts.Value.DeltaTime;
-                        //     Debug.Log(ability.Name + " " + rpg.CastDelay);
-                        //     ActiveAbilityDelayView(unpackedEntity, 
-                        //         _cf.Value.abilityConfiguration.totalAbilityDelay, rpg.CastDelay);
-                        // }
                     }
                 }
             }
         }
-
+        
         public void ActiveAbilityDelayView(int unpackedEntity, float delayTime, float delayTimer)
         {
             foreach (var delayAbility in _sd.Value.uiSceneData.delayAbilityViews)

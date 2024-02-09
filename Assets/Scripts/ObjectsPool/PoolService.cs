@@ -9,6 +9,8 @@ namespace ObjectsPool
     {
         public PoolBase<AbilityObject> FireBallSpellPool;
         public PoolBase<AbilityObject> IcePickeSpellPool;
+        public PoolBase<AbilityObject> EarthBallSpellPool;
+        public PoolBase<StatusEffectObject> EarthEffectPool;
         public PoolBase<StatusEffectObject> FireStatusEffectPool;
         public PoolBase<StatusEffectObject> IceStatusEffectPool;
         public PoolBase<EnemyView> EnemyPool;

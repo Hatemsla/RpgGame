@@ -85,6 +85,9 @@ namespace World.Ability.AbilitiesObjects
                                     case IceStatusEffect type:
                                         effectObject = Ps.IceStatusEffectPool.Get();
                                         break;
+                                    case EarthStatusEffect type:
+                                        effectObject = Ps.EarthEffectPool.Get();
+                                        break;
                                 }
                                 
                                 var effectEntity = World.NewEntity();

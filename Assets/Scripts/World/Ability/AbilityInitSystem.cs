@@ -123,6 +123,12 @@ namespace World.Ability
                             ((IcePicke)value).Distance = data.distance;
                             ((IcePicke)value).Speed = data.speed;
                             break;
+                        case EarthBallData data:
+                            value = new EarthBall();
+                            ((EarthBall)value).Damage = data.damage;
+                            ((EarthBall)value).Distance = data.distance;
+                            ((EarthBall)value).Speed = data.speed;
+                            break;
                     }
                     break;
             }
@@ -166,7 +172,11 @@ namespace World.Ability
                     value = new IceStatusEffect();
                     ((IceStatusEffect)value).SlowDown = data.slowDown;
                     break;
-                    
+                // Earth Status Effect
+                case EarthStatusEffectData data:
+                    value = new EarthStatusEffect();
+                    ((EarthStatusEffect)value).Damage = data.damage;
+                    break;
             }
             return value;
         }

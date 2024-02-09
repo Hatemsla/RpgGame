@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 20
   distance: 200
-  speed: 40
+  speed: 50

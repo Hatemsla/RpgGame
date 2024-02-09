@@ -115,6 +115,10 @@ namespace World.Player
                                         abilityObject = _ps.Value.IcePickeSpellPool.Get();
                                         abilityObject.AbilityIdx = abilityPacked;
                                         break;
+                                    case EarthBall type:
+                                        abilityObject = _ps.Value.EarthBallSpellPool.Get();
+                                        abilityObject.AbilityIdx = abilityPacked;
+                                        break;
                                 }
                                 
                                 releasedAbility.AbilityObject = abilityObject;

@@ -103,7 +103,7 @@ namespace World.Player
                                 AbilityObject abilityObject = null;
                                 var abilityEntity = _world.Value.NewEntity();
                                 ref var releasedAbility = ref _releasedAbilityPool.Value.Add(abilityEntity);
-                                
+
                                 switch (ability.AbilityType)
                                 {
                                     // Balls

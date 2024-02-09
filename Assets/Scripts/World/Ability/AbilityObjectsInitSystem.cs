@@ -14,17 +14,21 @@ namespace World.Ability
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<PoolService> _ps = default;
         
-        private const int SpellPreloadCount = 20;
+        private const int SpellPreloadCount = 10;
 
         public void Init(IEcsSystems systems)
         {
-            for (var index = 0; index < _cf.Value.abilityConfiguration.abilityDatas.Count; index++)
+            /*for (var index = 0; index < _cf.Value.abilityConfiguration.abilityDatas.Count; index++)
             {
                 _ps.Value.FireBallSpellPool = new PoolBase<AbilityObject>(Preload(index), GetAction, ReturnAction, 
                     SpellPreloadCount);
                 _ps.Value.IcePickeSpellPool = new PoolBase<AbilityObject>(Preload(index), GetAction, ReturnAction, 
                     SpellPreloadCount);
-            }
+            }*/
+            _ps.Value.FireBallSpellPool = new PoolBase<AbilityObject>(Preload(0), GetAction, ReturnAction, 
+                SpellPreloadCount);
+            _ps.Value.IcePickeSpellPool = new PoolBase<AbilityObject>(Preload(1), GetAction, ReturnAction, 
+                SpellPreloadCount);
         }
 
         private Func<AbilityObject> Preload(int index) => () => Object.Instantiate(_cf.Value.abilityConfiguration

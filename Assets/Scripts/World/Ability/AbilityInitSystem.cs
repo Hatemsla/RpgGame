@@ -74,7 +74,7 @@ namespace World.Ability
                     abilityView.transform.SetParent(playerAbilityViewContent.transform);
                     abilityComp.AbilityView = abilityView;
                     
-                    abilityComp.AbilityView.abilityImage.sprite = abilityData.abilityViewPrefab.abilityImage.sprite;
+                    abilityComp.AbilityView.abilityImage.sprite = abilityData.abilitySprite;
                     abilityComp.AbilityView.AbilityIdx = abilityPackedEntity;
                     abilityComp.AbilityView.AbilityName = abilityData.abilityName;
                     abilityComp.AbilityView.AbilityDescription = abilityData.abilityDescription;
@@ -89,11 +89,11 @@ namespace World.Ability
                     abilityObject.transform.SetParent(playerComp.Transform);
                     abilityObject.gameObject.SetActive(false);
 
-                        _sd.Value.fastSkillViews[i].AbilityIdx = abilityPackedEntity;
-                        _sd.Value.fastSkillViews[i].abilityImage.sprite = abilityData.abilitySprite;
-                        _sd.Value.fastSkillViews[i].abilityName.text = abilityData.abilityName;
-                        _sd.Value.fastSkillViews[i].GetComponentInChildren<DelayAbilityView>().AbilityIdx =
-                            abilityPackedEntity;
+                    _sd.Value.fastSkillViews[i].AbilityIdx = abilityPackedEntity;
+                    _sd.Value.fastSkillViews[i].abilityImage.sprite = abilityData.abilitySprite;
+                    _sd.Value.fastSkillViews[i].abilityName.text = abilityData.abilityName;
+                    _sd.Value.fastSkillViews[i].GetComponentInChildren<DelayAbilityView>().AbilityIdx =
+                        abilityPackedEntity;
 
                     hasAbilities.Entities.Add(abilityPackedEntity);
                 }

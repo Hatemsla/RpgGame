@@ -15,6 +15,9 @@ namespace World.Player
         [EcsUguiNamed(Idents.UI.PlayerInventoryView)]
         private readonly GameObject _playerInventoryView = default;
 
+        [EcsUguiNamed(Idents.UI.PlayerAbilityView)]
+        private readonly GameObject _playerAbilityView = default;
+
         [EcsUguiNamed(Idents.UI.ChestInventoryView)]
         private readonly GameObject _chestInventoryView = default;
 
@@ -33,7 +36,7 @@ namespace World.Player
                 ref var input = ref _inputs.Pools.Inc1.Get(entity);
 
                 _cs.Value.CursorVisible = _chestInventoryView.activeSelf || _playerInventoryView.activeSelf ||
-                                          _statsLevelView.activeSelf ||
+                                          _statsLevelView.activeSelf || _playerAbilityView.activeSelf ||
                                           _sd.Value.uiSceneData.traderShopView.gameObject.activeInHierarchy ||
                                           _sd.Value.uiSceneData.exitMenu.gameObject.activeInHierarchy ||
                                           input.FreeCursor;

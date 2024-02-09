@@ -14,17 +14,21 @@ namespace World.Ability.StatusEffects
         private readonly EcsCustomInject<Configuration> _cf = default;
         private readonly EcsCustomInject<PoolService> _ps = default;
 
-        private const int StatusEffectsPreloadCount = 1;
+        private const int StatusEffectsPreloadCount = 10;
         
         public void Init(IEcsSystems systems)
         {
-            for (var index = 0; index < _cf.Value.statusEffectConfiguration.statusEffectDatas.Count; index++)
+            /*for (var index = 0; index < _cf.Value.statusEffectConfiguration.statusEffectDatas.Count; index++)
             {
                 _ps.Value.FireStatusEffectPool = new PoolBase<StatusEffectObject>(Preload(index), GetAction, ReturnAction,
                     StatusEffectsPreloadCount);
                 _ps.Value.IceStatusEffectPool = new PoolBase<StatusEffectObject>(Preload(index), GetAction, ReturnAction,
                     StatusEffectsPreloadCount);
-            }
+            }*/
+            _ps.Value.FireStatusEffectPool = new PoolBase<StatusEffectObject>(Preload(0), GetAction, ReturnAction,
+                StatusEffectsPreloadCount);
+            _ps.Value.IceStatusEffectPool = new PoolBase<StatusEffectObject>(Preload(1), GetAction, ReturnAction,
+                StatusEffectsPreloadCount);
         }
 
         private Func<StatusEffectObject> Preload(int index) => () => Object.Instantiate(_cf.Value

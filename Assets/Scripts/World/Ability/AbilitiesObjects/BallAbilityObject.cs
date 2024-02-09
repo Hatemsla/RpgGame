@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using Leopotam.EcsLite;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -11,6 +12,7 @@ using World.AI.Navigation;
 using World.Player;
 using World.RPG;
 using World.UI.PopupText;
+using Random = UnityEngine.Random;
 
 namespace World.Ability.AbilitiesObjects
 {
@@ -19,6 +21,12 @@ namespace World.Ability.AbilitiesObjects
         public float speed;
         public float startTime;
         private static readonly int MoveX = Animator.StringToHash("MoveX");
+
+        public void Start()
+        {
+            Vector3 newRotation = new Vector3(90, 0, 0);
+            transform.Rotate(newRotation);
+        }
 
         public virtual void Update()
         {
@@ -187,11 +195,13 @@ namespace World.Ability.AbilitiesObjects
             var journeyLenght = Vector3.Distance(playerComp.Transform.position + playerComp.Transform.forward,
                 abilityDirection);
 
-            transform.position = playerComp.Transform.position + playerComp.Transform.forward;
+            var newPostion = playerComp.Transform.position + playerComp.Transform.forward * 3;
+
+            transform.position = newPostion;
             
             damage = ((BallAbility)ability.AbilityType).Damage;
             startTime = Ts.Time;
-            startDirection = playerComp.Transform.position + playerComp.Transform.forward;
+            startDirection = playerComp.Transform.position + playerComp.Transform.forward * 2;
             direction = journeyLenght;
             endDirection = abilityDirection;
             speed = ((BallAbility)ability.AbilityType).Speed;

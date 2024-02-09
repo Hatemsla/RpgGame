@@ -3,12 +3,14 @@ using Leopotam.EcsLite.Di;
 using ObjectsPool;
 using Utils;
 using World.Configurations;
+using World.LoadGame;
 using World.Player;
 
 namespace World.Trader
 {
     public class TraderInitSystem : IEcsInitSystem
     {
+        private readonly EcsFilterInject<Inc<LoadDataEventComp>> _loadDataFilter = Idents.Worlds.Events;
         private readonly EcsFilterInject<Inc<PlayerComp>> _playerFilter = default;
         private readonly EcsPoolInject<TraderComp> _tradersPool = default;
 
@@ -22,17 +24,31 @@ namespace World.Trader
 
         public void Init(IEcsSystems systems)
         {
-            foreach (var playerEntity in _playerFilter.Value)
+            foreach (var loadDataEventEntity in _loadDataFilter.Value)
             {
-                foreach (var trader in _sd.Value.traders)
+                ref var loadDataEventComp = ref _loadDataFilter.Pools.Inc1.Get(loadDataEventEntity);
+                
+                foreach (var playerEntity in _playerFilter.Value)
                 {
-                    var traderEntity = _defaultWorld.Value.NewEntity();
+                    var traderIndex = 0;
+                    foreach (var trader in _sd.Value.traders)
+                    {
+                        if (loadDataEventComp.IsLoadData)
+                        {
+                            var traderSaveData = loadDataEventComp.TraderSaveDatas.Traders[traderIndex];
+                            trader.goldAmount = traderSaveData.GoldAmount;
+                            traderIndex++;
+                        }
 
-                    ref var traderComp = ref _tradersPool.Value.Add(traderEntity);
+                        var traderEntity = _defaultWorld.Value.NewEntity();
 
-                    traderComp.Trader = trader;
-                    traderComp.Trader.SetWorld(_defaultWorld.Value, _eventWorld.Value, traderEntity, playerEntity,
-                        _sd.Value, _cf.Value, _ps.Value, _ts.Value);
+                        ref var traderComp = ref _tradersPool.Value.Add(traderEntity);
+
+                        traderComp.Trader = trader;
+                        traderComp.Trader.SetWorld(_defaultWorld.Value, _eventWorld.Value, traderEntity,
+                            playerEntity,
+                            _sd.Value, _cf.Value, _ps.Value, _ts.Value);
+                    }
                 }
             }
         }

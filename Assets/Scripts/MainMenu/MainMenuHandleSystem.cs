@@ -12,6 +12,8 @@ namespace Utils.MainMenu
         private void OnClickStartGameBtn(in EcsUguiClickEvent e)
         {
             SceneManager.LoadScene("World");
+            PlayerPrefs.SetInt("Load Progress", 0);
+            PlayerPrefs.Save();
         }
         
         [Preserve]
@@ -19,6 +21,8 @@ namespace Utils.MainMenu
         private void OnClickContinueGameBtn(in EcsUguiClickEvent e)
         {
             SceneManager.LoadScene("World");
+            PlayerPrefs.SetInt("Load Progress", 1);
+            PlayerPrefs.Save();
         }
         
         [Preserve]

@@ -287,6 +287,24 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""QuickSave"",
+                    ""type"": ""Button"",
+                    ""id"": ""22fec168-6c4b-48d8-a982-ba36ec867955"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""QuickLoad"",
+                    ""type"": ""Button"",
+                    ""id"": ""2ff4f15c-ac32-42d1-bf40-f21f8b1edc89"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -718,6 +736,28 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""action"": ""Exit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""66e7cb25-1e11-495f-8631-6ee6e09e0a12"",
+                    ""path"": ""<Keyboard>/f5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuickSave"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""adc30ab6-d865-464f-8ed2-0695c0deb4ea"",
+                    ""path"": ""<Keyboard>/f9"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuickLoad"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -755,6 +795,8 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         m_Player_Pose1 = m_Player.FindAction("Pose1", throwIfNotFound: true);
         m_Player_Pose2 = m_Player.FindAction("Pose2", throwIfNotFound: true);
         m_Player_Exit = m_Player.FindAction("Exit", throwIfNotFound: true);
+        m_Player_QuickSave = m_Player.FindAction("QuickSave", throwIfNotFound: true);
+        m_Player_QuickLoad = m_Player.FindAction("QuickLoad", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -845,6 +887,8 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Pose1;
     private readonly InputAction m_Player_Pose2;
     private readonly InputAction m_Player_Exit;
+    private readonly InputAction m_Player_QuickSave;
+    private readonly InputAction m_Player_QuickLoad;
     public struct PlayerActions
     {
         private @MainInput m_Wrapper;
@@ -878,6 +922,8 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         public InputAction @Pose1 => m_Wrapper.m_Player_Pose1;
         public InputAction @Pose2 => m_Wrapper.m_Player_Pose2;
         public InputAction @Exit => m_Wrapper.m_Player_Exit;
+        public InputAction @QuickSave => m_Wrapper.m_Player_QuickSave;
+        public InputAction @QuickLoad => m_Wrapper.m_Player_QuickLoad;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -974,6 +1020,12 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @Exit.started += instance.OnExit;
             @Exit.performed += instance.OnExit;
             @Exit.canceled += instance.OnExit;
+            @QuickSave.started += instance.OnQuickSave;
+            @QuickSave.performed += instance.OnQuickSave;
+            @QuickSave.canceled += instance.OnQuickSave;
+            @QuickLoad.started += instance.OnQuickLoad;
+            @QuickLoad.performed += instance.OnQuickLoad;
+            @QuickLoad.canceled += instance.OnQuickLoad;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1065,6 +1117,12 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @Exit.started -= instance.OnExit;
             @Exit.performed -= instance.OnExit;
             @Exit.canceled -= instance.OnExit;
+            @QuickSave.started -= instance.OnQuickSave;
+            @QuickSave.performed -= instance.OnQuickSave;
+            @QuickSave.canceled -= instance.OnQuickSave;
+            @QuickLoad.started -= instance.OnQuickLoad;
+            @QuickLoad.performed -= instance.OnQuickLoad;
+            @QuickLoad.canceled -= instance.OnQuickLoad;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1113,5 +1171,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         void OnPose1(InputAction.CallbackContext context);
         void OnPose2(InputAction.CallbackContext context);
         void OnExit(InputAction.CallbackContext context);
+        void OnQuickSave(InputAction.CallbackContext context);
+        void OnQuickLoad(InputAction.CallbackContext context);
     }
 }

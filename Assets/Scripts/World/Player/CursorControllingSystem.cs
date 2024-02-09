@@ -3,14 +3,16 @@ using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.Unity.Ugui;
 using UnityEngine;
 using Utils;
+using World.Configurations;
 
 namespace World.Player
 {
     public sealed class CursorControllingSystem : IEcsRunSystem, IEcsInitSystem
     {
-        private readonly EcsFilterInject<Inc<PlayerInputComp>> _inputs = default;
+        private readonly EcsFilterInject<Inc<PlayerInputComp, PlayerComp>> _inputs = default;
         private readonly EcsCustomInject<CursorService> _cs = default;
         private readonly EcsCustomInject<SceneData> _sd = default;
+        private readonly EcsCustomInject<Configuration> _cf = default;
 
         [EcsUguiNamed(Idents.UI.PlayerInventoryView)]
         private readonly GameObject _playerInventoryView = default;
@@ -33,13 +35,14 @@ namespace World.Player
         {
             foreach (var entity in _inputs.Value)
             {
-                ref var input = ref _inputs.Pools.Inc1.Get(entity);
+                ref var inputComp = ref _inputs.Pools.Inc1.Get(entity);
+                ref var playerComp = ref _inputs.Pools.Inc2.Get(entity);
 
                 _cs.Value.CursorVisible = _chestInventoryView.activeSelf || _playerInventoryView.activeSelf ||
                                           _statsLevelView.activeSelf || _playerAbilityView.activeSelf ||
                                           _sd.Value.uiSceneData.traderShopView.gameObject.activeInHierarchy ||
                                           _sd.Value.uiSceneData.exitMenu.gameObject.activeInHierarchy ||
-                                          input.FreeCursor;
+                                          inputComp.FreeCursor;
 
                 Cursor.visible = _cs.Value.CursorVisible;
 

@@ -50,10 +50,10 @@ namespace World.UI.LookOnObject
                                 if (inputComp.ActiveAction)
                                 {
                                     lookOnObject.StartInteract();
-                                    
-                                    playerComp.CameraSense = 0.01f;
 
                                     lookOnObject.isInteracting = !lookOnObject.isInteracting;
+                                    
+                                    playerComp.CameraSense = lookOnObject.isInteracting ? 0.01f : _cf.Value.playerConfiguration.deltaTimeMultiplier;
                                 }
                             }
                             else

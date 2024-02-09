@@ -26,6 +26,13 @@ namespace World.UI
             var saveEventEntity = _eventWorld.NewEntity();
             saveEventPool.Add(saveEventEntity);
         }
+        
+        public void OnClickLoadExitMenuBtn()
+        {
+            SceneManager.LoadScene("World");
+            PlayerPrefs.SetInt("Load Progress", 1);
+            PlayerPrefs.Save();
+        }
 
         public void OnClickGoToMenuBtn()
         {

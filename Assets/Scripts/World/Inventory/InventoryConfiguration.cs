@@ -11,5 +11,6 @@ namespace World.Inventory
         public float inventoryWeight = 100;
         
         public List<ItemData> items;
+        public List<ItemData> allItems;
     }
 }

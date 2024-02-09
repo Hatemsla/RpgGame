@@ -4,6 +4,6 @@ namespace World.SaveGame
 {
     public class ChestSaveDatas
     {
-        public List<ChestSaveData> ChestDatas = new List<ChestSaveData>();
+        public readonly List<ChestSaveData> ChestDatas = new List<ChestSaveData>();
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Globalization;
 using Leopotam.EcsLite;
 using UnityEngine;
 using World.Ability.StatusEffects.AbilityStatusEffectComp;
 using World.AI;
 using World.AI.Navigation;
 using World.RPG;
+using World.UI.PopupText;
 
 namespace World.Ability.StatusEffects.StatusEffectObjects
 {
@@ -83,16 +85,36 @@ namespace World.Ability.StatusEffects.StatusEffectObjects
             {
                 if (enemyObj.EnemyPackedIdx.Unpack(World, out var unpackedEnemyEntity))
                 {
+                    var enemyPool = World.GetPool<EnemyComp>();
                     var enemyRpgPool = World.GetPool<RpgComp>();
+                    var popupDamageTextPool = World.GetPool<PopupDamageTextComp>();
+                    
                     ref var enemyRpgComp = ref enemyRpgPool.Get(unpackedEnemyEntity);
+                    ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
                 
                     enemyRpgComp.Health -= damage;
+                    
+                    ShowPopupDamage(popupDamageTextPool, damage, enemyComp);
                 }   
             }
             else
             {
                 CancelInvoke(nameof(DealingDamage));
             }
+        }
+
+        private void ShowPopupDamage(EcsPool<PopupDamageTextComp> popupDamageTextPool, float targetDamage, EnemyComp enemyComp)
+        {
+            ref var popupDamageTextComp = ref popupDamageTextPool.Add(World.NewEntity());
+            popupDamageTextComp.LifeTime = Cf.uiConfiguration.popupDamageLifeTime;
+            popupDamageTextComp.Damage = targetDamage;
+            popupDamageTextComp.Position = enemyComp.EnemyView.transform.position;
+            var popupDamageText = Ps.PopupDamageTextPool.Get();
+            popupDamageText.damageText.text = popupDamageTextComp.Damage.ToString(CultureInfo.InvariantCulture);
+            popupDamageText.transform.position = popupDamageTextComp.Position;
+            popupDamageText.currentTime = 0;
+            popupDamageTextComp.PopupDamageText = popupDamageText;
+            popupDamageTextComp.IsVisible = true;
         }
 
         public override void Applying(EnemyView enemyView, StatusEffectComp effect)

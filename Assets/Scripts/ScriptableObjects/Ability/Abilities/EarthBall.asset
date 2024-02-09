@@ -24,9 +24,10 @@ MonoBehaviour:
     \u0435\u0449\u0435 50 \u0435\u0434. \u0443\u0440\u043E\u043D\u0430"
   costPoint: 80
   abilityTypeData: {fileID: 11400000, guid: efb2d8a0d93d2fd43aac8a40368732c1, type: 2}
-  abilitySprite: {fileID: 0}
+  abilitySprite: {fileID: 21300000, guid: d0b3c35ffbdb4684f963872dac57650e, type: 3}
   abilityViewPrefab: {fileID: 1646631971105012691, guid: cf0e188a3fa020848959af9d644d6017,
     type: 3}
-  abilityObjectPrefab: {fileID: 0}
+  abilityObjectPrefab: {fileID: 666596204425719131, guid: bde49d72eb7184d4ea4e18dc4dcfeba7,
+    type: 3}
   statusEffect: {fileID: 11400000, guid: eb3930c988fab814ca2dd990fa00d48a, type: 2}
   abilityDelay: 20

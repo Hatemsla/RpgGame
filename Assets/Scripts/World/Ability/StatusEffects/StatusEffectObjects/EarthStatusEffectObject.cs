@@ -22,12 +22,11 @@ namespace World.Ability.StatusEffects.StatusEffectObjects
             {
                 var enemyPool = World.GetPool<EnemyComp>();
                 ref var enemyComp = ref enemyPool.Get(unpackedEnemyEntity);
-
-                transform.position = enemyComp.Transform.position;
+                
                 _normalizeRunSpeed = enemyComp.RunSpeed;
                 _normalizeWalkSpeed = enemyComp.WalkSpeed;
-                enemyComp.RunSpeed = 0;
-                enemyComp.WalkSpeed = 0;
+                enemyComp.RunSpeed = 2;
+                enemyComp.WalkSpeed = 2;
             }
         }
 
@@ -46,6 +45,7 @@ namespace World.Ability.StatusEffects.StatusEffectObjects
                 if (lifeTime > 0)
                 {
                     lifeTime -= Ts.DeltaTime;
+                    transform.position = enemyComp.Transform.position;
                 }
                 else
                 {
@@ -74,7 +74,8 @@ namespace World.Ability.StatusEffects.StatusEffectObjects
                             enemyPool.Del(unpackedEnemyEntity);
                             enemyRpgPool.Del(unpackedEnemyEntity);
                         }
-                    }DestroyEffect();
+                    }
+                    DestroyEffect();
                 }
             }
         }

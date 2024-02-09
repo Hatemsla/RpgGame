@@ -29,8 +29,8 @@ namespace World.Ability
                 SpellPreloadCount);
             _ps.Value.IcePickeSpellPool = new PoolBase<AbilityObject>(Preload(1), GetAction, ReturnAction, 
                 SpellPreloadCount);
-            _ps.Value.EarthBallSpellPool = new PoolBase<AbilityObject>(Preload(2), GetAction, ReturnAction, 
-                SpellPreloadCount);
+            /*_ps.Value.EarthBallSpellPool = new PoolBase<AbilityObject>(Preload(2), GetAction, ReturnAction, 
+                SpellPreloadCount);*/
         }
 
         private Func<AbilityObject> Preload(int index) => () => Object.Instantiate(_cf.Value.abilityConfiguration

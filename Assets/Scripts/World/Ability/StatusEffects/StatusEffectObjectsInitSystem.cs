@@ -29,8 +29,8 @@ namespace World.Ability.StatusEffects
                 StatusEffectsPreloadCount);
             _ps.Value.IceStatusEffectPool = new PoolBase<StatusEffectObject>(Preload(1), GetAction, ReturnAction,
                 StatusEffectsPreloadCount);
-            _ps.Value.EarthEffectPool = new PoolBase<StatusEffectObject>(Preload(2), GetAction, ReturnAction,
-                StatusEffectsPreloadCount);
+            /*_ps.Value.EarthEffectPool = new PoolBase<StatusEffectObject>(Preload(2), GetAction, ReturnAction,
+                StatusEffectsPreloadCount);*/
         }
 
         private Func<StatusEffectObject> Preload(int index) => () => Object.Instantiate(_cf.Value
